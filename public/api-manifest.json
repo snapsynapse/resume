@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "site": "https://resume.sam-rogers.com/",
+  "description": "Public UI endpoints used by the Sam Rogers AI-queryable resume.",
+  "privacy": {
+    "summary": "The fit assessment and chat endpoints receive user-supplied text for AI analysis. Job descriptions are not intentionally stored by this app. Users should email confidential roles to sam@sam-rogers.com instead of submitting sensitive material through the form.",
+    "contact": "mailto:sam@sam-rogers.com"
+  },
+  "endpoints": [
+    {
+      "path": "/api/chat",
+      "method": "POST",
+      "purpose": "Answer user questions about Sam Rogers' resume, evidence, gaps, portfolio, and role fit.",
+      "authentication": "none",
+      "rate_limited": true,
+      "intended_client": "interactive resume UI"
+    },
+    {
+      "path": "/api/analyze-fit",
+      "method": "POST",
+      "purpose": "Compare a pasted job description against Sam Rogers' profile and return an honest role-fit assessment.",
+      "authentication": "none",
+      "rate_limited": true,
+      "intended_client": "interactive resume UI"
+    }
+  ],
+  "openapi": {
+    "provided": false,
+    "reason": "These endpoints support the website UI rather than a public integration API."
+  }
+}
