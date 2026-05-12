@@ -157,10 +157,14 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
             <div className="h-full flex flex-col items-center justify-center text-center px-6">
               <Sparkles className="w-12 h-12 text-accent mb-4" />
               <h3 className="text-xl font-serif text-foreground mb-2">
-                What would you like to know?
+                {roleContext
+                  ? `Here about ${roleContext}?`
+                  : "What would you like to know?"}
               </h3>
               <p className="text-muted-foreground text-sm mb-6 max-w-md">
-                Ask specific questions about Sam's experience, skills, or fit for your role. Get honest, detailed answers.
+                {roleContext
+                  ? "Start with one of these — they're the questions most recruiters ask first. Or type your own."
+                  : "Ask specific questions about Sam's experience, skills, or fit for your role. Get honest, detailed answers."}
               </p>
               <div className="w-full max-w-md space-y-2">
                 {(roleContext ? anthropicSuggestedQuestions : defaultSuggestedQuestions).map((q, i) => (

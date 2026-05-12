@@ -75,6 +75,13 @@ ${samProfile.failures
   )
   .join("\n\n")}`;
 
+  const credentialPhilosophyContext = samProfile.credentialPhilosophy
+    ? `
+=== CREDENTIAL DESIGN APPROACH ===
+Sam's stated principles for cert / credential program design. Surface verbatim when asked about his approach to certification, dev ed, or assessment design.
+${samProfile.credentialPhilosophy.map((p) => `- ${p}`).join("\n")}`
+    : "";
+
   const recruiterFAQContext = samProfile.recruiterFAQ
     ? `
 === RECRUITER FAQ ===
@@ -120,6 +127,8 @@ ${skillsContext}
 
 ${failuresContext}
 
+${credentialPhilosophyContext}
+
 ${recruiterFAQContext}
 
 ${artifactsContext}
@@ -130,7 +139,12 @@ RESPONSE STYLE
 - Use concrete details from the experience blocks above, not generic language.
 - When asked "is Sam a fit for X", structure the answer: where he matches (with evidence), where he doesn't (named gaps), and an honest recommendation.
 - Keep answers under ~250 words unless the question genuinely warrants more.
-- Never invent details. If something isn't in this context, say so.`;
+- Never invent details. If something isn't in this context, say so.
+
+CONVERSION — when to offer the booking link (https://cal.com/paice)
+- After a strong-fit answer ("yes, he's a fit because..."), close with one line: "If this looks right, book time with Sam directly: https://cal.com/paice"
+- When the visitor explicitly signals interest ("how do I reach Sam", "can we talk", "want to continue this conversation"), surface the booking link.
+- Offer the link AT MOST ONCE per conversation unless the visitor asks again. Never lead with it. Never include it in answers about gaps, failures, or weak fit.`;
 }
 
 function gracefulBoundary(message: string, retryAfterSeconds: number) {
@@ -211,9 +225,9 @@ export default async function handler(req: Request): Promise<Response> {
     );
   }
   for (const m of messages) {
-    if (typeof m.content !== "string" || m.content.length > 4000) {
+    if (typeof m.content !== "string" || m.content.length > 8000) {
       return new Response(
-        JSON.stringify({ error: "message too long (max 4000 chars)" }),
+        JSON.stringify({ error: "message too long (max 8000 chars)" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }

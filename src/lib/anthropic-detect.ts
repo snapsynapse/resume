@@ -11,6 +11,7 @@ const ANTHROPIC_REFERRER_PATTERNS = [
 const ROLE_LABELS: Record<string, string> = {
   "anthropic-leadtd": "Anthropic — Lead, Talent Development & Enablement",
   "anthropic-certdev": "Anthropic — Certification Development Lead",
+  "anthropic-deveded": "Anthropic — Developer Education Lead",
   "anthropic-applied": "Anthropic — Applied AI / forward-deployed",
   anthropic: "Anthropic (general)",
 };
