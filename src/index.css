@@ -2,70 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Brand: aligned to sam-rogers.com light-mode palette.
+ * Indigo primary (#1460bd), teal accent (#087E96), light greys, Inter + Source Serif 4.
+ * All colors MUST be HSL.
+ */
 
 @layer base {
   :root {
-    /* Deep, sophisticated dark palette inspired by lucis.life */
-    --background: 240 10% 4%;
-    --foreground: 60 9% 98%;
+    /* Page surfaces */
+    --background: 0 0% 94%;          /* #f0f0f0 page bg */
+    --foreground: 240 8% 14%;        /* #222226 text */
 
-    --card: 240 8% 8%;
-    --card-foreground: 60 9% 98%;
+    --card: 0 0% 99.6%;              /* #fefefe card bg */
+    --card-foreground: 240 8% 14%;
 
-    --popover: 240 8% 8%;
-    --popover-foreground: 60 9% 98%;
+    --popover: 0 0% 99.6%;
+    --popover-foreground: 240 8% 14%;
 
-    /* Warm cream accent - premium feel */
-    --primary: 45 30% 70%;
-    --primary-foreground: 240 10% 4%;
+    /* Indigo primary — sam-rogers.com active skin */
+    --primary: 213 81% 41%;          /* #1460bd */
+    --primary-foreground: 0 0% 99%;
 
-    --secondary: 240 6% 12%;
-    --secondary-foreground: 60 9% 90%;
+    --secondary: 0 0% 91%;           /* #e7e7e7 raised muted bg */
+    --secondary-foreground: 240 8% 14%;
 
-    --muted: 240 6% 15%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 190 5% 86%;             /* #d8dcdd */
+    --muted-foreground: 240 5% 38%;  /* #5b5b65 meta */
 
-    /* Teal accent for interactive elements */
-    --accent: 173 58% 39%;
-    --accent-foreground: 60 9% 98%;
+    /* Teal accent for interactive bursts */
+    --accent: 189 90% 30%;           /* #087E96 */
+    --accent-foreground: 0 0% 99%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 60 9% 98%;
+    --destructive: 0 65% 51%;
+    --destructive-foreground: 0 0% 99%;
 
-    --border: 240 6% 18%;
-    --input: 240 6% 15%;
-    --ring: 173 58% 39%;
+    --border: 0 0% 86%;
+    --input: 0 0% 91%;
+    --ring: 213 81% 41%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens for this design */
-    --surface-elevated: 240 8% 10%;
+    /* Custom tokens */
+    --surface-elevated: 0 0% 97%;
     --text-subtle: 240 5% 45%;
-    --text-highlight: 45 80% 80%;
-    --success: 158 64% 52%;
-    --success-muted: 158 40% 20%;
-    --warning: 38 92% 50%;
-    --warning-muted: 38 50% 20%;
+    --text-highlight: 213 70% 30%;
+    --success: 158 64% 35%;
+    --success-muted: 158 50% 90%;
+    --warning: 38 92% 40%;
+    --warning-muted: 38 80% 92%;
 
-    --sidebar-background: 240 10% 4%;
-    --sidebar-foreground: 60 9% 90%;
-    --sidebar-primary: 173 58% 39%;
-    --sidebar-primary-foreground: 60 9% 98%;
-    --sidebar-accent: 240 6% 12%;
-    --sidebar-accent-foreground: 60 9% 90%;
-    --sidebar-border: 240 6% 18%;
-    --sidebar-ring: 173 58% 39%;
+    --sidebar-background: 0 0% 94%;
+    --sidebar-foreground: 240 8% 14%;
+    --sidebar-primary: 213 81% 41%;
+    --sidebar-primary-foreground: 0 0% 99%;
+    --sidebar-accent: 0 0% 91%;
+    --sidebar-accent-foreground: 240 8% 14%;
+    --sidebar-border: 0 0% 86%;
+    --sidebar-ring: 213 81% 41%;
   }
 }
 
-/* Typography - premium feel with serif headings */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* Typography — matches sam-rogers.com */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font-serif: 'Source Serif 4', 'Source Serif', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
@@ -86,6 +87,7 @@ All colors MUST be HSL.
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
+    font-weight: 600;
   }
 
   code, pre {
@@ -93,31 +95,31 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom animations */
+/* Animations */
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes slide-up {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes slide-down {
-  from { 
-    opacity: 0; 
-    transform: translateY(-10px); 
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -151,13 +153,11 @@ All colors MUST be HSL.
   animation: pulse-soft 2s ease-in-out infinite;
 }
 
-/* Staggered animations */
 .stagger-1 { animation-delay: 0.1s; }
 .stagger-2 { animation-delay: 0.2s; }
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 
-/* Gradient text utility */
 .text-gradient {
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
