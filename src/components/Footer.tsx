@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Linkedin, Mail, Globe } from "lucide-react";
+import { samProfile } from "@/data/sam-profile";
 
 const Footer = () => {
   return (
@@ -6,29 +7,32 @@ const Footer = () => {
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <p className="text-2xl font-serif text-foreground mb-2">Marcus Chen</p>
-            <p className="text-muted-foreground">Staff Engineer · Platform Infrastructure</p>
+            <p className="text-2xl font-serif text-foreground mb-2">{samProfile.name}</p>
+            <p className="text-muted-foreground">{samProfile.title}</p>
           </div>
 
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com"
+              href={samProfile.links.site}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Personal site"
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
-              <Github className="w-5 h-5" />
+              <Globe className="w-5 h-5" />
             </a>
             <a
-              href="https://linkedin.com"
+              href={samProfile.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="LinkedIn"
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Linkedin className="w-5 h-5" />
             </a>
             <a
-              href="mailto:marcus@example.com"
+              href={`mailto:${samProfile.links.email}`}
+              aria-label="Email"
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Mail className="w-5 h-5" />
@@ -38,7 +42,7 @@ const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-border text-center">
           <p className="text-sm text-muted-foreground">
-            This portfolio demonstrates AI-queryable professional presentation.
+            AI-queryable resume. Ask the questions you'd ask in an interview.
             <br />
             <span className="text-text-subtle">The interface is the proof.</span>
           </p>

@@ -46,7 +46,7 @@ const Header = ({ onOpenChat }: HeaderProps) => {
           onClick={() => scrollToSection("hero")}
           className="font-serif text-xl text-foreground hover:text-primary transition-colors"
         >
-          MC
+          SR
         </button>
 
         {/* Desktop nav */}

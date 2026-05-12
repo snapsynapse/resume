@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { X, Send, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { demoResponses } from "@/data/marcus-profile";
+import { demoResponses } from "@/data/sam-profile";
+import { detectRoleContext } from "@/lib/anthropic-detect";
 
 interface Message {
   role: "user" | "assistant";
@@ -14,39 +15,52 @@ interface AIChatProps {
 }
 
 const suggestedQuestions = [
-  "Would this person be good for a Series B startup with messy data infrastructure?",
-  "How did they reduce costs by $1.2M? Was it technical or political?",
-  "Tell me about their biggest failure.",
-  "What kind of leadership experience do they have?",
+  "Would Sam be a fit for a senior L&D or certification role at a frontier AI lab?",
+  "What's PAICE and why is it structured as a PBC?",
+  "Why is Sam applying to Anthropic specifically?",
+  "Tell me about a time the obvious approach would have failed.",
 ];
+
+// Fallback router used when /api/chat is unavailable (local `vite` dev without `vercel dev`, or upstream failure).
+const fallbackResponse = (question: string): string => {
+  const q = question.toLowerCase();
+  if (q.includes("anthropic") || q.includes("frontier") || q.includes("claude")) {
+    return demoResponses.anthropic;
+  }
+  if (q.includes("paice") || q.includes("portfolio") || q.includes("pbc")) {
+    return demoResponses.paice;
+  }
+  if (q.includes("failure") || q.includes("mistake") || q.includes("wrong") || q.includes("regret")) {
+    return demoResponses.failure;
+  }
+  return demoResponses.default;
+};
+
+interface ChatResponse {
+  text?: string;
+  error?: string;
+  graceful_boundary?: {
+    message: string;
+    retry_after_seconds: number;
+  };
+}
 
 const AIChat = ({ isOpen, onClose }: AIChatProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isWaiting, setIsWaiting] = useState(false);
   const [displayedResponse, setDisplayedResponse] = useState("");
+  const [roleContext, setRoleContext] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setRoleContext(detectRoleContext());
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, displayedResponse]);
-
-  const getResponse = (question: string): string => {
-    const q = question.toLowerCase();
-    if (q.includes("series b") || q.includes("infrastructure") || q.includes("messy")) {
-      return demoResponses.default;
-    }
-    if (q.includes("cost") || q.includes("$1.2m") || q.includes("reduce")) {
-      return demoResponses.costReduction;
-    }
-    if (q.includes("failure") || q.includes("mistake") || q.includes("wrong")) {
-      return demoResponses.failure;
-    }
-    if (q.includes("leadership") || q.includes("lead") || q.includes("team") || q.includes("manage")) {
-      return demoResponses.leadership;
-    }
-    return demoResponses.default;
-  };
 
   const typeResponse = (response: string) => {
     setIsTyping(true);
@@ -65,14 +79,43 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     }, 8);
   };
 
-  const handleSubmit = (question: string) => {
-    if (!question.trim() || isTyping) return;
-    setMessages((prev) => [...prev, { role: "user", content: question }]);
+  const callApi = async (history: Message[]): Promise<string> => {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: history, roleContext }),
+    });
+
+    const data: ChatResponse = await res.json().catch(() => ({}));
+
+    if (res.status === 429 && data.graceful_boundary) {
+      return `${data.graceful_boundary.message}\n\n(Rate limit — retry in ~${data.graceful_boundary.retry_after_seconds}s. Or email sam@sam-rogers.com directly.)`;
+    }
+    if (!res.ok || !data.text) {
+      throw new Error(data.error || `HTTP ${res.status}`);
+    }
+    return data.text;
+  };
+
+  const handleSubmit = async (question: string) => {
+    if (!question.trim() || isTyping || isWaiting) return;
+    const nextHistory: Message[] = [
+      ...messages,
+      { role: "user", content: question },
+    ];
+    setMessages(nextHistory);
     setInput("");
-    setTimeout(() => {
-      const response = getResponse(question);
+    setIsWaiting(true);
+
+    try {
+      const response = await callApi(nextHistory);
+      setIsWaiting(false);
       typeResponse(response);
-    }, 500);
+    } catch (err) {
+      console.warn("API call failed, using fallback:", err);
+      setIsWaiting(false);
+      typeResponse(fallbackResponse(question));
+    }
   };
 
   if (!isOpen) return null;
@@ -84,13 +127,13 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center text-accent-foreground font-serif font-bold">
-              M
+              S
             </div>
             <div>
-              <p className="text-foreground font-medium">Ask AI About Marcus</p>
+              <p className="text-foreground font-medium">Ask AI About Sam</p>
               <p className="text-xs text-muted-foreground flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                Ready to answer your questions
+                {roleContext ? `Tuned for: ${roleContext}` : "Ready to answer your questions"}
               </p>
             </div>
           </div>
@@ -104,14 +147,14 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.length === 0 && !isTyping && (
+          {messages.length === 0 && !isTyping && !isWaiting && (
             <div className="h-full flex flex-col items-center justify-center text-center px-6">
               <Sparkles className="w-12 h-12 text-accent mb-4" />
               <h3 className="text-xl font-serif text-foreground mb-2">
                 What would you like to know?
               </h3>
               <p className="text-muted-foreground text-sm mb-6 max-w-md">
-                Ask specific questions about Marcus's experience, skills, or fit for your role. Get honest, detailed answers.
+                Ask specific questions about Sam's experience, skills, or fit for your role. Get honest, detailed answers.
               </p>
               <div className="w-full max-w-md space-y-2">
                 {suggestedQuestions.map((q, i) => (
@@ -148,6 +191,17 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
             </div>
           ))}
 
+          {isWaiting && (
+            <div className="flex justify-start">
+              <div className="max-w-[85%] bg-secondary text-foreground rounded-2xl rounded-bl-md px-4 py-3">
+                <p className="text-sm text-muted-foreground flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                  Thinking...
+                </p>
+              </div>
+            </div>
+          )}
+
           {isTyping && (
             <div className="flex justify-start">
               <div className="max-w-[85%] bg-secondary text-foreground rounded-2xl rounded-bl-md px-4 py-3">
@@ -176,12 +230,12 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a follow-up question..."
-              disabled={isTyping}
+              disabled={isTyping || isWaiting}
               className="flex-1 bg-secondary rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
             />
             <button
               type="submit"
-              disabled={!input.trim() || isTyping}
+              disabled={!input.trim() || isTyping || isWaiting}
               className="px-4 py-3 bg-accent text-accent-foreground rounded-xl font-medium disabled:opacity-50 hover:opacity-90 transition-opacity"
             >
               <Send className="w-5 h-5" />

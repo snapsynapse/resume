@@ -1,4 +1,4 @@
-import { marcusProfile } from "@/data/marcus-profile";
+import { samProfile } from "@/data/sam-profile";
 import ExperienceCard from "./ExperienceCard";
 
 const Experience = () => {
@@ -17,7 +17,7 @@ const Experience = () => {
 
         {/* Experience cards */}
         <div className="space-y-6">
-          {marcusProfile.experience.map((exp, index) => (
+          {samProfile.experience.map((exp, index) => (
             <ExperienceCard
               key={exp.company}
               {...exp}
@@ -33,7 +33,7 @@ const Experience = () => {
               Strong
             </h4>
             <ul className="space-y-2">
-              {marcusProfile.skills.strong.map((skill) => (
+              {samProfile.skills.strong.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">
                   <span className="text-success">✓</span>
                   {skill}
@@ -47,7 +47,7 @@ const Experience = () => {
               Moderate
             </h4>
             <ul className="space-y-2">
-              {marcusProfile.skills.moderate.map((skill) => (
+              {samProfile.skills.moderate.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">
                   <span className="text-muted-foreground">○</span>
                   {skill}
@@ -61,7 +61,7 @@ const Experience = () => {
               Gaps (I'll tell you)
             </h4>
             <ul className="space-y-2">
-              {marcusProfile.skills.gaps.map((skill) => (
+              {samProfile.skills.gaps.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">
                   <span className="text-warning">✗</span>
                   {skill}

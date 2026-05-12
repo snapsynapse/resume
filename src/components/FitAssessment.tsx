@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { FileText, Check, AlertTriangle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { fitAssessments } from "@/data/marcus-profile";
+import { fitAssessments } from "@/data/sam-profile";
 
 type FitType = "strong" | "weak";
 
 const jobDescriptions = {
-  strong: `Senior Platform Engineer — Series B Fintech
+  strong: `Lead, Talent Development & Enablement — Anthropic
 
-We're looking for someone with deep API design experience, comfort with ambiguity, and the ability to lead cross-functional initiatives. You'll own our integration platform serving hundreds of partners...`,
-  weak: `Head of Product, Consumer — Series C Mobile App
+You'll design and lead L&D at a fast-scaling AI lab where alignment is operational, not just research. The role owns manager development, certification design, and the practice of helping people trust Claude's outputs deliberately. Cross-functional with research, product, and policy...`,
+  weak: `Senior Staff Engineer — Production Infrastructure
 
-We need a consumer product leader with mobile-first experience and deep growth/experimentation background. You'll own our core mobile experience and drive user acquisition...`,
+We need someone who has owned production platforms end-to-end, written the load-bearing code, and led incident response. Deep distributed systems, Kubernetes at scale, and ability to mentor senior engineers on infrastructure architecture...`,
 };
 
 const FitAssessment = () => {

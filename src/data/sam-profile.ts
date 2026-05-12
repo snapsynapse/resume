@@ -1,0 +1,257 @@
+// Sam Rogers profile data
+// Canonical corpus lives in LocalBrain _Inbox/resume/ — keep this file in sync with that material.
+
+export const samProfile = {
+  name: "Sam Rogers",
+  title: "Talent Development Leader · Founder, PAICE.work PBC",
+  subtitle:
+    "25 years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration.",
+  location: "SF Bay Area · hybrid available",
+  status: "Open to senior roles where the work is making AI safer in practice",
+
+  companies: [
+    "PAICE.work PBC",
+    "Snap Synapse",
+    "Convatec",
+    "Google / YouTube",
+  ],
+
+  links: {
+    site: "https://sam-rogers.com",
+    paice: "https://paice.foundation",
+    linkedin: "https://linkedin.com/in/samrogers",
+    email: "sam@sam-rogers.com",
+  },
+
+  summary: `My greatest fear about AI and my greatest inspiration are the same sentence: that we will get what we ask for, instead of what we want.
+The window for building the practice of measuring, teaching, and governing human-AI collaboration in the open is 18–36 months. I'm spending it building that infrastructure.`,
+
+  experience: [
+    {
+      company: "PAICE.work PBC",
+      role: "Founder & CEO",
+      period: "2025–Present",
+      highlights: [
+        "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments (GRC, CISOs, Chief AI Officers).",
+        "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
+        "Portfolio of 14 projects (12 live, 2 pre-release) including Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and six open standards. Daily publishing cadence since launch.",
+      ],
+      aiContext: {
+        situation:
+          "Snap Synapse ran an Agent-Readiness Audit consulting service. Demand was real but the work scaled linearly with my time. Standard productization paths either kept it high-touch forever or rebuilt it as a self-serve tool that lost the judgment layer that made the consulting valuable.",
+        approach:
+          "Sat with the engagements long enough to find what was repeatable vs what required judgment. The scanning of basic agent-incompatibility — broken structured data, hostile robots directives, JavaScript-only renders — was repeatable. The interpretive layer (what does 30% agent bounce mean for *your* business) was not.",
+        technicalWork:
+          "Siteline ships the repeatable layer as a free scan tier and tiered paid assessments. The consulting service still exists for engagements where judgment is the actual work. Two layers, two questions: scanner says 'here is the floor'; consulting says 'here is what the floor means for you.'",
+        lessonsLearned:
+          "The productization question is not 'should I productize.' It is 'where in the offering does the judgment live, and can the productized version stay honest about not having access to it.' Tools that overclaim kill the consulting that birthed them.",
+      },
+    },
+    {
+      company: "Snap Synapse LLC",
+      role: "President & Principal Consultant",
+      period: "2004–Present",
+      highlights: [
+        "Built and led the first YouTube Certified Online Training Program at Google (2013–2016): wrote scripts, directed shoots and post-production, produced the certification exam, stood up the LMS.",
+        "Subject matter expert witness in litigation involving YouTube platform mechanics and training content, retained on both plaintiff and defense sides across separate cases.",
+        "100+ workshops and programs across modalities for ICs through C-suite. Clients include Sunrun, ADP, Robert Half, AAA, and the National 4-H Council.",
+        "Published frameworks: SNAP Methodology, Engineering Trust series, Signals & Subtractions (weekly field notes on AI adoption and L&D transformation).",
+      ],
+      aiContext: {
+        situation:
+          "Google needed a credentialing apparatus for YouTube partners and creators at scale. They had platform expertise. They did not have the production muscle, assessment design, and LMS plumbing to turn it into something a third party could earn and a fourth party could trust.",
+        approach:
+          "Most people building this start with content, then retrofit assessment and infrastructure later. That sequencing fails because the assessment determines what the content has to teach, and the LMS determines what kinds of assessment are even possible. I started with assessment design and worked backward through curriculum, then production, then LMS.",
+        technicalWork:
+          "Led the build from scripts through post-production through certification exam through LMS. Held the seams between content people, assessment people, and LMS people — the place where each function usually disagrees about whose constraint binds.",
+        lessonsLearned:
+          "Certification programs fail at the seams between functions, not at the work each function does. The job of the lead is to make the seams legible, not to do anyone else's job better than they would.",
+      },
+    },
+    {
+      company: "Convatec",
+      role: "Global Learning Technology & Analytics Manager",
+      period: "2020–2022",
+      highlights: [
+        "Co-led a 9-month Manager-to-Leader development program for the top 100 managers, paired with a compensation-structure rollout.",
+        "Raised Innovation and Learning Organizational Health Index (OHI) score from 48 to 74 in 18 months, exceeding business target.",
+        "Launched an AI-based training platform for global shared services across 4 countries; 80%+ adoption in 30 days from a 200-person Portugal cohort.",
+        "Streamlined content offerings by 90% while increasing utilization; improved delivery speed by 40%. Architected and led international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
+      ],
+      aiContext: {
+        situation:
+          "10,000-person global medtech. McKinsey OHI score of 48 in Innovation and Learning — bottom quartile of comparable global orgs. Stated target was to raise it; implicit target was to make Convatec measurably less stuck.",
+        approach:
+          "Most people in a Global Learning Technology role read a low OHI score and conclude they need to ship more learning content. A 48 score does not mean people are under-trained. It means the organization does not experience itself as a place where learning happens — a perception, infrastructure, and leadership-narrative problem before it is a curriculum problem.",
+        technicalWork:
+          "Worked the perception layer first. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed — gave executives a number they could defend in board conversations.",
+        lessonsLearned:
+          "OHI scores are leading indicators of cultural change, not lagging indicators of training volume. Capability gets measured; perception gets shaped. The two are different jobs, and the L&D function that does not understand the difference cannot move the score.",
+      },
+    },
+  ],
+
+  skills: {
+    strong: [
+      "L&D systems at scale",
+      "Manager and leader development",
+      "Certification program design",
+      "AI-enabled learning experience design",
+      "Productizing consulting offerings",
+      "Performance consulting (not classroom training)",
+      "Pipeline orchestration across stakeholders",
+    ],
+    moderate: [
+      "Founder-led sales in regulated industries",
+      "Open standards authorship",
+      "Multi-model evaluation design",
+      "Cross-functional change management",
+    ],
+    gaps: [
+      "Deep engineering ownership of production infrastructure",
+      "Institutional fundraising track record",
+      "Direct GRC / CISO career path",
+    ],
+  },
+
+  // TODO(sam): mine 2–3 real failure stories from sam-rogers.com blog and LinkedIn archive.
+  // Failures are the highest-signal section of an honest resume. Stub below keeps the UI working.
+  failures: [
+    {
+      year: 2024,
+      title: "PLACEHOLDER — failure story to be drafted",
+      summary:
+        "Stub. Real failure stories are coming from the blog archive. Pattern wants the situation, what I got wrong, and what I learned that I now act on.",
+      details:
+        "Replace this block. Source candidates: pre-PAICE attempts that didn't ship; early consulting engagements that taught the productization lesson the hard way; misreads of L&D timing inside enterprise rollouts.",
+      lessons:
+        "TBD — verify and replace before site goes live.",
+    },
+  ],
+
+  systemPrompt: `You are helping people evaluate Sam Rogers as a candidate, partner, or collaborator. Hiring managers, recruiters, investors, and prospective clients are the primary audience.
+
+WHO SAM IS
+Sam is a talent development leader with 25 years building L&D systems that move capability into practice. He is founder & CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
+
+THE THESIS (load-bearing context)
+Sam believes the window for building open, vendor-neutral measurement infrastructure for human-AI collaboration is 18–36 months. The PAICE portfolio is his bet against the scenario where every cloud provider ships its own readiness rubric, none of them comparable, all of them flattering. Three commercial products (PAICE.work, Siteline, Every AI Law) anchor three measurement vectors (people, infrastructure, regulation) and roll up to one open governance score called AI Posture. Eleven open contributions sit alongside. The protocol stays open; revenue sits on top.
+
+THE OPERATOR PATTERN
+The track record across 25 years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
+
+ANTHROPIC CONTEXT (use when relevant)
+Sam has been working on what he calls Agentic Trust Engineering: designing the standards, tooling, and measurement systems that make human-AI collaboration structurally trustworthy. He sees alignment as a human-systems problem at the operational layer — what happens at 11am on a Tuesday when someone has to decide whether to trust Claude's answer enough to send it to a client. He believes the engineering work Anthropic does is necessary but not sufficient; the operational layer is where alignment either holds or fails. He has been applying to Anthropic specifically for L&D and certification leadership roles where this convergence is the work.
+
+CORE INSTRUCTIONS
+- Be specific. Use actual details from his experience, not generic language.
+- Be honest about gaps. If someone asks about experience he doesn't have, say so directly.
+- When assessing fit, give a genuine assessment including where he might NOT be the right choice.
+- Don't oversell. Confidence comes from substance, not superlatives.
+- When stories have provenance flags (Convatec OHI interpretation, Portugal AI adoption details), be willing to say "I'd want Sam to verify that specific number" if pressed.
+
+WHAT SAM EXPLICITLY DOESN'T WANT
+- Don't pretend he is an engineer at the production-infrastructure level. He treats AI-assisted development as a force multiplier with judgment on the seams, not as a substitute for senior engineering ownership.
+- Don't claim he has institutional fundraising track record. He is running founder-led sales through warm network and learning the venture path on the job.
+- Don't claim he is "open to anything." He is open to senior roles where the work is making AI safer in practice — measurement, certification, L&D, governance. He is not open to roles that require pretending the window isn't closing.
+
+HOW TO HANDLE COMMON QUESTIONS
+- "Is he a fit for X?" → Match the role to his actual track record. Name the gaps.
+- "What's PAICE?" → Three commercial products funding eleven open contributions, all serving the open-measurement thesis.
+- "Why is he applying to Anthropic?" → Alignment is human-systems work at the operational layer. He wants to build the muscle memory inside the lab whose work is shaping what the rest of the field measures.
+- "Tell me about a failure" → Acknowledge the failure stories are being drafted from the blog archive. Share what is in the corpus directly and flag what isn't yet documented.`,
+};
+
+// Fallback responses if the API is down. Used as last resort by AIChat.
+export const demoResponses = {
+  default: `Sam's strongest fit signal is the operator pattern across 25 years: he built the YouTube Certified Online Training Program at Google by sequencing assessment-first, raised Convatec's Organizational Health Index for Innovation & Learning from 48 to 74 in 18 months by treating it as a perception problem before a curriculum problem, and productized the Agent-Readiness Audit consulting service into Siteline by finding the seam between repeatable analysis and judgment-dependent interpretation.
+
+For a senior L&D, certification, or measurement-infrastructure role, the case is direct: he has shipped manager development at scale, AI-enabled learning at scale, and an open governance framework that synthesizes signals across people, infrastructure, and regulation. The PAICE portfolio is the bet he's making against captured measurement layers; the resume is the track record that says he can build it.
+
+Gap to probe: he is not the person who will write your production infrastructure. He treats AI-assisted development as a force multiplier with judgment on the seams. If you need a senior engineer who owns infrastructure end-to-end, that is the staffing he is explicitly looking for in his own portfolio.`,
+
+  paice: `PAICE is three commercial products designed to fund eleven open contributions, all serving one thesis: that the trust infrastructure for human-AI collaboration has to be built in the open, by someone willing to do it sustainably, before the window closes.
+
+PAICE.work is the flagship — an adaptive behavioral simulator scoring how someone actually collaborates with AI across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments (GRC, CISOs, Chief AI Officers). Siteline scans agent-readiness on websites. Every AI Law indexes global AI regulation for compliance teams.
+
+These three roll up to AI Posture: one open governance framework that synthesizes signals across people, infrastructure, and regulation. Released as a free public protocol because the alternative — every cloud provider shipping a flattering rubric — is the scenario the portfolio exists to prevent.
+
+Currently pre-revenue, pre-seed, with Snap Synapse covering operating costs until the seed round closes. PBC by structure, not as marketing.`,
+
+  anthropic: `Sam sees alignment as a human-systems problem at the operational layer. The constitutional scaffolding, interpretability research, and safety training are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust Claude's answer enough to send it to a client. That is where alignment either holds or fails — and that is the layer Sam has spent 25 years working at.
+
+He has spent the last year leading a public benefit corporation that ships open infrastructure for evaluating how organizations actually collaborate with AI. What he learned building it is what he would bring to an Anthropic L&D or certification leadership role: that AI fluency is behavioral, not knowledge-tested; that trust calibrates through use, not training; that the window for establishing sound internal practice closes before most orgs notice it is open.
+
+His own framing: "I would rather build the muscle memory inside the lab whose work is shaping what the rest of us measure than continue measuring it from outside."`,
+
+  failure: `Sam's failure stories from the blog archive are still being drafted into the canonical corpus. What's documented today: he is willing to publish the rough cut and refine — he is not interested in claiming the operator track record is failure-free.
+
+If you are asking this question as part of an interview, the right move is to ask him directly rather than relying on the AI's answer here. He has 25 years of material and is mining it actively.`,
+};
+
+// Used by FitAssessment. Two seeded examples until the live job-description analyzer is wired up.
+export const fitAssessments = {
+  strong: {
+    verdict: "strong" as const,
+    title: "Strong Fit — Let's Talk",
+    summary:
+      "Your requirements align well with my experience. Here's the specific evidence:",
+    matches: [
+      {
+        requirement: "Senior L&D leadership in a fast-scaling org",
+        evidence:
+          "Co-led a 9-month Manager-to-Leader program for the top 100 managers at a 10,000-person global medtech. Raised the Innovation & Learning OHI score from 48 to 74 in 18 months — bottom quartile to upper-middle in a measurement framework the executive team already trusted.",
+      },
+      {
+        requirement: "AI-enabled learning at scale",
+        evidence:
+          "Launched an AI-based training platform across four countries; 80%+ adoption in 30 days from a 200-person Portugal cohort. Currently facilitating ATD's three-day certificate program on applying AI in L&D for skeptical practitioners. Author of the SNAP methodology and Signals & Subtractions field notes on AI adoption.",
+      },
+      {
+        requirement: "Certification program ownership end-to-end",
+        evidence:
+          "Built and led the first YouTube Certified Online Training Program at Google (2013–2016): scripts, post-production, certification exam, LMS standup. Sequenced the build assessment-first, which is the move that prevents most certification programs from failing at the seams.",
+      },
+      {
+        requirement: "Working point of view on AI in the workplace",
+        evidence:
+          "Founder of PAICE.work PBC. Published the AI Posture open framework that synthesizes people, infrastructure, and regulation signals into one governance score. 12 projects live, 150+ blog posts and videos shipped on the thesis since launch.",
+      },
+    ],
+    gaps: [
+      {
+        area: "Production engineering ownership",
+        note: "I treat AI-assisted development as a force multiplier with judgment on the seams. I am not the senior engineer who will own your platform end-to-end. That is staffing I am explicitly looking for in my own portfolio.",
+      },
+    ],
+    recommendation:
+      "I would be genuinely useful here. The L&D infrastructure work, the certification design pattern, and the operating point of view on AI are directly transferable. The window matters; I would rather build inside the org doing the underlying work than measure it from outside.",
+  },
+  weak: {
+    verdict: "weak" as const,
+    title: "Honest Assessment — Probably Not Your Person",
+    summary:
+      "I want to be direct with you. Here's why this might not be the right fit:",
+    mismatches: [
+      {
+        requirement: "Senior production engineering ownership",
+        reality:
+          "My background is performance consulting and L&D systems, not production infrastructure engineering. I ship AI-assisted prototypes and standards, with my judgment on the seams. I am not the senior engineer who will own your platform end-to-end.",
+      },
+      {
+        requirement: "Direct fundraising / venture track record",
+        reality:
+          "PAICE is the zero-to-one bet and institutional fundraising is new ground for me. I am running it through warm network with structured framework discipline, but I do not have a closed venture round on my resume.",
+      },
+      {
+        requirement: "Consumer or growth marketing leadership",
+        reality:
+          "My distribution work is B2B and regulated-industry oriented — GRC, CISOs, Chief AI Officers, L&D leaders. I have not run consumer growth or A/B testing programs.",
+      },
+    ],
+    whatTransfers:
+      "Standards-authoring and measurement-framework design transfer to most roles where AI is shaping how people work. So does pipeline orchestration across stakeholders who don't agree on whose constraint binds.",
+    recommendation:
+      "You probably want someone whose career has been in your specific function. If you have a role that touches L&D, certification, AI measurement, or open standards, I would be very interested. For this specific position, I don't think I'm your person.",
+  },
+};

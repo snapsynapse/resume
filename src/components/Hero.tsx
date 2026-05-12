@@ -1,5 +1,5 @@
 import { MessageSquare } from "lucide-react";
-import { marcusProfile } from "@/data/marcus-profile";
+import { samProfile } from "@/data/sam-profile";
 
 interface HeroProps {
   onOpenChat: () => void;
@@ -15,27 +15,27 @@ const Hero = ({ onOpenChat }: HeroProps) => {
         {/* Status badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full mb-8 animate-fade-in">
           <span className="w-2 h-2 rounded-full bg-success animate-pulse-soft" />
-          <span className="text-sm text-muted-foreground">{marcusProfile.status}</span>
+          <span className="text-sm text-muted-foreground">{samProfile.status}</span>
         </div>
 
         {/* Main heading */}
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-foreground mb-6 animate-slide-up">
-          {marcusProfile.name}
+          {samProfile.name}
         </h1>
 
         {/* Role */}
         <p className="text-2xl md:text-3xl text-primary font-serif mb-4 animate-slide-up stagger-1">
-          {marcusProfile.title}
+          {samProfile.title}
         </p>
 
         {/* Subtitle */}
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 animate-slide-up stagger-2">
-          {marcusProfile.subtitle}
+          {samProfile.subtitle}
         </p>
 
         {/* Company badges */}
         <div className="flex flex-wrap gap-3 mb-12 animate-slide-up stagger-3">
-          {marcusProfile.companies.map((company) => (
+          {samProfile.companies.map((company) => (
             <span
               key={company}
               className="px-4 py-2 bg-card border border-border rounded-full text-sm text-foreground"
