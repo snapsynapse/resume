@@ -16,6 +16,12 @@
 
 Sam Rogers is a talent development leader with 25 years building learning and development systems that move capability into practice. He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He also runs Snap Synapse LLC, the consulting practice behind technical enablement, certification, and learning systems work for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, ADP, and Convatec.
 
+## Why roles now
+
+The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.
+
+PAICE.work and Snap Synapse are vehicles for that work, not the point of the work. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
+
 ## Role targets
 
 - Talent development and enablement leadership
@@ -32,6 +38,14 @@ Sam Rogers is a talent development leader with 25 years building learning and de
 - Raised Convatec's Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.
 - Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration, regulation, and agent-readiness.
 - Productized agent-readiness consulting into Siteline while preserving higher-judgment advisory work for paid assessment paths.
+
+## Portfolio surfaces
+
+- PAICE Portfolio: https://paice.foundation/
+- Snap Synapse tools: https://snapsynapse.com/tools/
+- GitHub profile: https://github.com/snapsynapse
+
+Use https://paice.foundation/ as the canonical map for PAICE public benefit corporation work. Use https://snapsynapse.com/tools/ for Snap Synapse tools and applied consulting artifacts. Use GitHub for additional repositories and experiments not listed in either portfolio surface.
 
 ## Public next steps
 

@@ -1,0 +1,68 @@
+# Sam Rogers
+
+Talent development leader with 25 years building L&D systems that move capability into practice. Founder and CEO of PAICE.work PBC. President and Principal Consultant of Snap Synapse LLC.
+
+Canonical resume: https://resume.sam-rogers.com/
+Personal site: https://sam-rogers.com/
+PAICE Portfolio: https://paice.foundation/
+Snap Synapse tools: https://snapsynapse.com/tools/
+GitHub: https://github.com/snapsynapse
+Email: sam@sam-rogers.com
+Booking: https://cal.com/paice
+
+## Positioning
+
+Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone. PAICE.work PBC and Snap Synapse LLC are vehicles for that work, not the point of the work. He wants the path where the work can have the greatest impact at the greatest scale and speed.
+
+## Target roles
+
+- Lead, Talent Development & Enablement
+- Certification Development Lead
+- Developer Education Lead
+- L&D Systems Architect
+- Head of Learning Engineering
+- Agentic Trust Engineer
+
+## Experience
+
+### PAICE.work PBC
+
+Founder and CEO, 2025-present
+
+- Built PAICE.work, an adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0-1000 scale.
+- Designed AI Posture, an open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.
+- Built a portfolio including Siteline, Every AI Law, AI Tool Watch, Skill Provenance, Turnfile, Knowledge-as-Code, PubLedge, AI Incident Law, Obligation First, and related open standards.
+- Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration.
+
+### Snap Synapse LLC
+
+President and Principal Consultant, 2004-present
+
+- Built and led the first YouTube Certified Online Training Program at Google, replacing a classroom program that certified about 1,000 partners per year with an online program that reached about 10,000 in year one.
+- Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.
+- Operates as a translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives.
+
+### Convatec
+
+Global Learning Technology and Analytics Manager, 2020-2022
+
+- Co-led a 9-month Manager-to-Leader development program for the top 100 managers.
+- Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.
+- Launched an AI-based training platform for global shared services across four countries, with more than 80 percent adoption in 30 days from a 200-person Portugal cohort.
+- Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
+
+## Strengths
+
+- L&D systems at scale
+- Certification program design
+- Developer education and technical enablement
+- Manager and leader development
+- AI-enabled learning experience design
+- Agentic tooling infrastructure
+- Cross-functional translation
+- Productizing consulting offerings
+- Performance consulting
+
+## Gaps to name plainly
+
+Sam is not positioning himself as a deep production infrastructure engineering owner. He is strongest where learning systems, certification, AI governance, tooling, behavior change, and cross-functional enablement meet.

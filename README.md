@@ -29,11 +29,36 @@ UPSTASH_REDIS_REST_TOKEN=
 Without Upstash, the API routes still run but skip rate limiting.
 ## Scripts
 - `npm run dev`: start local Vite server
-- `npm run build`: production build
+- `npm run build`: production build, then generate static crawl pages
 - `npm run preview`: preview production build
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript check, including Vercel API handlers
+- `npm run validate:metadata`: verify generated crawl pages, structured data, sitemap, and machine-readable files
 - `npm run test`: Vitest test suite
+## Machine-Readable Routes
+The homepage is the human-first interactive resume. It still includes meaningful no-JS fallback HTML inside `index.html`, so agents that fetch raw HTML can read a profile summary, experience summary, contact paths, and links to dedicated crawl pages before React hydrates.
+Dedicated public routes are generated after `vite build` by [scripts/generate-static-html.mjs](/Users/snap/Git/resume/scripts/generate-static-html.mjs):
+- `/about/`
+- `/experience/`
+- `/fit-assessment/`
+- `/portfolio/`
+- `/contact/`
+These pages are primarily for LLMs, SEO crawlers, link unfurlers, Siteline-style scanners, and agents that do not execute JavaScript reliably. Humans may visit them, so they intentionally share the homepage's look and feel, but they are not meant to replace the interactive homepage.
+Generated files live in `dist/` after `npm run build` and are not committed. Test them with:
+```sh
+npm run build
+npm run preview -- --host 127.0.0.1 --port 4173
+```
+Then visit `http://127.0.0.1:4173/about/` or the other generated routes.
+Machine-readable resources in `public/` include:
+- `/llms.txt`
+- `/llms-full.txt`
+- `/agents.json`
+- `/api-manifest.json`
+- `/resume.txt`
+- `/changelog.txt`
+- `/sitemap.xml`
+- `/.well-known/security.txt`
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*` and all other routes to the SPA entrypoint.
 ## Privacy Note

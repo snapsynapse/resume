@@ -12,6 +12,66 @@ const nav = [
   ["Contact", "/contact/"],
 ];
 
+const person = {
+  "@type": "Person",
+  "@id": `${siteUrl}/#sam-rogers`,
+  name: "Sam Rogers",
+  url: `${siteUrl}/`,
+  email: "mailto:sam@sam-rogers.com",
+  sameAs: [
+    "https://sam-rogers.com/",
+    "https://paice.foundation/",
+    "https://paice.work/",
+    "https://snapsynapse.com/tools/",
+    "https://github.com/snapsynapse",
+    "https://linkedin.com/in/samrogers",
+  ],
+};
+
+const experienceItems = [
+  {
+    name: "PAICE.work PBC",
+    role: "Founder and CEO",
+    startDate: "2025",
+    url: "https://paice.work/",
+    summary:
+      "Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration measurement and governance.",
+  },
+  {
+    name: "Snap Synapse LLC",
+    role: "President and Principal Consultant",
+    startDate: "2004",
+    url: "https://snapsynapse.com/tools/",
+    summary:
+      "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
+  },
+  {
+    name: "Convatec",
+    role: "Global Learning Technology and Analytics Manager",
+    startDate: "2020",
+    endDate: "2022",
+    summary:
+      "Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months and improved global learning infrastructure.",
+  },
+];
+
+const portfolioItems = [
+  ["PAICE Portfolio", "https://paice.foundation/", "Canonical map for Sam's public benefit corporation work."],
+  ["Snap Synapse tools", "https://snapsynapse.com/tools/", "Tools, frameworks, and applied consulting artifacts from Snap Synapse."],
+  ["GitHub profile", "https://github.com/snapsynapse", "Additional repositories and experiments."],
+  ["PAICE.work", "https://paice.work/", "Adaptive behavioral simulator for human-AI collaboration measurement."],
+  ["Siteline", "https://siteline.to/", "Agent-usability scanner for websites."],
+  ["Every AI Law", "https://everyailaw.com/", "Jurisdiction-aware index of global AI regulation."],
+  ["AI Posture", "https://aiposture.org/", "Governance score across people, infrastructure, and regulation."],
+  ["Graceful Boundaries", "https://gracefulboundaries.dev/", "Operational limit communication for humans and agents."],
+  ["Skill Provenance", "https://skillprovenance.dev/", "Version identity and manifest tracking for agent skill bundles."],
+  ["Turnfile", "https://turnfile.work/", "Peer protocol for multi-agent collaboration."],
+  ["Knowledge-as-Code", "https://knowledge-as-code.com/", "Ontology-first template for structured knowledge bases."],
+  ["PubLedge", "https://publedge.org/", "Public recordkeeping protocol for written interpretations."],
+  ["AI Incident Law", "https://aiincidentlaw.org/", "Corpus of AI-related legal, regulatory, and enforcement matters."],
+  ["Obligation First", "https://obligationfirst.org/", "Obligation-first framework for AI governance design."],
+];
+
 const pages = [
   {
     slug: "about",
@@ -26,6 +86,14 @@ const pages = [
           "Sam Rogers is a talent development leader with 25 years building learning and development systems that move capability into practice.",
           "He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration.",
           "He also runs Snap Synapse LLC, the consulting practice behind technical enablement, certification, and learning systems work for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, ADP, and Convatec.",
+        ],
+      },
+      {
+        heading: "Why roles now",
+        paragraphs: [
+          "The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.",
+          "PAICE.work and Snap Synapse are vehicles for that work, not the point of the work. They exist because the next phase of talent development, AI governance, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.",
+          "Sam is open to roles where the work advances Aggregated Intelligence at speed and scale: learning systems, certification, enablement, behavioral measurement, or governance infrastructure that helps people and AI collaborate more safely in practice.",
         ],
       },
       {
@@ -107,6 +175,14 @@ const pages = [
       "Portfolio map for Sam Rogers, including PAICE.work, Siteline, Every AI Law, AI Posture, and related open standards.",
     heading: "Portfolio",
     body: [
+      {
+        heading: "Portfolio surfaces",
+        paragraphs: [
+          "The PAICE portfolio is available at https://paice.foundation/ and is the canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.",
+          "The Snap Synapse tools portfolio is available at https://snapsynapse.com/tools/ and captures tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.",
+          "Sam's GitHub profile at https://github.com/snapsynapse includes additional repositories and experiments that may not be listed in either portfolio surface.",
+        ],
+      },
       {
         heading: "Commercial anchors",
         list: [
@@ -192,24 +268,104 @@ function renderBody(sections) {
     .join("\n");
 }
 
+function itemList(name, items) {
+  return {
+    "@type": "ItemList",
+    name,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item,
+    })),
+  };
+}
+
+function routeStructuredData(page, canonical) {
+  const graph = [
+    person,
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: page.title,
+      description: page.description,
+      about: { "@id": person["@id"] },
+      mainEntity: { "@id": person["@id"] },
+    },
+  ];
+
+  if (page.slug === "experience") {
+    graph.push(
+      itemList(
+        "Sam Rogers experience",
+        experienceItems.map((item) => ({
+          "@type": "OrganizationRole",
+          roleName: item.role,
+          startDate: item.startDate,
+          endDate: item.endDate,
+          description: item.summary,
+          memberOf: {
+            "@type": "Organization",
+            name: item.name,
+            ...(item.url ? { url: item.url } : {}),
+          },
+        })),
+      ),
+    );
+  }
+
+  if (page.slug === "portfolio") {
+    graph.push(
+      itemList(
+        "Sam Rogers portfolio surfaces and projects",
+        portfolioItems.map(([name, url, description]) => ({
+          "@type": "CreativeWork",
+          name,
+          url,
+          description,
+          creator: { "@id": person["@id"] },
+        })),
+      ),
+    );
+  }
+
+  if (page.slug === "contact") {
+    graph.push({
+      "@type": "ContactPoint",
+      "@id": `${canonical}#contact`,
+      name: "Sam Rogers contact",
+      email: "sam@sam-rogers.com",
+      url: "https://cal.com/paice",
+      contactType: "recruiting, advisory, and collaboration inquiries",
+      availableLanguage: "en",
+    });
+  }
+
+  if (page.slug === "fit-assessment") {
+    graph.push({
+      "@type": "WebApplication",
+      "@id": `${siteUrl}/#fit-assessment`,
+      name: "Sam Rogers role fit assessment",
+      url: `${siteUrl}/#fit-assessment`,
+      applicationCategory: "RecruitingApplication",
+      description:
+        "Interactive tool for comparing a job description against Sam Rogers' experience, evidence, gaps, and transferability.",
+      creator: { "@id": person["@id"] },
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
+  };
+}
+
 function renderPage(page) {
   const canonical = `${siteUrl}/${page.slug}/`;
   const navHtml = nav
     .map(([label, href]) => `<a href="${href}">${label}</a>`)
     .join("");
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    url: canonical,
-    name: page.title,
-    description: page.description,
-    about: {
-      "@type": "Person",
-      "@id": `${siteUrl}/#sam-rogers`,
-      name: "Sam Rogers",
-      url: `${siteUrl}/`,
-    },
-  };
+  const jsonLd = routeStructuredData(page, canonical);
 
   return `<!doctype html>
 <html lang="en">
@@ -233,24 +389,181 @@ function renderPage(page) {
     <meta name="twitter:image" content="${siteUrl}/imgs/og.png" />
     <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
     <style>
-      :root { color-scheme: light; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-      body { margin: 0; color: #1f2933; background: #f8f6f2; line-height: 1.6; }
-      header, main, footer { max-width: 760px; margin: 0 auto; padding: 24px; }
-      nav { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; }
-      a { color: #315f72; }
-      h1, h2 { line-height: 1.15; color: #172026; }
-      h1 { font-size: clamp(2.25rem, 8vw, 4rem); margin: 32px 0 16px; }
-      h2 { margin-top: 40px; }
-      li { margin: 8px 0; }
-      .home { display: inline-block; margin-top: 24px; }
+      @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+      :root {
+        color-scheme: light;
+        --background: hsl(200 20% 96%);
+        --foreground: hsl(220 14% 20%);
+        --card: hsl(0 0% 100%);
+        --primary: hsl(189 75% 39%);
+        --primary-foreground: hsl(0 0% 100%);
+        --secondary: hsl(200 15% 92%);
+        --muted-foreground: hsl(220 6% 42%);
+        --accent: hsl(189 75% 48%);
+        --accent-foreground: hsl(220 14% 12%);
+        --border: hsl(200 12% 86%);
+        --success: hsl(158 64% 35%);
+        --font-serif: 'Source Serif 4', 'Source Serif', Georgia, serif;
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--foreground);
+        background: var(--background);
+        font-family: var(--font-sans);
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 80% 8%, hsl(189 75% 48% / 0.12), transparent 28rem),
+          linear-gradient(180deg, hsl(0 0% 100% / 0.65), transparent 24rem);
+      }
+      header, main, footer {
+        position: relative;
+        width: min(100%, 72rem);
+        margin: 0 auto;
+        padding-inline: 1.5rem;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding-block: 1rem;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 1.25rem;
+        order: 2;
+      }
+      nav a, .brand {
+        color: var(--muted-foreground);
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: color 160ms ease;
+      }
+      nav a:hover, .brand:hover { color: var(--foreground); }
+      .brand {
+        color: var(--foreground);
+        font-family: var(--font-serif);
+        font-size: 1.25rem;
+      }
+      main { padding-block: 5rem 4rem; }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 999px;
+        background: var(--secondary);
+        color: var(--muted-foreground);
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 999px;
+        background: var(--success);
+      }
+      h1, h2 {
+        color: var(--foreground);
+        font-family: var(--font-serif);
+        font-weight: 600;
+        line-height: 1.08;
+      }
+      h1 {
+        max-width: 54rem;
+        font-size: clamp(3.25rem, 9vw, 7rem);
+        margin: 2rem 0 1.25rem;
+        letter-spacing: 0;
+      }
+      h2 {
+        font-size: clamp(1.7rem, 4vw, 2.5rem);
+        margin: 0 0 1rem;
+      }
+      p {
+        max-width: 64rem;
+        margin: 0.75rem 0 0;
+        color: var(--muted-foreground);
+        font-size: 1.05rem;
+      }
+      a { color: var(--primary); }
+      section {
+        margin-top: 1.25rem;
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        background: hsl(0 0% 100% / 0.9);
+        box-shadow: 0 18px 48px hsl(220 14% 20% / 0.06);
+      }
+      section:first-of-type { margin-top: 2.5rem; }
+      ul {
+        display: grid;
+        gap: 0.75rem;
+        margin: 1rem 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      li {
+        position: relative;
+        padding-left: 1.35rem;
+        color: var(--muted-foreground);
+      }
+      li::before {
+        content: "->";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+      .home {
+        margin-top: 2rem;
+      }
+      .home a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 3rem;
+        border-radius: 0.75rem;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        padding: 0.75rem 1.25rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 18px 36px hsl(189 75% 39% / 0.18);
+      }
+      footer {
+        border-top: 1px solid var(--border);
+        padding-block: 2rem 3rem;
+      }
+      address {
+        color: var(--muted-foreground);
+        font-style: normal;
+      }
+      @media (max-width: 720px) {
+        header { align-items: flex-start; flex-direction: column; }
+        nav { order: 0; }
+        main { padding-block-start: 3rem; }
+        h1 { font-size: clamp(2.75rem, 16vw, 4.5rem); }
+        section { padding: 1.25rem; }
+      }
     </style>
   </head>
   <body>
     <header>
       <nav aria-label="Resume pages">${navHtml}</nav>
-      <a href="/">Sam Rogers resume homepage</a>
+      <a class="brand" href="/">SR</a>
     </header>
     <main>
+      <div class="eyebrow">Static profile page</div>
       <h1>${escapeHtml(page.heading)}</h1>
       ${renderBody(page.body)}
       <p class="home"><a href="/#${page.slug === "about" ? "about" : page.slug}">Open the interactive resume section</a></p>

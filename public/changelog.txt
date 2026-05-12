@@ -1,0 +1,8 @@
+# Sam Rogers Resume Changelog
+
+2026-05-12
+- Added no-JS fallback resume content to the homepage for agents and crawlers.
+- Added static crawl pages for /about/, /experience/, /fit-assessment/, /portfolio/, and /contact/.
+- Added machine-readable resources: /llms.txt, /llms-full.txt, /agents.json, /api-manifest.json, /resume.txt, and /.well-known/security.txt.
+- Added route-specific structured data and sitemap lastmod values.
+- Clarified that the static pages support SEO and agent readability while the homepage remains the primary human experience.

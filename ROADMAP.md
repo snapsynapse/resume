@@ -13,7 +13,7 @@ Deferred work for [resume.sam-rogers.com](https://resume.sam-rogers.com). Active
 
 ## Distribution & SEO
 
-- **JSON-LD Person schema** — cross-pollinate from `paice.foundation`'s existing structured data so "Sam Rogers Anthropic" type queries can match.
+- **Static crawl-route monitoring** — homepage has no-JS fallback HTML, while `/about/`, `/experience/`, `/fit-assessment/`, `/portfolio/`, and `/contact/` are generated crawl pages for agents and SEO. Keep their content aligned with the interactive homepage and rerun Siteline after deploy.
 - **PDF / print view** — recruiters share PDFs internally. Either a print stylesheet that produces a usable single-page PDF, or a `/resume.pdf` route that renders server-side.
 - **Metadata/social card check** — assert canonical URL, OG/Twitter image existence, title/description, favicon paths, and no `www` / `http` regressions.
 

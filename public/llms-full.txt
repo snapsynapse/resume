@@ -17,6 +17,14 @@
 
 Sam Rogers is a talent development leader with 25 years building L&D systems that move capability into practice. He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He also runs Snap Synapse LLC, the consulting practice that has funded and shaped this work.
 
+## Why roles now
+
+The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.
+
+PAICE.work and Snap Synapse are vehicles for that work, not the point of the work. They exist because the next phase of talent development, AI governance, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
+
+Sam is open to roles where the work advances Aggregated Intelligence at speed and scale: learning systems, certification, enablement, behavioral measurement, or governance infrastructure that helps people and AI collaborate more safely in practice.
+
 ## Current target roles
 
 - Lead, Talent Development & Enablement
@@ -81,6 +89,9 @@ Sam is not positioning himself as a deep production infrastructure engineering o
 
 ## Portfolio map
 
+- PAICE Portfolio: https://paice.foundation/ - canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.
+- Snap Synapse tools: https://snapsynapse.com/tools/ - tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.
+- GitHub profile: https://github.com/snapsynapse - additional repositories and experiments not necessarily listed in either portfolio surface.
 - PAICE.work: https://paice.work/ - adaptive behavioral simulator scoring AI collaboration across five dimensions.
 - Siteline: https://siteline.to/ - agent-usability scanner for websites.
 - Every AI Law: https://everyailaw.com/ - searchable jurisdiction-aware index of global AI regulation.

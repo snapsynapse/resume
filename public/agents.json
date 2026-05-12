@@ -46,6 +46,16 @@
       "type": "api-manifest"
     },
     {
+      "name": "Plain text resume",
+      "url": "https://resume.sam-rogers.com/resume.txt",
+      "type": "resume.txt"
+    },
+    {
+      "name": "Site changelog",
+      "url": "https://resume.sam-rogers.com/changelog.txt",
+      "type": "changelog"
+    },
+    {
       "name": "About Sam Rogers",
       "url": "https://resume.sam-rogers.com/about/",
       "type": "profile-section"
