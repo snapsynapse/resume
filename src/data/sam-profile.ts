@@ -10,6 +10,7 @@ export const samProfile = {
   rotatingTitles: [
     "Lead, Talent Development & Enablement",
     "Certification Development Lead",
+    "Developer Education Lead",
     "L&D Systems Architect",
     "Head of Learning Engineering",
     "Agentic Trust Engineer",
@@ -36,6 +37,7 @@ export const samProfile = {
         "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments (GRC, CISOs, Chief AI Officers).",
         "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
         "Portfolio of 14 projects (12 live, 2 pre-release) including Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and six open standards. Daily publishing cadence since launch.",
+        "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
       ],
       aiContext: {
         situation:
@@ -54,8 +56,11 @@ export const samProfile = {
       period: "2004–Present",
       highlights: [
         "Built and led the first YouTube Certified Online Training Program at Google (2013–2014): wrote scripts, directed shoots and post-production, produced the certification exam, stood up the LMS.",
+        "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
         "Subject matter expert witness in litigation involving YouTube platform mechanics and training content, retained on both plaintiff and defense sides across separate cases.",
-        "100+ workshops and programs across modalities for ICs through C-suite. Clients include Sunrun, ADP, Robert Half, AAA, and the National 4-H Council.",
+        "Created initial technical training programs for StrongLoop supporting developer platform adoption.",
+        "End-to-end video production at scale: pre-production through studio direction (including directing nervous SMEs on camera at Google HQ) through post-production through distribution and digital rights management. Produced and co-hosted a daily livestream show for years.",
+        "Frequently operates as translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives.",
         "Published frameworks: SNAP Methodology, Engineering Trust series, Signals & Subtractions (weekly field notes on AI adoption and L&D transformation).",
       ],
       aiContext: {
@@ -95,12 +100,15 @@ export const samProfile = {
   skills: {
     strong: [
       "L&D systems at scale",
-      "Manager and leader development",
       "Certification program design",
+      "Developer education and technical enablement",
+      "Manager and leader development",
       "AI-enabled learning experience design",
+      "Agentic tooling infrastructure (local LLMs, multi-model orchestration)",
+      "End-to-end video production (pre-prod → studio direction → post → distribution → DRM)",
+      "Cross-functional translation (engineering ↔ legal ↔ sales ↔ community)",
       "Productizing consulting offerings",
       "Performance consulting (not classroom training)",
-      "Pipeline orchestration across stakeholders",
     ],
     moderate: [
       "Founder-led sales in regulated industries",
@@ -114,6 +122,15 @@ export const samProfile = {
       "Direct GRC / CISO career path",
     ],
   },
+
+  // Sam's stated approach to credential / certification program design.
+  // From the CertDev resume. Pull-quotable when asked about cert philosophy.
+  credentialPhilosophy: [
+    "Design for demonstrated mastery rather than content exposure.",
+    "Anchor competency definitions in observable behavior.",
+    "Prefer performance-based assessment over multiple-choice evaluation.",
+    "Build credential systems that can evolve alongside rapidly changing products and partner ecosystems.",
+  ],
 
   // Direct answers to questions a recruiter / hiring manager will ask in the first call.
   // Used by buildSystemPrompt to give AI grounded answers instead of hedging or improvising.
