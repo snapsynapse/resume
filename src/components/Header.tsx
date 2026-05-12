@@ -43,7 +43,7 @@ const Header = ({ onOpenChat }: HeaderProps) => {
     >
       <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <a
-          href="https://sam-rogers.com"
+          href="https://sam-rogers.com/"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Sam Rogers — main site"
@@ -77,6 +77,9 @@ const Header = ({ onOpenChat }: HeaderProps) => {
         {/* Mobile menu button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-navigation"
           className="md:hidden p-2 text-muted-foreground hover:text-foreground"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -85,7 +88,7 @@ const Header = ({ onOpenChat }: HeaderProps) => {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-card border-b border-border animate-slide-down">
+        <div id="mobile-navigation" className="md:hidden bg-card border-b border-border animate-slide-down">
           <div className="px-6 py-4 space-y-4">
             <button
               onClick={() => scrollToSection("experience")}

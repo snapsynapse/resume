@@ -393,7 +393,6 @@ There's a second, longer-arc failure too: from 2018 to 2025 Sam bet the consulti
 
 // Legacy two-example stubs from the demo template. FitAssessment now uses /api/analyze-fit
 // with real JD input — kept here only as reference for shape. Not imported anywhere.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _legacyFitAssessmentsReference = {
   strong: {
     verdict: "strong" as const,

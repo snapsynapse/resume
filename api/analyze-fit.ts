@@ -194,7 +194,6 @@ export default async function handler(req: Request): Promise<Response> {
       output_config: {
         format: {
           type: "json_schema",
-          name: "fit_assessment",
           schema: fitSchema,
         },
       },

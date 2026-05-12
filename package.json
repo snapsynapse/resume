@@ -10,6 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "eval:prompts": "node scripts/eval-prompts.mjs",
     "test:watch": "vitest"
   },
   "dependencies": {

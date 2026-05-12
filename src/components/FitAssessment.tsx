@@ -88,9 +88,12 @@ const FitAssessment = () => {
                 <FileText className="w-4 h-4 text-accent" />
               </div>
               <span className="text-muted-foreground text-sm">
-                Paste the full job description (50–8000 characters)
+                Paste the full job description (50-8000 characters)
               </span>
             </div>
+            <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
+              Job descriptions are sent to the AI provider for analysis and are not intentionally stored by this app. For confidential roles, email sam@sam-rogers.com instead.
+            </p>
             <textarea
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
@@ -98,8 +101,13 @@ const FitAssessment = () => {
               disabled={analyzing}
               rows={10}
               maxLength={MAX_JD_LENGTH}
+              aria-label="Job description"
+              aria-describedby="jd-privacy-note"
               className="w-full bg-secondary rounded-xl p-4 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-none transition-colors disabled:opacity-50 resize-y font-mono leading-relaxed"
             />
+            <span id="jd-privacy-note" className="sr-only">
+              Job descriptions are sent to the AI provider for analysis and are not intentionally stored by this app.
+            </span>
             <div className="flex items-center justify-between mt-3">
               <span className="text-xs text-muted-foreground">
                 {jobDescription.length} / {MAX_JD_LENGTH} characters
