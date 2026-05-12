@@ -55,7 +55,7 @@ export const samProfile = {
       role: "President & Principal Consultant",
       period: "2004–Present",
       highlights: [
-        "Built and led the first YouTube Certified Online Training Program at Google (2013–2014): wrote scripts, directed shoots and post-production, produced the certification exam, stood up the LMS.",
+        "Built and led the first YouTube Certified Online Training Program at Google (2013–2014). Co-produced 90 videos in 8 weeks, replacing a classroom program that certified ~1,000 partners/year. The online program reached ~10,000 in year one — 10x scale at lower marginal cost. Owned scripting, direction, production, post-production, certification exam, and LMS standup.",
         "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
         "Subject matter expert witness in litigation involving YouTube platform mechanics and training content, retained on both plaintiff and defense sides across separate cases.",
         "Created initial technical training programs for StrongLoop supporting developer platform adoption.",
@@ -69,7 +69,7 @@ export const samProfile = {
         approach:
           "Most people building this start with content, then retrofit assessment and infrastructure later. That sequencing fails because the assessment determines what the content has to teach, and the LMS determines what kinds of assessment are even possible. I started with assessment design and worked backward through curriculum, then production, then LMS.",
         technicalWork:
-          "Led the build from scripts through post-production through certification exam through LMS. Held the seams between content people, assessment people, and LMS people — the place where each function usually disagrees about whose constraint binds.",
+          "Led the build from scripts through post-production through certification exam through LMS. Held the seams between content people, assessment people, and LMS people — the place where each function usually disagrees about whose constraint binds. As Sam puts it: 'I didn't just take the test; I made the test.'",
         lessonsLearned:
           "Certification programs fail at the seams between functions, not at the work each function does. The job of the lead is to make the seams legible, not to do anyone else's job better than they would.",
       },
