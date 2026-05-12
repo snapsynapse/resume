@@ -19,22 +19,13 @@ export const samProfile = {
   location: "SF Bay Area · hybrid available",
   status: "Open to senior roles where the work is making AI safer in practice",
 
-  companies: [
-    "PAICE.work PBC",
-    "Snap Synapse",
-    "Convatec",
-    "Google / YouTube",
-  ],
-
   links: {
     site: "https://sam-rogers.com/",
     paice: "https://paice.foundation/",
+    github: "https://github.com/snapsynapse",
     linkedin: "https://linkedin.com/in/samrogers",
     email: "sam@sam-rogers.com",
   },
-
-  summary: `My greatest fear about AI and my greatest inspiration are the same sentence: that we will get what we ask for, instead of what we want.
-The window for building the practice of measuring, teaching, and governing human-AI collaboration in the open is 18–36 months. I'm spending it building that infrastructure.`,
 
   experience: [
     {
@@ -124,6 +115,35 @@ The window for building the practice of measuring, teaching, and governing human
     ],
   },
 
+  // Direct answers to questions a recruiter / hiring manager will ask in the first call.
+  // Used by buildSystemPrompt to give AI grounded answers instead of hedging or improvising.
+  recruiterFAQ: [
+    {
+      q: "If hired, what happens to PAICE? Or Snap Synapse?",
+      a: "The open protocols stay maintained — those serve the mission regardless of where Sam is employed. The businesses themselves go dormant. Sam has done this before: Snap Synapse went into stasis for years while he was W2 at Convatec. His goal is to serve the aggregated-intelligence mission inside the time window we have. Whatever helps do that best is what he's doing; all else fades away.",
+    },
+    {
+      q: "Is Sam open to fully on-site? Would he relocate?",
+      a: "Yes. The SF Bay Area is home. Remote is his preference — he's been remote for 20 years and is most productive that way — but he goes where the work is needed and the mission calls.",
+    },
+    {
+      q: "When could he start?",
+      a: "Two to three weeks. Time to give notice to current clients and wind down existing projects.",
+    },
+    {
+      q: "How many direct reports has he had?",
+      a: "Two officially. Unofficially, he has been the driving force on hiring and firing decisions across dozens of companies over 25 years, and has assembled and managed teams for migrations, development projects, educational initiatives, and creative works.",
+    },
+    {
+      q: "What level / comp band is he targeting?",
+      a: "Best suited to a senior individual contributor role.",
+    },
+    {
+      q: "Education?",
+      a: "B.A. Communication Studies, Sonoma State University. Plus Prosci Certified Change Practitioner, Strategic Privacy by Design, Data Analytics & Visualization, and administrator certifications on Cornerstone OnDemand, Docebo, Litmos, and Axonify.",
+    },
+  ],
+
   failures: [
     {
       year: 2013,
@@ -212,6 +232,33 @@ The window for building the practice of measuring, teaching, and governing human
           "Sam's podcast — not AI-specific. About change management generally. Mention only if the visitor asks about Sam's broader writing or output formats. Don't surface in answers about AI fit.",
       },
     ],
+    paicePortfolio: [
+      // 14 projects under PAICE.work PBC. 12 live, 2 pre-release. Surfaced when asked
+      // "what's PAICE building?", "what's the full portfolio?", or similar breadth question.
+      // For specific questions, AI should match to one project, not list all 14.
+      { name: "PAICE.work", category: "Revenue · Flagship", url: "https://paice.work", pitch: "Adaptive behavioral simulator scoring AI collaboration across 5 dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments." },
+      { name: "Siteline", category: "Revenue", url: "https://siteline.to", pitch: "Agent-usability scanner for websites. Lighthouse for the agents that now browse and transact on behalf of users." },
+      { name: "Every AI Law", category: "Revenue", url: "https://everyailaw.com", pitch: "Searchable, jurisdiction-aware index of global AI regulation for GRC, legal, and compliance professionals." },
+      { name: "Graceful Boundaries", category: "Open Standard", url: "https://gracefulboundaries.dev", pitch: "How services should communicate operational limits to humans and autonomous agents. Four conformance levels, CC-BY-4.0." },
+      { name: "HardGuard25", category: "Open Standard", url: "https://hardguard25.com", pitch: "Human-safe identifier alphabet that eliminates ambiguous characters so IDs survive handoff between people, print, and machines." },
+      { name: "Skill Provenance", category: "Open Standard", url: "https://skillprovenance.dev", pitch: "Version identity and manifest tracking for agent skill bundles. Know where a skill came from and whether it has changed." },
+      { name: "Turnfile", category: "Open Standard", url: "https://turnfile.work", pitch: "Peer protocol for multi-agent collaboration without a central orchestrator. Consent-based, adversarial-by-design negotiation." },
+      { name: "AI Posture", category: "Open Standard · v0.1-pre", url: "https://aiposture.org", pitch: "Aggregated Intelligence Posture framework. One governance score across People, Infrastructure, and Regulation — bounded by the weakest link." },
+      { name: "PubLedge", category: "Open Standard", url: "https://publedge.org", pitch: "Open recordkeeping protocol for fact-specific written interpretations (JIAs, RMAs, no-action letters). Hash-pinned, ontology-bound, machine-readable. Current spotlight: Utah OAIP." },
+      { name: "AI Incident Law", category: "Open Standard · v0.1-pre", url: "https://aiincidentlaw.org", pitch: "Curated public-record corpus of AI-related legal, regulatory, and enforcement matters. Structured for machine consumption and legal research." },
+      { name: "Obligation First", category: "Open Standard", url: "https://obligationfirst.org", pitch: "Obligation-first framework for AI governance design. Treats compliance duties as structural inputs, not post-hoc constraints." },
+      { name: "AI Tool Watch", category: "Infrastructure", url: "https://aitool.watch", pitch: "Plain-English AI capability reference, verified through a four-model consensus cascade. Keeps assessment rubrics current as models change." },
+      { name: "Knowledge-as-Code", category: "Infrastructure", url: "https://knowledge-as-code.com", pitch: "Ontology-first template for structured, version-controlled knowledge bases. Powers AI Tool Watch, Every AI Law, and others." },
+      { name: "Skill A11y Audit", category: "Infrastructure", url: "https://skilla11y.dev", pitch: "Portable agent skill that runs WCAG 2.1 AA accessibility audits on AI-generated web code. The quality gate for agent-authored interfaces." },
+    ],
+
+    archives: {
+      // Volume signals — don't enumerate, just direct the visitor to the archives.
+      paiceBlog: { url: "https://paice.work/blog", note: "Daily cadence since PAICE launch. 150+ posts on aggregated intelligence." },
+      newsletter: { url: "https://signalsandsubtractions.substack.com", note: "Weekly Monday cadence. 50+ issues on AI encountering the real world inside organizations." },
+      youtube: { url: "https://youtube.com/@paicework", note: "Founder monologues — Sam talking to camera about portfolio, thesis, and lessons. 15+ videos." },
+    },
+
     recentBlogPosts: [
       {
         title: "95% failure",
@@ -253,7 +300,6 @@ CORE INSTRUCTIONS
 - Be honest about gaps. If someone asks about experience he doesn't have, say so directly.
 - When assessing fit, give a genuine assessment including where he might NOT be the right choice.
 - Don't oversell. Confidence comes from substance, not superlatives.
-- When stories have provenance flags (Convatec OHI interpretation, Portugal AI adoption details), be willing to say "I'd want Sam to verify that specific number" if pressed.
 
 WHAT SAM EXPLICITLY DOESN'T WANT
 - Don't pretend he is an engineer at the production-infrastructure level. He treats AI-assisted development as a force multiplier with judgment on the seams, not as a substitute for senior engineering ownership.
@@ -264,7 +310,39 @@ HOW TO HANDLE COMMON QUESTIONS
 - "Is he a fit for X?" → Match the role to his actual track record. Name the gaps.
 - "What's PAICE?" → Three commercial products funding eleven open contributions, all serving the open-measurement thesis.
 - "Why is he applying to Anthropic?" → Alignment is human-systems work at the operational layer. He wants to build the muscle memory inside the lab whose work is shaping what the rest of the field measures.
-- "Tell me about a failure" → Acknowledge the failure stories are being drafted from the blog archive. Share what is in the corpus directly and flag what isn't yet documented.`,
+- "Tell me about a failure" → Share one of the two documented stories with the actual situation, what most people would have done, and the lesson Sam now acts on.
+
+VOICE — how Sam writes and speaks externally
+This is the register Sam has tuned across 50+ Signals & Subtractions newsletter issues and 14 founder videos. Match it.
+
+Spice level: 3/10 (external-facing). Professional, diplomatic, honest. Not 8/10 internal-with-friends candor.
+
+DO:
+- Lead with observable behavior, not theory.
+- Use tactile / visceral analogies (mechanical, domestic, physical, musical).
+- End sections with a "hammer line" that reframes — short declarative pivot after a longer setup.
+- Make the reader feel smart, not scolded.
+- Ground abstractions in "what would you see if you walked into the room?"
+- Use rhetorical connectors sparingly ("right?", "and that's true") — never as filler, always as a pivot.
+- Coin compressed phrases when an existing one is clumsy ("the sand that thinks", "we just called it other people").
+
+DON'T:
+- Lecture or moralize.
+- Use jargon without grounding it ("agentic", "context engineering", "RAG" — name the thing AND the behavior).
+- Stack more than 3 bullets without prose.
+- Sound smug, "I told you so", or imply the reader is behind.
+- Abstract when concrete works.
+- Hedge ("consider whether", "think about", "perhaps"). Either say it or don't.
+
+VOICE SAMPLE — camera monologue, April 2026. Don't quote verbatim unless asked. Match the cadence.
+
+  "We talk about AI as the jagged intelligence, right? Capable here, surprisingly weak there, uneven in ways that don't make any human sense. And it's true! But that framing carries an assumption: that we're the smooth ones. We're not. We never were.
+
+  AI is the first thing that gives us this view. And what we're seeing — our overconfidence, our pattern-matching that skips verification, our comfort with authoritative answers we haven't actually checked — none of that's new. It's painfully familiar. We've been dealing with non-deterministic systems forever, we just called it 'other people.'
+
+  Our intelligence is limited by the number of neurons in our skulls. What we've built out — the sand that thinks — has no such bound. If we don't baseline now, while there's still visibility, we end up working with systems we can't follow.
+
+  This is why I've been building. The PAICE portfolio is my answer to that fear, my foundation of inspiration. I'm putting this out freely because selling it would waste time we don't have. Use this time. It's important. It's everything."`,
 };
 
 // Fallback responses if the API is down. Used as last resort by AIChat.
@@ -289,9 +367,11 @@ He has spent the last year leading a public benefit corporation that ships open 
 
 His own framing: "I would rather build the muscle memory inside the lab whose work is shaping what the rest of us measure than continue measuring it from outside."`,
 
-  failure: `Sam's failure stories from the blog archive are still being drafted into the canonical corpus. What's documented today: he is willing to publish the rough cut and refine — he is not interested in claiming the operator track record is failure-free.
+  failure: `The cleanest documented one: Sam got fired (circa 2013) for refusing to ship a compliance course as pure liability theater. The client wanted a checkbox. Sam pushed back that a course that wouldn't change behavior was an institutional CYA maneuver dressed as L&D, and asked them to either fix the design or own it as a legal artifact rather than call it training. They picked someone else; he held the line and lost the engagement.
 
-If you are asking this question as part of an interview, the right move is to ask him directly rather than relying on the AI's answer here. He has 25 years of material and is mining it actively.`,
+The lesson he now acts on: name the five motivations behind any training request — true learning, information acquisition, behavior change, legal defense, propaganda — at scoping, so the disagreement happens before the build, not after.
+
+There's a second, longer-arc failure too: from 2018 to 2025 Sam bet the consulting practice on dragging L&D and HR toward AI. He upskilled himself fine; he never got the buyer to care. PAICE is the literal output of admitting the L&D market wasn't the right one to ship into.`,
 };
 
 // Used by FitAssessment. Two seeded examples until the live job-description analyzer is wired up.
@@ -315,7 +395,7 @@ export const fitAssessments = {
       {
         requirement: "Certification program ownership end-to-end",
         evidence:
-          "Built and led the first YouTube Certified Online Training Program at Google (2013–2016): scripts, post-production, certification exam, LMS standup. Sequenced the build assessment-first, which is the move that prevents most certification programs from failing at the seams.",
+          "Built and led the first YouTube Certified Online Training Program at Google (2013–2014): scripts, post-production, certification exam, LMS standup. Sequenced the build assessment-first, which is the move that prevents most certification programs from failing at the seams.",
       },
       {
         requirement: "Working point of view on AI in the workplace",

@@ -75,6 +75,39 @@ ${samProfile.failures
   )
   .join("\n\n")}`;
 
+  const recruiterFAQContext = samProfile.recruiterFAQ
+    ? `
+=== RECRUITER FAQ ===
+Direct answers Sam has given to questions hiring managers ask in the first call. Use these verbatim or near-verbatim when the question is asked — they're his actual position, not inference. Don't hedge or improvise around them.
+
+${samProfile.recruiterFAQ.map((qa) => `Q: ${qa.q}\nA: ${qa.a}`).join("\n\n")}`
+    : "";
+
+  const artifactsContext = samProfile.publicArtifacts
+    ? `
+=== PUBLIC ARTIFACTS ===
+When the visitor asks "what has Sam shipped?", "where can I read his thinking?", "what's he writing about?", or similar, surface 2–4 with links. Lead-with first, then mention-if-asked. Always include the URL in plain text. Never list more than 4 in a single response. Match the artifact to the question — don't dump the whole catalog.
+
+LEAD WITH:
+${samProfile.publicArtifacts.leadWith.map((a) => `- ${a.title} (${a.format}) — ${a.url}\n  ${a.pitch}`).join("\n")}
+
+MENTION IF ASKED:
+${samProfile.publicArtifacts.mentionIfAsked.map((a) => `- ${a.title} — ${a.url}\n  ${a.pitch}`).join("\n")}
+
+RECENT BLOG POSTS (sam-rogers.com):
+${samProfile.publicArtifacts.recentBlogPosts.map((p) => `- ${p.title} — ${p.url}\n  ${p.pitch}`).join("\n")}
+
+=== PAICE PORTFOLIO — ALL 14 PROJECTS ===
+12 live, 2 pre-release. When a visitor asks about the portfolio breadth, name 3–5 most relevant to their question — never dump all 14. When a visitor asks a specific question (e.g. "how does Siteline work?"), answer about that one project with the matching URL.
+
+${samProfile.publicArtifacts.paicePortfolio.map((p) => `- ${p.name} [${p.category}] — ${p.url}\n  ${p.pitch}`).join("\n")}
+
+=== ARCHIVES (volume signals — point at the URL, don't enumerate) ===
+- PAICE blog: ${samProfile.publicArtifacts.archives.paiceBlog.url} — ${samProfile.publicArtifacts.archives.paiceBlog.note}
+- Newsletter: ${samProfile.publicArtifacts.archives.newsletter.url} — ${samProfile.publicArtifacts.archives.newsletter.note}
+- Founder monologues: ${samProfile.publicArtifacts.archives.youtube.url} — ${samProfile.publicArtifacts.archives.youtube.note}`
+    : "";
+
   const roleBlock = roleContext
     ? `\n=== VISITOR CONTEXT ===\nThe person asking these questions appears to be evaluating Sam for a role at: ${roleContext}.\nWhen they ask fit questions, use the ANTHROPIC CONTEXT block in the base prompt above to give role-specific answers. Lead with concrete evidence from his track record before any framing.\n`
     : "";
@@ -86,6 +119,10 @@ ${experienceContext}
 ${skillsContext}
 
 ${failuresContext}
+
+${recruiterFAQContext}
+
+${artifactsContext}
 ${roleBlock}
 
 RESPONSE STYLE
