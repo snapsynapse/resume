@@ -9,56 +9,56 @@
 
 @layer base {
   :root {
-    /* Page surfaces */
-    --background: 0 0% 94%;          /* #f0f0f0 page bg */
-    --foreground: 240 8% 14%;        /* #222226 text */
+    /* Pulled from the portrait: vivid cyan background, charcoal-navy suit, clean white. */
 
-    --card: 0 0% 99.6%;              /* #fefefe card bg */
-    --card-foreground: 240 8% 14%;
+    --background: 200 20% 96%;       /* pale cyan-grey — cool harmonic to portrait */
+    --foreground: 220 14% 20%;       /* #2A2F3A suit charcoal */
 
-    --popover: 0 0% 99.6%;
-    --popover-foreground: 240 8% 14%;
+    --card: 0 0% 100%;               /* pure white card */
+    --card-foreground: 220 14% 20%;
 
-    /* Indigo primary — sam-rogers.com active skin */
-    --primary: 213 81% 41%;          /* #1460bd */
-    --primary-foreground: 0 0% 99%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 14% 20%;
 
-    --secondary: 0 0% 91%;           /* #e7e7e7 raised muted bg */
-    --secondary-foreground: 240 8% 14%;
+    /* Primary = deep teal — image cyan dimmed for UI legibility */
+    --primary: 189 75% 39%;          /* #1A95AC */
+    --primary-foreground: 0 0% 100%;
 
-    --muted: 190 5% 86%;             /* #d8dcdd */
-    --muted-foreground: 240 5% 38%;  /* #5b5b65 meta */
+    --secondary: 200 15% 92%;        /* raised cool-grey */
+    --secondary-foreground: 220 14% 20%;
 
-    /* Teal accent for interactive bursts */
-    --accent: 189 90% 30%;           /* #087E96 */
-    --accent-foreground: 0 0% 99%;
+    --muted: 200 12% 88%;
+    --muted-foreground: 220 6% 42%;
+
+    /* Accent = vivid cyan, the actual image background */
+    --accent: 189 75% 48%;           /* #1FBED6 */
+    --accent-foreground: 220 14% 12%;
 
     --destructive: 0 65% 51%;
-    --destructive-foreground: 0 0% 99%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 86%;
-    --input: 0 0% 91%;
-    --ring: 213 81% 41%;
+    --border: 200 12% 86%;
+    --input: 200 15% 92%;
+    --ring: 189 75% 48%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens */
-    --surface-elevated: 0 0% 97%;
-    --text-subtle: 240 5% 45%;
-    --text-highlight: 213 70% 30%;
+    --surface-elevated: 0 0% 100%;
+    --text-subtle: 220 6% 48%;
+    --text-highlight: 189 75% 28%;
     --success: 158 64% 35%;
-    --success-muted: 158 50% 90%;
-    --warning: 38 92% 40%;
-    --warning-muted: 38 80% 92%;
+    --success-muted: 158 50% 92%;
+    --warning: 30 85% 45%;
+    --warning-muted: 30 70% 93%;
 
-    --sidebar-background: 0 0% 94%;
-    --sidebar-foreground: 240 8% 14%;
-    --sidebar-primary: 213 81% 41%;
-    --sidebar-primary-foreground: 0 0% 99%;
-    --sidebar-accent: 0 0% 91%;
-    --sidebar-accent-foreground: 240 8% 14%;
-    --sidebar-border: 0 0% 86%;
-    --sidebar-ring: 213 81% 41%;
+    --sidebar-background: 200 20% 96%;
+    --sidebar-foreground: 220 14% 20%;
+    --sidebar-primary: 189 75% 39%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 200 15% 92%;
+    --sidebar-accent-foreground: 220 14% 20%;
+    --sidebar-border: 200 12% 86%;
+    --sidebar-ring: 189 75% 48%;
   }
 }
 
