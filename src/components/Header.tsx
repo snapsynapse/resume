@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import type { MouseEvent } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 interface HeaderProps {
   onOpenChat?: () => void;
@@ -27,11 +28,13 @@ const Header = ({ onOpenChat }: HeaderProps) => {
   const handleSectionLink =
     (id: string) => (event: MouseEvent<HTMLAnchorElement>) => {
       event.preventDefault();
+      track("nav_section_clicked", { section: id });
       scrollToSection(id);
     };
 
   const handleAskAI = () => {
     setMobileMenuOpen(false);
+    track("ai_chat_opened", { source: "header" });
     if (onOpenChat) {
       onOpenChat();
     } else {
@@ -62,28 +65,21 @@ const Header = ({ onOpenChat }: HeaderProps) => {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           <a
-            href="#about"
-            onClick={handleSectionLink("about")}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            About
-          </a>
-          <a
-            href="#experience"
+            href="/experience/"
             onClick={handleSectionLink("experience")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Experience
           </a>
           <a
-            href="#fit-assessment"
+            href="/fit-assessment/"
             onClick={handleSectionLink("fit-assessment")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Analyze Fit
           </a>
           <a
-            href="#contact"
+            href="/contact/"
             onClick={handleSectionLink("contact")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -114,28 +110,21 @@ const Header = ({ onOpenChat }: HeaderProps) => {
         <div id="mobile-navigation" className="md:hidden bg-card border-b border-border animate-slide-down">
           <div className="px-6 py-4 space-y-4">
             <a
-              href="#about"
-              onClick={handleSectionLink("about")}
-              className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
-            >
-              About
-            </a>
-            <a
-              href="#experience"
+              href="/experience/"
               onClick={handleSectionLink("experience")}
               className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
             >
               Experience
             </a>
             <a
-              href="#fit-assessment"
+              href="/fit-assessment/"
               onClick={handleSectionLink("fit-assessment")}
               className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
             >
               Analyze Fit
             </a>
             <a
-              href="#contact"
+              href="/contact/"
               onClick={handleSectionLink("contact")}
               className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
             >

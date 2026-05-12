@@ -34,6 +34,46 @@
       "name": "Sitemap",
       "url": "https://resume.sam-rogers.com/sitemap.xml",
       "type": "sitemap"
+    },
+    {
+      "name": "Full LLM briefing",
+      "url": "https://resume.sam-rogers.com/llms-full.txt",
+      "type": "llms-full.txt"
+    },
+    {
+      "name": "API manifest",
+      "url": "https://resume.sam-rogers.com/api-manifest.json",
+      "type": "api-manifest"
+    },
+    {
+      "name": "Plain text resume",
+      "url": "https://resume.sam-rogers.com/resume.txt",
+      "type": "resume.txt"
+    },
+    {
+      "name": "Site changelog",
+      "url": "https://resume.sam-rogers.com/changelog.txt",
+      "type": "changelog"
+    },
+    {
+      "name": "About Sam Rogers",
+      "url": "https://resume.sam-rogers.com/about/",
+      "type": "profile-section"
+    },
+    {
+      "name": "Sam Rogers experience",
+      "url": "https://resume.sam-rogers.com/experience/",
+      "type": "profile-section"
+    },
+    {
+      "name": "Sam Rogers portfolio",
+      "url": "https://resume.sam-rogers.com/portfolio/",
+      "type": "profile-section"
+    },
+    {
+      "name": "Contact Sam Rogers",
+      "url": "https://resume.sam-rogers.com/contact/",
+      "type": "contact"
     }
   ],
   "interaction_paths": [

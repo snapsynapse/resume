@@ -1,0 +1,587 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+
+const siteUrl = "https://resume.sam-rogers.com";
+const distDir = new URL("../dist/", import.meta.url);
+
+const nav = [
+  ["About", "/about/"],
+  ["Experience", "/experience/"],
+  ["Fit assessment", "/fit-assessment/"],
+  ["Portfolio", "/portfolio/"],
+  ["Contact", "/contact/"],
+];
+
+const person = {
+  "@type": "Person",
+  "@id": `${siteUrl}/#sam-rogers`,
+  name: "Sam Rogers",
+  url: `${siteUrl}/`,
+  email: "mailto:sam@sam-rogers.com",
+  sameAs: [
+    "https://sam-rogers.com/",
+    "https://paice.foundation/",
+    "https://paice.work/",
+    "https://snapsynapse.com/tools/",
+    "https://github.com/snapsynapse",
+    "https://linkedin.com/in/samrogers",
+  ],
+};
+
+const experienceItems = [
+  {
+    name: "PAICE.work PBC",
+    role: "Founder and CEO",
+    startDate: "2025",
+    url: "https://paice.work/",
+    summary:
+      "Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration measurement and governance.",
+  },
+  {
+    name: "Snap Synapse LLC",
+    role: "President and Principal Consultant",
+    startDate: "2004",
+    url: "https://snapsynapse.com/tools/",
+    summary:
+      "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
+  },
+  {
+    name: "Convatec",
+    role: "Global Learning Technology and Analytics Manager",
+    startDate: "2020",
+    endDate: "2022",
+    summary:
+      "Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months and improved global learning infrastructure.",
+  },
+];
+
+const portfolioItems = [
+  ["PAICE Portfolio", "https://paice.foundation/", "Canonical map for Sam's public benefit corporation work."],
+  ["Snap Synapse tools", "https://snapsynapse.com/tools/", "Tools, frameworks, and applied consulting artifacts from Snap Synapse."],
+  ["GitHub profile", "https://github.com/snapsynapse", "Additional repositories and experiments."],
+  ["PAICE.work", "https://paice.work/", "Adaptive behavioral simulator for human-AI collaboration measurement."],
+  ["Siteline", "https://siteline.to/", "Agent-usability scanner for websites."],
+  ["Every AI Law", "https://everyailaw.com/", "Jurisdiction-aware index of global AI regulation."],
+  ["AI Posture", "https://aiposture.org/", "Governance score across people, infrastructure, and regulation."],
+  ["Graceful Boundaries", "https://gracefulboundaries.dev/", "Operational limit communication for humans and agents."],
+  ["Skill Provenance", "https://skillprovenance.dev/", "Version identity and manifest tracking for agent skill bundles."],
+  ["Turnfile", "https://turnfile.work/", "Peer protocol for multi-agent collaboration."],
+  ["Knowledge-as-Code", "https://knowledge-as-code.com/", "Ontology-first template for structured knowledge bases."],
+  ["PubLedge", "https://publedge.org/", "Public recordkeeping protocol for written interpretations."],
+  ["AI Incident Law", "https://aiincidentlaw.org/", "Corpus of AI-related legal, regulatory, and enforcement matters."],
+  ["Obligation First", "https://obligationfirst.org/", "Obligation-first framework for AI governance design."],
+];
+
+const pages = [
+  {
+    slug: "about",
+    title: "About Sam Rogers - Talent Development and AI Governance",
+    description:
+      "About Sam Rogers: talent development leader, founder of PAICE.work PBC, and builder of human-AI collaboration measurement infrastructure.",
+    heading: "About Sam Rogers",
+    body: [
+      {
+        heading: "Profile",
+        paragraphs: [
+          "Sam Rogers is a talent development leader with 25 years building learning and development systems that move capability into practice.",
+          "He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration.",
+          "He also runs Snap Synapse LLC, the consulting practice behind technical enablement, certification, and learning systems work for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, ADP, and Convatec.",
+        ],
+      },
+      {
+        heading: "Why roles now",
+        paragraphs: [
+          "The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.",
+          "PAICE.work and Snap Synapse are vehicles for that work, not the point of the work. They exist because the next phase of talent development, AI governance, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.",
+          "Sam is open to roles where the work advances Aggregated Intelligence at speed and scale: learning systems, certification, enablement, behavioral measurement, or governance infrastructure that helps people and AI collaborate more safely in practice.",
+        ],
+      },
+      {
+        heading: "Role Targets",
+        list: [
+          "Talent development and enablement leadership",
+          "Certification development",
+          "Developer education",
+          "L&D systems architecture",
+          "Learning engineering",
+          "AI governance enablement",
+          "Agentic trust and AI posture measurement",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "experience",
+    title: "Sam Rogers Experience - Learning Systems, Certification, AI Posture",
+    description:
+      "Experience evidence for Sam Rogers across PAICE.work, Snap Synapse, Convatec, Google/YouTube certification, and technical enablement systems.",
+    heading: "Experience",
+    body: [
+      {
+        heading: "PAICE.work PBC - Founder and CEO",
+        paragraphs: [
+          "Built PAICE.work, an adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0-1000 scale.",
+          "Designed AI Posture, an open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.",
+          "Built a portfolio including Siteline, Every AI Law, AI Tool Watch, Skill Provenance, Turnfile, PubLedge, AI Incident Law, Obligation First, and Knowledge-as-Code.",
+        ],
+      },
+      {
+        heading: "Snap Synapse LLC - President and Principal Consultant",
+        paragraphs: [
+          "Built and led the first YouTube Certified Online Training Program at Google, replacing a classroom program that certified about 1,000 partners per year with an online program that reached about 10,000 in year one.",
+          "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
+          "Operates as a translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives.",
+        ],
+      },
+      {
+        heading: "Convatec - Global Learning Technology and Analytics Manager",
+        paragraphs: [
+          "Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.",
+          "Launched an AI-based training platform for global shared services across four countries, reaching more than 80 percent adoption in 30 days from a 200-person Portugal cohort.",
+          "Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "fit-assessment",
+    title: "Analyze Sam Rogers Role Fit",
+    description:
+      "Use the role fit assessment on Sam Rogers' resume to compare a job description against evidence, gaps, transferability, and recommendation.",
+    heading: "Fit Assessment",
+    body: [
+      {
+        heading: "What the fit assessment does",
+        paragraphs: [
+          "The interactive resume includes a fit assessment that accepts a job description and returns an honest role-specific analysis.",
+          "The assessment is designed to identify where Sam Rogers matches the role, where the gaps are, what transfers, and whether proceeding makes sense.",
+          "For confidential roles, email Sam directly rather than submitting sensitive material through the form.",
+        ],
+      },
+      {
+        heading: "Next steps",
+        list: [
+          "Use the interactive form on the homepage at https://resume.sam-rogers.com/#fit-assessment.",
+          "Email Sam Rogers at sam@sam-rogers.com for confidential or high-context role discussions.",
+          "Book a meeting at https://cal.com/paice when there is a plausible fit.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "portfolio",
+    title: "Sam Rogers Portfolio - PAICE.work, Siteline, Every AI Law",
+    description:
+      "Portfolio map for Sam Rogers, including PAICE.work, Siteline, Every AI Law, AI Posture, and related open standards.",
+    heading: "Portfolio",
+    body: [
+      {
+        heading: "Portfolio surfaces",
+        paragraphs: [
+          "The PAICE portfolio is available at https://paice.foundation/ and is the canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.",
+          "The Snap Synapse tools portfolio is available at https://snapsynapse.com/tools/ and captures tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.",
+          "Sam's GitHub profile at https://github.com/snapsynapse includes additional repositories and experiments that may not be listed in either portfolio surface.",
+        ],
+      },
+      {
+        heading: "Commercial anchors",
+        list: [
+          "PAICE.work: adaptive behavioral simulator for human-AI collaboration measurement. https://paice.work/",
+          "Siteline: agent-usability scanner for websites. https://siteline.to/",
+          "Every AI Law: jurisdiction-aware index of global AI regulation. https://everyailaw.com/",
+        ],
+      },
+      {
+        heading: "Open standards and infrastructure",
+        list: [
+          "AI Posture: governance score across people, infrastructure, and regulation. https://aiposture.org/",
+          "Graceful Boundaries: operational limit communication for humans and agents. https://gracefulboundaries.dev/",
+          "Skill Provenance: version identity and manifest tracking for agent skill bundles. https://skillprovenance.dev/",
+          "Turnfile: peer protocol for multi-agent collaboration. https://turnfile.work/",
+          "Knowledge-as-Code: ontology-first template for structured knowledge bases. https://knowledge-as-code.com/",
+          "PubLedge: public recordkeeping protocol for written interpretations. https://publedge.org/",
+          "AI Incident Law: public-record corpus of AI-related legal, regulatory, and enforcement matters. https://aiincidentlaw.org/",
+          "Obligation First: obligation-first framework for AI governance design. https://obligationfirst.org/",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "contact",
+    title: "Contact Sam Rogers",
+    description:
+      "Contact Sam Rogers by email, calendar booking, LinkedIn, GitHub, or portfolio sites for hiring, advisory, or collaboration inquiries.",
+    heading: "Contact Sam Rogers",
+    body: [
+      {
+        heading: "Direct handoff paths",
+        paragraphs: [
+          "Email Sam Rogers at sam@sam-rogers.com for hiring, advisory, or collaboration inquiries.",
+          "Book a meeting with Sam Rogers at https://cal.com/paice.",
+        ],
+      },
+      {
+        heading: "Public profiles",
+        list: [
+          "Personal site: https://sam-rogers.com/",
+          "PAICE Portfolio: https://paice.foundation/",
+          "PAICE.work: https://paice.work/",
+          "Snap Synapse: https://snapsynapse.com/",
+          "LinkedIn: https://linkedin.com/in/samrogers",
+          "GitHub: https://github.com/snapsynapse",
+        ],
+      },
+    ],
+  },
+];
+
+function escapeHtml(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function linkify(text) {
+  return escapeHtml(text)
+    .replaceAll("sam@sam-rogers.com", '<a href="mailto:sam@sam-rogers.com">sam@sam-rogers.com</a>')
+    .replace(/https:\/\/[a-zA-Z0-9./-]+/g, (url) => `<a href="${url}">${url}</a>`);
+}
+
+function renderBody(sections) {
+  return sections
+    .map((section) => {
+      const id = section.heading.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const paragraphs = section.paragraphs
+        ? section.paragraphs.map((paragraph) => `<p>${linkify(paragraph)}</p>`).join("\n")
+        : "";
+      const list = section.list
+        ? `<ul>${section.list.map((item) => `<li>${linkify(item)}</li>`).join("")}</ul>`
+        : "";
+      return `<section aria-labelledby="${id}">
+        <h2 id="${id}">${escapeHtml(section.heading)}</h2>
+        ${paragraphs}
+        ${list}
+      </section>`;
+    })
+    .join("\n");
+}
+
+function itemList(name, items) {
+  return {
+    "@type": "ItemList",
+    name,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item,
+    })),
+  };
+}
+
+function routeStructuredData(page, canonical) {
+  const graph = [
+    person,
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: page.title,
+      description: page.description,
+      about: { "@id": person["@id"] },
+      mainEntity: { "@id": person["@id"] },
+    },
+  ];
+
+  if (page.slug === "experience") {
+    graph.push(
+      itemList(
+        "Sam Rogers experience",
+        experienceItems.map((item) => ({
+          "@type": "OrganizationRole",
+          roleName: item.role,
+          startDate: item.startDate,
+          endDate: item.endDate,
+          description: item.summary,
+          memberOf: {
+            "@type": "Organization",
+            name: item.name,
+            ...(item.url ? { url: item.url } : {}),
+          },
+        })),
+      ),
+    );
+  }
+
+  if (page.slug === "portfolio") {
+    graph.push(
+      itemList(
+        "Sam Rogers portfolio surfaces and projects",
+        portfolioItems.map(([name, url, description]) => ({
+          "@type": "CreativeWork",
+          name,
+          url,
+          description,
+          creator: { "@id": person["@id"] },
+        })),
+      ),
+    );
+  }
+
+  if (page.slug === "contact") {
+    graph.push({
+      "@type": "ContactPoint",
+      "@id": `${canonical}#contact`,
+      name: "Sam Rogers contact",
+      email: "sam@sam-rogers.com",
+      url: "https://cal.com/paice",
+      contactType: "recruiting, advisory, and collaboration inquiries",
+      availableLanguage: "en",
+    });
+  }
+
+  if (page.slug === "fit-assessment") {
+    graph.push({
+      "@type": "WebApplication",
+      "@id": `${siteUrl}/#fit-assessment`,
+      name: "Sam Rogers role fit assessment",
+      url: `${siteUrl}/#fit-assessment`,
+      applicationCategory: "RecruitingApplication",
+      description:
+        "Interactive tool for comparing a job description against Sam Rogers' experience, evidence, gaps, and transferability.",
+      creator: { "@id": person["@id"] },
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
+  };
+}
+
+function renderPage(page) {
+  const canonical = `${siteUrl}/${page.slug}/`;
+  const navHtml = nav
+    .map(([label, href]) => `<a href="${href}">${label}</a>`)
+    .join("");
+  const jsonLd = routeStructuredData(page, canonical);
+
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(page.title)}</title>
+    <meta name="description" content="${escapeHtml(page.description)}" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="canonical" href="${canonical}" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM briefing for Sam Rogers resume" />
+    <meta property="og:title" content="${escapeHtml(page.title)}" />
+    <meta property="og:description" content="${escapeHtml(page.description)}" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="${canonical}" />
+    <meta property="og:image" content="${siteUrl}/imgs/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${escapeHtml(page.title)}" />
+    <meta name="twitter:description" content="${escapeHtml(page.description)}" />
+    <meta name="twitter:image" content="${siteUrl}/imgs/og.png" />
+    <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+      :root {
+        color-scheme: light;
+        --background: hsl(200 20% 96%);
+        --foreground: hsl(220 14% 20%);
+        --card: hsl(0 0% 100%);
+        --primary: hsl(189 75% 39%);
+        --primary-foreground: hsl(0 0% 100%);
+        --secondary: hsl(200 15% 92%);
+        --muted-foreground: hsl(220 6% 42%);
+        --accent: hsl(189 75% 48%);
+        --accent-foreground: hsl(220 14% 12%);
+        --border: hsl(200 12% 86%);
+        --success: hsl(158 64% 35%);
+        --font-serif: 'Source Serif 4', 'Source Serif', Georgia, serif;
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--foreground);
+        background: var(--background);
+        font-family: var(--font-sans);
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 80% 8%, hsl(189 75% 48% / 0.12), transparent 28rem),
+          linear-gradient(180deg, hsl(0 0% 100% / 0.65), transparent 24rem);
+      }
+      header, main, footer {
+        position: relative;
+        width: min(100%, 72rem);
+        margin: 0 auto;
+        padding-inline: 1.5rem;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding-block: 1rem;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 1.25rem;
+        order: 2;
+      }
+      nav a, .brand {
+        color: var(--muted-foreground);
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: color 160ms ease;
+      }
+      nav a:hover, .brand:hover { color: var(--foreground); }
+      .brand {
+        color: var(--foreground);
+        font-family: var(--font-serif);
+        font-size: 1.25rem;
+      }
+      main { padding-block: 5rem 4rem; }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 999px;
+        background: var(--secondary);
+        color: var(--muted-foreground);
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+      }
+      .eyebrow::before {
+        content: "";
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 999px;
+        background: var(--success);
+      }
+      h1, h2 {
+        color: var(--foreground);
+        font-family: var(--font-serif);
+        font-weight: 600;
+        line-height: 1.08;
+      }
+      h1 {
+        max-width: 54rem;
+        font-size: clamp(3.25rem, 9vw, 7rem);
+        margin: 2rem 0 1.25rem;
+        letter-spacing: 0;
+      }
+      h2 {
+        font-size: clamp(1.7rem, 4vw, 2.5rem);
+        margin: 0 0 1rem;
+      }
+      p {
+        max-width: 64rem;
+        margin: 0.75rem 0 0;
+        color: var(--muted-foreground);
+        font-size: 1.05rem;
+      }
+      a { color: var(--primary); }
+      section {
+        margin-top: 1.25rem;
+        padding: 1.5rem;
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        background: hsl(0 0% 100% / 0.9);
+        box-shadow: 0 18px 48px hsl(220 14% 20% / 0.06);
+      }
+      section:first-of-type { margin-top: 2.5rem; }
+      ul {
+        display: grid;
+        gap: 0.75rem;
+        margin: 1rem 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      li {
+        position: relative;
+        padding-left: 1.35rem;
+        color: var(--muted-foreground);
+      }
+      li::before {
+        content: "->";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+      }
+      .home {
+        margin-top: 2rem;
+      }
+      .home a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 3rem;
+        border-radius: 0.75rem;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        padding: 0.75rem 1.25rem;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 18px 36px hsl(189 75% 39% / 0.18);
+      }
+      footer {
+        border-top: 1px solid var(--border);
+        padding-block: 2rem 3rem;
+      }
+      address {
+        color: var(--muted-foreground);
+        font-style: normal;
+      }
+      @media (max-width: 720px) {
+        header { align-items: flex-start; flex-direction: column; }
+        nav { order: 0; }
+        main { padding-block-start: 3rem; }
+        h1 { font-size: clamp(2.75rem, 16vw, 4.5rem); }
+        section { padding: 1.25rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav aria-label="Resume pages">${navHtml}</nav>
+      <a class="brand" href="/">SR</a>
+    </header>
+    <main>
+      <div class="eyebrow">Static profile page</div>
+      <h1>${escapeHtml(page.heading)}</h1>
+      ${renderBody(page.body)}
+      <p class="home"><a href="/#${page.slug === "about" ? "about" : page.slug}">Open the interactive resume section</a></p>
+    </main>
+    <footer>
+      <address>
+        Email <a href="mailto:sam@sam-rogers.com">sam@sam-rogers.com</a> or book a meeting at <a href="https://cal.com/paice">https://cal.com/paice</a>.
+      </address>
+    </footer>
+  </body>
+</html>
+`;
+}
+
+for (const page of pages) {
+  const pageDir = join(distDir.pathname, page.slug);
+  await mkdir(pageDir, { recursive: true });
+  await writeFile(join(pageDir, "index.html"), renderPage(page), "utf8");
+}
+
+console.log(`Generated ${pages.length} static crawl pages.`);

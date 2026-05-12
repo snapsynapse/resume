@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FileText, Check, AlertTriangle, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 type Verdict = "strong" | "moderate" | "weak";
 
@@ -32,6 +33,7 @@ const FitAssessment = () => {
     setAnalyzing(true);
     setResult(null);
     setError(null);
+    track("fit_assessment_started", { descriptionLength: jd.length });
 
     try {
       const res = await fetch("/api/analyze-fit", {
@@ -49,13 +51,16 @@ const FitAssessment = () => {
         } else {
           setError(data.error || `Server returned HTTP ${res.status}.`);
         }
+        track("fit_assessment_failed", { status: res.status });
         return;
       }
 
       const data: FitResult = await res.json();
       setResult(data);
+      track("fit_assessment_completed", { verdict: data.verdict });
     } catch (err) {
       setError("Something went wrong. Email sam@sam-rogers.com with the JD and I'll review it manually.");
+      track("fit_assessment_failed", { status: "network" });
       console.error(err);
     } finally {
       setAnalyzing(false);

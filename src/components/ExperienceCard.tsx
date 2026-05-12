@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 
 interface AIContext {
   situation: string;
@@ -27,6 +28,10 @@ const ExperienceCard = ({
   index,
 }: ExperienceCardProps) => {
   const [expanded, setExpanded] = useState(false);
+  const handleToggle = () => {
+    track("experience_context_toggled", { company, expanded: !expanded });
+    setExpanded(!expanded);
+  };
 
   return (
     <article
@@ -57,7 +62,7 @@ const ExperienceCard = ({
 
       {/* AI Context Toggle */}
       <button
-        onClick={() => setExpanded(!expanded)}
+        onClick={handleToggle}
         className="flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors"
       >
         <Sparkles className="w-4 h-4" />

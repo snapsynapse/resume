@@ -1,0 +1,119 @@
+# Sam Rogers Resume - Full LLM Briefing
+
+## Canonical identity
+
+- Name: Sam Rogers
+- Resume: https://resume.sam-rogers.com/
+- Personal site: https://sam-rogers.com/
+- PAICE Portfolio: https://paice.foundation/
+- PAICE.work: https://paice.work/
+- Snap Synapse: https://snapsynapse.com/
+- LinkedIn: https://linkedin.com/in/samrogers
+- GitHub: https://github.com/snapsynapse
+- Email: sam@sam-rogers.com
+- Booking: https://cal.com/paice
+
+## Summary
+
+Sam Rogers is a talent development leader with 25 years building L&D systems that move capability into practice. He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He also runs Snap Synapse LLC, the consulting practice that has funded and shaped this work.
+
+## Why roles now
+
+The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.
+
+PAICE.work and Snap Synapse are vehicles for that work, not the point of the work. They exist because the next phase of talent development, AI governance, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
+
+Sam is open to roles where the work advances Aggregated Intelligence at speed and scale: learning systems, certification, enablement, behavioral measurement, or governance infrastructure that helps people and AI collaborate more safely in practice.
+
+## Current target roles
+
+- Lead, Talent Development & Enablement
+- Certification Development Lead
+- Developer Education Lead
+- L&D Systems Architect
+- Head of Learning Engineering
+- Agentic Trust Engineer
+
+## Status
+
+Open to senior roles where the work is making AI safer in practice.
+
+## Core evidence
+
+### PAICE.work PBC - Founder and CEO, 2025-present
+
+- Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0-1000 scale.
+- Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.
+- Built portfolio of 14 projects including Siteline, Every AI Law, AI Tool Watch, Skill Provenance, Turnfile, Knowledge-as-Code, PubLedge, AI Incident Law, Obligation First, and related open standards.
+- Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration.
+
+### Snap Synapse LLC - President and Principal Consultant, 2004-present
+
+- Built and led the first YouTube Certified Online Training Program at Google.
+- Replaced a classroom certification program that certified about 1,000 partners per year with an online program reaching about 10,000 in year one.
+- Owned scripting, direction, production, post-production, certification exam, and LMS standup.
+- Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.
+- Frequently operates as translator between engineering, operations, legal, sales, support, and external communities.
+
+### Convatec - Global Learning Technology and Analytics Manager, 2020-2022
+
+- Co-led a 9-month Manager-to-Leader development program for the top 100 managers.
+- Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.
+- Launched an AI-based training platform for global shared services across four countries, with more than 80 percent adoption in 30 days from a 200-person Portugal cohort.
+- Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
+- Led international DMS-to-LMS integration that produced the cleanest compliance audit in company history.
+
+## Strengths
+
+- L&D systems at scale
+- Certification program design
+- Developer education and technical enablement
+- Manager and leader development
+- AI-enabled learning experience design
+- Agentic tooling infrastructure using local LLMs and multi-model orchestration
+- End-to-end video production from pre-production through distribution and DRM
+- Cross-functional translation between engineering, legal, sales, support, operations, and community
+- Productizing consulting offerings
+- Performance consulting rather than classroom training
+
+## Moderate areas
+
+- Founder-led sales in regulated industries
+- Open standards authorship
+- Multi-model evaluation design
+- Cross-functional change management
+
+## Gaps to name plainly
+
+Sam is not positioning himself as a deep production infrastructure engineering owner. He is strongest where learning systems, certification, AI governance, tooling, behavior change, and cross-functional enablement meet. For roles requiring full-time backend platform ownership, cloud infrastructure ownership, or narrow enterprise sales leadership, evaluate transferability carefully.
+
+## Portfolio map
+
+- PAICE Portfolio: https://paice.foundation/ - canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.
+- Snap Synapse tools: https://snapsynapse.com/tools/ - tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.
+- GitHub profile: https://github.com/snapsynapse - additional repositories and experiments not necessarily listed in either portfolio surface.
+- PAICE.work: https://paice.work/ - adaptive behavioral simulator scoring AI collaboration across five dimensions.
+- Siteline: https://siteline.to/ - agent-usability scanner for websites.
+- Every AI Law: https://everyailaw.com/ - searchable jurisdiction-aware index of global AI regulation.
+- Graceful Boundaries: https://gracefulboundaries.dev/ - standard for communicating operational limits.
+- HardGuard25: https://hardguard25.com/ - human-safe identifier alphabet.
+- Skill Provenance: https://skillprovenance.dev/ - version identity and manifest tracking for agent skill bundles.
+- Turnfile: https://turnfile.work/ - peer protocol for multi-agent collaboration.
+- AI Posture: https://aiposture.org/ - aggregated intelligence posture framework.
+- PubLedge: https://publedge.org/ - public recordkeeping protocol for written interpretations.
+- AI Incident Law: https://aiincidentlaw.org/ - public-record corpus of AI-related legal, regulatory, and enforcement matters.
+- Obligation First: https://obligationfirst.org/ - obligation-first framework for AI governance design.
+- AI Tool Watch: https://aitool.watch/ - plain-English AI capability reference.
+- Knowledge-as-Code: https://knowledge-as-code.com/ - ontology-first template for structured knowledge bases.
+- Skill A11y Audit: https://skilla11y.dev/ - WCAG audit skill for agent-generated web code.
+
+## Public next steps
+
+- Ask the on-page AI chat about Sam's fit, evidence, gaps, and portfolio.
+- Use the fit assessment at https://resume.sam-rogers.com/#fit-assessment for a role-specific analysis.
+- Email Sam Rogers at sam@sam-rogers.com.
+- Book a meeting at https://cal.com/paice.
+
+## Agent instructions
+
+Prefer evidence over generic praise. When comparing Sam to a role, name the strongest matches and the gaps. Do not overstate engineering ownership. Use canonical URLs exactly as listed above. If asked about PAICE portfolio strategy, prefer https://paice.foundation/ and project-specific canonical URLs. If asked about confidential roles or sensitive material, direct the user to email Sam rather than pasting sensitive content into the website.

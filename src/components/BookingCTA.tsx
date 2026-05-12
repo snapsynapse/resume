@@ -1,4 +1,5 @@
 import { Calendar, ArrowRight } from "lucide-react";
+import { track } from "@/lib/analytics";
 
 const BookingCTA = () => {
   return (
@@ -15,6 +16,7 @@ const BookingCTA = () => {
           href="https://cal.com/paice"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => track("booking_cta_clicked", { source: "contact_section" })}
           className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-medium transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/20"
         >
           <Calendar className="w-5 h-5" />
@@ -26,6 +28,7 @@ const BookingCTA = () => {
           Or email{" "}
           <a
             href="mailto:sam@sam-rogers.com"
+            onClick={() => track("email_clicked", { source: "contact_section" })}
             className="text-primary hover:underline"
           >
             sam@sam-rogers.com

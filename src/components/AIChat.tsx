@@ -4,6 +4,7 @@ import { X, Send, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { demoResponses } from "@/data/sam-profile";
 import { detectRoleContext } from "@/lib/anthropic-detect";
+import { track } from "@/lib/analytics";
 
 interface Message {
   role: "user" | "assistant";
@@ -103,6 +104,12 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
 
   const handleSubmit = async (question: string) => {
     if (!question.trim() || isStreaming || isWaiting) return;
+    const source = messages.length === 0 ? "initial" : "follow_up";
+    track("ai_chat_message_sent", {
+      source,
+      roleContext: roleContext ?? "none",
+      questionLength: question.length,
+    });
     const nextHistory: Message[] = [
       ...messages,
       { role: "user", content: question },
@@ -114,12 +121,18 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     try {
       const response = await streamFromApi(nextHistory);
       setChatMode("live");
+      track("ai_chat_response_received", {
+        mode: "live",
+        source,
+        responseLength: response.length,
+      });
       setIsStreaming(false);
       setStreamingText("");
       setMessages((prev) => [...prev, { role: "assistant", content: response }]);
     } catch (err) {
       console.warn("API call failed, using fallback:", err);
       setChatMode("sample");
+      track("ai_chat_response_failed", { source });
       setIsWaiting(false);
       setIsStreaming(false);
       setStreamingText("");
