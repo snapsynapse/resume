@@ -3,7 +3,17 @@
 
 export const samProfile = {
   name: "Sam Rogers",
-  title: "Talent Development Leader · Founder, PAICE.work PBC",
+  title: "Talent Development Leader",
+  // Rotated in the Hero. Forward-pointing roles only — the roles Sam wants,
+  // not the ones he already holds (those are listed in Experience below).
+  // First item renders pre-hydration, so put the strongest standalone target there.
+  rotatingTitles: [
+    "Lead, Talent Development & Enablement",
+    "Certification Development Lead",
+    "L&D Systems Architect",
+    "Head of Learning Engineering",
+    "Agentic Trust Engineer",
+  ],
   subtitle:
     "25 years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration.",
   location: "SF Bay Area · hybrid available",
