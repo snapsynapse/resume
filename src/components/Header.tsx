@@ -42,12 +42,15 @@ const Header = ({ onOpenChat }: HeaderProps) => {
       )}
     >
       <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <button
-          onClick={() => scrollToSection("hero")}
+        <a
+          href="https://sam-rogers.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Sam Rogers — main site"
           className="font-serif text-xl text-foreground hover:text-primary transition-colors"
         >
           SR
-        </button>
+        </a>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">

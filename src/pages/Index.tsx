@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Experience from "@/components/Experience";
 import FitAssessment from "@/components/FitAssessment";
+import BookingCTA from "@/components/BookingCTA";
 import AIChat from "@/components/AIChat";
 import Footer from "@/components/Footer";
 
@@ -18,6 +19,7 @@ const Index = () => {
         <Hero onOpenChat={openChat} />
         <Experience />
         <FitAssessment />
+        <BookingCTA />
       </main>
       <Footer />
       <AIChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />

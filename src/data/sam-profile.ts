@@ -374,8 +374,10 @@ The lesson he now acts on: name the five motivations behind any training request
 There's a second, longer-arc failure too: from 2018 to 2025 Sam bet the consulting practice on dragging L&D and HR toward AI. He upskilled himself fine; he never got the buyer to care. PAICE is the literal output of admitting the L&D market wasn't the right one to ship into.`,
 };
 
-// Used by FitAssessment. Two seeded examples until the live job-description analyzer is wired up.
-export const fitAssessments = {
+// Legacy two-example stubs from the demo template. FitAssessment now uses /api/analyze-fit
+// with real JD input — kept here only as reference for shape. Not imported anywhere.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _legacyFitAssessmentsReference = {
   strong: {
     verdict: "strong" as const,
     title: "Strong Fit — Let's Talk",

@@ -222,7 +222,7 @@ export default async function handler(req: Request): Promise<Response> {
   const systemPrompt = buildSystemPrompt(body.roleContext ?? null);
 
   try {
-    const response = await client.messages.create({
+    const stream = client.messages.stream({
       model: "claude-opus-4-7",
       max_tokens: 1500,
       system: [
@@ -235,23 +235,33 @@ export default async function handler(req: Request): Promise<Response> {
       messages: messages.map((m) => ({ role: m.role, content: m.content })),
     });
 
-    const textBlock = response.content.find((b) => b.type === "text");
-    const text = textBlock && textBlock.type === "text" ? textBlock.text : "";
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const event of stream) {
+            if (
+              event.type === "content_block_delta" &&
+              event.delta.type === "text_delta"
+            ) {
+              controller.enqueue(encoder.encode(event.delta.text));
+            }
+          }
+          controller.close();
+        } catch (err) {
+          console.error("Stream error:", err);
+          controller.error(err);
+        }
+      },
+    });
 
-    return new Response(
-      JSON.stringify({
-        text,
-        usage: {
-          input_tokens: response.usage.input_tokens,
-          output_tokens: response.usage.output_tokens,
-          cache_read_input_tokens:
-            response.usage.cache_read_input_tokens ?? 0,
-          cache_creation_input_tokens:
-            response.usage.cache_creation_input_tokens ?? 0,
-        },
-      }),
-      { headers: { "Content-Type": "application/json" } },
-    );
+    return new Response(readable, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+      },
+    });
   } catch (error) {
     if (error instanceof Anthropic.RateLimitError) {
       return gracefulBoundary(

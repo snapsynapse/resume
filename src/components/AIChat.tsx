@@ -14,11 +14,18 @@ interface AIChatProps {
   onClose: () => void;
 }
 
-const suggestedQuestions = [
+const defaultSuggestedQuestions = [
   "Would Sam be a fit for a senior L&D or certification role at a frontier AI lab?",
   "What's PAICE and why is it structured as a PBC?",
   "Why is Sam applying to Anthropic specifically?",
   "Tell me about a time the obvious approach would have failed.",
+];
+
+const anthropicSuggestedQuestions = [
+  "If hired at Anthropic, what would happen to PAICE?",
+  "Is Sam a fit for Lead, Talent Development & Enablement?",
+  "Is Sam a fit for Certification Development Lead?",
+  "When could Sam start, and is he open to relocating?",
 ];
 
 // Fallback router used when /api/chat is unavailable (local `vite` dev without `vercel dev`, or upstream failure).
@@ -36,21 +43,12 @@ const fallbackResponse = (question: string): string => {
   return demoResponses.default;
 };
 
-interface ChatResponse {
-  text?: string;
-  error?: string;
-  graceful_boundary?: {
-    message: string;
-    retry_after_seconds: number;
-  };
-}
-
 const AIChat = ({ isOpen, onClose }: AIChatProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
-  const [displayedResponse, setDisplayedResponse] = useState("");
+  const [streamingText, setStreamingText] = useState("");
   const [roleContext, setRoleContext] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -60,45 +58,47 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, displayedResponse]);
+  }, [messages, streamingText]);
 
-  const typeResponse = (response: string) => {
-    setIsTyping(true);
-    setDisplayedResponse("");
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < response.length) {
-        setDisplayedResponse(response.slice(0, i + 1));
-        i++;
-      } else {
-        clearInterval(interval);
-        setIsTyping(false);
-        setMessages((prev) => [...prev, { role: "assistant", content: response }]);
-        setDisplayedResponse("");
-      }
-    }, 8);
-  };
-
-  const callApi = async (history: Message[]): Promise<string> => {
+  const streamFromApi = async (history: Message[]): Promise<string> => {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: history, roleContext }),
     });
 
-    const data: ChatResponse = await res.json().catch(() => ({}));
-
-    if (res.status === 429 && data.graceful_boundary) {
-      return `${data.graceful_boundary.message}\n\n(Rate limit — retry in ~${data.graceful_boundary.retry_after_seconds}s. Or email sam@sam-rogers.com directly.)`;
-    }
-    if (!res.ok || !data.text) {
+    // Rate-limit / error path: server returns JSON with structured error body, not a stream.
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 429 && data.graceful_boundary) {
+        return `${data.graceful_boundary.message}\n\n(Rate limit — retry in ~${data.graceful_boundary.retry_after_seconds}s. Or email sam@sam-rogers.com directly.)`;
+      }
       throw new Error(data.error || `HTTP ${res.status}`);
     }
-    return data.text;
+
+    // Stream path: read text chunks, append to UI as they arrive.
+    if (!res.body) throw new Error("no_response_body");
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let full = "";
+
+    setIsWaiting(false);
+    setIsStreaming(true);
+    setStreamingText("");
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      full += chunk;
+      setStreamingText(full);
+    }
+
+    return full;
   };
 
   const handleSubmit = async (question: string) => {
-    if (!question.trim() || isTyping || isWaiting) return;
+    if (!question.trim() || isStreaming || isWaiting) return;
     const nextHistory: Message[] = [
       ...messages,
       { role: "user", content: question },
@@ -108,13 +108,19 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     setIsWaiting(true);
 
     try {
-      const response = await callApi(nextHistory);
-      setIsWaiting(false);
-      typeResponse(response);
+      const response = await streamFromApi(nextHistory);
+      setIsStreaming(false);
+      setStreamingText("");
+      setMessages((prev) => [...prev, { role: "assistant", content: response }]);
     } catch (err) {
       console.warn("API call failed, using fallback:", err);
       setIsWaiting(false);
-      typeResponse(fallbackResponse(question));
+      setIsStreaming(false);
+      setStreamingText("");
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: fallbackResponse(question) },
+      ]);
     }
   };
 
@@ -147,7 +153,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.length === 0 && !isTyping && !isWaiting && (
+          {messages.length === 0 && !isStreaming && !isWaiting && (
             <div className="h-full flex flex-col items-center justify-center text-center px-6">
               <Sparkles className="w-12 h-12 text-accent mb-4" />
               <h3 className="text-xl font-serif text-foreground mb-2">
@@ -157,7 +163,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
                 Ask specific questions about Sam's experience, skills, or fit for your role. Get honest, detailed answers.
               </p>
               <div className="w-full max-w-md space-y-2">
-                {suggestedQuestions.map((q, i) => (
+                {(roleContext ? anthropicSuggestedQuestions : defaultSuggestedQuestions).map((q, i) => (
                   <button
                     key={i}
                     onClick={() => handleSubmit(q)}
@@ -202,11 +208,11 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
             </div>
           )}
 
-          {isTyping && (
+          {isStreaming && (
             <div className="flex justify-start">
               <div className="max-w-[85%] bg-secondary text-foreground rounded-2xl rounded-bl-md px-4 py-3">
                 <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                  {displayedResponse}
+                  {streamingText}
                   <span className="inline-block w-2 h-4 bg-accent ml-1 animate-typing-cursor" />
                 </p>
               </div>
@@ -230,12 +236,12 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask a follow-up question..."
-              disabled={isTyping || isWaiting}
+              disabled={isStreaming || isWaiting}
               className="flex-1 bg-secondary rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
             />
             <button
               type="submit"
-              disabled={!input.trim() || isTyping || isWaiting}
+              disabled={!input.trim() || isStreaming || isWaiting}
               className="px-4 py-3 bg-accent text-accent-foreground rounded-xl font-medium disabled:opacity-50 hover:opacity-90 transition-opacity"
             >
               <Send className="w-5 h-5" />
