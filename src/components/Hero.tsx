@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { MessageSquare } from "lucide-react";
 import { samProfile } from "@/data/sam-profile";
 
@@ -5,7 +6,20 @@ interface HeroProps {
   onOpenChat: () => void;
 }
 
+const ROTATE_MS = 3000;
+
 const Hero = ({ onOpenChat }: HeroProps) => {
+  const titles = samProfile.rotatingTitles ?? [samProfile.title];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (titles.length < 2) return;
+    const interval = window.setInterval(() => {
+      setIndex((i) => (i + 1) % titles.length);
+    }, ROTATE_MS);
+    return () => window.clearInterval(interval);
+  }, [titles.length]);
+
   return (
     <section
       id="hero"
@@ -24,27 +38,20 @@ const Hero = ({ onOpenChat }: HeroProps) => {
             {samProfile.name}
           </h1>
 
-          {/* Role */}
-          <p className="text-2xl md:text-3xl text-primary font-serif mb-4 animate-slide-up stagger-1">
-            {samProfile.title}
-          </p>
+          {/* Rotating role line — `key` change re-mounts the span so the fade-in animation re-runs */}
+          <div
+            className="text-2xl md:text-3xl text-primary font-serif mb-4 min-h-[2.5rem] md:min-h-[3rem]"
+            aria-live="polite"
+          >
+            <span key={index} className="inline-block animate-fade-in">
+              {titles[index]}
+            </span>
+          </div>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 animate-slide-up stagger-2">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 animate-slide-up stagger-2">
             {samProfile.subtitle}
           </p>
-
-          {/* Company badges */}
-          <div className="flex flex-wrap gap-3 mb-12 animate-slide-up stagger-3">
-            {samProfile.companies.map((company) => (
-              <span
-                key={company}
-                className="px-4 py-2 bg-card border border-border rounded-full text-sm text-foreground"
-              >
-                {company}
-              </span>
-            ))}
-          </div>
 
           {/* CTA Button */}
           <button
