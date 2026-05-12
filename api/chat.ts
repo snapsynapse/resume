@@ -1,9 +1,43 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile";
 
 export const config = { runtime: "edge" };
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+// Two sliding windows. Burst protection + sustained-use cap.
+// Skips silently if Upstash env vars are missing (local dev without `vercel env pull`).
+const hasUpstash =
+  !!process.env.UPSTASH_REDIS_REST_URL &&
+  !!process.env.UPSTASH_REDIS_REST_TOKEN;
+
+const redis = hasUpstash ? Redis.fromEnv() : null;
+
+const burstLimiter = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(5, "60 s"),
+      analytics: true,
+      prefix: "rl:burst",
+    })
+  : null;
+
+const sustainedLimiter = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(50, "1 h"),
+      analytics: true,
+      prefix: "rl:hour",
+    })
+  : null;
+
+function getClientIp(req: Request): string {
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) return xff.split(",")[0].trim();
+  return req.headers.get("x-real-ip") ?? "unknown";
+}
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -85,6 +119,35 @@ function gracefulBoundary(message: string, retryAfterSeconds: number) {
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
+  }
+
+  if (burstLimiter && sustainedLimiter) {
+    const ip = getClientIp(req);
+    const [burst, sustained] = await Promise.all([
+      burstLimiter.limit(ip),
+      sustainedLimiter.limit(ip),
+    ]);
+
+    if (!burst.success) {
+      const retryAfter = Math.max(
+        1,
+        Math.ceil((burst.reset - Date.now()) / 1000),
+      );
+      return gracefulBoundary(
+        "Slow down — you're sending messages faster than the rate limit allows. Try again in a moment.",
+        retryAfter,
+      );
+    }
+    if (!sustained.success) {
+      const retryAfter = Math.max(
+        1,
+        Math.ceil((sustained.reset - Date.now()) / 1000),
+      );
+      return gracefulBoundary(
+        "You've hit the hourly cap for this conversation. The site is rate-limited to keep costs predictable — try again later, or email sam@sam-rogers.com to keep talking.",
+        retryAfter,
+      );
+    }
   }
 
   let body: { messages?: ChatMessage[]; roleContext?: string | null };
