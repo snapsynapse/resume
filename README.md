@@ -9,6 +9,7 @@ Interactive resume for https://sam-rogers.com/. The site presents a concise work
 - Vercel Edge Functions
 - Anthropic Messages API
 - Optional Upstash Redis rate limiting
+- Optional PostHog cookieless click analytics
 ## Local Setup
 ```sh
 npm install
@@ -27,6 +28,22 @@ UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 ```
 Without Upstash, the API routes still run but skip rate limiting.
+Optional cookieless analytics:
+```sh
+VITE_POSTHOG_KEY=
+VITE_POSTHOG_HOST=https://us.i.posthog.com
+```
+## Analytics Intent
+PostHog is used only for minimal monitoring of whether visitors use the interactive resume surfaces. The intent is lightweight click/interaction telemetry, not behavioral surveillance.
+The implementation must remain cookieless and should not require a cookie banner or additional tracking disclosure. Keep these constraints:
+- `cookieless_mode: "always"`
+- `autocapture: false`
+- pageview and pageleave capture disabled
+- session recording disabled
+- no `identify()` calls
+- no user text, job-description text, chat content, email addresses, names, or other user-supplied content in event properties
+- `respect_dnt: true`
+Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, booking clicks, email clicks, footer link clicks, section navigation clicks, and experience-context toggles.
 ## Scripts
 - `npm run dev`: start local Vite server
 - `npm run build`: production build, then generate static crawl pages

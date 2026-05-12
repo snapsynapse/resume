@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MessageSquare } from "lucide-react";
 import { samProfile } from "@/data/sam-profile";
+import { track } from "@/lib/analytics";
 
 interface HeroProps {
   onOpenChat: () => void;
@@ -19,6 +20,11 @@ const Hero = ({ onOpenChat }: HeroProps) => {
     }, ROTATE_MS);
     return () => window.clearInterval(interval);
   }, [titles.length]);
+
+  const handleOpenChat = () => {
+    track("ai_chat_opened", { source: "hero" });
+    onOpenChat();
+  };
 
   return (
     <section
@@ -56,7 +62,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
 
           {/* CTA Button */}
           <button
-            onClick={onOpenChat}
+            onClick={handleOpenChat}
             className="group relative inline-flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground rounded-2xl font-medium transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/20 animate-slide-up stagger-4"
           >
             <MessageSquare className="w-5 h-5" />
