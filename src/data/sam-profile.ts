@@ -27,8 +27,8 @@ export const samProfile = {
   ],
 
   links: {
-    site: "https://sam-rogers.com",
-    paice: "https://paice.foundation",
+    site: "https://sam-rogers.com/",
+    paice: "https://paice.foundation/",
     linkedin: "https://linkedin.com/in/samrogers",
     email: "sam@sam-rogers.com",
   },
@@ -62,7 +62,7 @@ The window for building the practice of measuring, teaching, and governing human
       role: "President & Principal Consultant",
       period: "2004–Present",
       highlights: [
-        "Built and led the first YouTube Certified Online Training Program at Google (2013–2016): wrote scripts, directed shoots and post-production, produced the certification exam, stood up the LMS.",
+        "Built and led the first YouTube Certified Online Training Program at Google (2013–2014): wrote scripts, directed shoots and post-production, produced the certification exam, stood up the LMS.",
         "Subject matter expert witness in litigation involving YouTube platform mechanics and training content, retained on both plaintiff and defense sides across separate cases.",
         "100+ workshops and programs across modalities for ICs through C-suite. Clients include Sunrun, ADP, Robert Half, AAA, and the National 4-H Council.",
         "Published frameworks: SNAP Methodology, Engineering Trust series, Signals & Subtractions (weekly field notes on AI adoption and L&D transformation).",
@@ -124,20 +124,115 @@ The window for building the practice of measuring, teaching, and governing human
     ],
   },
 
-  // TODO(sam): mine 2–3 real failure stories from sam-rogers.com blog and LinkedIn archive.
-  // Failures are the highest-signal section of an honest resume. Stub below keeps the UI working.
   failures: [
     {
-      year: 2024,
-      title: "PLACEHOLDER — failure story to be drafted",
+      year: 2013,
+      title: "Fired for refusing to ship compliance theater",
       summary:
-        "Stub. Real failure stories are coming from the blog archive. Pattern wants the situation, what I got wrong, and what I learned that I now act on.",
+        "Got fired for arguing a course that wouldn't change behavior was an institutional CYA maneuver dressed as L&D, not training.",
       details:
-        "Replace this block. Source candidates: pre-PAICE attempts that didn't ship; early consulting engagements that taught the productization lesson the hard way; misreads of L&D timing inside enterprise rollouts.",
+        "Client wanted a compliance course shipped as a checkbox. I pushed back that the design wouldn't move behavior and asked them to either fix the design or own it as a legal artifact rather than call it training. They picked someone else; I held the line and lost the engagement.",
       lessons:
-        "TBD — verify and replace before site goes live.",
+        "I now name the five motivations behind any training request — true learning, information acquisition, behavior change, legal defense, propaganda — at the scoping conversation, so the disagreement happens before the build, not after.",
+    },
+    {
+      year: 2025,
+      title: "Spent seven years dragging L&D toward AI before pivoting",
+      summary:
+        "From 2018 to 2025 I bet the consulting practice on bringing data-centric design and AI into L&D and HR. I upskilled myself fine; I never got the buyer to care.",
+      details:
+        "I kept iterating the offer instead of changing the audience, because the network was familiar and the work felt important. By the time I pivoted Snap Synapse toward CAIOs, AI PMs, and civic-infrastructure operators in mid-2025, I had spent five years pricing my offer against a customer who wasn't going to buy. PAICE is the literal output of admitting the L&D market wasn't the right one to ship the work into.",
+      lessons:
+        "Persistent low-traction is a buyer problem before it's a packaging problem. I now sunset offerings on a schedule instead of waiting for a clean ending.",
     },
   ],
+
+  publicArtifacts: {
+    // Catalog the AI can reference when asked "what has Sam shipped?" / "where can I read his thinking?".
+    // Used by buildSystemPrompt in api/chat.ts. Not rendered on the page.
+    leadWith: [
+      {
+        title: "PAICE.work",
+        format: "Adaptive behavioral simulator + open governance framework",
+        url: "https://paice.work",
+        pitch:
+          "Measures how people behave when AI gets things wrong — risk lives in recovery, not the happy path. Free for individuals; paid for institutional deployments.",
+      },
+      {
+        title: "Engineering Trust series",
+        format: "Three-part essay series on snapsynapse.com",
+        url: "https://snapsynapse.com/insights/the-yes-problem/",
+        pitch:
+          "Sam's signature framing for trustworthy AI rollout. Part 1: The Great AI Misallocation (https://snapsynapse.com/insights/great-ai-misallocation/). Part 2: The Yes Problem (https://snapsynapse.com/insights/the-yes-problem/). Part 3: A New Layer of Trust (https://snapsynapse.com/insights/a-new-layer-of-trust/). Read in order for the full argument.",
+      },
+      {
+        title: "Signals & Subtractions",
+        format: "Weekly newsletter (Mondays)",
+        url: "https://signalsandsubtractions.substack.com",
+        pitch:
+          "One signal, one strategic human prompt, one subtraction opportunity, one fresh AI analogy. 300–500 words for operators who need better signals, not more noise. The recent 'Skills' arc is the strongest pull for frontier-lab audiences.",
+      },
+      {
+        title: "Shipped open standards",
+        format: "GitHub org",
+        url: "https://github.com/snapsynapse",
+        pitch:
+          "Graceful Boundaries (services communicating operational limits to agents), Skill Provenance (version identity for agent skills), AgentLink (sync AGENTS.md across AI coding tools), Turnfile (file-based protocol for multi-agent collaboration). Coherent thesis: make agent work auditable and portable.",
+      },
+    ],
+    mentionIfAsked: [
+      {
+        title: "AI Tool Watch",
+        url: "https://aitool.watch",
+        pitch:
+          "Plain-English AI capability reference verified through a four-model consensus cascade. Keeps PAICE rubrics calibrated as underlying models change.",
+      },
+      {
+        title: "Every AI Law",
+        url: "https://everyailaw.com",
+        pitch:
+          "Jurisdiction-aware regulation index for GRC and legal teams. Anchors PAICE's regulation vector.",
+      },
+      {
+        title: "AI Posture",
+        url: "https://aiposture.org",
+        pitch:
+          "Open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.",
+      },
+      {
+        title: "Just Do The Thing",
+        url: "https://snapsynapse.com/insights/just-do-the-thing/",
+        pitch:
+          "Sam's book — not AI-specific. About making things happen inside organizations. Mention only if the visitor asks about Sam's broader writing, operator philosophy, or change-management work outside the AI lens. Don't surface in answers about AI fit.",
+      },
+      {
+        title: "Doable Change",
+        url: "https://snapsynapse.com/insights/doable-change/",
+        pitch:
+          "Sam's podcast — not AI-specific. About change management generally. Mention only if the visitor asks about Sam's broader writing or output formats. Don't surface in answers about AI fit.",
+      },
+    ],
+    recentBlogPosts: [
+      {
+        title: "95% failure",
+        url: "https://sam-rogers.com/blog/95-percent-failure/",
+        pitch:
+          "Reads the MIT NANDA 'GenAI projects return zero' finding through 20+ years of change-management research. Framing AI as a tech project is what kills it.",
+      },
+      {
+        title: "Applying AI in L&D",
+        url: "https://sam-rogers.com/blog/applying-ai-in-ld/",
+        pitch:
+          "Practitioner-grade guidance on where AI actually belongs in L&D workflows.",
+      },
+      {
+        title: "Addition is Easy",
+        url: "https://sam-rogers.com/blog/addition-is-easy/",
+        pitch:
+          "Sam's subtraction philosophy compressed — addition is easy, subtraction is hard, most orgs default wrong.",
+      },
+    ],
+  },
 
   systemPrompt: `You are helping people evaluate Sam Rogers as a candidate, partner, or collaborator. Hiring managers, recruiters, investors, and prospective clients are the primary audience.
 
