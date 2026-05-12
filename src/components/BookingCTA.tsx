@@ -2,9 +2,9 @@ import { Calendar, ArrowRight } from "lucide-react";
 
 const BookingCTA = () => {
   return (
-    <section id="booking" className="py-20 px-6 border-t border-border">
+    <section id="contact" aria-labelledby="contact-heading" className="py-20 px-6 border-t border-border">
       <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-4">
+        <h2 id="contact-heading" className="text-3xl md:text-4xl font-serif text-foreground mb-4">
           Talked to the AI. Now talk to me.
         </h2>
         <p className="text-muted-foreground text-lg mb-10 max-w-2xl mx-auto">

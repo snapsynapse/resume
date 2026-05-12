@@ -22,7 +22,8 @@ const Hero = ({ onOpenChat }: HeroProps) => {
 
   return (
     <section
-      id="hero"
+      id="about"
+      aria-labelledby="about-heading"
       className="min-h-screen flex flex-col justify-center px-6 pt-20"
     >
       <div className="max-w-5xl mx-auto w-full grid md:grid-cols-[1fr_auto] gap-10 items-center">
@@ -34,7 +35,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
           </div>
 
           {/* Main heading */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-foreground mb-6 animate-slide-up">
+          <h1 id="about-heading" className="text-5xl md:text-7xl lg:text-8xl font-serif text-foreground mb-6 animate-slide-up">
             {samProfile.name}
           </h1>
 
@@ -59,7 +60,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
             className="group relative inline-flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground rounded-2xl font-medium transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/20 animate-slide-up stagger-4"
           >
             <MessageSquare className="w-5 h-5" />
-            <span>Ask AI About Me</span>
+            <span>Ask AI About Sam</span>
             <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-success text-primary-foreground rounded-full text-xs font-medium">
               New
             </span>

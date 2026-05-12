@@ -1,0 +1,3 @@
+Contact: mailto:sam@sam-rogers.com
+Preferred-Languages: en
+Canonical: https://resume.sam-rogers.com/.well-known/security.txt

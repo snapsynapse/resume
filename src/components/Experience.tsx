@@ -3,11 +3,11 @@ import ExperienceCard from "./ExperienceCard";
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-24 px-6">
+    <section id="experience" aria-labelledby="experience-heading" className="py-24 px-6">
       <div className="max-w-4xl mx-auto">
         {/* Section header */}
         <div className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-4">
+          <h2 id="experience-heading" className="text-4xl md:text-5xl font-serif text-foreground mb-4">
             Experience
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl">
@@ -29,9 +29,9 @@ const Experience = () => {
         {/* Skills Grid */}
         <div className="mt-16 grid md:grid-cols-3 gap-6">
           <div className="p-6 bg-success-muted border border-success/20 rounded-2xl">
-            <h4 className="text-sm font-mono uppercase tracking-wider text-success mb-4">
+            <h3 className="text-sm font-mono uppercase tracking-wider text-success mb-4">
               Strong
-            </h4>
+            </h3>
             <ul className="space-y-2">
               {samProfile.skills.strong.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">
@@ -43,9 +43,9 @@ const Experience = () => {
           </div>
 
           <div className="p-6 bg-secondary border border-border rounded-2xl">
-            <h4 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
+            <h3 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
               Moderate
-            </h4>
+            </h3>
             <ul className="space-y-2">
               {samProfile.skills.moderate.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">
@@ -57,9 +57,9 @@ const Experience = () => {
           </div>
 
           <div className="p-6 bg-warning-muted border border-warning/20 rounded-2xl">
-            <h4 className="text-sm font-mono uppercase tracking-wider text-warning mb-4">
+            <h3 className="text-sm font-mono uppercase tracking-wider text-warning mb-4">
               Gaps (I'll tell you)
-            </h4>
+            </h3>
             <ul className="space-y-2">
               {samProfile.skills.gaps.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">

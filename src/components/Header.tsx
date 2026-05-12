@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import type { MouseEvent } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,12 @@ const Header = ({ onOpenChat }: HeaderProps) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleSectionLink =
+    (id: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+      scrollToSection(id);
+    };
+
   const handleAskAI = () => {
     setMobileMenuOpen(false);
     if (onOpenChat) {
@@ -41,7 +48,7 @@ const Header = ({ onOpenChat }: HeaderProps) => {
           : "bg-transparent"
       )}
     >
-      <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <nav className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between" aria-label="Resume navigation">
         <a
           href="https://sam-rogers.com/"
           target="_blank"
@@ -54,23 +61,39 @@ const Header = ({ onOpenChat }: HeaderProps) => {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
-          <button
-            onClick={() => scrollToSection("experience")}
+          <a
+            href="#about"
+            onClick={handleSectionLink("about")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            About
+          </a>
+          <a
+            href="#experience"
+            onClick={handleSectionLink("experience")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             Experience
-          </button>
-          <button
-            onClick={() => scrollToSection("fit-assessment")}
+          </a>
+          <a
+            href="#fit-assessment"
+            onClick={handleSectionLink("fit-assessment")}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            Fit Check
-          </button>
+            Analyze Fit
+          </a>
+          <a
+            href="#contact"
+            onClick={handleSectionLink("contact")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Contact
+          </a>
           <button
             onClick={handleAskAI}
             className="text-sm px-4 py-2 bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
           >
-            Ask AI
+            Ask AI About Sam
           </button>
         </div>
 
@@ -90,23 +113,39 @@ const Header = ({ onOpenChat }: HeaderProps) => {
       {mobileMenuOpen && (
         <div id="mobile-navigation" className="md:hidden bg-card border-b border-border animate-slide-down">
           <div className="px-6 py-4 space-y-4">
-            <button
-              onClick={() => scrollToSection("experience")}
+            <a
+              href="#about"
+              onClick={handleSectionLink("about")}
+              className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
+            >
+              About
+            </a>
+            <a
+              href="#experience"
+              onClick={handleSectionLink("experience")}
               className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
             >
               Experience
-            </button>
-            <button
-              onClick={() => scrollToSection("fit-assessment")}
+            </a>
+            <a
+              href="#fit-assessment"
+              onClick={handleSectionLink("fit-assessment")}
               className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
             >
-              Fit Check
-            </button>
+              Analyze Fit
+            </a>
+            <a
+              href="#contact"
+              onClick={handleSectionLink("contact")}
+              className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Contact
+            </a>
             <button
               onClick={handleAskAI}
               className="block w-full text-left text-accent hover:opacity-80 transition-opacity"
             >
-              Ask AI About Me
+              Ask AI About Sam
             </button>
           </div>
         </div>

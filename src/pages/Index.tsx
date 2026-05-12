@@ -15,7 +15,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header onOpenChat={openChat} />
-      <main>
+      <main aria-label="Sam Rogers resume">
         <Hero onOpenChat={openChat} />
         <Experience />
         <FitAssessment />

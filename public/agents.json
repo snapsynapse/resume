@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "site": {
+    "name": "Sam Rogers Resume",
+    "url": "https://resume.sam-rogers.com/",
+    "description": "AI-queryable resume for Sam Rogers, talent development leader and founder of PAICE.work PBC.",
+    "language": "en-US"
+  },
+  "person": {
+    "name": "Sam Rogers",
+    "email": "sam@sam-rogers.com",
+    "canonical_url": "https://resume.sam-rogers.com/",
+    "same_as": [
+      "https://sam-rogers.com/",
+      "https://paice.foundation/",
+      "https://paice.work/",
+      "https://snapsynapse.com/",
+      "https://github.com/snapsynapse",
+      "https://linkedin.com/in/samrogers"
+    ]
+  },
+  "resources": [
+    {
+      "name": "Resume homepage",
+      "url": "https://resume.sam-rogers.com/",
+      "type": "profile"
+    },
+    {
+      "name": "LLM briefing",
+      "url": "https://resume.sam-rogers.com/llms.txt",
+      "type": "llms.txt"
+    },
+    {
+      "name": "Sitemap",
+      "url": "https://resume.sam-rogers.com/sitemap.xml",
+      "type": "sitemap"
+    }
+  ],
+  "interaction_paths": [
+    {
+      "label": "Ask AI about Sam Rogers",
+      "url": "https://resume.sam-rogers.com/#about",
+      "description": "Use the on-page chat interface for specific questions about fit, evidence, gaps, and portfolio context."
+    },
+    {
+      "label": "Analyze role fit",
+      "url": "https://resume.sam-rogers.com/#fit-assessment",
+      "description": "Paste a job description for an honest fit assessment."
+    },
+    {
+      "label": "Contact Sam Rogers",
+      "url": "mailto:sam@sam-rogers.com",
+      "description": "Email for hiring, advisory, or collaboration inquiries."
+    },
+    {
+      "label": "Book a meeting",
+      "url": "https://cal.com/paice",
+      "description": "Schedule a meeting with Sam Rogers."
+    }
+  ]
+}

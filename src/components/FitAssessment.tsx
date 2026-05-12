@@ -70,10 +70,10 @@ const FitAssessment = () => {
         : { wrap: "bg-secondary border-border", icon: "bg-muted", iconColor: "text-foreground", title: "text-foreground" };
 
   return (
-    <section id="fit-assessment" className="py-24 px-6 bg-secondary/30">
+    <section id="fit-assessment" aria-labelledby="fit-assessment-heading" className="py-24 px-6 bg-secondary/30">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-serif text-foreground mb-4">
+          <h2 id="fit-assessment-heading" className="text-4xl md:text-5xl font-serif text-foreground mb-4">
             Honest Fit Assessment
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -167,9 +167,9 @@ const FitAssessment = () => {
 
                 {result.matches.length > 0 && (
                   <div className="space-y-4 mb-6">
-                    <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                    <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
                       Where I match
-                    </h4>
+                    </h3>
                     {result.matches.map((m, i) => (
                       <div key={i} className="p-4 bg-secondary rounded-xl border border-border">
                         <div className="flex items-start gap-3">
@@ -186,9 +186,9 @@ const FitAssessment = () => {
 
                 {result.gaps.length > 0 && (
                   <div className="space-y-4 mb-6">
-                    <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                    <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
                       Gaps to name
-                    </h4>
+                    </h3>
                     {result.gaps.map((g, i) => (
                       <div key={i} className="p-4 bg-secondary rounded-xl border border-border">
                         <div className="flex items-start gap-3">
@@ -205,17 +205,17 @@ const FitAssessment = () => {
 
                 {result.whatTransfers && (
                   <div className="p-4 bg-secondary rounded-xl border border-border mb-6">
-                    <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
+                    <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
                       What does transfer
-                    </h4>
+                    </h3>
                     <p className="text-foreground text-sm leading-relaxed">{result.whatTransfers}</p>
                   </div>
                 )}
 
                 <div className={cn("p-4 rounded-xl border", verdictTone.wrap)}>
-                  <h4 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
+                  <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
                     My recommendation
-                  </h4>
+                  </h3>
                   <p className={cn("leading-relaxed", verdictTone.title)}>{result.recommendation}</p>
                 </div>
               </div>

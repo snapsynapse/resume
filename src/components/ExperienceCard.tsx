@@ -29,7 +29,7 @@ const ExperienceCard = ({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div
+    <article
       className={cn(
         "group relative p-6 md:p-8 bg-card border border-border rounded-2xl transition-all duration-300 hover:border-accent/50",
         "animate-slide-up opacity-0"
@@ -100,7 +100,7 @@ const ExperienceCard = ({
           </div>
         </div>
       )}
-    </div>
+    </article>
   );
 };
 

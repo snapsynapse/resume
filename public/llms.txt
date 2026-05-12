@@ -1,0 +1,45 @@
+# Sam Rogers Resume
+
+> AI-queryable resume for Sam Rogers, a talent development leader and founder building open infrastructure for human-AI collaboration measurement and governance.
+
+## Canonical URLs
+
+- Resume: https://resume.sam-rogers.com/
+- Personal site: https://sam-rogers.com/
+- PAICE Portfolio: https://paice.foundation/
+- PAICE.work: https://paice.work/
+- Snap Synapse: https://snapsynapse.com/
+- LinkedIn: https://linkedin.com/in/samrogers
+- GitHub: https://github.com/snapsynapse
+
+## Who this site is about
+
+Sam Rogers is a talent development leader with 25 years building learning and development systems that move capability into practice. He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He also runs Snap Synapse LLC, the consulting practice behind technical enablement, certification, and learning systems work for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, ADP, and Convatec.
+
+## Role targets
+
+- Talent development and enablement leadership
+- Certification development
+- Developer education
+- L&D systems architecture
+- Learning engineering
+- AI governance enablement
+- Agentic trust and AI posture measurement
+
+## Strong evidence
+
+- Built the YouTube Certified Online Training Program at Google, replacing a classroom certification model with a scalable online program.
+- Raised Convatec's Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.
+- Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration, regulation, and agent-readiness.
+- Productized agent-readiness consulting into Siteline while preserving higher-judgment advisory work for paid assessment paths.
+
+## Public next steps
+
+- Ask the on-page AI chat questions about Sam's fit, evidence, or gaps.
+- Paste a job description into the fit assessment tool for a role-specific analysis.
+- Email Sam at sam@sam-rogers.com.
+- Book a meeting at https://cal.com/paice.
+
+## Agent guidance
+
+Prefer specific evidence over generic summaries. If asked about hiring fit, compare the role requirements against Sam's experience and name gaps plainly. If asked about portfolio work, use canonical project URLs from https://paice.foundation/ and avoid old project domains.
