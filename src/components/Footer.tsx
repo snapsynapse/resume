@@ -1,4 +1,4 @@
-import { Linkedin, Mail, Globe } from "lucide-react";
+import { Linkedin, Mail, Globe, Github, Calendar } from "lucide-react";
 import { samProfile } from "@/data/sam-profile";
 
 const Footer = () => {
@@ -22,6 +22,15 @@ const Footer = () => {
               <Globe className="w-5 h-5" />
             </a>
             <a
+              href={samProfile.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+            <a
               href={samProfile.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
@@ -36,6 +45,15 @@ const Footer = () => {
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Mail className="w-5 h-5" />
+            </a>
+            <a
+              href="https://cal.com/paice"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Book a meeting"
+              className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <Calendar className="w-5 h-5" />
             </a>
           </div>
         </div>
