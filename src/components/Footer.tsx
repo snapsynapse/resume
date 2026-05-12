@@ -18,7 +18,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Personal site"
-              onClick={() => track("footer_link_clicked", { link: "site" })}
+              onClick={() => track("footer_link_clicked", { link: "site" }, { immediate: true })}
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Globe className="w-5 h-5" />
@@ -28,7 +28,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              onClick={() => track("footer_link_clicked", { link: "github" })}
+              onClick={() => track("footer_link_clicked", { link: "github" }, { immediate: true })}
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Github className="w-5 h-5" />
@@ -38,7 +38,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              onClick={() => track("footer_link_clicked", { link: "linkedin" })}
+              onClick={() => track("footer_link_clicked", { link: "linkedin" }, { immediate: true })}
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Linkedin className="w-5 h-5" />
@@ -46,7 +46,7 @@ const Footer = () => {
             <a
               href={`mailto:${samProfile.links.email}`}
               aria-label="Email"
-              onClick={() => track("email_clicked", { source: "footer" })}
+              onClick={() => track("email_clicked", { source: "footer" }, { immediate: true })}
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Mail className="w-5 h-5" />
@@ -56,7 +56,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Book a meeting"
-              onClick={() => track("booking_cta_clicked", { source: "footer" })}
+              onClick={() => track("booking_cta_clicked", { source: "footer" }, { immediate: true })}
               className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >
               <Calendar className="w-5 h-5" />

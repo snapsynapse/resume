@@ -33,6 +33,7 @@ Optional cookieless analytics:
 VITE_POSTHOG_KEY=
 VITE_POSTHOG_HOST=https://us.i.posthog.com
 ```
+Vite embeds `VITE_` variables at build time. A deployed build will not capture analytics unless `VITE_POSTHOG_KEY` is present in the deployment environment before the build runs.
 ## Analytics Intent
 PostHog is used only for minimal monitoring of whether visitors use the interactive resume surfaces. The intent is lightweight click/interaction telemetry, not behavioral surveillance.
 The implementation must remain cookieless and should not require a cookie banner or additional tracking disclosure. Keep these constraints:
@@ -44,6 +45,7 @@ The implementation must remain cookieless and should not require a cookie banner
 - no user text, job-description text, chat content, email addresses, names, or other user-supplied content in event properties
 - `respect_dnt: true`
 Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, booking clicks, email clicks, footer link clicks, section navigation clicks, and experience-context toggles.
+To debug a configured build in-browser, append `?analytics_debug=1` and watch the console/network panel for PostHog requests to the configured host. Local builds also warn in the console when `VITE_POSTHOG_KEY` is missing.
 ## Scripts
 - `npm run dev`: start local Vite server
 - `npm run build`: production build, then generate static crawl pages
