@@ -8,17 +8,19 @@ export const samProfile = {
   // not the ones he already holds (those are listed in Experience below).
   // First item renders pre-hydration, so put the strongest standalone target there.
   rotatingTitles: [
-    "Lead, Talent Development & Enablement",
+    "Fractional Chief AI Officer",
+    "Head of AI Governance",
     "Certification Development Lead",
-    "Developer Education Lead",
+    "Lead, Talent Development & Enablement",
     "L&D Systems Architect",
     "Head of Learning Engineering",
     "Agentic Trust Engineer",
   ],
   subtitle:
-    "25 years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration.",
+    "25 years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration, and available for one fractional Chief AI Officer engagement at a regulated mid-market employer.",
   location: "SF Bay Area · hybrid available",
-  status: "Open to senior roles where the work is making AI safer in practice",
+  status:
+    "Open to senior roles where the work is making AI safer in practice, and to one fractional Chief AI Officer engagement through Snap Synapse LLC.",
 
   links: {
     site: "https://sam-rogers.com/",
@@ -36,7 +38,7 @@ export const samProfile = {
       highlights: [
         "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments (GRC, CISOs, Chief AI Officers).",
         "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
-        "Portfolio of 14 projects (12 live, 2 pre-release) including Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and six open standards. Daily publishing cadence since launch.",
+        "Portfolio of 12+ projects including Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and six open standards. Daily publishing cadence since launch.",
         "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
       ],
       aiContext: {
@@ -86,13 +88,13 @@ export const samProfile = {
       ],
       aiContext: {
         situation:
-          "10,000-person global medtech. McKinsey OHI score of 48 in Innovation and Learning — bottom quartile of comparable global orgs. Stated target was to raise it; implicit target was to make Convatec measurably less stuck.",
+          "10,000-person global medtech. McKinsey OHI score of 48 in Innovation and Learning — bottom quartile of comparable global orgs. Stated target was to raise it; implicit target was to make Convatec measurably less stuck. In parallel, the global shared-services function across four countries needed an AI-based training platform stood up at scale, and the international DMS-to-LMS integration needed to clear a compliance audit.",
         approach:
-          "Most people in a Global Learning Technology role read a low OHI score and conclude they need to ship more learning content. A 48 score does not mean people are under-trained. It means the organization does not experience itself as a place where learning happens — a perception, infrastructure, and leadership-narrative problem before it is a curriculum problem.",
+          "Two parallel moves. On AI deployment: launch the AI-based training platform with shared-services first because they had the highest-density adoption surface, instrument it for measurable behavior change, and treat workforce readiness as the gating constraint rather than the model's capability. On OHI: most people in a Global Learning Technology role read a low OHI score and conclude they need to ship more learning content. A 48 score does not mean people are under-trained. It means the organization does not experience itself as a place where learning happens — a perception, infrastructure, and leadership-narrative problem before it is a curriculum problem.",
         technicalWork:
-          "Worked the perception layer first. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed — gave executives a number they could defend in board conversations.",
+          "AI-based training platform deployed across four countries with 80%+ adoption in 30 days from a 200-person Portugal cohort — the kind of result regulated employers can verify in their own data. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history — which is the same shape of problem a Chief AI Officer solves under SOC 2 AI controls today.",
         lessonsLearned:
-          "OHI scores are leading indicators of cultural change, not lagging indicators of training volume. Capability gets measured; perception gets shaped. The two are different jobs, and the L&D function that does not understand the difference cannot move the score.",
+          "OHI scores are leading indicators of cultural change, not lagging indicators of training volume. AI adoption at scale lives in the same place: the gating constraint is workforce readiness and governance infrastructure, not model capability. The L&D function that does not understand the difference cannot move the score, and the AI program that does not understand the difference cannot move adoption.",
       },
     },
   ],
@@ -103,7 +105,9 @@ export const samProfile = {
       "Certification program design",
       "Developer education and technical enablement",
       "Manager and leader development",
-      "AI-enabled learning experience design",
+      "AI-enabled learning experience design (deployed AI training platform across 4 countries, 80% adoption in 30 days at Convatec)",
+      "AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)",
+      "Designated AI accountability for SOC 2 / ISO 42001 / NIST AI RMF posture (fractional CAIO engagement model)",
       "Agentic tooling infrastructure (local LLMs, multi-model orchestration)",
       "End-to-end video production (pre-prod → studio direction → post → distribution → DRM)",
       "Cross-functional translation (engineering ↔ legal ↔ sales ↔ community)",
@@ -119,7 +123,7 @@ export const samProfile = {
     gaps: [
       "Deep engineering ownership of production infrastructure",
       "Institutional fundraising track record",
-      "Direct GRC / CISO career path",
+      "Prior named CAIO title (the work is documented; the title is not)",
     ],
   },
 
@@ -153,7 +157,11 @@ export const samProfile = {
     },
     {
       q: "What level / comp band is he targeting?",
-      a: "Best suited to a senior individual contributor role.",
+      a: "For W-2 roles, best suited to a senior individual contributor role or senior staff equivalent. For fractional Chief AI Officer engagements through Snap Synapse LLC, standard retainer band is $15K–$25K/month at the Standard tier; Foundation tier (2 days/month) and Enterprise tier (regulated industries, 8 days/month) are quotable on scope.",
+    },
+    {
+      q: "Is Sam available for a fractional Chief AI Officer engagement?",
+      a: "Yes — one engagement at a regulated mid-market employer, through Snap Synapse LLC (his 21-year consulting vehicle). Sweet spot is a $20M–$500M revenue regulated employer in financial services, healthcare/medical devices, insurance, law, or regulated B2B SaaS, with a CEO or COO reporting line, board-level visibility on AI matters, and a real trigger event (SOC 2 finding, board mandate, M&A diligence flag, AI incident, new initiative needing senior cover). Standard engagement is 12–24 months. The bundle includes designated CAIO accountability (helps the org's SOC 2 AI controls posture), the PAICE measurement methodology baked in from day one, and a hire-ready full-time CAIO role definition by exit. Open standards Sam maintains under PAICE Foundation continue as published, vendor-neutral references the engagement can use without conflict.",
     },
     {
       q: "Education?",
@@ -219,6 +227,18 @@ export const samProfile = {
     ],
     mentionIfAsked: [
       {
+        title: "CAIO Copilot (custom GPT)",
+        url: "https://chatgpt.com/g/g-68464a5093948191bc30af85d19ea1ba-caio-copilot-ai-strategy-for-your-first-100-days",
+        pitch:
+          "AI assistant for early-stage CAIO onboarding and rollout planning. Built as a custom GPT specifically for the first 100 days of the role. Demonstrates the exact engagement shape Sam offers as a fractional CAIO. Mention when the inquiry is about fractional CAIO availability or AI governance program leadership.",
+      },
+      {
+        title: "Snap Synapse fractional services",
+        url: "https://snapsynapse.com/services/",
+        pitch:
+          "Productized consulting offerings via Snap Synapse LLC (21-year vehicle): Strategy Session, Custom Team Workshop, Build Sprint, L&D Ecosystem Engagement, and Siteline agent-readiness audit. Fractional Chief AI Officer engagement available through the same vehicle on retainer model. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
+      },
+      {
         title: "AI Tool Watch",
         url: "https://aitool.watch",
         pitch:
@@ -253,27 +273,120 @@ export const samProfile = {
       // 14 projects under PAICE.work PBC. 12 live, 2 pre-release. Surfaced when asked
       // "what's PAICE building?", "what's the full portfolio?", or similar breadth question.
       // For specific questions, AI should match to one project, not list all 14.
-      { name: "PAICE.work", category: "Revenue · Flagship", url: "https://paice.work", pitch: "Adaptive behavioral simulator scoring AI collaboration across 5 dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments." },
-      { name: "Siteline", category: "Revenue", url: "https://siteline.to", pitch: "Agent-usability scanner for websites. Lighthouse for the agents that now browse and transact on behalf of users." },
-      { name: "Every AI Law", category: "Revenue", url: "https://everyailaw.com", pitch: "Searchable, jurisdiction-aware index of global AI regulation for GRC, legal, and compliance professionals." },
-      { name: "Graceful Boundaries", category: "Open Standard", url: "https://gracefulboundaries.dev", pitch: "How services should communicate operational limits to humans and autonomous agents. Four conformance levels, CC-BY-4.0." },
-      { name: "HardGuard25", category: "Open Standard", url: "https://hardguard25.com", pitch: "Human-safe identifier alphabet that eliminates ambiguous characters so IDs survive handoff between people, print, and machines." },
-      { name: "Skill Provenance", category: "Open Standard", url: "https://skillprovenance.dev", pitch: "Version identity and manifest tracking for agent skill bundles. Know where a skill came from and whether it has changed." },
-      { name: "Turnfile", category: "Open Standard", url: "https://turnfile.work", pitch: "Peer protocol for multi-agent collaboration without a central orchestrator. Consent-based, adversarial-by-design negotiation." },
-      { name: "AI Posture", category: "Open Standard · v0.1-pre", url: "https://aiposture.org", pitch: "Aggregated Intelligence Posture framework. One governance score across People, Infrastructure, and Regulation — bounded by the weakest link." },
-      { name: "PubLedge", category: "Open Standard", url: "https://publedge.org", pitch: "Open recordkeeping protocol for fact-specific written interpretations (JIAs, RMAs, no-action letters). Hash-pinned, ontology-bound, machine-readable. Current spotlight: Utah OAIP." },
-      { name: "AI Incident Law", category: "Open Standard · v0.1-pre", url: "https://aiincidentlaw.org", pitch: "Curated public-record corpus of AI-related legal, regulatory, and enforcement matters. Structured for machine consumption and legal research." },
-      { name: "Obligation First", category: "Open Standard", url: "https://obligationfirst.org", pitch: "Obligation-first framework for AI governance design. Treats compliance duties as structural inputs, not post-hoc constraints." },
-      { name: "AI Tool Watch", category: "Infrastructure", url: "https://aitool.watch", pitch: "Plain-English AI capability reference, verified through a four-model consensus cascade. Keeps assessment rubrics current as models change." },
-      { name: "Knowledge-as-Code", category: "Infrastructure", url: "https://knowledge-as-code.com", pitch: "Ontology-first template for structured, version-controlled knowledge bases. Powers AI Tool Watch, Every AI Law, and others." },
-      { name: "Skill A11y Audit", category: "Infrastructure", url: "https://skilla11y.dev", pitch: "Portable agent skill that runs WCAG 2.1 AA accessibility audits on AI-generated web code. The quality gate for agent-authored interfaces." },
+      {
+        name: "PAICE.work",
+        category: "Revenue · Flagship",
+        url: "https://paice.work",
+        pitch:
+          "Adaptive behavioral simulator scoring AI collaboration across 5 dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments.",
+      },
+      {
+        name: "Siteline",
+        category: "Revenue",
+        url: "https://siteline.to",
+        pitch:
+          "Agent-usability scanner for websites. Lighthouse for the agents that now browse and transact on behalf of users.",
+      },
+      {
+        name: "Every AI Law",
+        category: "Revenue",
+        url: "https://everyailaw.com",
+        pitch:
+          "Searchable, jurisdiction-aware index of global AI regulation for GRC, legal, and compliance professionals.",
+      },
+      {
+        name: "Graceful Boundaries",
+        category: "Open Standard",
+        url: "https://gracefulboundaries.dev",
+        pitch:
+          "How services should communicate operational limits to humans and autonomous agents. Four conformance levels, CC-BY-4.0.",
+      },
+      {
+        name: "HardGuard25",
+        category: "Open Standard",
+        url: "https://hardguard25.com",
+        pitch:
+          "Human-safe identifier alphabet that eliminates ambiguous characters so IDs survive handoff between people, print, and machines.",
+      },
+      {
+        name: "Skill Provenance",
+        category: "Open Standard",
+        url: "https://skillprovenance.dev",
+        pitch:
+          "Version identity and manifest tracking for agent skill bundles. Know where a skill came from and whether it has changed.",
+      },
+      {
+        name: "Turnfile",
+        category: "Open Standard",
+        url: "https://turnfile.work",
+        pitch:
+          "Peer protocol for multi-agent collaboration without a central orchestrator. Consent-based, adversarial-by-design negotiation.",
+      },
+      {
+        name: "AI Posture",
+        category: "Open Standard · v0.1-pre",
+        url: "https://aiposture.org",
+        pitch:
+          "Aggregated Intelligence Posture framework. One governance score across People, Infrastructure, and Regulation — bounded by the weakest link.",
+      },
+      {
+        name: "PubLedge",
+        category: "Open Standard",
+        url: "https://publedge.org",
+        pitch:
+          "Open recordkeeping protocol for fact-specific written interpretations (JIAs, RMAs, no-action letters). Hash-pinned, ontology-bound, machine-readable. Current spotlight: Utah OAIP.",
+      },
+      {
+        name: "AI Incident Law",
+        category: "Open Standard · v0.1-pre",
+        url: "https://aiincidentlaw.org",
+        pitch:
+          "Curated public-record corpus of AI-related legal, regulatory, and enforcement matters. Structured for machine consumption and legal research.",
+      },
+      {
+        name: "Obligation First",
+        category: "Open Standard",
+        url: "https://obligationfirst.org",
+        pitch:
+          "Obligation-first framework for AI governance design. Treats compliance duties as structural inputs, not post-hoc constraints.",
+      },
+      {
+        name: "AI Tool Watch",
+        category: "Infrastructure",
+        url: "https://aitool.watch",
+        pitch:
+          "Plain-English AI capability reference, verified through a four-model consensus cascade. Keeps assessment rubrics current as models change.",
+      },
+      {
+        name: "Knowledge-as-Code",
+        category: "Infrastructure",
+        url: "https://knowledge-as-code.com",
+        pitch:
+          "Ontology-first template for structured, version-controlled knowledge bases. Powers AI Tool Watch, Every AI Law, and others.",
+      },
+      {
+        name: "Skill A11y Audit",
+        category: "Infrastructure",
+        url: "https://skilla11y.dev",
+        pitch:
+          "Portable agent skill that runs WCAG 2.1 AA accessibility audits on AI-generated web code. The quality gate for agent-authored interfaces.",
+      },
     ],
 
     archives: {
       // Volume signals — don't enumerate, just direct the visitor to the archives.
-      paiceBlog: { url: "https://paice.work/blog", note: "Daily cadence since PAICE launch. 150+ posts on aggregated intelligence." },
-      newsletter: { url: "https://signalsandsubtractions.substack.com", note: "Weekly Monday cadence. 50+ issues on AI encountering the real world inside organizations." },
-      youtube: { url: "https://youtube.com/@paicework", note: "Founder monologues — Sam talking to camera about portfolio, thesis, and lessons. 15+ videos." },
+      paiceBlog: {
+        url: "https://paice.work/blog",
+        note: "Daily cadence since PAICE launch. 150+ posts on aggregated intelligence.",
+      },
+      newsletter: {
+        url: "https://signalsandsubtractions.substack.com",
+        note: "Weekly Monday cadence. 50+ issues on AI encountering the real world inside organizations.",
+      },
+      youtube: {
+        url: "https://youtube.com/@paicework",
+        note: "Founder monologues — Sam talking to camera about portfolio, thesis, and lessons. 15+ videos.",
+      },
     },
 
     recentBlogPosts: [
@@ -328,6 +441,9 @@ HOW TO HANDLE COMMON QUESTIONS
 - "What's PAICE?" → Three commercial products funding eleven open contributions, all serving the open-measurement thesis.
 - "Why is he applying to Anthropic?" → Alignment is human-systems work at the operational layer. He wants to build the muscle memory inside the lab whose work is shaping what the rest of the field measures.
 - "Tell me about a failure" → Share one of the two documented stories with the actual situation, what most people would have done, and the lesson Sam now acts on.
+- "Is Sam available for a fractional CAIO engagement?" → Yes, one engagement at a regulated mid-market employer through Snap Synapse LLC. Name the qualifying criteria (CEO/COO reporting line, board visibility, real trigger event, $20M–$500M revenue, regulated industry). Name the vCAIO + PAICE bundle. Name the standard retainer band ($15K–$25K/month). Point to the Convatec AI deployment (200 people, 4 countries, 80% adoption in 30 days, cleanest compliance audit in company history) as the most-relevant case study. Refer the inquirer to Cal.com or sam@sam-rogers.com to scope.
+- "What about clients where the CTO would be the reporting line?" → Disqualify gracefully. The fractional CAIO role gets reabsorbed into the IT function under CTO reporting. The bundle requires CEO or COO reporting with board-level visibility to do the work it promises. Sam will refer to a different shape of advisor if the client's structure is CTO-led.
+- "Does Sam have a CAIO title on his resume?" → No. He has built products FOR CAIOs (CAIO Copilot custom GPT, the unreleased CAIO 100 Days Playbook), pivoted Snap Synapse toward CAIO buyers in mid-2025, and accumulated the operator pattern — including a documented AI deployment at a regulated multinational — that the CAIO role is being created to find. The work is documented; the title is not. This is the standard pattern for first-time CAIO hires per current 2026 market data.
 
 VOICE — how Sam writes and speaks externally
 This is the register Sam has tuned across 50+ Signals & Subtractions newsletter issues and 14 founder videos. Match it.

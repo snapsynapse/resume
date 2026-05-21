@@ -85,17 +85,22 @@
     {
       "label": "Analyze role fit",
       "url": "https://resume.sam-rogers.com/#fit-assessment",
-      "description": "Paste a job description for an honest fit assessment."
+      "description": "Paste a job description for an honest fit assessment. Also accepts RFPs, board AI initiative descriptions, or fractional CAIO scope drafts."
+    },
+    {
+      "label": "Fractional Chief AI Officer inquiry",
+      "url": "https://cal.com/snapsynapse/25min",
+      "description": "Schedule a 25-minute fractional CAIO scoping conversation through Snap Synapse LLC. Sam is available for one engagement at a regulated mid-market employer ($20M–$500M revenue) in financial services, healthcare/medical devices, insurance, law, or regulated B2B SaaS. Standard retainer band $15K–$25K/month. Qualifying conditions: CEO or COO reporting line, board-level visibility on AI matters, real trigger event (SOC 2 finding, board mandate, M&A diligence flag, AI incident, new initiative needing senior cover)."
     },
     {
       "label": "Contact Sam Rogers",
       "url": "mailto:sam@sam-rogers.com",
-      "description": "Email for hiring, advisory, or collaboration inquiries."
+      "description": "Email for hiring, advisory, fractional CAIO, or collaboration inquiries."
     },
     {
       "label": "Book a meeting",
       "url": "https://cal.com/paice",
-      "description": "Schedule a meeting with Sam Rogers."
+      "description": "Schedule a meeting with Sam Rogers for general scoping or PAICE-related conversations."
     }
   ]
 }
