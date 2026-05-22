@@ -1,10 +1,35 @@
 // @vitest-environment node
 
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import chatHandler from "../../api/chat";
 import analyzeFitHandler from "../../api/analyze-fit";
 
+const anthropicMocks = vi.hoisted(() => ({
+  stream: vi.fn(),
+  create: vi.fn(),
+}));
+
+vi.mock("@anthropic-ai/sdk", () => {
+  class MockAnthropic {
+    static APIError = class APIError extends Error {
+      status = 500;
+    };
+
+    static RateLimitError = class RateLimitError extends Error {};
+
+    messages = anthropicMocks;
+  }
+
+  return {
+    default: MockAnthropic,
+  };
+});
+
 describe("API validation", () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it("rejects non-POST chat requests", async () => {
     const res = await chatHandler(new Request("https://sam-rogers.com/api/chat", { method: "GET" }));
 
@@ -35,5 +60,94 @@ describe("API validation", () => {
     await expect(res.json()).resolves.toEqual({
       error: "job description required (minimum 50 chars)",
     });
+  });
+
+  it("streams chat text from Anthropic", async () => {
+    anthropicMocks.stream.mockReturnValue(
+      (async function* () {
+        yield {
+          type: "content_block_delta",
+          delta: { type: "text_delta", text: "Sam " },
+        };
+        yield {
+          type: "content_block_delta",
+          delta: { type: "text_delta", text: "matches." },
+        };
+      })(),
+    );
+
+    const res = await chatHandler(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "Is Sam a fit for certification?" }],
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Content-Type")).toContain("text/plain");
+    await expect(res.text()).resolves.toBe("Sam matches.");
+    expect(anthropicMocks.stream).toHaveBeenCalledWith(
+      expect.objectContaining({
+        model: "claude-opus-4-7",
+        messages: [{ role: "user", content: "Is Sam a fit for certification?" }],
+      }),
+    );
+  });
+
+  it("returns parsed structured fit results", async () => {
+    const fitResult = {
+      verdict: "strong",
+      title: "Strong Fit",
+      summary: "This role maps well.",
+      matches: [{ requirement: "Certification", evidence: "Built YouTube certification." }],
+      gaps: [{ area: "Direct reports", note: "Limited formal direct reports." }],
+      whatTransfers: "Assessment design transfers.",
+      recommendation: "Talk next.",
+    };
+    anthropicMocks.create.mockResolvedValue({
+      content: [{ type: "text", text: JSON.stringify(fitResult) }],
+    });
+
+    const res = await analyzeFitHandler(
+      new Request("https://sam-rogers.com/api/analyze-fit", {
+        method: "POST",
+        body: JSON.stringify({
+          jobDescription:
+            "We need a senior learning leader to design certification programs and evaluate AI workflow capability across teams.",
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toEqual(fitResult);
+    expect(anthropicMocks.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        model: "claude-opus-4-7",
+        output_config: {
+          format: expect.objectContaining({ type: "json_schema" }),
+        },
+      }),
+    );
+  });
+
+  it("fails closed when fit analysis returns invalid JSON", async () => {
+    anthropicMocks.create.mockResolvedValue({
+      content: [{ type: "text", text: "not json" }],
+    });
+
+    const res = await analyzeFitHandler(
+      new Request("https://sam-rogers.com/api/analyze-fit", {
+        method: "POST",
+        body: JSON.stringify({
+          jobDescription:
+            "We need a senior learning leader to design certification programs and evaluate AI workflow capability across teams.",
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(502);
+    await expect(res.json()).resolves.toEqual({ error: "model_returned_invalid_json" });
   });
 });

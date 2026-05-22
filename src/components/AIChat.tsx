@@ -151,7 +151,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in" />
         <DialogPrimitive.Content
-          className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl h-[80vh] -translate-x-1/2 -translate-y-1/2 bg-card border border-border rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-slide-up focus:outline-none"
+          className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl h-[80vh] bg-card border border-border rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-dialog-slide-up focus:outline-none"
           aria-describedby={undefined}
         >
         {/* Header */}

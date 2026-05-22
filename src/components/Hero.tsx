@@ -84,7 +84,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground animate-fade-in opacity-0" style={{ animationDelay: "1.5s", animationFillMode: "forwards" }}>
+      <div className="pointer-events-none absolute bottom-12 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground animate-fade-in opacity-0 md:flex" style={{ animationDelay: "1.5s", animationFillMode: "forwards" }}>
         <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
         <div className="w-px h-8 bg-gradient-to-b from-muted-foreground to-transparent" />
       </div>

@@ -1,6 +1,11 @@
 # Roadmap
 
 Deferred work for [resume.sam-rogers.com](https://resume.sam-rogers.com). Active site is functional; items below are improvements ordered by impact.
+## Recently completed
+- **Mobile chat modal centering** — fixed transform collision between centered dialog placement and entrance animation.
+- **Mobile hero overlap** — hid the scroll cue on mobile so it no longer collides with the primary CTA.
+- **Static crawl page drift** — generated role targets, experience highlights, and portfolio entries from `src/data/sam-profile.ts`.
+- **API success-path tests** — added mocked coverage for chat streaming, structured fit parsing, and invalid structured output.
 
 ## Measurement & ops
 
@@ -27,7 +32,7 @@ Deferred work for [resume.sam-rogers.com](https://resume.sam-rogers.com). Active
 ## Cosmetic / polish
 
 - **Drop "New" badge on CTA** — stale signal after a week. Replace with role badge when Anthropic detected, or remove.
-- **Cut "Scroll to explore" arrow** — single-fold site, mostly redundant.
+- **Decide whether to cut desktop "Scroll to explore" arrow** — mobile hidden; desktop cue remains but may still be redundant.
 
 ## Safety / abuse
 

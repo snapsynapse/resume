@@ -1,8 +1,27 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { samProfile } from "../src/data/sam-profile.ts";
 
 const siteUrl = "https://resume.sam-rogers.com";
 const distDir = new URL("../dist/", import.meta.url);
+const roleTargets = samProfile.rotatingTitles;
+const profileExperience = samProfile.experience.map((item) => ({
+  name: item.company,
+  role: item.role.replace("&", "and"),
+  startDate: item.period.split(/[–-]/)[0],
+  endDate: item.period.includes("Present") ? undefined : item.period.split(/[–-]/)[1],
+  url: item.company === "PAICE.work PBC" ? "https://paice.work/" : item.company === "Snap Synapse LLC" ? "https://snapsynapse.com/" : undefined,
+  summary: item.highlights[0],
+  highlights: item.highlights,
+}));
+const commercialPortfolio = samProfile.publicArtifacts.paicePortfolio.filter((item) => item.category.includes("Revenue"));
+const standardsPortfolio = samProfile.publicArtifacts.paicePortfolio.filter((item) => !item.category.includes("Revenue"));
+const portfolioItems = [
+  ["PAICE Portfolio", "https://paice.foundation/", "Canonical map for Sam's public benefit corporation work."],
+  ["Snap Synapse", "https://snapsynapse.com/", "Consulting, tools, frameworks, and applied artifacts from Snap Synapse."],
+  ["GitHub profile", samProfile.links.github, "Additional repositories and experiments."],
+  ...samProfile.publicArtifacts.paicePortfolio.map((item) => [item.name, `${item.url}/`, item.pitch]),
+];
 
 const nav = [
   ["About", "/about/"],
@@ -19,58 +38,14 @@ const person = {
   url: `${siteUrl}/`,
   email: "mailto:sam@sam-rogers.com",
   sameAs: [
-    "https://sam-rogers.com/",
-    "https://paice.foundation/",
+    `${samProfile.links.site}`,
+    `${samProfile.links.paice}`,
     "https://paice.work/",
-    "https://snapsynapse.com/tools/",
-    "https://github.com/snapsynapse",
-    "https://linkedin.com/in/samrogers",
+    "https://snapsynapse.com/",
+    `${samProfile.links.github}`,
+    `${samProfile.links.linkedin}`,
   ],
 };
-
-const experienceItems = [
-  {
-    name: "PAICE.work PBC",
-    role: "Founder and CEO",
-    startDate: "2025",
-    url: "https://paice.work/",
-    summary:
-      "Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration measurement and governance.",
-  },
-  {
-    name: "Snap Synapse LLC",
-    role: "President and Principal Consultant",
-    startDate: "2004",
-    url: "https://snapsynapse.com/tools/",
-    summary:
-      "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
-  },
-  {
-    name: "Convatec",
-    role: "Global Learning Technology and Analytics Manager",
-    startDate: "2020",
-    endDate: "2022",
-    summary:
-      "Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months and improved global learning infrastructure.",
-  },
-];
-
-const portfolioItems = [
-  ["PAICE Portfolio", "https://paice.foundation/", "Canonical map for Sam's public benefit corporation work."],
-  ["Snap Synapse tools", "https://snapsynapse.com/tools/", "Tools, frameworks, and applied consulting artifacts from Snap Synapse."],
-  ["GitHub profile", "https://github.com/snapsynapse", "Additional repositories and experiments."],
-  ["PAICE.work", "https://paice.work/", "Adaptive behavioral simulator for human-AI collaboration measurement."],
-  ["Siteline", "https://siteline.to/", "Agent-usability scanner for websites."],
-  ["Every AI Law", "https://everyailaw.com/", "Jurisdiction-aware index of global AI regulation."],
-  ["AI Posture", "https://aiposture.org/", "Governance score across people, infrastructure, and regulation."],
-  ["Graceful Boundaries", "https://gracefulboundaries.dev/", "Operational limit communication for humans and agents."],
-  ["Skill Provenance", "https://skillprovenance.dev/", "Version identity and manifest tracking for agent skill bundles."],
-  ["Turnfile", "https://turnfile.work/", "Peer protocol for multi-agent collaboration."],
-  ["Knowledge-as-Code", "https://knowledge-as-code.com/", "Ontology-first template for structured knowledge bases."],
-  ["PubLedge", "https://publedge.org/", "Public recordkeeping protocol for written interpretations."],
-  ["AI Incident Law", "https://aiincidentlaw.org/", "Corpus of AI-related legal, regulatory, and enforcement matters."],
-  ["Obligation First", "https://obligationfirst.org/", "Obligation-first framework for AI governance design."],
-];
 
 const pages = [
   {
@@ -98,15 +73,7 @@ const pages = [
       },
       {
         heading: "Role Targets",
-        list: [
-          "Talent development and enablement leadership",
-          "Certification development",
-          "Developer education",
-          "L&D systems architecture",
-          "Learning engineering",
-          "AI governance enablement",
-          "Agentic trust and AI posture measurement",
-        ],
+        list: roleTargets,
       },
     ],
   },
@@ -116,32 +83,10 @@ const pages = [
     description:
       "Experience evidence for Sam Rogers across PAICE.work, Snap Synapse, Convatec, Google/YouTube certification, and technical enablement systems.",
     heading: "Experience",
-    body: [
-      {
-        heading: "PAICE.work PBC - Founder and CEO",
-        paragraphs: [
-          "Built PAICE.work, an adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0-1000 scale.",
-          "Designed AI Posture, an open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.",
-          "Built a portfolio including Siteline, Every AI Law, AI Tool Watch, Skill Provenance, Turnfile, PubLedge, AI Incident Law, Obligation First, and Knowledge-as-Code.",
-        ],
-      },
-      {
-        heading: "Snap Synapse LLC - President and Principal Consultant",
-        paragraphs: [
-          "Built and led the first YouTube Certified Online Training Program at Google, replacing a classroom program that certified about 1,000 partners per year with an online program that reached about 10,000 in year one.",
-          "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
-          "Operates as a translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives.",
-        ],
-      },
-      {
-        heading: "Convatec - Global Learning Technology and Analytics Manager",
-        paragraphs: [
-          "Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.",
-          "Launched an AI-based training platform for global shared services across four countries, reaching more than 80 percent adoption in 30 days from a 200-person Portugal cohort.",
-          "Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.",
-        ],
-      },
-    ],
+    body: profileExperience.map((item) => ({
+      heading: `${item.name} - ${item.role}`,
+      paragraphs: item.highlights,
+    })),
   },
   {
     slug: "fit-assessment",
@@ -179,30 +124,17 @@ const pages = [
         heading: "Portfolio surfaces",
         paragraphs: [
           "The PAICE portfolio is available at https://paice.foundation/ and is the canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.",
-          "The Snap Synapse tools portfolio is available at https://snapsynapse.com/tools/ and captures tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.",
+          "The Snap Synapse portfolio is available at https://snapsynapse.com/ and captures tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.",
           "Sam's GitHub profile at https://github.com/snapsynapse includes additional repositories and experiments that may not be listed in either portfolio surface.",
         ],
       },
       {
         heading: "Commercial anchors",
-        list: [
-          "PAICE.work: adaptive behavioral simulator for human-AI collaboration measurement. https://paice.work/",
-          "Siteline: agent-usability scanner for websites. https://siteline.to/",
-          "Every AI Law: jurisdiction-aware index of global AI regulation. https://everyailaw.com/",
-        ],
+        list: commercialPortfolio.map((item) => `${item.name}: ${item.pitch} ${item.url}/`),
       },
       {
         heading: "Open standards and infrastructure",
-        list: [
-          "AI Posture: governance score across people, infrastructure, and regulation. https://aiposture.org/",
-          "Graceful Boundaries: operational limit communication for humans and agents. https://gracefulboundaries.dev/",
-          "Skill Provenance: version identity and manifest tracking for agent skill bundles. https://skillprovenance.dev/",
-          "Turnfile: peer protocol for multi-agent collaboration. https://turnfile.work/",
-          "Knowledge-as-Code: ontology-first template for structured knowledge bases. https://knowledge-as-code.com/",
-          "PubLedge: public recordkeeping protocol for written interpretations. https://publedge.org/",
-          "AI Incident Law: public-record corpus of AI-related legal, regulatory, and enforcement matters. https://aiincidentlaw.org/",
-          "Obligation First: obligation-first framework for AI governance design. https://obligationfirst.org/",
-        ],
+        list: standardsPortfolio.map((item) => `${item.name}: ${item.pitch} ${item.url}/`),
       },
     ],
   },
@@ -298,7 +230,7 @@ function routeStructuredData(page, canonical) {
     graph.push(
       itemList(
         "Sam Rogers experience",
-        experienceItems.map((item) => ({
+        profileExperience.map((item) => ({
           "@type": "OrganizationRole",
           roleName: item.role,
           startDate: item.startDate,

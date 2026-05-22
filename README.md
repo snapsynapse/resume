@@ -53,7 +53,7 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript check, including Vercel API handlers
 - `npm run validate:metadata`: verify generated crawl pages, structured data, sitemap, and machine-readable files
-- `npm run test`: Vitest test suite
+- `npm run test`: Vitest test suite, including mocked API success paths for chat streaming and structured fit analysis
 ## Machine-Readable Routes
 The homepage is the human-first interactive resume. It still includes meaningful no-JS fallback HTML inside `index.html`, so agents that fetch raw HTML can read a profile summary, experience summary, contact paths, and links to dedicated crawl pages before React hydrates.
 Dedicated public routes are generated after `vite build` by [scripts/generate-static-html.mjs](/Users/snap/Git/resume/scripts/generate-static-html.mjs):
@@ -63,6 +63,7 @@ Dedicated public routes are generated after `vite build` by [scripts/generate-st
 - `/portfolio/`
 - `/contact/`
 These pages are primarily for LLMs, SEO crawlers, link unfurlers, Siteline-style scanners, and agents that do not execute JavaScript reliably. Humans may visit them, so they intentionally share the homepage's look and feel, but they are not meant to replace the interactive homepage.
+The generator imports `src/data/sam-profile.ts` for role targets, experience highlights, and PAICE portfolio entries. Keep profile edits there first so the interactive app, AI prompts, and static crawl pages stay aligned.
 Generated files live in `dist/` after `npm run build` and are not committed. Test them with:
 ```sh
 npm run build
