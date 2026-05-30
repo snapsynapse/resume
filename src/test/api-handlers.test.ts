@@ -1,9 +1,9 @@
 // @vitest-environment node
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import chatHandler from "../../api/chat";
-import analyzeFitHandler from "../../api/analyze-fit";
-import limitsHandler from "../../api/limits";
+import { handleChatRequest } from "../../api/chat";
+import { handleAnalyzeFitRequest } from "../../api/analyze-fit";
+import limitsHandler, { handleLimitsRequest } from "../../api/limits";
 
 const anthropicMocks = vi.hoisted(() => ({
   stream: vi.fn(),
@@ -37,7 +37,9 @@ describe("API validation", () => {
   });
 
   it("rejects non-POST chat requests", async () => {
-    const res = await chatHandler(new Request("https://sam-rogers.com/api/chat", { method: "GET" }));
+    const res = await handleChatRequest(
+      new Request("https://sam-rogers.com/api/chat", { method: "GET" }),
+    );
 
     expect(res.status).toBe(405);
     await expect(res.json()).resolves.toMatchObject({
@@ -48,7 +50,7 @@ describe("API validation", () => {
   });
 
   it("rejects empty chat messages", async () => {
-    const res = await chatHandler(
+    const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", {
         method: "POST",
         body: JSON.stringify({ messages: [] }),
@@ -64,7 +66,7 @@ describe("API validation", () => {
   });
 
   it("rejects malformed chat JSON", async () => {
-    const res = await chatHandler(
+    const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", {
         method: "POST",
         body: "{not json",
@@ -80,7 +82,7 @@ describe("API validation", () => {
   });
 
   it("rate-limits chat history over 20 turns before upstream calls", async () => {
-    const res = await chatHandler(
+    const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", {
         method: "POST",
         body: JSON.stringify({
@@ -105,7 +107,7 @@ describe("API validation", () => {
   });
 
   it("rejects chat messages over 8000 characters", async () => {
-    const res = await chatHandler(
+    const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", {
         method: "POST",
         body: JSON.stringify({
@@ -124,7 +126,7 @@ describe("API validation", () => {
   });
 
   it("rejects short fit assessments", async () => {
-    const res = await analyzeFitHandler(
+    const res = await handleAnalyzeFitRequest(
       new Request("https://sam-rogers.com/api/analyze-fit", {
         method: "POST",
         body: JSON.stringify({ jobDescription: "short" }),
@@ -140,7 +142,7 @@ describe("API validation", () => {
   });
 
   it("rejects malformed fit assessment JSON", async () => {
-    const res = await analyzeFitHandler(
+    const res = await handleAnalyzeFitRequest(
       new Request("https://sam-rogers.com/api/analyze-fit", {
         method: "POST",
         body: "{not json",
@@ -156,7 +158,7 @@ describe("API validation", () => {
   });
 
   it("rejects fit assessments over 8000 characters", async () => {
-    const res = await analyzeFitHandler(
+    const res = await handleAnalyzeFitRequest(
       new Request("https://sam-rogers.com/api/analyze-fit", {
         method: "POST",
         body: JSON.stringify({ jobDescription: "x".repeat(8001) }),
@@ -186,7 +188,7 @@ describe("API validation", () => {
       })(),
     );
 
-    const res = await chatHandler(
+    const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", {
         method: "POST",
         body: JSON.stringify({
@@ -226,7 +228,7 @@ describe("API validation", () => {
       ],
     });
 
-    const res = await analyzeFitHandler(
+    const res = await handleAnalyzeFitRequest(
       new Request("https://sam-rogers.com/api/analyze-fit", {
         method: "POST",
         body: JSON.stringify({
@@ -257,7 +259,7 @@ describe("API validation", () => {
       content: [{ type: "text", text: "not json" }],
     });
 
-    const res = await analyzeFitHandler(
+    const res = await handleAnalyzeFitRequest(
       new Request("https://sam-rogers.com/api/analyze-fit", {
         method: "POST",
         body: JSON.stringify({
@@ -278,7 +280,7 @@ describe("API validation", () => {
   it("fails closed when Anthropic is not configured", async () => {
     vi.stubEnv("ANTHROPIC_API_KEY", "");
 
-    const res = await analyzeFitHandler(
+    const res = await handleAnalyzeFitRequest(
       new Request("https://sam-rogers.com/api/analyze-fit", {
         method: "POST",
         body: JSON.stringify({
@@ -300,7 +302,7 @@ describe("API validation", () => {
   it("fails closed in production when Upstash rate limiting is missing", async () => {
     vi.stubEnv("NODE_ENV", "production");
 
-    const res = await chatHandler(
+    const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", {
         method: "POST",
         body: JSON.stringify({
@@ -319,7 +321,7 @@ describe("API validation", () => {
   });
 
   it("publishes Graceful Boundaries Level 2 limit discovery", async () => {
-    const res = await limitsHandler(
+    const res = await handleLimitsRequest(
       new Request("https://sam-rogers.com/api/limits", { method: "GET" }),
     );
 
@@ -335,5 +337,27 @@ describe("API validation", () => {
         expect.objectContaining({ path: "/api/analyze-fit", method: "POST" }),
       ]),
     });
+  });
+
+  it("adapts Vercel node-shaped requests and responses", async () => {
+    const response = {
+      status: vi.fn(),
+      setHeader: vi.fn(),
+      send: vi.fn(),
+    };
+    response.status.mockImplementation(() => response);
+
+    await limitsHandler(
+      {
+        method: "GET",
+        url: "/api/limits",
+        headers: { host: "sam-rogers.com" },
+      } as never,
+      response,
+    );
+
+    expect(response.status).toHaveBeenCalledWith(200);
+    expect(response.setHeader).toHaveBeenCalledWith("content-type", "application/json");
+    expect(response.send).toHaveBeenCalledWith(expect.any(Buffer));
   });
 });

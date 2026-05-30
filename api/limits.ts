@@ -1,4 +1,5 @@
 import { boundaryResponse } from "./boundaries.js";
+import { withVercelAdapter } from "./vercel-adapter.js";
 
 const limits = {
   schemaVersion: "1.0",
@@ -66,7 +67,7 @@ const limits = {
   },
 };
 
-export default async function handler(req: Request): Promise<Response> {
+export async function handleLimitsRequest(req: Request): Promise<Response> {
   if (req.method !== "GET") {
     return boundaryResponse({
       status: 405,
@@ -83,3 +84,5 @@ export default async function handler(req: Request): Promise<Response> {
     },
   });
 }
+
+export default withVercelAdapter(handleLimitsRequest);

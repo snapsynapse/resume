@@ -12,6 +12,7 @@ import {
   missingRateLimitConfigResponse,
 } from "./config.js";
 import { boundaryResponse, rateLimitResponse } from "./boundaries.js";
+import { withVercelAdapter } from "./vercel-adapter.js";
 
 const redis = hasUpstashConfig ? Redis.fromEnv() : null;
 
@@ -143,7 +144,7 @@ function readFitResult(response: Anthropic.Messages.Message): unknown {
   return JSON.parse(text);
 }
 
-export default async function handler(req: Request): Promise<Response> {
+export async function handleAnalyzeFitRequest(req: Request): Promise<Response> {
   if (req.method !== "POST") {
     return boundaryResponse({
       status: 405,
@@ -281,3 +282,5 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 }
+
+export default withVercelAdapter(handleAnalyzeFitRequest);

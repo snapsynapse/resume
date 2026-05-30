@@ -12,6 +12,7 @@ import {
   missingRateLimitConfigResponse,
 } from "./config.js";
 import { boundaryResponse, rateLimitResponse } from "./boundaries.js";
+import { withVercelAdapter } from "./vercel-adapter.js";
 
 // Two sliding windows. Burst protection + sustained-use cap.
 // Missing Upstash config is allowed in local dev, but production fails closed below.
@@ -165,7 +166,7 @@ function getAnthropicClient(): Anthropic {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 }
 
-export default async function handler(req: Request): Promise<Response> {
+export async function handleChatRequest(req: Request): Promise<Response> {
   if (req.method !== "POST") {
     return boundaryResponse({
       status: 405,
@@ -323,3 +324,5 @@ export default async function handler(req: Request): Promise<Response> {
     });
   }
 }
+
+export default withVercelAdapter(handleChatRequest);
