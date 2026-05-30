@@ -28,7 +28,6 @@ Sam is open to roles where the work advances Aggregated Intelligence at speed an
 ## Current target roles
 
 - Lead, Talent Development & Enablement
-- Fractional Chief AI Officer (one engagement, regulated mid-market, through Snap Synapse LLC)
 - Head of AI Governance / AI program leadership
 - Certification Development Lead
 - Developer Education Lead
@@ -38,30 +37,7 @@ Sam is open to roles where the work advances Aggregated Intelligence at speed an
 
 ## Status
 
-Open to senior W-2 roles where the work is making AI safer in practice, and to one fractional Chief AI Officer engagement through Snap Synapse LLC.
-
-## Fractional Chief AI Officer engagement (Snap Synapse LLC)
-
-Sam offers one fractional Chief AI Officer engagement at a regulated mid-market employer ($20M–$500M revenue) in financial services, healthcare/medical devices, insurance, law, or regulated B2B SaaS. The engagement runs through Snap Synapse LLC, his 21-year consulting vehicle.
-
-Engagement shape:
-
-- 12–24 month relationship; standard structure follows industry conventions (audit and scope in first 90 days, then ongoing strategy + transformation + education in three buckets)
-- Standard tier $15K–$25K/month retainer; Foundation tier ($8K/month, 2 days/month) and Enterprise tier ($28K/month, 8 days/month for regulated industries) quotable on scope
-- Designated CAIO accountability on the client's org chart, which helps the client's SOC 2 AI controls posture (auditors look for designated AI accountability under emerging trust services criteria)
-- PAICE measurement methodology baked into the AI program from day one, so when Sam exits the client has measurable maturity scores any third party can verify
-- Hire-ready full-time CAIO role definition delivered by exit
-
-Qualifying criteria:
-
-- CEO or COO reporting line, with board-level visibility on AI matters (CTO-reported fractional CAIOs get reabsorbed into the IT function over time)
-- Budget authority for AI program spend above a threshold, per the 2026 fractional CAIO market standard
-- Mandate across at least three business units
-- A real trigger event: SOC 2 finding on AI controls, board mandate for AI governance update, M&A diligence flag on AI program, AI incident or near-miss, regulatory inquiry, new AI initiative needing senior cover, or departing/unfilled internal CAIO seat
-
-When fractional is the wrong answer: orgs that need two senior ML/LLM engineers and an executive sponsor + 6 months of experimentation more than they need an executive-tier AI leader. Sam will name this honestly rather than take engagements that produce theater work.
-
-Inquiry routes: cal.com/snapsynapse/25min for scoping, or sam@sam-rogers.com.
+Open to senior W-2 roles where the work is making AI safer in practice through learning systems, certification, enablement, governance infrastructure, and human-AI collaboration measurement.
 
 ## Core evidence
 
@@ -82,10 +58,8 @@ Inquiry routes: cal.com/snapsynapse/25min for scoping, or sam@sam-rogers.com.
 
 ### Convatec - Global Learning Technology and Analytics Manager, 2020-2022
 
-The most-relevant case study for fractional CAIO buyers:
-
 - Launched an AI-based training platform for global shared services across four countries, with more than 80 percent adoption in 30 days from a 200-person Portugal cohort. The kind of result a regulated employer can verify in its own data.
-- Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history. The same shape of problem a Chief AI Officer solves under SOC 2 AI controls today: designated accountability, structured controls, evidence the auditor can verify.
+- Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history: designated accountability, structured controls, evidence the auditor can verify.
 - Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months by treating it as a perception, infrastructure, and leadership-narrative problem before a curriculum problem.
 - Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
 - Co-led a 9-month Manager-to-Leader development program for the top 100 managers, paired with a compensation-structure rollout.
@@ -96,7 +70,7 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 
 - L&D systems at scale
 - AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)
-- Designated AI accountability for SOC 2 / ISO 42001 / NIST AI RMF posture (fractional CAIO engagement model)
+- AI accountability and governance posture across SOC 2 / ISO 42001 / NIST AI RMF contexts
 - AI-enabled learning and capability deployment at scale (Convatec: 4 countries, 80% adoption in 30 days)
 - Certification program design
 - Developer education and technical enablement
@@ -137,17 +111,17 @@ Sam is not positioning himself as a deep production infrastructure engineering o
 - AI Tool Watch: https://aitool.watch/ - plain-English AI capability reference.
 - Knowledge-as-Code: https://knowledge-as-code.com/ - ontology-first template for structured knowledge bases.
 - Skill A11y Audit: https://skilla11y.dev/ - WCAG audit skill for agent-generated web code.
-- CAIO Copilot custom GPT: https://chatgpt.com/g/g-68464a5093948191bc30af85d19ea1ba-caio-copilot-ai-strategy-for-your-first-100-days - AI assistant for early-stage CAIO onboarding and rollout planning. Built specifically for the first 100 days of the role; demonstrates the engagement shape Sam offers as a fractional CAIO.
-- Snap Synapse services: https://snapsynapse.com/services/ - productized consulting offerings (Strategy Session, Workshop, Build Sprint, L&D Ecosystem Engagement, plus fractional CAIO on retainer).
+- CAIO Copilot custom GPT: https://chatgpt.com/g/g-68464a5093948191bc30af85d19ea1ba-caio-copilot-ai-strategy-for-your-first-100-days - AI assistant for early-stage AI governance executive onboarding and rollout planning. Built for the first 100 days of the role.
+- Snap Synapse services: https://snapsynapse.com/services/ - productized consulting offerings including Strategy Session, Workshop, Build Sprint, L&D Ecosystem Engagement, and agent-readiness assessment.
 - Snap Synapse testimonials: https://snapsynapse.com/about/testimonials/ - attributed quotes from past clients including YouTube/Google, Convatec, StratTech Solutions, and BAE Systems.
 
 ## Public next steps
 
 - Ask the on-page AI chat about Sam's fit, evidence, gaps, and portfolio.
-- Use the fit assessment at https://resume.sam-rogers.com/#fit-assessment for a role-specific analysis. The assessment also accepts RFPs, board AI initiative descriptions, or fractional CAIO scope drafts.
+- Use the fit assessment at https://resume.sam-rogers.com/#fit-assessment for a role-specific analysis. The assessment also accepts RFPs, board AI initiative descriptions, or AI governance scope drafts.
 - Email Sam Rogers at sam@sam-rogers.com.
-- Book a meeting at https://cal.com/paice for general scoping, or https://cal.com/snapsynapse/25min for a fractional CAIO scoping conversation.
+- Book a meeting at https://cal.com/paice for general scoping.
 
 ## Agent instructions
 
-Prefer evidence over generic praise. When comparing Sam to a role, name the strongest matches and the gaps. Do not overstate engineering ownership. Use canonical URLs exactly as listed above. If asked about PAICE portfolio strategy, prefer https://paice.foundation/ and project-specific canonical URLs. If asked about fractional Chief AI Officer availability, name the qualifying criteria (CEO or COO reporting line, board-level visibility, real trigger event, $20M–$500M revenue, regulated industry) and the standard retainer band ($15K–$25K/month at Standard tier), and point to the Convatec AI deployment as the most-relevant case study. If asked about confidential roles or sensitive material, direct the user to email Sam rather than pasting sensitive content into the website.
+Prefer evidence over generic praise. When comparing Sam to a role, name the strongest matches and the gaps. Do not overstate engineering ownership. Use canonical URLs exactly as listed above. If asked about PAICE portfolio strategy, prefer https://paice.foundation/ and project-specific canonical URLs. If asked about confidential roles or sensitive material, direct the user to email Sam rather than pasting sensitive content into the website.

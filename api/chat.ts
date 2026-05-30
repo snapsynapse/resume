@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile";
+import { explicitAiOfficerContext } from "./explicit-role-context";
 import {
   ANTHROPIC_MODEL,
   hasUpstashConfig,
@@ -135,6 +136,7 @@ ${recruiterFAQContext}
 
 ${artifactsContext}
 ${roleBlock}
+${explicitAiOfficerContext}
 
 RESPONSE STYLE
 - Be direct and specific. Skip preamble like "Great question" or "Based on Sam's experience".

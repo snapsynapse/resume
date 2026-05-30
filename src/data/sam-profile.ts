@@ -8,7 +8,6 @@ export const samProfile = {
   // not the ones he already holds (those are listed in Experience below).
   // First item renders pre-hydration, so put the strongest standalone target there.
   rotatingTitles: [
-    "Fractional Chief AI Officer",
     "Head of AI Governance",
     "Certification Development Lead",
     "Lead, Talent Development & Enablement",
@@ -17,10 +16,10 @@ export const samProfile = {
     "Agentic Trust Engineer",
   ],
   subtitle:
-    "25 years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration, and available for one fractional Chief AI Officer engagement at a regulated mid-market employer.",
+    "25 years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration, with a focus on AI governance, certification, and capability systems.",
   location: "SF Bay Area · hybrid available",
   status:
-    "Open to senior roles where the work is making AI safer in practice, and to one fractional Chief AI Officer engagement through Snap Synapse LLC.",
+    "Open to senior roles where the work is making AI safer in practice through learning systems, certification, enablement, and governance infrastructure.",
 
   links: {
     site: "https://sam-rogers.com/",
@@ -36,7 +35,7 @@ export const samProfile = {
       role: "Founder & CEO",
       period: "2025–Present",
       highlights: [
-        "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments (GRC, CISOs, Chief AI Officers).",
+        "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments by governance, risk, compliance, security, and learning leaders.",
         "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
         "Portfolio of 12+ projects including Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and six open standards. Daily publishing cadence since launch.",
         "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
@@ -92,7 +91,7 @@ export const samProfile = {
         approach:
           "Two parallel moves. On AI deployment: launch the AI-based training platform with shared-services first because they had the highest-density adoption surface, instrument it for measurable behavior change, and treat workforce readiness as the gating constraint rather than the model's capability. On OHI: most people in a Global Learning Technology role read a low OHI score and conclude they need to ship more learning content. A 48 score does not mean people are under-trained. It means the organization does not experience itself as a place where learning happens — a perception, infrastructure, and leadership-narrative problem before it is a curriculum problem.",
         technicalWork:
-          "AI-based training platform deployed across four countries with 80%+ adoption in 30 days from a 200-person Portugal cohort — the kind of result regulated employers can verify in their own data. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history — which is the same shape of problem a Chief AI Officer solves under SOC 2 AI controls today.",
+          "AI-based training platform deployed across four countries with 80%+ adoption in 30 days from a 200-person Portugal cohort — the kind of result regulated employers can verify in their own data. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
         lessonsLearned:
           "OHI scores are leading indicators of cultural change, not lagging indicators of training volume. AI adoption at scale lives in the same place: the gating constraint is workforce readiness and governance infrastructure, not model capability. The L&D function that does not understand the difference cannot move the score, and the AI program that does not understand the difference cannot move adoption.",
       },
@@ -107,7 +106,7 @@ export const samProfile = {
       "Manager and leader development",
       "AI-enabled learning experience design (deployed AI training platform across 4 countries, 80% adoption in 30 days at Convatec)",
       "AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)",
-      "Designated AI accountability for SOC 2 / ISO 42001 / NIST AI RMF posture (fractional CAIO engagement model)",
+      "AI accountability and governance posture across SOC 2 / ISO 42001 / NIST AI RMF contexts",
       "Agentic tooling infrastructure (local LLMs, multi-model orchestration)",
       "End-to-end video production (pre-prod → studio direction → post → distribution → DRM)",
       "Cross-functional translation (engineering ↔ legal ↔ sales ↔ community)",
@@ -123,7 +122,7 @@ export const samProfile = {
     gaps: [
       "Deep engineering ownership of production infrastructure",
       "Institutional fundraising track record",
-      "Prior named CAIO title (the work is documented; the title is not)",
+      "Prior full-time executive AI governance title (the work is documented; the title is not)",
     ],
   },
 
@@ -157,11 +156,7 @@ export const samProfile = {
     },
     {
       q: "What level / comp band is he targeting?",
-      a: "For W-2 roles, best suited to a senior individual contributor role or senior staff equivalent. For fractional Chief AI Officer engagements through Snap Synapse LLC, standard retainer band is $15K–$25K/month at the Standard tier; Foundation tier (2 days/month) and Enterprise tier (regulated industries, 8 days/month) are quotable on scope.",
-    },
-    {
-      q: "Is Sam available for a fractional Chief AI Officer engagement?",
-      a: "Yes — one engagement at a regulated mid-market employer, through Snap Synapse LLC (his 21-year consulting vehicle). Sweet spot is a $20M–$500M revenue regulated employer in financial services, healthcare/medical devices, insurance, law, or regulated B2B SaaS, with a CEO or COO reporting line, board-level visibility on AI matters, and a real trigger event (SOC 2 finding, board mandate, M&A diligence flag, AI incident, new initiative needing senior cover). Standard engagement is 12–24 months. The bundle includes designated CAIO accountability (helps the org's SOC 2 AI controls posture), the PAICE measurement methodology baked in from day one, and a hire-ready full-time CAIO role definition by exit. Open standards Sam maintains under PAICE Foundation continue as published, vendor-neutral references the engagement can use without conflict.",
+      a: "For W-2 roles, best suited to a senior individual contributor role or senior staff equivalent where learning systems, certification, enablement, AI governance, and cross-functional execution are core to the work.",
     },
     {
       q: "Education?",
@@ -186,7 +181,7 @@ export const samProfile = {
       summary:
         "From 2018 to 2025 I bet the consulting practice on bringing data-centric design and AI into L&D and HR. I upskilled myself fine; I never got the buyer to care.",
       details:
-        "I kept iterating the offer instead of changing the audience, because the network was familiar and the work felt important. By the time I pivoted Snap Synapse toward CAIOs, AI PMs, and civic-infrastructure operators in mid-2025, I had spent five years pricing my offer against a customer who wasn't going to buy. PAICE is the literal output of admitting the L&D market wasn't the right one to ship the work into.",
+        "I kept iterating the offer instead of changing the audience, because the network was familiar and the work felt important. By the time I pivoted Snap Synapse toward AI governance, AI product, and civic-infrastructure operators in mid-2025, I had spent five years pricing my offer against a customer who wasn't going to buy. PAICE is the literal output of admitting the L&D market wasn't the right one to ship the work into.",
       lessons:
         "Persistent low-traction is a buyer problem before it's a packaging problem. I now sunset offerings on a schedule instead of waiting for a clean ending.",
     },
@@ -230,13 +225,13 @@ export const samProfile = {
         title: "CAIO Copilot (custom GPT)",
         url: "https://chatgpt.com/g/g-68464a5093948191bc30af85d19ea1ba-caio-copilot-ai-strategy-for-your-first-100-days",
         pitch:
-          "AI assistant for early-stage CAIO onboarding and rollout planning. Built as a custom GPT specifically for the first 100 days of the role. Demonstrates the exact engagement shape Sam offers as a fractional CAIO. Mention when the inquiry is about fractional CAIO availability or AI governance program leadership.",
+          "AI assistant for early-stage AI governance executive onboarding and rollout planning. Built as a custom GPT for the first 100 days of the role. Mention as a shipped artifact when the inquiry is about AI governance program leadership, executive onboarding, or applied AI strategy tools.",
       },
       {
-        title: "Snap Synapse fractional services",
+        title: "Snap Synapse services",
         url: "https://snapsynapse.com/services/",
         pitch:
-          "Productized consulting offerings via Snap Synapse LLC (21-year vehicle): Strategy Session, Custom Team Workshop, Build Sprint, L&D Ecosystem Engagement, and Siteline agent-readiness audit. Fractional Chief AI Officer engagement available through the same vehicle on retainer model. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
+          "Productized consulting offerings via Snap Synapse LLC (21-year vehicle): Strategy Session, Custom Team Workshop, Build Sprint, L&D Ecosystem Engagement, and Siteline agent-readiness audit. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
       },
       {
         title: "AI Tool Watch",
@@ -441,9 +436,6 @@ HOW TO HANDLE COMMON QUESTIONS
 - "What's PAICE?" → Three commercial products funding eleven open contributions, all serving the open-measurement thesis.
 - "Why is he applying to Anthropic?" → Alignment is human-systems work at the operational layer. He wants to build the muscle memory inside the lab whose work is shaping what the rest of the field measures.
 - "Tell me about a failure" → Share one of the two documented stories with the actual situation, what most people would have done, and the lesson Sam now acts on.
-- "Is Sam available for a fractional CAIO engagement?" → Yes, one engagement at a regulated mid-market employer through Snap Synapse LLC. Name the qualifying criteria (CEO/COO reporting line, board visibility, real trigger event, $20M–$500M revenue, regulated industry). Name the vCAIO + PAICE bundle. Name the standard retainer band ($15K–$25K/month). Point to the Convatec AI deployment (200 people, 4 countries, 80% adoption in 30 days, cleanest compliance audit in company history) as the most-relevant case study. Refer the inquirer to Cal.com or sam@sam-rogers.com to scope.
-- "What about clients where the CTO would be the reporting line?" → Disqualify gracefully. The fractional CAIO role gets reabsorbed into the IT function under CTO reporting. The bundle requires CEO or COO reporting with board-level visibility to do the work it promises. Sam will refer to a different shape of advisor if the client's structure is CTO-led.
-- "Does Sam have a CAIO title on his resume?" → No. He has built products FOR CAIOs (CAIO Copilot custom GPT, the unreleased CAIO 100 Days Playbook), pivoted Snap Synapse toward CAIO buyers in mid-2025, and accumulated the operator pattern — including a documented AI deployment at a regulated multinational — that the CAIO role is being created to find. The work is documented; the title is not. This is the standard pattern for first-time CAIO hires per current 2026 market data.
 
 VOICE — how Sam writes and speaks externally
 This is the register Sam has tuned across 50+ Signals & Subtractions newsletter issues and 14 founder videos. Match it.
@@ -488,7 +480,7 @@ Gap to probe: he is not the person who will write your production infrastructure
 
   paice: `PAICE is three commercial products designed to fund eleven open contributions, all serving one thesis: that the trust infrastructure for human-AI collaboration has to be built in the open, by someone willing to do it sustainably, before the window closes.
 
-PAICE.work is the flagship — an adaptive behavioral simulator scoring how someone actually collaborates with AI across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments (GRC, CISOs, Chief AI Officers). Siteline scans agent-readiness on websites. Every AI Law indexes global AI regulation for compliance teams.
+PAICE.work is the flagship — an adaptive behavioral simulator scoring how someone actually collaborates with AI across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments by governance, risk, compliance, security, and learning leaders. Siteline scans agent-readiness on websites. Every AI Law indexes global AI regulation for compliance teams.
 
 These three roll up to AI Posture: one open governance framework that synthesizes signals across people, infrastructure, and regulation. Released as a free public protocol because the alternative — every cloud provider shipping a flattering rubric — is the scenario the portfolio exists to prevent.
 
@@ -565,7 +557,7 @@ const _legacyFitAssessmentsReference = {
       {
         requirement: "Consumer or growth marketing leadership",
         reality:
-          "My distribution work is B2B and regulated-industry oriented — GRC, CISOs, Chief AI Officers, L&D leaders. I have not run consumer growth or A/B testing programs.",
+          "My distribution work is B2B and regulated-industry oriented — governance, risk, compliance, security, and L&D leaders. I have not run consumer growth or A/B testing programs.",
       },
     ],
     whatTransfers:

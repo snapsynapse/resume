@@ -14,15 +14,10 @@
 - Removed stale "New" badge from the hero chat CTA.
 
 2026-05-20
-- Added Fractional Chief AI Officer (one engagement, regulated mid-market, through Snap Synapse LLC) to target roles across resume hero, llms.txt, llms-full.txt, agents.json, and resume.txt.
 - Added Head of AI Governance / AI program leadership to target roles.
-- Added fractional CAIO section to llms.txt and llms-full.txt with qualifying conditions, engagement shape, retainer band, and bundle scope (vCAIO + PAICE methodology + hire-ready CAIO role definition by exit).
-- Added "Is Sam available for a fractional CAIO engagement?" to recruiter FAQ with explicit yes, scope, vehicle (Snap Synapse LLC), and pricing band.
-- Updated AI chat system prompt to handle fractional CAIO inquiries (qualifying buyer criteria, disqualification on CTO reporting, honest naming of first-time-CAIO pattern).
-- Lifted the Convatec AI deployment (4 countries, 80% adoption in 30 days, cleanest compliance audit in company history) as the most-relevant case study for fractional CAIO buyers, including Rachel Horwitz testimonial reference.
-- Added CAIO Copilot custom GPT and Snap Synapse fractional services to publicArtifacts.mentionIfAsked.
-- Added fractional CAIO interaction path to agents.json (cal.com/snapsynapse/25min scoping route).
-- Updated skills to include AI governance program design, designated AI accountability for SOC 2 / ISO 42001 / NIST AI RMF posture, and AI-enabled capability deployment at scale.
+- Updated AI governance positioning across resume hero, llms.txt, llms-full.txt, agents.json, and resume.txt.
+- Lifted the Convatec AI deployment (4 countries, 80% adoption in 30 days, cleanest compliance audit in company history) as a regulated AI adoption case study, including Rachel Horwitz testimonial reference.
+- Updated skills to include AI governance program design, AI accountability posture across SOC 2 / ISO 42001 / NIST AI RMF contexts, and AI-enabled capability deployment at scale.
 
 2026-05-12
 - Added no-JS fallback resume content to the homepage for agents and crawlers.

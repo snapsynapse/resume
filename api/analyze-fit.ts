@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile";
+import { explicitAiOfficerContext } from "./explicit-role-context";
 import {
   ANTHROPIC_MODEL,
   hasUpstashConfig,
@@ -120,6 +121,8 @@ SKILLS:
 ${skillsSummary}
 
 THESIS: Sam is founder of PAICE.work PBC. 25 years in L&D and performance consulting. Building open infrastructure for human-AI collaboration. Best suited to senior IC roles where the work makes AI safer in practice.
+
+${explicitAiOfficerContext}
 
 INSTRUCTIONS:
 - Read the job description carefully.
