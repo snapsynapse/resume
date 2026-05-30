@@ -7,7 +7,7 @@ import JDReviewPanel from "./JDReviewPanel";
 
 type Verdict = "strong" | "moderate" | "weak";
 
-interface FitResult {
+export interface FitResult {
   verdict: Verdict;
   title: string;
   summary: string;
@@ -17,10 +17,18 @@ interface FitResult {
   recommendation: string;
 }
 
+interface FitAssessmentProps {
+  onResult?: (result: FitResult | null) => void;
+  onJobDescriptionStateChange?: (hasJobDescription: boolean) => void;
+}
+
 const MIN_JD_LENGTH = 50;
 const MAX_JD_LENGTH = 8000;
 
-const FitAssessment = () => {
+const FitAssessment = ({
+  onResult,
+  onJobDescriptionStateChange,
+}: FitAssessmentProps) => {
   const [jobDescription, setJobDescription] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<FitResult | null>(null);
@@ -33,6 +41,11 @@ const FitAssessment = () => {
 
   const handleJDChange = (value: string) => {
     setJobDescription(value);
+    onJobDescriptionStateChange?.(value.trim().length >= MIN_JD_LENGTH);
+    if (result) {
+      setResult(null);
+      onResult?.(null);
+    }
     // Editing the text invalidates a prior confirmation.
     if (reviewConfirmed) setReviewConfirmed(false);
   };
@@ -68,6 +81,7 @@ const FitAssessment = () => {
     }
     setAnalyzing(true);
     setResult(null);
+    onResult?.(null);
     setError(null);
     track("fit_assessment_started", { descriptionLength: jd.length });
 
@@ -93,6 +107,7 @@ const FitAssessment = () => {
 
       const data: FitResult = await res.json();
       setResult(data);
+      onResult?.(data);
       track("fit_assessment_completed", { verdict: data.verdict });
     } catch (err) {
       setError("Something went wrong. Email sam@sam-rogers.com with the JD and I'll review it manually.");

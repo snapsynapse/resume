@@ -13,7 +13,7 @@ const publicSurfaceFiles = [
   "src/data/sam-profile.ts",
 ];
 
-const retiredSolicitationPatterns = [
+const outdatedSolicitationPatterns = [
   /fractional/i,
   /Chief AI Officer/i,
   /available for one/i,
@@ -23,9 +23,9 @@ const retiredSolicitationPatterns = [
 ];
 
 describe("public resume surfaces", () => {
-  it.each(publicSurfaceFiles)("does not expose retired AI-officer solicitation in %s", (file) => {
+  it.each(publicSurfaceFiles)("does not expose outdated AI-officer solicitation in %s", (file) => {
     const content = readFileSync(join(root, file), "utf8");
-    for (const pattern of retiredSolicitationPatterns) {
+    for (const pattern of outdatedSolicitationPatterns) {
       expect(content).not.toMatch(pattern);
     }
   });

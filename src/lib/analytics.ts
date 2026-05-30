@@ -11,6 +11,7 @@ type AnalyticsEvent =
   | "jd_review_panel_opened"
   | "jd_review_skipped"
   | "jd_review_completed"
+  | "decision_brief_copied"
   | "booking_cta_clicked"
   | "email_clicked"
   | "footer_link_clicked"
