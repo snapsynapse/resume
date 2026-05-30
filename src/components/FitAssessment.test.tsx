@@ -50,4 +50,72 @@ describe("FitAssessment", () => {
     expect(screen.getByText("Direct team size")).toBeInTheDocument();
     expect(screen.getByText("Talk next.")).toBeInTheDocument();
   });
+
+  it("flags business-sensitive details and sends only the reviewed JD", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          verdict: "moderate",
+          title: "Possible Fit",
+          summary: "Reviewed.",
+          matches: [],
+          gaps: [],
+          whatTransfers: "",
+          recommendation: "Maybe.",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+
+    render(<FitAssessment />);
+
+    fireEvent.change(screen.getByLabelText("Job description"), {
+      target: {
+        value:
+          "Confidential search for a senior leader. Requisition REQ-12345 to lead Project Atlas across the org.",
+      },
+    });
+
+    // Review is on by default; the panel shows a flag count badge.
+    expect(screen.getByText(/to review/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
+    fireEvent.click(screen.getByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /I removed non-public/i }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /I kept useful public context/i }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /Use this reviewed JD/i }));
+    fireEvent.click(screen.getByRole("button", { name: /use reviewed jd/i }));
+
+    // Original requisition code is discarded from the editable text.
+    const textarea = screen.getByLabelText("Job description") as HTMLTextAreaElement;
+    expect(textarea.value).toContain("[INTERNAL JOB CODE]");
+    expect(textarea.value).not.toContain("REQ-12345");
+
+    fireEvent.click(screen.getByRole("button", { name: /analyze fit/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Possible Fit")).toBeInTheDocument();
+    });
+
+    const body = JSON.parse((fetchMock.mock.calls[0][1] as RequestInit).body as string);
+    expect(body.jobDescription).toContain("[INTERNAL JOB CODE]");
+    expect(body.jobDescription).not.toContain("REQ-12345");
+  });
+
+  it("skips the review panel when the toggle is turned off", () => {
+    render(<FitAssessment />);
+
+    fireEvent.change(screen.getByLabelText("Job description"), {
+      target: {
+        value:
+          "Confidential search for a senior leader. Requisition REQ-12345 to lead Project Atlas across the org.",
+      },
+    });
+    expect(screen.getByText(/to review/i)).toBeInTheDocument();
+
+    fireEvent.click(
+      screen.getByRole("checkbox", { name: /review business-sensitive details before analysis/i }),
+    );
+    expect(screen.queryByText(/to review/i)).not.toBeInTheDocument();
+  });
 });

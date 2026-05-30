@@ -1,5 +1,5 @@
 # Sam Rogers AI Resume
-Interactive resume for https://sam-rogers.com/. The site presents a concise work history, an AI chat for recruiter questions, and a job-description fit assessment.
+Interactive resume for https://sam-rogers.com/. The site presents a concise work history, an AI chat for recruiter questions, and a job-description fit assessment with an optional local business-context review step.
 ## Stack
 - Vite
 - React
@@ -47,7 +47,8 @@ The implementation must remain cookieless and should not require a cookie banner
 - no `identify()` calls
 - no user text, job-description text, chat content, email addresses, names, or other user-supplied content in event properties
 - `respect_dnt: true`
-Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, booking clicks, email clicks, footer link clicks, section navigation clicks, and experience-context toggles.
+Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, and experience-context toggles.
+Job-description review events carry only a flag count, a character-length bucket, and an edited boolean. They never include scanned text, flagged terms, placeholders, or any company, client, employee, or project names.
 To debug a configured build in-browser, append `?analytics_debug=1` and watch the console/network panel for PostHog requests to the configured host. Local builds also warn in the console when `VITE_POSTHOG_KEY` is missing.
 ## Scripts
 - `npm run dev`: start local Vite server
@@ -91,6 +92,7 @@ Claims that need more context than a public page can carry are mapped in [EVIDEN
 Prompt-boundary evals live in [scripts/eval-prompts.mjs](/Users/snap/Git/resume/scripts/eval-prompts.mjs). They check that the AI layer refuses private-address and false-credential requests, routes sensitive job material to email, does not overclaim production-infrastructure ownership, and resists job-description prompt injection.
 ## Privacy Note
 The chat and fit assessment send user-supplied text to Anthropic for analysis. The app does not intentionally store chat messages or submitted job descriptions, and analytics events must never include user-supplied text. Visitors should not paste confidential, proprietary, regulated, or unreleased role data into the form. For sensitive roles, email Sam directly instead.
+Before analysis, the fit assessment offers an optional business-context review. A deterministic scanner runs entirely in the browser, calls no third-party service, and flags likely non-public details (internal codes, confidential searches, client names, unreleased plans) so the visitor can replace them with bracketed placeholders or edit the text. Only the reviewed text is sent to `/api/analyze-fit`. The scanner and review specification live in [docs/job-description-sanitization.md](/Users/snap/Git/resume/docs/job-description-sanitization.md). This is risk reduction and transparency, not anonymization, compliance certification, or legal advice.
 ## Security
 See [SECURITY.md](/Users/snap/Git/resume/SECURITY.md) for the endpoint threat model, responsible disclosure path, and hardening notes.
 See [EVIDENCE.md](/Users/snap/Git/resume/EVIDENCE.md) for the claim ledger behind the resume.

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FileText, Check, AlertTriangle, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
+import { lengthBucket } from "@/lib/jd-review";
+import JDReviewPanel from "./JDReviewPanel";
 
 type Verdict = "strong" | "moderate" | "weak";
 
@@ -23,6 +25,40 @@ const FitAssessment = () => {
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<FitResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [reviewEnabled, setReviewEnabled] = useState(true);
+  const [reviewConfirmed, setReviewConfirmed] = useState(false);
+
+  const showReviewPanel =
+    reviewEnabled && !reviewConfirmed && jobDescription.trim().length >= MIN_JD_LENGTH;
+
+  const handleJDChange = (value: string) => {
+    setJobDescription(value);
+    // Editing the text invalidates a prior confirmation.
+    if (reviewConfirmed) setReviewConfirmed(false);
+  };
+
+  const handleToggleReview = () => {
+    const next = !reviewEnabled;
+    setReviewEnabled(next);
+    if (!next) {
+      setReviewConfirmed(false);
+      track("jd_review_skipped", { lengthBucket: lengthBucket(jobDescription.trim().length) });
+    }
+  };
+
+  const handleReviewConfirm = (
+    reviewedText: string,
+    meta: { flagCount: number; edited: boolean },
+  ) => {
+    // Discard the original by overwriting the only state that holds it.
+    setJobDescription(reviewedText);
+    setReviewConfirmed(true);
+    track("jd_review_completed", {
+      flagCount: meta.flagCount,
+      edited: meta.edited,
+      lengthBucket: lengthBucket(reviewedText.length),
+    });
+  };
 
   const handleAnalyze = async () => {
     const jd = jobDescription.trim();
@@ -101,7 +137,7 @@ const FitAssessment = () => {
             </p>
             <textarea
               value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
+              onChange={(e) => handleJDChange(e.target.value)}
               placeholder="Paste the JD here — title, requirements, responsibilities, anything that defines the role..."
               disabled={analyzing}
               rows={10}
@@ -138,6 +174,35 @@ const FitAssessment = () => {
             {error && (
               <p className="mt-4 text-sm text-warning bg-warning-muted border border-warning/20 rounded-lg px-4 py-3">
                 {error}
+              </p>
+            )}
+
+            <label className="mt-4 flex items-center gap-2.5 text-xs text-muted-foreground cursor-pointer">
+              <input
+                type="checkbox"
+                checked={reviewEnabled}
+                onChange={handleToggleReview}
+                className="h-3.5 w-3.5 shrink-0 accent-accent"
+              />
+              <span>Review business-sensitive details before analysis.</span>
+            </label>
+
+            {showReviewPanel && (
+              <JDReviewPanel
+                originalText={jobDescription}
+                onConfirm={handleReviewConfirm}
+                onOpened={() =>
+                  track("jd_review_panel_opened", {
+                    lengthBucket: lengthBucket(jobDescription.trim().length),
+                  })
+                }
+              />
+            )}
+
+            {reviewEnabled && reviewConfirmed && (
+              <p className="mt-3 inline-flex items-center gap-2 rounded-lg bg-success-muted border border-success/30 px-3 py-2 text-xs text-success">
+                <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                Reviewed JD ready. Click Analyze fit to continue.
               </p>
             )}
           </div>

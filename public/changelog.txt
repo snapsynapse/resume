@@ -1,6 +1,9 @@
 # Sam Rogers Resume Changelog
 
 2026-05-30
+- Added an optional, on-by-default business-context review step to the fit assessment. A deterministic browser-only scanner flags likely non-public details (internal codes, confidential searches, client names, unreleased plans) and offers bracketed placeholders before any text is sent for analysis. Only the user-confirmed reviewed text reaches /api/analyze-fit, and the original text is discarded on confirmation.
+- Added jd_review_panel_opened, jd_review_skipped, and jd_review_completed analytics events carrying only flag counts, length buckets, and an edited boolean, never user-supplied text.
+- Fixed the static crawl-page build step to load the TypeScript profile through Node native type stripping.
 - Updated AI endpoints to default to claude-opus-4-8 through explicit ANTHROPIC_MODEL configuration.
 - Pruned unused shadcn/ui components, unused hooks, stale component metadata, unused dependencies, and the stale Bun lockfile.
 - Switched Vite and Vitest to the standard React plugin and refreshed Browserslist/caniuse-lite data.
