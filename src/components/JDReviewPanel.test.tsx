@@ -35,6 +35,31 @@ describe("JDReviewPanel", () => {
     expect(textarea.value).not.toContain("REQ-12345");
   });
 
+  it("shows flagged spans in an inline preview", () => {
+    render(<JDReviewPanel originalText={JD} onConfirm={vi.fn()} />);
+    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
+
+    const preview = screen.getByLabelText(/flagged job description preview/i);
+    expect(preview).toBeInTheDocument();
+    expect(preview.querySelectorAll("mark").length).toBeGreaterThan(0);
+    expect(preview).toHaveTextContent("Project Atlas");
+    expect(preview).toHaveTextContent("REQ-12345");
+  });
+
+  it("undoes an applied placeholder back to the prior text", () => {
+    render(<JDReviewPanel originalText={JD} onConfirm={vi.fn()} />);
+    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
+
+    fireEvent.click(screen.getByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
+    let textarea = screen.getByLabelText(/reviewed job description/i) as HTMLTextAreaElement;
+    expect(textarea.value).toContain("[INTERNAL JOB CODE]");
+    expect(textarea.value).not.toContain("REQ-12345");
+
+    fireEvent.click(screen.getByRole("button", { name: /^undo$/i }));
+    textarea = screen.getByLabelText(/reviewed job description/i) as HTMLTextAreaElement;
+    expect(textarea.value).toBe(JD);
+  });
+
   it("gates the confirm button behind the checklist and returns reviewed text", () => {
     const onConfirm = vi.fn();
     render(<JDReviewPanel originalText={JD} onConfirm={onConfirm} />);

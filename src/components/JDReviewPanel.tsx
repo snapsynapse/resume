@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ChevronDown, ShieldCheck, Wand2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { applyFlag, scanJD, type Flag } from "@/lib/jd-review";
@@ -23,16 +23,49 @@ const confidenceTone: Record<Flag["confidence"], string> = {
   medium: "bg-secondary border-border text-muted-foreground",
 };
 
+interface AppliedReplacement {
+  id: string;
+  original: string;
+  placeholder: string;
+}
+
+function renderHighlightedText(text: string, flags: Flag[]) {
+  if (flags.length === 0) return text;
+
+  const parts: ReactNode[] = [];
+  let cursor = 0;
+  for (const flag of flags) {
+    if (cursor < flag.start) {
+      parts.push(text.slice(cursor, flag.start));
+    }
+    parts.push(
+      <mark
+        key={flag.id}
+        className="rounded bg-warning-muted px-1 py-0.5 text-warning"
+      >
+        {text.slice(flag.start, flag.end)}
+      </mark>,
+    );
+    cursor = flag.end;
+  }
+  if (cursor < text.length) {
+    parts.push(text.slice(cursor));
+  }
+  return parts;
+}
+
 const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps) => {
   const [open, setOpen] = useState(false);
   const [workingText, setWorkingText] = useState(originalText);
   const [checked, setChecked] = useState<boolean[]>(() => CHECKLIST.map(() => false));
+  const [appliedReplacements, setAppliedReplacements] = useState<AppliedReplacement[]>([]);
   const openedOnce = useRef(false);
 
   // Reset the working copy whenever a fresh JD is pasted.
   useEffect(() => {
     setWorkingText(originalText);
     setChecked(CHECKLIST.map(() => false));
+    setAppliedReplacements([]);
   }, [originalText]);
 
   // Live flags against the working text — applied placeholders drop out,
@@ -55,6 +88,23 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
 
   const handleApply = (flag: Flag) => {
     setWorkingText((current) => applyFlag(current, flag));
+    setAppliedReplacements((current) => [
+      ...current,
+      {
+        id: flag.id,
+        original: flag.match,
+        placeholder: flag.placeholder,
+      },
+    ]);
+  };
+
+  const handleUndo = (replacement: AppliedReplacement) => {
+    setWorkingText((current) =>
+      current.replace(replacement.placeholder, replacement.original),
+    );
+    setAppliedReplacements((current) =>
+      current.filter((item) => item.id !== replacement.id),
+    );
   };
 
   const handleConfirm = () => {
@@ -101,48 +151,89 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
           </p>
 
           {flags.length > 0 ? (
-            <ul className="mb-5 space-y-3">
-              {flags.map((flag) => (
-                <li
-                  key={flag.id}
-                  className="rounded-lg border border-border bg-card p-3"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <code className="rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground break-all">
-                          {flag.match}
-                        </code>
-                        <span
-                          className={cn(
-                            "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wide",
-                            confidenceTone[flag.confidence],
-                          )}
-                        >
-                          {flag.confidence === "high" ? "Likely" : "Maybe"}
-                        </span>
+            <>
+              <div
+                aria-label="Flagged job description preview"
+                className="mb-5 max-h-40 overflow-auto whitespace-pre-wrap rounded-lg border border-border bg-card p-3 font-mono text-xs leading-relaxed text-foreground"
+              >
+                {renderHighlightedText(workingText, flags)}
+              </div>
+              <ul className="mb-5 space-y-3">
+                {flags.map((flag) => (
+                  <li
+                    key={flag.id}
+                    className="rounded-lg border border-border bg-card p-3"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <code className="rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground break-all">
+                            {flag.match}
+                          </code>
+                          <span
+                            className={cn(
+                              "rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wide",
+                              confidenceTone[flag.confidence],
+                            )}
+                          >
+                            {flag.confidence === "high" ? "Likely" : "Maybe"}
+                          </span>
+                        </div>
+                        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                          {flag.explanation}
+                        </p>
                       </div>
-                      <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                        {flag.explanation}
-                      </p>
+                      <button
+                        type="button"
+                        onClick={() => handleApply(flag)}
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-secondary px-2.5 py-1.5 text-xs font-medium text-foreground hover:border-accent transition-colors"
+                      >
+                        <Wand2 className="h-3 w-3" aria-hidden="true" />
+                        <span className="whitespace-nowrap">{flag.placeholder}</span>
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleApply(flag)}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-secondary px-2.5 py-1.5 text-xs font-medium text-foreground hover:border-accent transition-colors"
-                    >
-                      <Wand2 className="h-3 w-3" aria-hidden="true" />
-                      <span className="whitespace-nowrap">{flag.placeholder}</span>
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            </>
           ) : (
             <p className="mb-5 rounded-lg border border-border bg-card px-3 py-3 text-xs text-muted-foreground">
               No non-public business details detected. Read through the text below and edit
               anything the scanner may have missed.
             </p>
+          )}
+
+          {appliedReplacements.length > 0 && (
+            <div className="mb-5 rounded-lg border border-border bg-card p-3">
+              <h3 className="text-xs font-medium text-foreground">
+                Applied replacements
+              </h3>
+              <ul className="mt-2 space-y-2">
+                {appliedReplacements.map((replacement) => (
+                  <li
+                    key={replacement.id}
+                    className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground"
+                  >
+                    <span>
+                      <code className="rounded bg-secondary px-1 py-0.5 text-foreground">
+                        {replacement.original}
+                      </code>{" "}
+                      replaced with{" "}
+                      <code className="rounded bg-secondary px-1 py-0.5 text-foreground">
+                        {replacement.placeholder}
+                      </code>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleUndo(replacement)}
+                      className="rounded-lg border border-border bg-secondary px-2.5 py-1.5 font-medium text-foreground hover:border-accent transition-colors"
+                    >
+                      Undo
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
           <label htmlFor="jd-reviewed-text" className="mb-1.5 block text-xs font-medium text-foreground">

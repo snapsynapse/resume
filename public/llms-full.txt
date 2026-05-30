@@ -118,7 +118,7 @@ Sam is not positioning himself as a deep production infrastructure engineering o
 ## Public next steps
 
 - Ask the on-page AI chat about Sam's fit, evidence, gaps, and portfolio.
-- Use the fit assessment at https://resume.sam-rogers.com/#fit-assessment for a role-specific analysis. The assessment also accepts RFPs, board AI initiative descriptions, or AI governance scope drafts.
+- Use the fit assessment at https://resume.sam-rogers.com/#fit-assessment for a role-specific analysis. The assessment runs a local, browser-only business-context review first; only user-confirmed reviewed text is sent for analysis. It also accepts RFPs, board AI initiative descriptions, or AI governance scope drafts.
 - Email Sam Rogers at sam@sam-rogers.com.
 - Book a meeting at https://cal.com/paice for general scoping.
 

@@ -12,6 +12,8 @@ Deferred work for [resume.sam-rogers.com](https://resume.sam-rogers.com). Active
 - **PostHog cookieless analytics review** — keep analytics minimal: explicit interaction events only, no autocapture, no pageviews, no replay, no identity, no user-supplied text. Review after 30-60 days and remove any event that does not drive a curation or conversion decision.
 - **Post-deploy Siteline self-eval** — rerun the agent-readiness scan after this branch is deployed and use remaining failures as the next worklist.
 - **CI eval gate** — run lint, typecheck, unit tests, build, `validate:metadata`, and the expanded prompt-boundary evals against preview URLs when API env is available.
+- **Live AI-governance executive fit eval** — add a live `/api/analyze-fit` prompt eval with a user-supplied AI governance executive JD to confirm the server-only explicit-context prompt handles that role shape without advertising retired services.
+- **Static documentation reference eval** — add a CI check that fails if tracked files point at ignored `handoffs/` material or the deleted `docs/job-description-sanitization.md` path.
 - **Automated accessibility eval** — add axe or equivalent once Playwright/Puppeteer is installed. Cover homepage, chat modal, mobile menu, and fit form.
 - **Live API smoke test** — run `/api/chat` and `/api/analyze-fit` against Vercel previews with `ANTHROPIC_API_KEY` configured. Local Vite cannot cover the live API path.
 - **Visual regression snapshots** — capture mobile, tablet, and desktop states for hero, mobile menu, chat modal, and fit assessment.

@@ -2,8 +2,15 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import FitAssessment from "./FitAssessment";
 
+const analyticsMock = vi.hoisted(() => ({
+  track: vi.fn(),
+}));
+
+vi.mock("@/lib/analytics", () => analyticsMock);
+
 describe("FitAssessment", () => {
   afterEach(() => {
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 
@@ -117,5 +124,51 @@ describe("FitAssessment", () => {
       screen.getByRole("checkbox", { name: /review business-sensitive details before analysis/i }),
     );
     expect(screen.queryByText(/to review/i)).not.toBeInTheDocument();
+  });
+
+  it("keeps review analytics payloads metadata-only", () => {
+    const sensitiveJD =
+      "Confidential search for Jane Smith. Requisition REQ-88888 to lead Project Atlas for the Acme Bank rollout.";
+    const leakedTerms = [
+      "Confidential",
+      "Jane Smith",
+      "REQ-88888",
+      "Project Atlas",
+      "Acme Bank",
+      "[INTERNAL JOB CODE]",
+    ];
+    const allowedKeys = new Set(["flagCount", "lengthBucket", "edited"]);
+
+    render(<FitAssessment />);
+
+    fireEvent.change(screen.getByLabelText("Job description"), {
+      target: { value: sensitiveJD },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
+    fireEvent.click(screen.getByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /I removed non-public/i }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /I kept useful public context/i }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /Use this reviewed JD/i }));
+    fireEvent.click(screen.getByRole("button", { name: /use reviewed jd/i }));
+
+    const reviewEvents = analyticsMock.track.mock.calls.filter(([event]) =>
+      String(event).startsWith("jd_review_"),
+    );
+    expect(reviewEvents.map(([event]) => event)).toEqual([
+      "jd_review_panel_opened",
+      "jd_review_completed",
+    ]);
+
+    for (const [, properties] of reviewEvents) {
+      expect(properties).toBeDefined();
+      expect(Object.keys(properties as Record<string, unknown>).every((key) => allowedKeys.has(key))).toBe(true);
+
+      for (const value of Object.values(properties as Record<string, unknown>)) {
+        if (typeof value !== "string") continue;
+        for (const term of leakedTerms) {
+          expect(value).not.toContain(term);
+        }
+      }
+    }
   });
 });

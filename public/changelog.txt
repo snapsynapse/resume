@@ -1,6 +1,10 @@
 # Sam Rogers Resume Changelog
 
 2026-05-30
+- Added a corpus regression suite for the job-description scanner with realistic clean and sensitive JD fixtures.
+- Added analytics privacy regression tests for jd_review_* events to enforce metadata-only payloads.
+- Added inline flagged-span preview and per-replacement undo controls to the JD review panel.
+- Updated llms.txt, llms-full.txt, and generated fit-assessment crawl page copy to describe the local browser-only review step.
 - Added an optional, on-by-default business-context review step to the fit assessment. A deterministic browser-only scanner flags likely non-public details (internal codes, confidential searches, client names, unreleased plans) and offers bracketed placeholders before any text is sent for analysis. Only the user-confirmed reviewed text reaches /api/analyze-fit, and the original text is discarded on confirmation.
 - Added jd_review_panel_opened, jd_review_skipped, and jd_review_completed analytics events carrying only flag counts, length buckets, and an edited boolean, never user-supplied text.
 - Fixed the static crawl-page build step to load the TypeScript profile through Node native type stripping.

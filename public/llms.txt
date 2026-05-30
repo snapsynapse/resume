@@ -52,7 +52,7 @@ Use https://paice.foundation/ as the canonical map for PAICE public benefit corp
 ## Public next steps
 
 - Ask the on-page AI chat questions about Sam's fit, evidence, or gaps.
-- Paste a job description into the fit assessment tool for a role-specific analysis. The fit assessment also accepts pasted RFPs, board AI initiative descriptions, or AI governance scope drafts.
+- Paste a job description into the fit assessment tool for a role-specific analysis. The tool runs a local, browser-only business-context review first; only user-confirmed reviewed text is sent for analysis. The fit assessment also accepts pasted RFPs, board AI initiative descriptions, or AI governance scope drafts.
 - Email Sam at sam@sam-rogers.com.
 - Book a meeting at https://cal.com/paice.
 

@@ -1,7 +1,5 @@
 // Deterministic, local job-description business-context scanner.
 //
-// Spec: docs/job-description-sanitization.md
-//
 // This is NOT PII anonymization and NOT a legal guarantee. It flags likely
 // non-public business details so a user can review them before a JD is sent
 // for fit analysis. It runs entirely in the browser, calls no network service,
