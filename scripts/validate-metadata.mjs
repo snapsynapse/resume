@@ -102,8 +102,8 @@ for (const endpoint of apiManifest.endpoints ?? []) {
       fail(`api-manifest.json: ${endpoint.path} missing required env ${envName}`);
     }
   }
-  if (rateLimit.missing_config_behavior !== "fail_open_local_dev") {
-    fail(`api-manifest.json: ${endpoint.path} must disclose fail_open_local_dev`);
+  if (rateLimit.missing_config_behavior !== "fail_open_local_dev_fail_closed_production") {
+    fail(`api-manifest.json: ${endpoint.path} must disclose fail_open_local_dev_fail_closed_production`);
   }
   const actualLimits = JSON.stringify(rateLimit.limits ?? []);
   if (actualLimits !== JSON.stringify(expected)) {

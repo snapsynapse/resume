@@ -28,6 +28,7 @@ vi.mock("@anthropic-ai/sdk", () => {
 describe("API validation", () => {
   afterEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("rejects non-POST chat requests", async () => {
@@ -169,7 +170,7 @@ describe("API validation", () => {
     await expect(res.text()).resolves.toBe("Sam matches.");
     expect(anthropicMocks.stream).toHaveBeenCalledWith(
       expect.objectContaining({
-        model: "claude-opus-4-7",
+        model: "claude-opus-4-8",
         messages: [{ role: "user", content: "Is Sam a fit for certification?" }],
       }),
     );
@@ -203,7 +204,7 @@ describe("API validation", () => {
     await expect(res.json()).resolves.toEqual(fitResult);
     expect(anthropicMocks.create).toHaveBeenCalledWith(
       expect.objectContaining({
-        model: "claude-opus-4-7",
+        model: "claude-opus-4-8",
         output_config: {
           format: expect.objectContaining({ type: "json_schema" }),
         },
@@ -228,5 +229,24 @@ describe("API validation", () => {
 
     expect(res.status).toBe(502);
     await expect(res.json()).resolves.toEqual({ error: "model_returned_invalid_json" });
+  });
+
+  it("fails closed in production when Upstash rate limiting is missing", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+
+    const res = await chatHandler(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "Is Sam a fit for certification?" }],
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(503);
+    await expect(res.json()).resolves.toMatchObject({
+      error: "rate_limit_config_missing",
+    });
+    expect(anthropicMocks.stream).not.toHaveBeenCalled();
   });
 });

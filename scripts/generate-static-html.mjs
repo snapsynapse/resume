@@ -100,7 +100,7 @@ const pages = [
         paragraphs: [
           "The interactive resume includes a fit assessment that accepts a job description and returns an honest role-specific analysis.",
           "The assessment is designed to identify where Sam Rogers matches the role, where the gaps are, what transfers, and whether proceeding makes sense.",
-          "For confidential roles, email Sam directly rather than submitting sensitive material through the form.",
+          "Job descriptions are sent to Anthropic for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data. For sensitive roles, email Sam directly rather than submitting material through the form.",
         ],
       },
       {

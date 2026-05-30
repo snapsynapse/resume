@@ -2,16 +2,18 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile";
+import {
+  ANTHROPIC_MODEL,
+  hasUpstashConfig,
+  isProductionRuntime,
+  missingRateLimitConfigResponse,
+} from "./config";
 
 export const config = { runtime: "edge" };
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-const hasUpstash =
-  !!process.env.UPSTASH_REDIS_REST_URL &&
-  !!process.env.UPSTASH_REDIS_REST_TOKEN;
-
-const redis = hasUpstash ? Redis.fromEnv() : null;
+const redis = hasUpstashConfig ? Redis.fromEnv() : null;
 
 // Heavier rate limit on fit analysis — each call is a large structured generation.
 const fitLimiter = redis
@@ -136,6 +138,10 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response("Method not allowed", { status: 405 });
   }
 
+  if (!hasUpstashConfig && isProductionRuntime()) {
+    return missingRateLimitConfigResponse();
+  }
+
   if (fitLimiter) {
     const ip = getClientIp(req);
     const { success, reset } = await fitLimiter.limit(ip);
@@ -176,7 +182,7 @@ export default async function handler(req: Request): Promise<Response> {
 
   try {
     const response = await client.messages.create({
-      model: "claude-opus-4-7",
+      model: ANTHROPIC_MODEL,
       max_tokens: 2500,
       system: [
         {

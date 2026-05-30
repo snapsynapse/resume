@@ -63,13 +63,10 @@ const Hero = ({ onOpenChat }: HeroProps) => {
           {/* CTA Button */}
           <button
             onClick={handleOpenChat}
-            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground rounded-2xl font-medium transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/20 animate-slide-up stagger-4"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-accent text-accent-foreground rounded-2xl font-medium transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/20 animate-slide-up stagger-4"
           >
             <MessageSquare className="w-5 h-5" />
             <span>Ask AI About Sam</span>
-            <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-success text-primary-foreground rounded-full text-xs font-medium">
-              New
-            </span>
           </button>
         </div>
 

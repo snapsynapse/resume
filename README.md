@@ -5,7 +5,7 @@ Interactive resume for https://sam-rogers.com/. The site presents a concise work
 - React
 - TypeScript
 - Tailwind CSS
-- shadcn/ui
+- Radix Dialog
 - Vercel Edge Functions
 - Anthropic Messages API
 - Optional Upstash Redis rate limiting
@@ -21,13 +21,16 @@ The Vite dev server runs on port 8080 by default. Use `vercel dev` when testing 
 Required:
 ```sh
 ANTHROPIC_API_KEY=
+ANTHROPIC_MODEL=claude-opus-4-8
 ```
+`ANTHROPIC_MODEL` is optional locally and defaults to `claude-opus-4-8`, but it should be set explicitly in production so model changes are reviewable.
+
 Optional rate limiting:
 ```sh
 UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 ```
-Without Upstash, the API routes still run but skip rate limiting.
+Without Upstash, the API routes run locally but skip rate limiting. In production, missing Upstash configuration fails closed with HTTP 503 so public endpoints do not run without cost controls.
 Optional cookieless analytics:
 ```sh
 VITE_POSTHOG_KEY=
@@ -54,6 +57,7 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm run typecheck`: TypeScript check, including Vercel API handlers
 - `npm run validate:metadata`: verify generated crawl pages, structured data, sitemap, and machine-readable files
 - `npm run test`: Vitest test suite, including mocked API success paths for chat streaming and structured fit analysis
+- `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`
 ## Machine-Readable Routes
 The homepage is the human-first interactive resume. It still includes meaningful no-JS fallback HTML inside `index.html`, so agents that fetch raw HTML can read a profile summary, experience summary, contact paths, and links to dedicated crawl pages before React hydrates.
 Dedicated public routes are generated after `vite build` by [scripts/generate-static-html.mjs](/Users/snap/Git/resume/scripts/generate-static-html.mjs):
@@ -81,5 +85,12 @@ Machine-readable resources in `public/` include:
 - `/.well-known/security.txt`
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*` and all other routes to the SPA entrypoint.
+## Evidence And Evals
+Claims that need more context than a public page can carry are mapped in [EVIDENCE.md](/Users/snap/Git/resume/EVIDENCE.md). The goal is bounded substantiation, not dumping client material into a public repo.
+
+Prompt-boundary evals live in [scripts/eval-prompts.mjs](/Users/snap/Git/resume/scripts/eval-prompts.mjs). They check that the AI layer refuses private-address and false-credential requests, routes sensitive job material to email, does not overclaim production-infrastructure ownership, and resists job-description prompt injection.
 ## Privacy Note
-The fit assessment sends pasted job descriptions to the configured AI provider for analysis. The app does not intentionally store submitted job descriptions. For confidential roles, email Sam directly instead.
+The chat and fit assessment send user-supplied text to Anthropic for analysis. The app does not intentionally store chat messages or submitted job descriptions, and analytics events must never include user-supplied text. Visitors should not paste confidential, proprietary, regulated, or unreleased role data into the form. For sensitive roles, email Sam directly instead.
+## Security
+See [SECURITY.md](/Users/snap/Git/resume/SECURITY.md) for the endpoint threat model, responsible disclosure path, and hardening notes.
+See [EVIDENCE.md](/Users/snap/Git/resume/EVIDENCE.md) for the claim ledger behind the resume.

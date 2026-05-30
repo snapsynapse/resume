@@ -1,5 +1,15 @@
 # Sam Rogers Resume Changelog
 
+2026-05-30
+- Updated AI endpoints to default to claude-opus-4-8 through explicit ANTHROPIC_MODEL configuration.
+- Pruned unused shadcn/ui components, unused hooks, stale component metadata, unused dependencies, and the stale Bun lockfile.
+- Switched Vite and Vitest to the standard React plugin and refreshed Browserslist/caniuse-lite data.
+- Added EVIDENCE.md as a claims ledger separating public sources from reference-check evidence and confidentiality caveats.
+- Added SECURITY.md with endpoint threat model, disclosure path, prompt-injection posture, production fail-closed rate-limit behavior, and CSP notes.
+- Tightened privacy language for chat and fit assessment submissions, including explicit guidance not to paste confidential, proprietary, regulated, or unreleased role data.
+- Expanded prompt-boundary evals for sensitive-material handling, production-engineering overclaiming, and stricter fit-assessment injection checks.
+- Removed stale "New" badge from the hero chat CTA.
+
 2026-05-20
 - Added Fractional Chief AI Officer (one engagement, regulated mid-market, through Snap Synapse LLC) to target roles across resume hero, llms.txt, llms-full.txt, agents.json, and resume.txt.
 - Added Head of AI Governance / AI program leadership to target roles.

@@ -2,18 +2,20 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile";
+import {
+  ANTHROPIC_MODEL,
+  hasUpstashConfig,
+  isProductionRuntime,
+  missingRateLimitConfigResponse,
+} from "./config";
 
 export const config = { runtime: "edge" };
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // Two sliding windows. Burst protection + sustained-use cap.
-// Skips silently if Upstash env vars are missing (local dev without `vercel env pull`).
-const hasUpstash =
-  !!process.env.UPSTASH_REDIS_REST_URL &&
-  !!process.env.UPSTASH_REDIS_REST_TOKEN;
-
-const redis = hasUpstash ? Redis.fromEnv() : null;
+// Missing Upstash config is allowed in local dev, but production fails closed below.
+const redis = hasUpstashConfig ? Redis.fromEnv() : null;
 
 const burstLimiter = redis
   ? new Ratelimit({
@@ -172,6 +174,10 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response("Method not allowed", { status: 405 });
   }
 
+  if (!hasUpstashConfig && isProductionRuntime()) {
+    return missingRateLimitConfigResponse();
+  }
+
   if (burstLimiter && sustainedLimiter) {
     const ip = getClientIp(req);
     const [burst, sustained] = await Promise.all([
@@ -237,7 +243,7 @@ export default async function handler(req: Request): Promise<Response> {
 
   try {
     const stream = client.messages.stream({
-      model: "claude-opus-4-7",
+      model: ANTHROPIC_MODEL,
       max_tokens: 1500,
       system: [
         {
