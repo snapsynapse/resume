@@ -60,7 +60,7 @@ export const initAnalytics = () => {
   warnIfMisconfigured();
   if (!enabled || clientPromise) return;
 
-  clientPromise = import("posthog-js").then(({ default: posthog }) => {
+  clientPromise = import("posthog-js/dist/module.no-external").then(({ default: posthog }) => {
     posthog.init(key, {
       api_host: host,
       defaults: "2026-01-30",

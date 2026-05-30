@@ -140,7 +140,7 @@ VITE_POSTHOG_KEY=
 VITE_POSTHOG_HOST=https://us.i.posthog.com
 ```
 Vite embeds `VITE_` variables at build time. A deployed build will not capture analytics unless `VITE_POSTHOG_KEY` is present in the deployment environment before the build runs.
-To debug a configured build in-browser, append `?analytics_debug=1` and watch the console/network panel for PostHog requests to the configured host. Local builds also warn in the console when `VITE_POSTHOG_KEY` is missing.
+To debug a configured build in-browser, append `?analytics_debug=1` and watch the console/network panel for PostHog requests to the configured host. The CSP permits PostHog ingestion at `https://us.i.posthog.com` and remote project configuration at `https://us-assets.i.posthog.com`; the bundled SDK uses the no-external entrypoint so it does not inject third-party scripts. Local builds also warn in the console when `VITE_POSTHOG_KEY` is missing.
 ## Scripts
 - `npm run dev`: start local Vite server
 - `npm run build`: production build, then generate static crawl pages

@@ -38,6 +38,7 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 - Production fails closed with HTTP 503 if Upstash rate-limit configuration is missing.
 - API responses set `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`.
 - Global headers include CSP, `frame-ancestors 'none'`, `Referrer-Policy`, and a restrictive `Permissions-Policy`.
+- PostHog uses the no-external SDK entrypoint; CSP permits ingestion and remote configuration hosts but does not allow PostHog-hosted script injection.
 - PostHog analytics, when configured, is cookieless, explicit-event-only, and must not include user-supplied text.
 
 ## Prompt-injection posture

@@ -78,6 +78,12 @@ describe("DecisionBriefSidebar", () => {
     expect(screen.getByText("Recruiter Summary")).toBeInTheDocument();
     expect(screen.getByText("Shortlist Rationale")).toBeInTheDocument();
     expect(screen.getByText(/YouTube certification 10x/i)).toBeInTheDocument();
+
+    const summaryBlock = screen.getByRole("button", { name: "Copy recruiter summary" });
+    expect(summaryBlock).toHaveClass("cursor-copy");
+    expect(summaryBlock.querySelector(".max-h-10")).toBeInTheDocument();
+    expect(summaryBlock.querySelector(".group-hover\\:max-h-80")).toBeInTheDocument();
+    expect(summaryBlock.querySelector(".bg-gradient-to-b")).toBeInTheDocument();
   });
 
   it("copies individual blocks with metadata-only analytics", async () => {

@@ -266,8 +266,12 @@ function buildFitBlocks(fitResult: FitResult, mode: BriefMode): CopyBlock[] {
 
 async function copyToClipboard(text: string) {
   if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-    return;
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch {
+      // Fall back for constrained browser/plugin contexts where the Clipboard API exists but rejects.
+    }
   }
 
   const textarea = document.createElement("textarea");
@@ -402,12 +406,12 @@ const DecisionBriefSidebar = ({
               </p>
             )}
 
-          <button
-            type="button"
-            onClick={copyAll}
-            aria-label="Copy all Decision Brief blocks"
-            className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
-          >
+            <button
+              type="button"
+              onClick={copyAll}
+              aria-label="Copy all Decision Brief blocks"
+              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+            >
               {copiedBlock === "copy-all" ? (
                 <Check className="h-4 w-4" aria-hidden="true" />
               ) : (
@@ -419,13 +423,21 @@ const DecisionBriefSidebar = ({
 
           <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
             {blocks.map((block) => (
-              <section
+              <div
                 key={block.id}
-                aria-labelledby={`decision-brief-${block.id}`}
-                className="rounded-lg border border-border bg-background p-3"
+                role="button"
+                tabIndex={0}
+                aria-label={block.copyLabel}
+                onClick={() => copyBlock(block)}
+                onKeyDown={(event) => {
+                  if (event.key !== "Enter" && event.key !== " ") return;
+                  event.preventDefault();
+                  copyBlock(block);
+                }}
+                className="group cursor-copy rounded-lg border border-border bg-background p-3 text-left transition-all duration-200 hover:border-accent focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
               >
-                <div className="mb-2 flex items-start justify-between gap-2">
-                  <div>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
                     <h3
                       id={`decision-brief-${block.id}`}
                       className="text-sm font-medium text-foreground"
@@ -438,31 +450,32 @@ const DecisionBriefSidebar = ({
                       </span>
                     )}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => copyBlock(block)}
-                    aria-label={block.copyLabel}
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-secondary px-2 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-accent"
-                  >
+                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-secondary px-2 py-1.5 text-xs font-medium text-foreground transition-colors group-hover:border-accent group-focus:border-accent">
                     {copiedBlock === block.id ? (
                       <Check className="h-3.5 w-3.5" aria-hidden="true" />
                     ) : (
                       <Copy className="h-3.5 w-3.5" aria-hidden="true" />
                     )}
                     <span>{copiedBlock === block.id ? "Copied" : "Copy"}</span>
-                  </button>
+                  </span>
                 </div>
-                <ul className="space-y-1.5">
-                  {block.display.map((item) => (
-                    <li
-                      key={item}
-                      className="text-xs leading-relaxed text-muted-foreground"
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </section>
+                <div className="relative mt-2 max-h-10 overflow-hidden transition-[max-height] duration-300 ease-out group-hover:max-h-80 group-focus:max-h-80">
+                  <ul className="space-y-1.5 pb-1">
+                    {block.display.map((item) => (
+                      <li
+                        key={item}
+                        className="text-xs leading-relaxed text-muted-foreground"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-background/0 to-background transition-opacity duration-200 group-hover:opacity-0 group-focus:opacity-0"
+                  />
+                </div>
+              </div>
             ))}
           </div>
         </div>

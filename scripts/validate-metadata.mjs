@@ -132,7 +132,7 @@ for (const directive of [
   "frame-ancestors 'none'",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "connect-src 'self' https://us.i.posthog.com",
+  "connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com",
 ]) {
   if (!csp.includes(directive)) {
     fail(`vercel.json: Content-Security-Policy missing ${directive}`);
