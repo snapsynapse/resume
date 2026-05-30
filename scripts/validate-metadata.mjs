@@ -67,6 +67,93 @@ for (const file of ["public/agents.json", "public/api-manifest.json"]) {
   }
 }
 
+const apiManifest = JSON.parse(await text("public/api-manifest.json"));
+if (apiManifest.schema_version !== "1.1") {
+  fail("api-manifest.json: schema_version must be 1.1");
+}
+
+const expectedRateLimits = new Map([
+  [
+    "/api/chat",
+    [
+      { window: "60 s", max_requests: 5 },
+      { window: "1 h", max_requests: 50 },
+    ],
+  ],
+  ["/api/analyze-fit", [{ window: "1 h", max_requests: 10 }]],
+]);
+
+for (const endpoint of apiManifest.endpoints ?? []) {
+  const expected = expectedRateLimits.get(endpoint.path);
+  if (!expected) continue;
+  const rateLimit = endpoint.rate_limit;
+  if (!rateLimit) {
+    fail(`api-manifest.json: ${endpoint.path} missing rate_limit`);
+    continue;
+  }
+  if (rateLimit.enabled !== "conditional") {
+    fail(`api-manifest.json: ${endpoint.path} rate_limit.enabled must be conditional`);
+  }
+  if (rateLimit.provider !== "Upstash Redis") {
+    fail(`api-manifest.json: ${endpoint.path} rate_limit.provider must be Upstash Redis`);
+  }
+  for (const envName of ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"]) {
+    if (!rateLimit.required_env?.includes(envName)) {
+      fail(`api-manifest.json: ${endpoint.path} missing required env ${envName}`);
+    }
+  }
+  if (rateLimit.missing_config_behavior !== "fail_open_local_dev") {
+    fail(`api-manifest.json: ${endpoint.path} must disclose fail_open_local_dev`);
+  }
+  const actualLimits = JSON.stringify(rateLimit.limits ?? []);
+  if (actualLimits !== JSON.stringify(expected)) {
+    fail(`api-manifest.json: ${endpoint.path} rate limits do not match expected values`);
+  }
+}
+
+const vercelConfig = JSON.parse(await text("vercel.json"));
+const headersBySource = new Map((vercelConfig.headers ?? []).map((entry) => [entry.source, entry.headers ?? []]));
+const globalHeaderKeys = new Set(headersBySource.get("/(.*)")?.map((header) => header.key));
+for (const key of [
+  "Content-Security-Policy",
+  "X-Content-Type-Options",
+  "Referrer-Policy",
+  "Permissions-Policy",
+]) {
+  if (!globalHeaderKeys.has(key)) {
+    fail(`vercel.json: missing global security header ${key}`);
+  }
+}
+
+const csp = headersBySource.get("/(.*)")?.find((header) => header.key === "Content-Security-Policy")?.value ?? "";
+for (const directive of [
+  "default-src 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "connect-src 'self' https://us.i.posthog.com",
+]) {
+  if (!csp.includes(directive)) {
+    fail(`vercel.json: Content-Security-Policy missing ${directive}`);
+  }
+}
+
+const apiHeaders = headersBySource.get("/api/:path*") ?? [];
+const apiCache = apiHeaders.find((header) => header.key === "Cache-Control")?.value;
+if (apiCache !== "no-store") {
+  fail("vercel.json: /api/:path* Cache-Control must be no-store");
+}
+if (!apiHeaders.some((header) => header.key === "X-Content-Type-Options" && header.value === "nosniff")) {
+  fail("vercel.json: /api/:path* missing X-Content-Type-Options nosniff");
+}
+
+for (const file of ["public/.DS_Store", "dist/.DS_Store"]) {
+  if (existsSync(file)) {
+    fail(`${file}: must not exist in public or generated build output`);
+  }
+}
+
 const sitemap = await text("public/sitemap.xml");
 for (const route of routes) {
   const url = absoluteUrl(route);

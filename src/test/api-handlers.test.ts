@@ -48,6 +48,58 @@ describe("API validation", () => {
     await expect(res.json()).resolves.toEqual({ error: "messages required" });
   });
 
+  it("rejects malformed chat JSON", async () => {
+    const res = await chatHandler(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: "{not json",
+      }),
+    );
+
+    expect(res.status).toBe(400);
+    await expect(res.json()).resolves.toEqual({ error: "invalid_json" });
+  });
+
+  it("rate-limits chat history over 20 turns before upstream calls", async () => {
+    const res = await chatHandler(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: Array.from({ length: 21 }, () => ({
+            role: "user",
+            content: "Is Sam a fit for certification?",
+          })),
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(429);
+    await expect(res.json()).resolves.toMatchObject({
+      error: "rate_limited",
+      graceful_boundary: {
+        retry_after_seconds: 0,
+      },
+    });
+    expect(anthropicMocks.stream).not.toHaveBeenCalled();
+  });
+
+  it("rejects chat messages over 8000 characters", async () => {
+    const res = await chatHandler(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "x".repeat(8001) }],
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(400);
+    await expect(res.json()).resolves.toEqual({
+      error: "message too long (max 8000 chars)",
+    });
+    expect(anthropicMocks.stream).not.toHaveBeenCalled();
+  });
+
   it("rejects short fit assessments", async () => {
     const res = await analyzeFitHandler(
       new Request("https://sam-rogers.com/api/analyze-fit", {
@@ -60,6 +112,33 @@ describe("API validation", () => {
     await expect(res.json()).resolves.toEqual({
       error: "job description required (minimum 50 chars)",
     });
+  });
+
+  it("rejects malformed fit assessment JSON", async () => {
+    const res = await analyzeFitHandler(
+      new Request("https://sam-rogers.com/api/analyze-fit", {
+        method: "POST",
+        body: "{not json",
+      }),
+    );
+
+    expect(res.status).toBe(400);
+    await expect(res.json()).resolves.toEqual({ error: "invalid_json" });
+  });
+
+  it("rejects fit assessments over 8000 characters", async () => {
+    const res = await analyzeFitHandler(
+      new Request("https://sam-rogers.com/api/analyze-fit", {
+        method: "POST",
+        body: JSON.stringify({ jobDescription: "x".repeat(8001) }),
+      }),
+    );
+
+    expect(res.status).toBe(400);
+    await expect(res.json()).resolves.toEqual({
+      error: "job description too long (max 8000 chars)",
+    });
+    expect(anthropicMocks.create).not.toHaveBeenCalled();
   });
 
   it("streams chat text from Anthropic", async () => {

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "site": "https://resume.sam-rogers.com/",
   "description": "Public UI endpoints used by the Sam Rogers AI-queryable resume.",
   "privacy": {
@@ -12,7 +12,25 @@
       "method": "POST",
       "purpose": "Answer user questions about Sam Rogers' resume, evidence, gaps, portfolio, and role fit.",
       "authentication": "none",
-      "rate_limited": true,
+      "rate_limit": {
+        "enabled": "conditional",
+        "provider": "Upstash Redis",
+        "required_env": [
+          "UPSTASH_REDIS_REST_URL",
+          "UPSTASH_REDIS_REST_TOKEN"
+        ],
+        "limits": [
+          {
+            "window": "60 s",
+            "max_requests": 5
+          },
+          {
+            "window": "1 h",
+            "max_requests": 50
+          }
+        ],
+        "missing_config_behavior": "fail_open_local_dev"
+      },
       "intended_client": "interactive resume UI"
     },
     {
@@ -20,7 +38,21 @@
       "method": "POST",
       "purpose": "Compare a pasted job description against Sam Rogers' profile and return an honest role-fit assessment.",
       "authentication": "none",
-      "rate_limited": true,
+      "rate_limit": {
+        "enabled": "conditional",
+        "provider": "Upstash Redis",
+        "required_env": [
+          "UPSTASH_REDIS_REST_URL",
+          "UPSTASH_REDIS_REST_TOKEN"
+        ],
+        "limits": [
+          {
+            "window": "1 h",
+            "max_requests": 10
+          }
+        ],
+        "missing_config_behavior": "fail_open_local_dev"
+      },
       "intended_client": "interactive resume UI"
     }
   ],
