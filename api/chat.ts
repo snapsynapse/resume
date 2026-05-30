@@ -1,14 +1,14 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { samProfile } from "../src/data/sam-profile";
-import { explicitAiOfficerContext } from "./explicit-role-context";
+import { samProfile } from "../src/data/sam-profile.js";
+import { explicitAiOfficerContext } from "./explicit-role-context.js";
 import {
   ANTHROPIC_MODEL,
   hasUpstashConfig,
   isProductionRuntime,
   missingRateLimitConfigResponse,
-} from "./config";
+} from "./config.js";
 
 export const config = { runtime: "edge" };
 
