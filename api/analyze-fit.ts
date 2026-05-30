@@ -10,8 +10,6 @@ import {
   missingRateLimitConfigResponse,
 } from "./config.js";
 
-export const config = { runtime: "edge" };
-
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const redis = hasUpstashConfig ? Redis.fromEnv() : null;
