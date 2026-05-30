@@ -3,6 +3,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import chatHandler from "../../api/chat";
 import analyzeFitHandler from "../../api/analyze-fit";
+import limitsHandler from "../../api/limits";
 
 const anthropicMocks = vi.hoisted(() => ({
   stream: vi.fn(),
@@ -35,6 +36,11 @@ describe("API validation", () => {
     const res = await chatHandler(new Request("https://sam-rogers.com/api/chat", { method: "GET" }));
 
     expect(res.status).toBe(405);
+    await expect(res.json()).resolves.toMatchObject({
+      error: "method_not_allowed",
+      detail: expect.any(String),
+      why: expect.any(String),
+    });
   });
 
   it("rejects empty chat messages", async () => {
@@ -46,7 +52,11 @@ describe("API validation", () => {
     );
 
     expect(res.status).toBe(400);
-    await expect(res.json()).resolves.toEqual({ error: "messages required" });
+    await expect(res.json()).resolves.toMatchObject({
+      error: "messages_required",
+      detail: expect.any(String),
+      why: expect.any(String),
+    });
   });
 
   it("rejects malformed chat JSON", async () => {
@@ -58,7 +68,11 @@ describe("API validation", () => {
     );
 
     expect(res.status).toBe(400);
-    await expect(res.json()).resolves.toEqual({ error: "invalid_json" });
+    await expect(res.json()).resolves.toMatchObject({
+      error: "invalid_json",
+      detail: expect.any(String),
+      why: expect.any(String),
+    });
   });
 
   it("rate-limits chat history over 20 turns before upstream calls", async () => {
@@ -77,9 +91,11 @@ describe("API validation", () => {
     expect(res.status).toBe(429);
     await expect(res.json()).resolves.toMatchObject({
       error: "rate_limited",
-      graceful_boundary: {
-        retry_after_seconds: 0,
-      },
+      detail: expect.any(String),
+      why: expect.any(String),
+      limit: "20 messages per /api/chat request.",
+      retryAfterSeconds: 0,
+      graceful_boundary: { spec: "https://gracefulboundaries.dev/", level: 2 },
     });
     expect(anthropicMocks.stream).not.toHaveBeenCalled();
   });
@@ -95,8 +111,10 @@ describe("API validation", () => {
     );
 
     expect(res.status).toBe(400);
-    await expect(res.json()).resolves.toEqual({
-      error: "message too long (max 8000 chars)",
+    await expect(res.json()).resolves.toMatchObject({
+      error: "message_too_long",
+      detail: expect.any(String),
+      why: expect.any(String),
     });
     expect(anthropicMocks.stream).not.toHaveBeenCalled();
   });
@@ -110,8 +128,10 @@ describe("API validation", () => {
     );
 
     expect(res.status).toBe(400);
-    await expect(res.json()).resolves.toEqual({
-      error: "job description required (minimum 50 chars)",
+    await expect(res.json()).resolves.toMatchObject({
+      error: "job_description_required",
+      detail: expect.any(String),
+      why: expect.any(String),
     });
   });
 
@@ -124,7 +144,11 @@ describe("API validation", () => {
     );
 
     expect(res.status).toBe(400);
-    await expect(res.json()).resolves.toEqual({ error: "invalid_json" });
+    await expect(res.json()).resolves.toMatchObject({
+      error: "invalid_json",
+      detail: expect.any(String),
+      why: expect.any(String),
+    });
   });
 
   it("rejects fit assessments over 8000 characters", async () => {
@@ -136,8 +160,10 @@ describe("API validation", () => {
     );
 
     expect(res.status).toBe(400);
-    await expect(res.json()).resolves.toEqual({
-      error: "job description too long (max 8000 chars)",
+    await expect(res.json()).resolves.toMatchObject({
+      error: "job_description_too_long",
+      detail: expect.any(String),
+      why: expect.any(String),
     });
     expect(anthropicMocks.create).not.toHaveBeenCalled();
   });
@@ -228,7 +254,11 @@ describe("API validation", () => {
     );
 
     expect(res.status).toBe(502);
-    await expect(res.json()).resolves.toEqual({ error: "model_returned_invalid_json" });
+    await expect(res.json()).resolves.toMatchObject({
+      error: "model_returned_invalid_json",
+      detail: expect.any(String),
+      why: expect.any(String),
+    });
   });
 
   it("fails closed in production when Upstash rate limiting is missing", async () => {
@@ -246,7 +276,28 @@ describe("API validation", () => {
     expect(res.status).toBe(503);
     await expect(res.json()).resolves.toMatchObject({
       error: "rate_limit_config_missing",
+      detail: expect.any(String),
+      why: expect.any(String),
     });
     expect(anthropicMocks.stream).not.toHaveBeenCalled();
+  });
+
+  it("publishes Graceful Boundaries Level 2 limit discovery", async () => {
+    const res = await limitsHandler(
+      new Request("https://sam-rogers.com/api/limits", { method: "GET" }),
+    );
+
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({
+      spec: "https://gracefulboundaries.dev/",
+      conformance: {
+        standard: "Graceful Boundaries",
+        level: 2,
+      },
+      endpoints: expect.arrayContaining([
+        expect.objectContaining({ path: "/api/chat", method: "POST" }),
+        expect.objectContaining({ path: "/api/analyze-fit", method: "POST" }),
+      ]),
+    });
   });
 });

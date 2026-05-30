@@ -9,6 +9,7 @@ import {
   isProductionRuntime,
   missingRateLimitConfigResponse,
 } from "./config.js";
+import { boundaryResponse, rateLimitResponse } from "./boundaries.js";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -30,24 +31,15 @@ function getClientIp(req: Request): string {
   return req.headers.get("x-real-ip") ?? "unknown";
 }
 
-function gracefulBoundary(message: string, retryAfterSeconds: number) {
-  return new Response(
-    JSON.stringify({
-      error: "rate_limited",
-      graceful_boundary: {
-        spec: "https://gracefulboundaries.dev",
-        message,
-        retry_after_seconds: retryAfterSeconds,
-      },
-    }),
-    {
-      status: 429,
-      headers: {
-        "Content-Type": "application/json",
-        "Retry-After": String(retryAfterSeconds),
-      },
-    },
-  );
+function gracefulBoundary(detail: string, retryAfterSeconds: number, limit: string) {
+  return rateLimitResponse({
+    status: 429,
+    error: "rate_limited",
+    detail,
+    why: "The resume API enforces public limits to control cost, abuse, and accidental overuse.",
+    limit,
+    retryAfterSeconds,
+  });
 }
 
 const fitSchema = {
@@ -136,7 +128,12 @@ INSTRUCTIONS:
 
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
+    return boundaryResponse({
+      status: 405,
+      error: "method_not_allowed",
+      detail: "Use POST to submit a job description for fit analysis.",
+      why: "/api/analyze-fit accepts request bodies and does not expose a read-only representation.",
+    });
   }
 
   if (!hasUpstashConfig && isProductionRuntime()) {
@@ -151,6 +148,7 @@ export default async function handler(req: Request): Promise<Response> {
       return gracefulBoundary(
         "Fit assessments are capped at 10 per hour. Try again later or email sam@sam-rogers.com with the JD directly.",
         retryAfter,
+        "10 requests per 1 hour for /api/analyze-fit.",
       );
     }
   }
@@ -159,26 +157,30 @@ export default async function handler(req: Request): Promise<Response> {
   try {
     body = await req.json();
   } catch {
-    return new Response(JSON.stringify({ error: "invalid_json" }), {
+    return boundaryResponse({
       status: 400,
-      headers: { "Content-Type": "application/json" },
+      error: "invalid_json",
+      detail: "The request body could not be parsed as JSON.",
+      why: "/api/analyze-fit requires a JSON body with a jobDescription string.",
     });
   }
 
   const jd = body.jobDescription;
   if (typeof jd !== "string" || jd.trim().length < 50) {
-    return new Response(
-      JSON.stringify({
-        error: "job description required (minimum 50 chars)",
-      }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
+    return boundaryResponse({
+      status: 400,
+      error: "job_description_required",
+      detail: "Job description text is required and must be at least 50 characters.",
+      why: "The fit assessment needs enough role context to produce a useful comparison.",
+    });
   }
   if (jd.length > 8000) {
-    return new Response(
-      JSON.stringify({ error: "job description too long (max 8000 chars)" }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
+    return boundaryResponse({
+      status: 400,
+      error: "job_description_too_long",
+      detail: "Job description text must be 8000 characters or fewer.",
+      why: "The limit keeps public API calls bounded before upstream model processing.",
+    });
   }
 
   try {
@@ -213,10 +215,12 @@ export default async function handler(req: Request): Promise<Response> {
     try {
       parsed = JSON.parse(text);
     } catch {
-      return new Response(
-        JSON.stringify({ error: "model_returned_invalid_json" }),
-        { status: 502, headers: { "Content-Type": "application/json" } },
-      );
+      return boundaryResponse({
+        status: 502,
+        error: "model_returned_invalid_json",
+        detail: "The model response did not match the required JSON output shape.",
+        why: "The app cannot safely render a structured fit assessment from malformed model output.",
+      });
     }
 
     return new Response(JSON.stringify(parsed), {
@@ -227,22 +231,24 @@ export default async function handler(req: Request): Promise<Response> {
       return gracefulBoundary(
         "Anthropic API rate limit hit. Try again in a moment.",
         60,
+        "Upstream model provider rate limit.",
       );
     }
     if (error instanceof Anthropic.APIError) {
       console.error("Anthropic API error:", error.status, error.message);
-      return new Response(
-        JSON.stringify({
-          error: "upstream_error",
-          status: error.status,
-        }),
-        { status: 502, headers: { "Content-Type": "application/json" } },
-      );
+      return boundaryResponse({
+        status: 502,
+        error: "upstream_error",
+        detail: "The upstream model provider returned an error.",
+        why: `Anthropic returned status ${error.status}.`,
+      });
     }
     console.error("Unexpected error:", error);
-    return new Response(JSON.stringify({ error: "internal" }), {
+    return boundaryResponse({
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      error: "internal",
+      detail: "The fit assessment endpoint hit an unexpected server error.",
+      why: "The request could not be completed reliably.",
     });
   }
 }

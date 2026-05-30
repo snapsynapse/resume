@@ -94,12 +94,12 @@ const FitAssessment = ({
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        if (res.status === 429 && data.graceful_boundary) {
+        if (res.status === 429 && typeof data.detail === "string") {
           setError(
-            `${data.graceful_boundary.message} (Retry in ~${data.graceful_boundary.retry_after_seconds}s.)`,
+            `${data.detail} (Retry in ~${data.retryAfterSeconds ?? 0}s.)`,
           );
         } else {
-          setError(data.error || `Server returned HTTP ${res.status}.`);
+          setError(data.detail || data.error || `Server returned HTTP ${res.status}.`);
         }
         track("fit_assessment_failed", { status: res.status });
         return;

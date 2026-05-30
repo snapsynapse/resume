@@ -21,6 +21,12 @@
   },
   "resources": [
     {
+      "name": "Assistant guide",
+      "url": "https://resume.sam-rogers.com/.well-known/assistant-guide.txt",
+      "type": "assistant-guide",
+      "description": "GuideCheck Level 3 human-verifiable instructions for agents and automated reviewers."
+    },
+    {
       "name": "Resume homepage",
       "url": "https://resume.sam-rogers.com/",
       "type": "profile"
@@ -97,5 +103,17 @@
       "url": "https://cal.com/paice",
       "description": "Schedule a meeting with Sam Rogers for general scoping or PAICE-related conversations."
     }
-  ]
+  ],
+  "standards": {
+    "graceful_boundaries": {
+      "url": "https://gracefulboundaries.dev/",
+      "conformance_level": 2,
+      "limits_discovery": "https://resume.sam-rogers.com/api/limits"
+    },
+    "guidecheck": {
+      "url": "https://guidecheck.org/",
+      "conformance_level": 3,
+      "assistant_guide": "https://resume.sam-rogers.com/.well-known/assistant-guide.txt"
+    }
+  }
 }

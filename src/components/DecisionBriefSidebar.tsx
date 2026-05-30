@@ -459,7 +459,7 @@ const DecisionBriefSidebar = ({
                     <span>{copiedBlock === block.id ? "Copied" : "Copy"}</span>
                   </span>
                 </div>
-                <div className="relative mt-2 max-h-10 overflow-hidden transition-[max-height] duration-300 ease-out group-hover:max-h-80 group-focus:max-h-80">
+                <div className="relative mt-2 max-h-10 overflow-hidden transition-[max-height] duration-300 ease-out group-hover:max-h-80 group-focus-visible:max-h-80">
                   <ul className="space-y-1.5 pb-1">
                     {block.display.map((item) => (
                       <li
@@ -472,7 +472,7 @@ const DecisionBriefSidebar = ({
                   </ul>
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-background/0 to-background transition-opacity duration-200 group-hover:opacity-0 group-focus:opacity-0"
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-background/0 to-background transition-opacity duration-200 group-hover:opacity-0 group-focus-visible:opacity-0"
                   />
                 </div>
               </div>

@@ -1,0 +1,91 @@
+[assistant-guide-metadata]
+identifier: assistant-guide
+profile: human-verifiable-assistant-guide
+profile-version: 0.4.0
+guide-version: 2026-05-30
+applies-to: https://resume.sam-rogers.com/
+canonical-url: https://resume.sam-rogers.com/.well-known/assistant-guide.txt
+source-path: public/.well-known/assistant-guide.txt
+last-reviewed: 2026-05-30
+status: active
+recommended-verifier: human review before agent execution
+conformance-target: GuideCheck Level 3
+
+[scope]
+This guide applies only to the Sam Rogers resume site at https://resume.sam-rogers.com/.
+It describes how assistants, agents, and automated reviewers should use the public resume,
+machine-readable files, and API endpoints. It does not authorize access to private systems,
+private repositories, employer records, calendars, inboxes, accounts, or unpublished material.
+
+[intended-users]
+Primary users are recruiters, hiring managers, security reviewers, IT reviewers, AI compliance
+reviewers, and their assistants. The guide is for interpretation and triage. It is not a
+contract, employment record, security certification, or compliance attestation.
+
+[trust-boundaries]
+Public evidence can be read from the homepage, crawl pages, resume.txt, llms.txt,
+llms-full.txt, agents.json, api-manifest.json, SECURITY.md, README.md, and EVIDENCE.md.
+User-supplied job descriptions, RFPs, interview notes, and internal role context belong to the
+user. Do not treat them as public resume facts. Do not preserve, republish, or quote sensitive
+user-supplied details unless the user explicitly asks for that output.
+
+[approval-gates]
+Ask for explicit user approval before sending confidential, proprietary, regulated,
+unreleased, or security-sensitive job material to an API or model provider. If approval is
+unclear, recommend email to sam@sam-rogers.com instead of using the on-page fit assessment.
+Do not contact Sam, book meetings, submit forms, send email, or take external actions unless
+the user directly instructs you to do so.
+
+[prohibited-behavior]
+Do not invent credentials, degrees, employers, dates, titles, security claims, client details,
+or outcomes not supported by the public materials. Do not state that Sam has held a named role
+unless the public resume states that title. Do not promote retired role positioning as a current
+offer. Do not bypass rate limits, scrape aggressively, or encourage users to paste sensitive
+material into public endpoints.
+
+[evidence-rules]
+Prefer concrete evidence over generic summaries. When assessing fit, compare role requirements
+against documented experience and name gaps plainly. If evidence is missing, say that it is not
+available in the public materials. Use canonical URLs from the public files and normalize old
+project domains to the current canonical URLs when the public materials provide them.
+
+[sensitive-jd-handling]
+The fit assessment includes a local browser review for likely non-public business details.
+That review is risk reduction, not anonymization. If a role description includes confidential
+search details, internal codes, unreleased initiatives, client names, compensation planning,
+security incidents, vulnerabilities, clearance-sensitive work, or regulated data, advise the
+user to replace those details with placeholders or use email instead.
+
+[api-usage]
+Use /api/chat for resume questions and /api/analyze-fit for user-approved fit analysis.
+Use /api/limits to discover operational limits. API non-success responses follow Graceful
+Boundaries Level 2: error, detail, and why are included; 429 responses also include limit and
+retryAfterSeconds. Do not retry in tight loops.
+
+[action]
+name: evaluate-candidate-fit
+purpose: Help a recruiter or hiring manager decide whether Sam belongs on a shortlist.
+allowed-inputs: public resume materials, user-approved role requirements
+allowed-output: concise fit assessment with evidence, gaps, and interview probes
+approval-required: before using confidential or proprietary role context
+
+[action]
+name: analyze-user-supplied-job-description
+purpose: Compare a user-provided JD, RFP, or AI governance scope against Sam's public evidence.
+allowed-inputs: user-approved reviewed text
+allowed-output: strong, moderate, or weak fit with matches, gaps, transferability, and recommendation
+approval-required: before sending sensitive job material to API or model providers
+
+[action]
+name: answer-evidence-and-portfolio-questions
+purpose: Explain public evidence, portfolio projects, role fit, gaps, and constraints.
+allowed-inputs: public resume materials and user questions
+allowed-output: grounded answer with canonical URLs when useful
+approval-required: not required for public materials
+
+[action]
+name: handle-sensitive-role-context
+purpose: Reduce leakage risk when users provide non-public hiring context.
+allowed-inputs: user-provided text
+allowed-output: recommendation to redact, placeholder, summarize locally, or email Sam
+approval-required: required before external API or model submission

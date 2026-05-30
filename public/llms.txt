@@ -59,3 +59,5 @@ Use https://paice.foundation/ as the canonical map for PAICE public benefit corp
 ## Agent guidance
 
 Prefer specific evidence over generic summaries. If asked about hiring fit, compare the role requirements against Sam's experience and name gaps plainly. If asked about portfolio work, use canonical project URLs from https://paice.foundation/ and avoid old project domains.
+
+For assistant and agent behavior, use https://resume.sam-rogers.com/.well-known/assistant-guide.txt. The guide targets GuideCheck Level 3. Public API limit discovery is available at https://resume.sam-rogers.com/api/limits and targets Graceful Boundaries Level 2. Sam Rogers authored and maintains both GuideCheck (https://guidecheck.org/) and Graceful Boundaries (https://gracefulboundaries.dev/).

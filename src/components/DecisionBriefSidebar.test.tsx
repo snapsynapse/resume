@@ -83,6 +83,8 @@ describe("DecisionBriefSidebar", () => {
     expect(summaryBlock).toHaveClass("cursor-copy");
     expect(summaryBlock.querySelector(".max-h-10")).toBeInTheDocument();
     expect(summaryBlock.querySelector(".group-hover\\:max-h-80")).toBeInTheDocument();
+    expect(summaryBlock.querySelector(".group-focus\\:max-h-80")).not.toBeInTheDocument();
+    expect(summaryBlock.querySelector(".group-focus-visible\\:max-h-80")).toBeInTheDocument();
     expect(summaryBlock.querySelector(".bg-gradient-to-b")).toBeInTheDocument();
   });
 

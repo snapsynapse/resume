@@ -19,8 +19,9 @@ Please include:
 |---|---|---|---|---|
 | `/api/chat` | Answer questions about Sam Rogers' resume, evidence, gaps, and role fit. | None | Chat messages and optional role context. | No intentional storage by this app. |
 | `/api/analyze-fit` | Compare a pasted job description against Sam's profile. | None | Pasted job description. | No intentional storage by this app. |
+| `/api/limits` | Publish machine-readable API limit discovery. | None | None. | No user-submitted data. |
 
-Both endpoints send user-supplied text to Anthropic for analysis. Visitors should not submit confidential, proprietary, regulated, or unreleased role data.
+The two AI-backed endpoints send user-supplied text to Anthropic for analysis. Visitors should not submit confidential, proprietary, regulated, or unreleased role data.
 
 ## Job description business context review
 
@@ -36,6 +37,8 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 - Chat history is capped at 20 turns.
 - Rate limiting uses Upstash Redis when configured.
 - Production fails closed with HTTP 503 if Upstash rate-limit configuration is missing.
+- Non-success API responses follow [Graceful Boundaries](https://gracefulboundaries.dev/) Level 2. They include `error`, `detail`, and `why`; 429 responses also include `limit` and `retryAfterSeconds`; `/api/limits` publishes discovery metadata.
+- `/.well-known/assistant-guide.txt` follows [GuideCheck](https://guidecheck.org/) Level 3 for human-verifiable assistant instructions, approval gates, and sensitive-context handling.
 - API responses set `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`.
 - Global headers include CSP, `frame-ancestors 'none'`, `Referrer-Policy`, and a restrictive `Permissions-Policy`.
 - PostHog uses the no-external SDK entrypoint; CSP permits ingestion and remote configuration hosts but does not allow PostHog-hosted script injection.
@@ -65,6 +68,7 @@ Future hardening:
 - Dependency audit should pass with `npm audit`.
 - Static crawl pages are generated at build time from `src/data/sam-profile.ts`.
 - Metadata validation checks sitemap entries, JSON files, security headers, no-JS fallback content, canonical URLs, and URL policy.
+- Metadata validation checks the assistant guide for presence, ASCII-only content, an 8 KiB size ceiling, required GuideCheck sections, and action blocks.
 
 ## CSP note
 

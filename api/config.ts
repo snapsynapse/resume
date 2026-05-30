@@ -1,3 +1,5 @@
+import { boundaryResponse } from "./boundaries.js";
+
 export const ANTHROPIC_MODEL =
   process.env.ANTHROPIC_MODEL?.trim() || "claude-opus-4-8";
 
@@ -10,18 +12,11 @@ export function isProductionRuntime(): boolean {
 }
 
 export function missingRateLimitConfigResponse(): Response {
-  return new Response(
-    JSON.stringify({
-      error: "rate_limit_config_missing",
-      message:
-        "Rate limiting is required in production and the Upstash Redis environment variables are missing.",
-    }),
-    {
-      status: 503,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "no-store",
-      },
-    },
-  );
+  return boundaryResponse({
+    status: 503,
+    error: "rate_limit_config_missing",
+    detail:
+      "Rate limiting is required in production and the Upstash Redis environment variables are missing.",
+    why: "Public AI endpoints must fail closed in production when cost-control and abuse-control limits cannot be enforced.",
+  });
 }

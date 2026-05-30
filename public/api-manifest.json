@@ -2,11 +2,35 @@
   "schema_version": "1.1",
   "site": "https://resume.sam-rogers.com/",
   "description": "Public UI endpoints used by the Sam Rogers AI-queryable resume.",
+  "standards": {
+    "graceful_boundaries": {
+      "url": "https://gracefulboundaries.dev/",
+      "conformance_level": 2,
+      "limits_discovery": "https://resume.sam-rogers.com/api/limits",
+      "maintainer_note": "Sam Rogers authored and maintains the Graceful Boundaries specification."
+    },
+    "guidecheck": {
+      "url": "https://guidecheck.org/",
+      "conformance_level": 3,
+      "assistant_guide": "https://resume.sam-rogers.com/.well-known/assistant-guide.txt",
+      "maintainer_note": "Sam Rogers authored and maintains the GuideCheck specification."
+    }
+  },
   "privacy": {
     "summary": "The fit assessment and chat endpoints receive user-supplied text for Anthropic analysis. Submitted text is not intentionally stored by this app. Users should not paste confidential, proprietary, regulated, or unreleased role data; they should email sensitive roles to sam@sam-rogers.com instead.",
     "contact": "mailto:sam@sam-rogers.com"
   },
   "endpoints": [
+    {
+      "path": "/api/limits",
+      "method": "GET",
+      "purpose": "Expose machine-readable public API limits for Graceful Boundaries Level 2 discovery.",
+      "authentication": "none",
+      "rate_limit": {
+        "enabled": "none"
+      },
+      "intended_client": "agents, scanners, and reviewers"
+    },
     {
       "path": "/api/chat",
       "method": "POST",

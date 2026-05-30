@@ -1,6 +1,9 @@
 # Sam Rogers Resume Changelog
 
 2026-05-30
+- Added Graceful Boundaries Level 2 API limit communication for public endpoints, including /api/limits discovery and structured non-success response fields.
+- Added GuideCheck Level 3 assistant guide at /.well-known/assistant-guide.txt with trust boundaries, approval gates, sensitive JD handling, and explicit action blocks.
+- Updated README, SECURITY.md, llms.txt, llms-full.txt, agents.json, and api-manifest.json to point reviewers to the canonical Graceful Boundaries and GuideCheck specs.
 - Added a corpus regression suite for the job-description scanner with realistic clean and sensitive JD fixtures.
 - Added analytics privacy regression tests for jd_review_* events to enforce metadata-only payloads.
 - Added inline flagged-span preview and per-replacement undo controls to the JD review panel.

@@ -39,9 +39,20 @@ The stack is intentionally ordinary. The point is not to hide behind an exotic a
 The app has four main surfaces:
 - Human resume: React-rendered homepage with hero, evidence, work history, fit assessment, booking/contact path, and AI chat.
 - Decision Brief: desktop/tablet sidebar with recruiter and hiring-manager copy blocks, locally remembered state, and fit-result-aware updates.
-- API layer: `/api/chat` and `/api/analyze-fit`, both using Anthropic, rate limits, no-store responses, and prompt boundaries.
+- API layer: `/api/chat` and `/api/analyze-fit`, both using Anthropic, rate limits, no-store responses, prompt boundaries, and `/api/limits` discovery.
 - Machine-readable artifacts: static crawl pages and public text/JSON resources for agents, LLMs, search systems, and scanners.
 Profile content is centralized in `src/data/sam-profile.ts` so the interactive app, static crawl pages, AI prompts, and machine-readable files stay aligned.
+## Trust And Agent Interaction Standards
+This resume site intentionally conforms to two public standards that Sam Rogers authored and maintains:
+- [Graceful Boundaries](https://gracefulboundaries.dev/) Level 2 for public API limit communication.
+- [GuideCheck](https://guidecheck.org/) Level 3 for the human-verifiable assistant guide.
+This is not a claim that the resume is an enterprise compliance system. It is a design decision for inspectability. If recruiters, hiring managers, security reviewers, IT teams, AI compliance reviewers, or their agents interact with a public AI-enabled resume, they should be able to inspect the operational limits and the assistant-facing trust boundary.
+Graceful Boundaries is implemented across the public API surface:
+- `/api/chat`
+- `/api/analyze-fit`
+- `/api/limits`
+Non-success API responses include `error`, `detail`, and `why`. HTTP 429 responses also include `limit` and `retryAfterSeconds`. `/api/limits` provides machine-readable discovery for enforced limits and production fail-closed behavior.
+GuideCheck is implemented through `/.well-known/assistant-guide.txt`. The guide is ASCII-only, compact, and written for human verification before agent execution. It defines scope, trust boundaries, approval gates, prohibited behavior, evidence rules, sensitive job-description handling, API usage, and explicit action blocks for candidate-fit review workflows.
 ## Data Flow
 For normal page viewing:
 - Static assets are served from the site.
@@ -104,6 +115,7 @@ Machine-readable resources in `public/` include:
 - `/llms-full.txt`
 - `/agents.json`
 - `/api-manifest.json`
+- `/.well-known/assistant-guide.txt`
 - `/resume.txt`
 - `/changelog.txt`
 - `/sitemap.xml`

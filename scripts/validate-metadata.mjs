@@ -11,6 +11,7 @@ const publicFiles = [
   "public/resume.txt",
   "public/changelog.txt",
   "public/sitemap.xml",
+  "public/.well-known/assistant-guide.txt",
   "public/.well-known/security.txt",
 ];
 
@@ -70,6 +71,47 @@ for (const file of ["public/agents.json", "public/api-manifest.json"]) {
 const apiManifest = JSON.parse(await text("public/api-manifest.json"));
 if (apiManifest.schema_version !== "1.1") {
   fail("api-manifest.json: schema_version must be 1.1");
+}
+if (apiManifest.standards?.graceful_boundaries?.conformance_level !== 2) {
+  fail("api-manifest.json: must declare Graceful Boundaries Level 2");
+}
+if (apiManifest.standards?.guidecheck?.conformance_level !== 3) {
+  fail("api-manifest.json: must declare GuideCheck Level 3");
+}
+if (apiManifest.standards?.graceful_boundaries?.url !== "https://gracefulboundaries.dev/") {
+  fail("api-manifest.json: must link canonical Graceful Boundaries spec");
+}
+if (apiManifest.standards?.guidecheck?.url !== "https://guidecheck.org/") {
+  fail("api-manifest.json: must link canonical GuideCheck spec");
+}
+
+const assistantGuidePath = "public/.well-known/assistant-guide.txt";
+const assistantGuide = await text(assistantGuidePath);
+if (Buffer.byteLength(assistantGuide, "utf8") > 8192) {
+  fail(`${assistantGuidePath}: must be 8 KiB or smaller`);
+}
+if (!/^[\x00-\x7F]*$/.test(assistantGuide)) {
+  fail(`${assistantGuidePath}: must be ASCII-only`);
+}
+for (const required of [
+  "[assistant-guide-metadata]",
+  "profile: human-verifiable-assistant-guide",
+  "conformance-target: GuideCheck Level 3",
+  "[scope]",
+  "[trust-boundaries]",
+  "[approval-gates]",
+  "[prohibited-behavior]",
+  "[evidence-rules]",
+  "[sensitive-jd-handling]",
+  "[api-usage]",
+  "name: evaluate-candidate-fit",
+  "name: analyze-user-supplied-job-description",
+  "name: answer-evidence-and-portfolio-questions",
+  "name: handle-sensitive-role-context",
+]) {
+  if (!assistantGuide.includes(required)) {
+    fail(`${assistantGuidePath}: missing ${required}`);
+  }
 }
 
 const expectedRateLimits = new Map([
@@ -206,6 +248,7 @@ const urlPolicyFiles = [
   "public/llms-full.txt",
   "public/agents.json",
   "public/api-manifest.json",
+  "public/.well-known/assistant-guide.txt",
   "public/resume.txt",
   "public/changelog.txt",
   "scripts/generate-static-html.mjs",

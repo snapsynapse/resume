@@ -9,6 +9,7 @@ import {
   isProductionRuntime,
   missingRateLimitConfigResponse,
 } from "./config.js";
+import { boundaryResponse, rateLimitResponse } from "./boundaries.js";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -149,29 +150,25 @@ CONVERSION — when to offer the booking link (https://cal.com/paice)
 - Offer the link AT MOST ONCE per conversation unless the visitor asks again. Never lead with it. Never include it in answers about gaps, failures, or weak fit.`;
 }
 
-function gracefulBoundary(message: string, retryAfterSeconds: number) {
-  return new Response(
-    JSON.stringify({
-      error: "rate_limited",
-      graceful_boundary: {
-        spec: "https://gracefulboundaries.dev",
-        message,
-        retry_after_seconds: retryAfterSeconds,
-      },
-    }),
-    {
-      status: 429,
-      headers: {
-        "Content-Type": "application/json",
-        "Retry-After": String(retryAfterSeconds),
-      },
-    },
-  );
+function gracefulBoundary(detail: string, retryAfterSeconds: number, limit: string) {
+  return rateLimitResponse({
+    status: 429,
+    error: "rate_limited",
+    detail,
+    why: "The resume API enforces public limits to control cost, abuse, and accidental overuse.",
+    limit,
+    retryAfterSeconds,
+  });
 }
 
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
+    return boundaryResponse({
+      status: 405,
+      error: "method_not_allowed",
+      detail: "Use POST to submit chat messages.",
+      why: "/api/chat accepts request bodies and does not expose a read-only representation.",
+    });
   }
 
   if (!hasUpstashConfig && isProductionRuntime()) {
@@ -191,8 +188,9 @@ export default async function handler(req: Request): Promise<Response> {
         Math.ceil((burst.reset - Date.now()) / 1000),
       );
       return gracefulBoundary(
-        "Slow down — you're sending messages faster than the rate limit allows. Try again in a moment.",
+        "Slow down. You are sending messages faster than the burst limit allows. Try again in a moment.",
         retryAfter,
+        "5 requests per 60 seconds for /api/chat.",
       );
     }
     if (!sustained.success) {
@@ -201,8 +199,9 @@ export default async function handler(req: Request): Promise<Response> {
         Math.ceil((sustained.reset - Date.now()) / 1000),
       );
       return gracefulBoundary(
-        "You've hit the hourly cap for this conversation. The site is rate-limited to keep costs predictable — try again later, or email sam@sam-rogers.com to keep talking.",
+        "You have hit the hourly cap for this conversation. Try again later, or email sam@sam-rogers.com to keep talking.",
         retryAfter,
+        "50 requests per 1 hour for /api/chat.",
       );
     }
   }
@@ -211,31 +210,38 @@ export default async function handler(req: Request): Promise<Response> {
   try {
     body = await req.json();
   } catch {
-    return new Response(JSON.stringify({ error: "invalid_json" }), {
+    return boundaryResponse({
       status: 400,
-      headers: { "Content-Type": "application/json" },
+      error: "invalid_json",
+      detail: "The request body could not be parsed as JSON.",
+      why: "/api/chat requires a JSON body with a messages array.",
     });
   }
 
   const messages = body.messages;
   if (!Array.isArray(messages) || messages.length === 0) {
-    return new Response(JSON.stringify({ error: "messages required" }), {
+    return boundaryResponse({
       status: 400,
-      headers: { "Content-Type": "application/json" },
+      error: "messages_required",
+      detail: "The request body must include at least one chat message.",
+      why: "/api/chat compares user questions against the resume context, so an empty request cannot be answered.",
     });
   }
   if (messages.length > 20) {
     return gracefulBoundary(
       "Conversation length capped at 20 turns. Start a new conversation to continue, or email Sam directly.",
       0,
+      "20 messages per /api/chat request.",
     );
   }
   for (const m of messages) {
     if (typeof m.content !== "string" || m.content.length > 8000) {
-      return new Response(
-        JSON.stringify({ error: "message too long (max 8000 chars)" }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+      return boundaryResponse({
+        status: 400,
+        error: "message_too_long",
+        detail: "Each chat message must be a string of 8000 characters or fewer.",
+        why: "The limit keeps public API calls bounded before upstream model processing.",
+      });
     }
   }
 
@@ -287,22 +293,24 @@ export default async function handler(req: Request): Promise<Response> {
       return gracefulBoundary(
         "Anthropic API rate limit hit. Try again in a moment.",
         60,
+        "Upstream model provider rate limit.",
       );
     }
     if (error instanceof Anthropic.APIError) {
       console.error("Anthropic API error:", error.status, error.message);
-      return new Response(
-        JSON.stringify({
-          error: "upstream_error",
-          status: error.status,
-        }),
-        { status: 502, headers: { "Content-Type": "application/json" } },
-      );
+      return boundaryResponse({
+        status: 502,
+        error: "upstream_error",
+        detail: "The upstream model provider returned an error.",
+        why: `Anthropic returned status ${error.status}.`,
+      });
     }
     console.error("Unexpected error:", error);
-    return new Response(JSON.stringify({ error: "internal" }), {
+    return boundaryResponse({
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      error: "internal",
+      detail: "The chat endpoint hit an unexpected server error.",
+      why: "The request could not be completed reliably.",
     });
   }
 }

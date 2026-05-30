@@ -75,10 +75,10 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     // Rate-limit / error path: server returns JSON with structured error body, not a stream.
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      if (res.status === 429 && data.graceful_boundary) {
-        return `${data.graceful_boundary.message}\n\n(Rate limit — retry in ~${data.graceful_boundary.retry_after_seconds}s. Or email sam@sam-rogers.com directly.)`;
+      if (res.status === 429 && typeof data.detail === "string") {
+        return `${data.detail}\n\n(Rate limit: ${data.limit ?? "public API limit"}. Retry in ~${data.retryAfterSeconds ?? 0}s, or email sam@sam-rogers.com directly.)`;
       }
-      throw new Error(data.error || `HTTP ${res.status}`);
+      throw new Error(data.detail || data.error || `HTTP ${res.status}`);
     }
 
     // Stream path: read text chunks, append to UI as they arrive.
