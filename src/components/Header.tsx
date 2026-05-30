@@ -56,7 +56,7 @@ const Header = ({ onOpenChat }: HeaderProps) => {
           href="https://sam-rogers.com/"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Sam Rogers — main site"
+          aria-label="SR - Sam Rogers main site"
           className="font-serif text-xl text-foreground hover:text-primary transition-colors"
         >
           SR

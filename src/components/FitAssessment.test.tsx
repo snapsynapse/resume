@@ -84,10 +84,10 @@ describe("FitAssessment", () => {
     });
 
     // Review is on by default; the panel shows a flag count badge.
-    expect(screen.getByText(/to review/i)).toBeInTheDocument();
+    expect(await screen.findByText(/to review/i)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
-    fireEvent.click(screen.getByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
+    fireEvent.click(await screen.findByRole("button", { name: /review business-sensitive details/i }));
+    fireEvent.click(await screen.findByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
     fireEvent.click(screen.getByRole("checkbox", { name: /I removed non-public/i }));
     fireEvent.click(screen.getByRole("checkbox", { name: /I kept useful public context/i }));
     fireEvent.click(screen.getByRole("checkbox", { name: /Use this reviewed JD/i }));
@@ -109,7 +109,7 @@ describe("FitAssessment", () => {
     expect(body.jobDescription).not.toContain("REQ-12345");
   });
 
-  it("skips the review panel when the toggle is turned off", () => {
+  it("skips the review panel when the toggle is turned off", async () => {
     render(<FitAssessment />);
 
     fireEvent.change(screen.getByLabelText("Job description"), {
@@ -118,7 +118,7 @@ describe("FitAssessment", () => {
           "Confidential search for a senior leader. Requisition REQ-12345 to lead Project Atlas across the org.",
       },
     });
-    expect(screen.getByText(/to review/i)).toBeInTheDocument();
+    expect(await screen.findByText(/to review/i)).toBeInTheDocument();
 
     fireEvent.click(
       screen.getByRole("checkbox", { name: /review business-sensitive details before analysis/i }),
@@ -175,7 +175,7 @@ describe("FitAssessment", () => {
     expect(screen.getByText(/exceeded 8000 characters/i)).toBeInTheDocument();
   });
 
-  it("keeps review analytics payloads metadata-only", () => {
+  it("keeps review analytics payloads metadata-only", async () => {
     const sensitiveJD =
       "Confidential search for Jane Smith. Requisition REQ-88888 to lead Project Atlas for the Acme Bank rollout.";
     const leakedTerms = [
@@ -193,8 +193,8 @@ describe("FitAssessment", () => {
     fireEvent.change(screen.getByLabelText("Job description"), {
       target: { value: sensitiveJD },
     });
-    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
-    fireEvent.click(screen.getByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
+    fireEvent.click(await screen.findByRole("button", { name: /review business-sensitive details/i }));
+    fireEvent.click(await screen.findByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
     fireEvent.click(screen.getByRole("checkbox", { name: /I removed non-public/i }));
     fireEvent.click(screen.getByRole("checkbox", { name: /I kept useful public context/i }));
     fireEvent.click(screen.getByRole("checkbox", { name: /Use this reviewed JD/i }));

@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Experience from "@/components/Experience";
-import FitAssessment, { type FitResult } from "@/components/FitAssessment";
+import type { FitResult } from "@/components/FitAssessment";
 import BookingCTA from "@/components/BookingCTA";
-import AIChat from "@/components/AIChat";
 import Footer from "@/components/Footer";
 import DecisionBriefSidebar from "@/components/DecisionBriefSidebar";
+import LazyOnVisible from "@/components/LazyOnVisible";
+
+const FitAssessment = lazy(() => import("@/components/FitAssessment"));
+const AIChat = lazy(() => import("@/components/AIChat"));
 
 const Index = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -27,16 +30,26 @@ const Index = () => {
           <main aria-label="Sam Rogers resume">
             <Hero onOpenChat={openChat} />
             <Experience />
-            <FitAssessment
-              onResult={setFitResult}
-              onJobDescriptionStateChange={setHasJobDescription}
-            />
+            <LazyOnVisible
+              fallback={<div id="fit-assessment" className="min-h-[24rem]" />}
+            >
+              <Suspense fallback={<div id="fit-assessment" className="min-h-[24rem]" />}>
+                <FitAssessment
+                  onResult={setFitResult}
+                  onJobDescriptionStateChange={setHasJobDescription}
+                />
+              </Suspense>
+            </LazyOnVisible>
             <BookingCTA />
           </main>
           <Footer />
         </div>
       </div>
-      <AIChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      {isChatOpen && (
+        <Suspense fallback={null}>
+          <AIChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+        </Suspense>
+      )}
     </div>
   );
 };

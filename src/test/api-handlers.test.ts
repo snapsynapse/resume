@@ -1,6 +1,6 @@
 // @vitest-environment node
 
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import chatHandler from "../../api/chat";
 import analyzeFitHandler from "../../api/analyze-fit";
 import limitsHandler from "../../api/limits";
@@ -27,6 +27,10 @@ vi.mock("@anthropic-ai/sdk", () => {
 });
 
 describe("API validation", () => {
+  beforeEach(() => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "test-key");
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
     vi.unstubAllEnvs();
@@ -213,7 +217,13 @@ describe("API validation", () => {
       recommendation: "Talk next.",
     };
     anthropicMocks.create.mockResolvedValue({
-      content: [{ type: "text", text: JSON.stringify(fitResult) }],
+      content: [
+        {
+          type: "tool_use",
+          name: "record_fit_assessment",
+          input: fitResult,
+        },
+      ],
     });
 
     const res = await analyzeFitHandler(
@@ -231,9 +241,13 @@ describe("API validation", () => {
     expect(anthropicMocks.create).toHaveBeenCalledWith(
       expect.objectContaining({
         model: "claude-opus-4-8",
-        output_config: {
-          format: expect.objectContaining({ type: "json_schema" }),
-        },
+        tools: [
+          expect.objectContaining({
+            name: "record_fit_assessment",
+            input_schema: expect.objectContaining({ type: "object" }),
+          }),
+        ],
+        tool_choice: { type: "tool", name: "record_fit_assessment" },
       }),
     );
   });
@@ -259,6 +273,28 @@ describe("API validation", () => {
       detail: expect.any(String),
       why: expect.any(String),
     });
+  });
+
+  it("fails closed when Anthropic is not configured", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "");
+
+    const res = await analyzeFitHandler(
+      new Request("https://sam-rogers.com/api/analyze-fit", {
+        method: "POST",
+        body: JSON.stringify({
+          jobDescription:
+            "We need a senior learning leader to design certification programs and evaluate AI workflow capability across teams.",
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(503);
+    await expect(res.json()).resolves.toMatchObject({
+      error: "anthropic_config_missing",
+      detail: expect.any(String),
+      why: expect.any(String),
+    });
+    expect(anthropicMocks.create).not.toHaveBeenCalled();
   });
 
   it("fails closed in production when Upstash rate limiting is missing", async () => {

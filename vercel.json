@@ -26,7 +26,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com; form-action 'self'; upgrade-insecure-requests"
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'sha256-vOKYahhyehwALliDhycqg5pB//r34xEJ5f78yrozZM4=' 'sha256-LW1sznys6ne15l+kadCTmxYyiWV9+vX7FW9DVEnvNec=' 'sha256-3eOFQgORceTqWYeGmbVAL2FpL0arOyK/l+0Dv8u1rDM=' 'sha256-FSnHsrVQs4ObwURli6bi2rYFfXhkUM0Xyqi89x8J18o=' 'sha256-of/LU+sknjNAt3272GaOvrdeW3jLtXV2+4sOJwYKvbw=' 'sha256-ZIIN0ScRE0lVW8mA6llTfIOVbID0RJ44cBic1+gpIZk='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com; form-action 'self'; upgrade-insecure-requests"
         },
         {
           "key": "X-Content-Type-Options",

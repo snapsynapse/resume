@@ -4,13 +4,13 @@
 
 ## Canonical URLs
 
-- Resume: https://resume.sam-rogers.com/
-- Personal site: https://sam-rogers.com/
-- PAICE Portfolio: https://paice.foundation/
-- PAICE.work: https://paice.work/
-- Snap Synapse: https://snapsynapse.com/
-- LinkedIn: https://linkedin.com/in/samrogers
-- GitHub: https://github.com/snapsynapse
+- [Resume](https://resume.sam-rogers.com/)
+- [Personal site](https://sam-rogers.com/)
+- [PAICE Portfolio](https://paice.foundation/)
+- [PAICE.work](https://paice.work/)
+- [Snap Synapse](https://snapsynapse.com/)
+- [LinkedIn](https://linkedin.com/in/samrogers)
+- [GitHub](https://github.com/snapsynapse)
 
 ## Who this site is about
 
@@ -43,9 +43,9 @@ PAICE.work and Snap Synapse are vehicles for that work, not the point of the wor
 
 ## Portfolio surfaces
 
-- PAICE Portfolio: https://paice.foundation/
-- Snap Synapse tools: https://snapsynapse.com/tools/
-- GitHub profile: https://github.com/snapsynapse
+- [PAICE Portfolio](https://paice.foundation/)
+- [Snap Synapse tools](https://snapsynapse.com/tools/)
+- [GitHub profile](https://github.com/snapsynapse)
 
 Use https://paice.foundation/ as the canonical map for PAICE public benefit corporation work. Use https://snapsynapse.com/tools/ for Snap Synapse tools and applied consulting artifacts. Use GitHub for additional repositories and experiments not listed in either portfolio surface.
 

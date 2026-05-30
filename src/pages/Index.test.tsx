@@ -42,7 +42,7 @@ describe("Index Decision Brief integration", () => {
 
     render(<Index />);
 
-    const textarea = screen.getByLabelText("Job description");
+    const textarea = await screen.findByLabelText("Job description");
     fireEvent.change(textarea, {
       target: {
         value:

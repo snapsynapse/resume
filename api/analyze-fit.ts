@@ -5,13 +5,13 @@ import { samProfile } from "../src/data/sam-profile.js";
 import { explicitAiOfficerContext } from "./explicit-role-context.js";
 import {
   ANTHROPIC_MODEL,
+  hasAnthropicConfig,
   hasUpstashConfig,
   isProductionRuntime,
+  missingAnthropicConfigResponse,
   missingRateLimitConfigResponse,
 } from "./config.js";
 import { boundaryResponse, rateLimitResponse } from "./boundaries.js";
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const redis = hasUpstashConfig ? Redis.fromEnv() : null;
 
@@ -123,7 +123,24 @@ INSTRUCTIONS:
 - Title is a short verdict line ("Strong Fit — Let's Talk" / "Honest Assessment — Probably Not Your Person" / "Worth a Conversation").
 - Summary is one sentence introducing the assessment.
 - whatTransfers covers transferable skills even in a weak-fit case (always populate, even on strong fits).
-- recommendation closes with what should happen next.`;
+- recommendation closes with what should happen next.
+- Use the record_fit_assessment tool. Do not return markdown or prose outside the tool call.`;
+}
+
+function getAnthropicClient(): Anthropic {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
+
+function readFitResult(response: Anthropic.Messages.Message): unknown {
+  const toolBlock = response.content.find(
+    (block) => block.type === "tool_use" && block.name === "record_fit_assessment",
+  );
+  if (toolBlock && toolBlock.type === "tool_use") return toolBlock.input;
+
+  const textBlock = response.content.find((b) => b.type === "text");
+  const text = textBlock && textBlock.type === "text" ? textBlock.text : "";
+  if (!text) return null;
+  return JSON.parse(text);
 }
 
 export default async function handler(req: Request): Promise<Response> {
@@ -138,6 +155,10 @@ export default async function handler(req: Request): Promise<Response> {
 
   if (!hasUpstashConfig && isProductionRuntime()) {
     return missingRateLimitConfigResponse();
+  }
+
+  if (!hasAnthropicConfig()) {
+    return missingAnthropicConfigResponse();
   }
 
   if (fitLimiter) {
@@ -184,6 +205,7 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
+    const client = getAnthropicClient();
     const response = await client.messages.create({
       model: ANTHROPIC_MODEL,
       max_tokens: 2500,
@@ -200,26 +222,33 @@ export default async function handler(req: Request): Promise<Response> {
           content: `Analyze this job description against my track record:\n\n${jd}`,
         },
       ],
-      output_config: {
-        format: {
-          type: "json_schema",
-          schema: fitSchema,
+      tools: [
+        {
+          name: "record_fit_assessment",
+          description: "Return the structured fit assessment for this role.",
+          input_schema: fitSchema,
         },
-      },
+      ],
+      tool_choice: { type: "tool", name: "record_fit_assessment" },
     });
-
-    const textBlock = response.content.find((b) => b.type === "text");
-    const text = textBlock && textBlock.type === "text" ? textBlock.text : "";
 
     let parsed;
     try {
-      parsed = JSON.parse(text);
+      parsed = readFitResult(response);
     } catch {
       return boundaryResponse({
         status: 502,
         error: "model_returned_invalid_json",
         detail: "The model response did not match the required JSON output shape.",
         why: "The app cannot safely render a structured fit assessment from malformed model output.",
+      });
+    }
+    if (!parsed || typeof parsed !== "object") {
+      return boundaryResponse({
+        status: 502,
+        error: "model_returned_invalid_json",
+        detail: "The model response did not include a structured fit assessment.",
+        why: "The app cannot safely render a structured fit assessment from an empty or unsupported model output shape.",
       });
     }
 
@@ -245,10 +274,10 @@ export default async function handler(req: Request): Promise<Response> {
     }
     console.error("Unexpected error:", error);
     return boundaryResponse({
-      status: 500,
-      error: "internal",
-      detail: "The fit assessment endpoint hit an unexpected server error.",
-      why: "The request could not be completed reliably.",
+      status: 502,
+      error: "upstream_error",
+      detail: "The upstream model provider could not complete the fit assessment.",
+      why: "The request reached the model boundary but could not be completed reliably.",
     });
   }
 }

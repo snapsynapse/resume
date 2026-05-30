@@ -1,5 +1,6 @@
 import { readFile, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 
 const siteUrl = "https://resume.sam-rogers.com";
 const routes = ["/", "/about/", "/experience/", "/fit-assessment/", "/portfolio/", "/contact/"];
@@ -172,6 +173,7 @@ for (const directive of [
   "default-src 'self'",
   "object-src 'none'",
   "frame-ancestors 'none'",
+  "script-src 'self'",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "connect-src 'self' https://us.i.posthog.com https://us-assets.i.posthog.com",
@@ -179,6 +181,22 @@ for (const directive of [
   if (!csp.includes(directive)) {
     fail(`vercel.json: Content-Security-Policy missing ${directive}`);
   }
+}
+const scriptSrc = csp
+  .split(";")
+  .map((directive) => directive.trim())
+  .find((directive) => directive.startsWith("script-src ")) ?? "";
+if (scriptSrc.includes("'unsafe-inline'")) {
+  fail("vercel.json: script-src must not allow unsafe-inline");
+}
+
+function inlineScriptHashes(html) {
+  return [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)]
+    .filter((match) => !/\ssrc=/.test(match[1]))
+    .map((match) => {
+      const hash = createHash("sha256").update(match[2]).digest("base64");
+      return `'sha256-${hash}'`;
+    });
 }
 
 const apiHeaders = headersBySource.get("/api/:path*") ?? [];
@@ -224,6 +242,11 @@ for (const route of routes) {
   }
   if (!html.includes('property="og:image"')) {
     fail(`${file}: missing OpenGraph image`);
+  }
+  for (const hash of inlineScriptHashes(html)) {
+    if (!csp.includes(hash)) {
+      fail(`${file}: inline script hash ${hash} missing from vercel.json CSP`);
+    }
   }
   extractJsonLd(html, file);
 }

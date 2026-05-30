@@ -1,9 +1,10 @@
-import { useState, type ClipboardEvent } from "react";
+import { lazy, Suspense, useState, type ClipboardEvent } from "react";
 import { FileText, Check, AlertTriangle, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 import { lengthBucket } from "@/lib/jd-review";
-import JDReviewPanel from "./JDReviewPanel";
+
+const JDReviewPanel = lazy(() => import("./JDReviewPanel"));
 
 type Verdict = "strong" | "moderate" | "weak";
 
@@ -280,15 +281,23 @@ const FitAssessment = ({
             </label>
 
             {showReviewPanel && (
-              <JDReviewPanel
-                originalText={jobDescription}
-                onConfirm={handleReviewConfirm}
-                onOpened={() =>
-                  track("jd_review_panel_opened", {
-                    lengthBucket: lengthBucket(jobDescription.trim().length),
-                  })
+              <Suspense
+                fallback={
+                  <div className="mt-4 rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm text-muted-foreground">
+                    Loading review panel...
+                  </div>
                 }
-              />
+              >
+                <JDReviewPanel
+                  originalText={jobDescription}
+                  onConfirm={handleReviewConfirm}
+                  onOpened={() =>
+                    track("jd_review_panel_opened", {
+                      lengthBucket: lengthBucket(jobDescription.trim().length),
+                    })
+                  }
+                />
+              </Suspense>
             )}
 
             {reviewEnabled && reviewConfirmed && (

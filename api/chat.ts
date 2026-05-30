@@ -5,13 +5,13 @@ import { samProfile } from "../src/data/sam-profile.js";
 import { explicitAiOfficerContext } from "./explicit-role-context.js";
 import {
   ANTHROPIC_MODEL,
+  hasAnthropicConfig,
   hasUpstashConfig,
   isProductionRuntime,
+  missingAnthropicConfigResponse,
   missingRateLimitConfigResponse,
 } from "./config.js";
 import { boundaryResponse, rateLimitResponse } from "./boundaries.js";
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // Two sliding windows. Burst protection + sustained-use cap.
 // Missing Upstash config is allowed in local dev, but production fails closed below.
@@ -161,6 +161,10 @@ function gracefulBoundary(detail: string, retryAfterSeconds: number, limit: stri
   });
 }
 
+function getAnthropicClient(): Anthropic {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+}
+
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
     return boundaryResponse({
@@ -173,6 +177,10 @@ export default async function handler(req: Request): Promise<Response> {
 
   if (!hasUpstashConfig && isProductionRuntime()) {
     return missingRateLimitConfigResponse();
+  }
+
+  if (!hasAnthropicConfig()) {
+    return missingAnthropicConfigResponse();
   }
 
   if (burstLimiter && sustainedLimiter) {
@@ -248,6 +256,7 @@ export default async function handler(req: Request): Promise<Response> {
   const systemPrompt = buildSystemPrompt(body.roleContext ?? null);
 
   try {
+    const client = getAnthropicClient();
     const stream = client.messages.stream({
       model: ANTHROPIC_MODEL,
       max_tokens: 1500,
@@ -307,10 +316,10 @@ export default async function handler(req: Request): Promise<Response> {
     }
     console.error("Unexpected error:", error);
     return boundaryResponse({
-      status: 500,
-      error: "internal",
-      detail: "The chat endpoint hit an unexpected server error.",
-      why: "The request could not be completed reliably.",
+      status: 502,
+      error: "upstream_error",
+      detail: "The upstream model provider could not complete the chat request.",
+      why: "The request reached the model boundary but could not be completed reliably.",
     });
   }
 }

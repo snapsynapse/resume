@@ -1,6 +1,9 @@
 # Sam Rogers Resume Changelog
 
 2026-05-30
+- Validated local production-preview Lighthouse scores at 100 Performance, 100 Accessibility, 100 Best Practices, 100 SEO, and 100 Agentic Browsing after switching to local system fonts, responsive WebP portrait assets, lazy-loaded AI surfaces, and stricter CSP validation.
+- Hardened AI API startup behavior so missing Anthropic configuration returns a structured fail-closed response instead of a Vercel function invocation failure.
+- Switched structured fit assessment to an Anthropic tool-schema response path for more reliable role-fit JSON output.
 - Added Graceful Boundaries Level 2 API limit communication for public endpoints, including /api/limits discovery and structured non-success response fields.
 - Added GuideCheck Level 3 assistant guide at /.well-known/assistant-guide.txt with trust boundaries, approval gates, sensitive JD handling, and explicit action blocks.
 - Updated README, SECURITY.md, llms.txt, llms-full.txt, agents.json, and api-manifest.json to point reviewers to the canonical Graceful Boundaries and GuideCheck specs.

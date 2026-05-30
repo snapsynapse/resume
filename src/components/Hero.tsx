@@ -72,11 +72,22 @@ const Hero = ({ onOpenChat }: HeroProps) => {
 
         {/* Portrait */}
         <div className="row-start-1 md:row-auto md:col-start-2 animate-fade-in flex justify-center md:justify-end">
-          <img
-            src="/imgs/samrogers.png"
-            alt="Sam Rogers"
-            className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full object-cover border-4 border-card shadow-lg"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcSet="/imgs/samrogers-256.webp 256w, /imgs/samrogers-512.webp 512w"
+              sizes="(min-width: 1024px) 256px, (min-width: 768px) 224px, 160px"
+            />
+            <img
+              src="/imgs/samrogers.png"
+              alt="Sam Rogers"
+              width={512}
+              height={512}
+              fetchpriority="high"
+              decoding="async"
+              className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full object-cover border-4 border-card shadow-lg"
+            />
+          </picture>
         </div>
       </div>
 

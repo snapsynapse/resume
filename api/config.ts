@@ -20,3 +20,17 @@ export function missingRateLimitConfigResponse(): Response {
     why: "Public AI endpoints must fail closed in production when cost-control and abuse-control limits cannot be enforced.",
   });
 }
+
+export function hasAnthropicConfig(): boolean {
+  return !!process.env.ANTHROPIC_API_KEY?.trim();
+}
+
+export function missingAnthropicConfigResponse(): Response {
+  return boundaryResponse({
+    status: 503,
+    error: "anthropic_config_missing",
+    detail:
+      "The Anthropic API key is not configured for this deployment.",
+    why: "Public AI endpoints fail closed when the upstream model provider cannot be reached with an explicit server-side credential.",
+  });
+}

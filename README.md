@@ -53,6 +53,19 @@ Graceful Boundaries is implemented across the public API surface:
 - `/api/limits`
 Non-success API responses include `error`, `detail`, and `why`. HTTP 429 responses also include `limit` and `retryAfterSeconds`. `/api/limits` provides machine-readable discovery for enforced limits and production fail-closed behavior.
 GuideCheck is implemented through `/.well-known/assistant-guide.txt`. The guide is ASCII-only, compact, and written for human verification before agent execution. It defines scope, trust boundaries, approval gates, prohibited behavior, evidence rules, sensitive job-description handling, API usage, and explicit action blocks for candidate-fit review workflows.
+## Validated Lighthouse Baseline
+Latest local production-preview validation: 2026-05-30, Lighthouse 13.3.0, against generated production assets at `http://127.0.0.1:4175/`.
+Scores:
+- Performance: 100
+- Accessibility: 100
+- Best Practices: 100
+- SEO: 100
+- Agentic Browsing: 100
+Validation command:
+```sh
+npx -y lighthouse http://127.0.0.1:4175/ --output=json --output-path=/tmp/resume-lighthouse-lazy-fonts.json --chrome-flags="--headless --no-sandbox" --quiet
+```
+This is a lab validation of the built site, not a guarantee of every visitor's runtime conditions. The implementation choices behind the score include local system fonts, responsive WebP portrait assets, stricter CSP, lazy-loaded chat and fit-assessment surfaces, generated static crawl pages, and metadata validation.
 ## Data Flow
 For normal page viewing:
 - Static assets are served from the site.

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -23,7 +21,7 @@
     --popover-foreground: 220 14% 20%;
 
     /* Primary = deep teal — image cyan dimmed for UI legibility */
-    --primary: 189 75% 39%;          /* #1A95AC */
+    --primary: 189 75% 30%;          /* darker teal for WCAG contrast */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 200 15% 92%;        /* raised cool-grey */
@@ -33,41 +31,41 @@
     --muted-foreground: 220 6% 42%;
 
     /* Accent = vivid cyan, the actual image background */
-    --accent: 189 75% 48%;           /* #1FBED6 */
-    --accent-foreground: 220 14% 12%;
+    --accent: 189 75% 30%;           /* darker teal for text and controls */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 65% 51%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 200 12% 86%;
     --input: 200 15% 92%;
-    --ring: 189 75% 48%;
+    --ring: 189 75% 30%;
 
     --radius: 0.75rem;
 
     --surface-elevated: 0 0% 100%;
-    --text-subtle: 220 6% 48%;
+    --text-subtle: 220 6% 42%;
     --text-highlight: 189 75% 28%;
-    --success: 158 64% 35%;
+    --success: 158 64% 29%;
     --success-muted: 158 50% 92%;
-    --warning: 30 85% 45%;
+    --warning: 30 85% 35%;
     --warning-muted: 30 70% 93%;
 
     --sidebar-background: 200 20% 96%;
     --sidebar-foreground: 220 14% 20%;
-    --sidebar-primary: 189 75% 39%;
+    --sidebar-primary: 189 75% 30%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 200 15% 92%;
     --sidebar-accent-foreground: 220 14% 20%;
     --sidebar-border: 200 12% 86%;
-    --sidebar-ring: 189 75% 48%;
+    --sidebar-ring: 189 75% 30%;
   }
 }
 
 :root {
-  --font-serif: 'Source Serif 4', 'Source Serif', Georgia, serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
 @layer base {
