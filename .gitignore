@@ -29,3 +29,10 @@ dist-ssr
 
 # Local handoff notes
 handoffs/
+
+# --- baseline additions (automated audit 2026-05-30) ---
+__pycache__/
+*.pyc
+build/
+.venv/
+venv/
