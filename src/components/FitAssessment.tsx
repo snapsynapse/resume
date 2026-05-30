@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ClipboardEvent } from "react";
 import { FileText, Check, AlertTriangle, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
@@ -25,6 +25,46 @@ interface FitAssessmentProps {
 const MIN_JD_LENGTH = 50;
 const MAX_JD_LENGTH = 8000;
 
+const JOB_BOARD_STOP_MARKERS = [
+  "How we're different",
+  "Create a Job Alert",
+  "Apply for this job",
+  "Voluntary Self-Identification",
+  "Submit application",
+  "Powered by",
+];
+
+function cleanPastedJobDescription(text: string) {
+  let cleaned = text.replace(/\r\n?/g, "\n");
+  let trimmedByMarker = false;
+
+  const markerPositions = JOB_BOARD_STOP_MARKERS
+    .map((marker) => cleaned.indexOf(marker))
+    .filter((index) => index > 0);
+  if (markerPositions.length > 0) {
+    cleaned = cleaned.slice(0, Math.min(...markerPositions));
+    trimmedByMarker = true;
+  }
+
+  cleaned = cleaned
+    .split("\n")
+    .filter((line) => {
+      const value = line.trim();
+      if (/^\d{1,2}\/\d{1,2}\/\d{2,4}, .*Job Application for /i.test(value)) {
+        return false;
+      }
+      if (/^https:\/\/job-boards\.greenhouse\.io\//i.test(value)) return false;
+      if (/^\d+\/\d+$/.test(value)) return false;
+      if (["Back to jobs", "New", "Apply"].includes(value)) return false;
+      return true;
+    })
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return { text: cleaned, trimmedByMarker };
+}
+
 const FitAssessment = ({
   onResult,
   onJobDescriptionStateChange,
@@ -33,6 +73,7 @@ const FitAssessment = ({
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<FitResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [pasteNotice, setPasteNotice] = useState<string | null>(null);
   const [reviewEnabled, setReviewEnabled] = useState(true);
   const [reviewConfirmed, setReviewConfirmed] = useState(false);
 
@@ -41,6 +82,7 @@ const FitAssessment = ({
 
   const handleJDChange = (value: string) => {
     setJobDescription(value);
+    setPasteNotice(null);
     onJobDescriptionStateChange?.(value.trim().length >= MIN_JD_LENGTH);
     if (result) {
       setResult(null);
@@ -48,6 +90,35 @@ const FitAssessment = ({
     }
     // Editing the text invalidates a prior confirmation.
     if (reviewConfirmed) setReviewConfirmed(false);
+  };
+
+  const handlePaste = (event: ClipboardEvent<HTMLTextAreaElement>) => {
+    const pasted = event.clipboardData.getData("text");
+    if (!pasted) return;
+
+    const { text, trimmedByMarker } = cleanPastedJobDescription(pasted);
+    const target = event.currentTarget;
+    const selectionStart = target.selectionStart ?? jobDescription.length;
+    const selectionEnd = target.selectionEnd ?? jobDescription.length;
+    const nextValue = `${jobDescription.slice(0, selectionStart)}${text}${jobDescription.slice(selectionEnd)}`;
+    const overLimit = nextValue.length > MAX_JD_LENGTH;
+    const finalValue = overLimit ? nextValue.slice(0, MAX_JD_LENGTH) : nextValue;
+
+    if (trimmedByMarker || overLimit || pasted !== text) {
+      event.preventDefault();
+      handleJDChange(finalValue);
+      if (trimmedByMarker) {
+        setPasteNotice(
+          "Cleaned pasted job-board/PDF text and kept the role description before application-form content.",
+        );
+      } else if (overLimit) {
+        setPasteNotice(
+          `Pasted text exceeded ${MAX_JD_LENGTH} characters, so only the first ${MAX_JD_LENGTH} characters were kept.`,
+        );
+      } else {
+        setPasteNotice("Cleaned pasted PDF/job-board formatting before analysis.");
+      }
+    }
   };
 
   const handleToggleReview = () => {
@@ -153,6 +224,7 @@ const FitAssessment = ({
             <textarea
               value={jobDescription}
               onChange={(e) => handleJDChange(e.target.value)}
+              onPaste={handlePaste}
               placeholder="Paste the JD here — title, requirements, responsibilities, anything that defines the role..."
               disabled={analyzing}
               rows={10}
@@ -189,6 +261,11 @@ const FitAssessment = ({
             {error && (
               <p className="mt-4 text-sm text-warning bg-warning-muted border border-warning/20 rounded-lg px-4 py-3">
                 {error}
+              </p>
+            )}
+            {pasteNotice && (
+              <p className="mt-4 text-sm text-muted-foreground bg-secondary border border-border rounded-lg px-4 py-3">
+                {pasteNotice}
               </p>
             )}
 
