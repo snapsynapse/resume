@@ -68,13 +68,13 @@ describe("DecisionBriefSidebar", () => {
   it("renders expanded recruiter copy blocks by default on desktop and tablet surfaces", () => {
     render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
 
-    const sidebar = screen.getByLabelText("Decision brief");
+    const sidebar = screen.getByLabelText("Interview Decision Brief");
     expect(sidebar).toHaveClass("hidden");
     expect(sidebar).toHaveClass("lg:block");
     expect(sidebar).toHaveClass("sticky");
-    expect(sidebar).toHaveClass("top-16");
-    expect(sidebar).toHaveClass("mt-16");
-    expect(sidebar).toHaveClass("h-[calc(100vh-4rem)]");
+    expect(sidebar).toHaveClass("top-0");
+    expect(sidebar).toHaveClass("z-[60]");
+    expect(sidebar).toHaveClass("h-screen");
     expect(screen.getByText("Recruiter Summary")).toBeInTheDocument();
     expect(screen.getByText("Shortlist Rationale")).toBeInTheDocument();
     expect(screen.getByText(/YouTube certification 10x/i)).toBeInTheDocument();
@@ -112,7 +112,7 @@ describe("DecisionBriefSidebar", () => {
     const writeText = mockClipboard();
     render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Copy all Decision Brief blocks" }));
+    fireEvent.click(screen.getByRole("button", { name: "Copy all Interview Decision Brief blocks" }));
 
     await waitFor(() => {
       expect(writeText).toHaveBeenCalledWith(expect.stringContaining("Recruiter Summary"));
@@ -143,12 +143,12 @@ describe("DecisionBriefSidebar", () => {
       <DecisionBriefSidebar fitResult={null} hasJobDescription={false} />,
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Collapse Decision Brief" }));
-    expect(screen.getByRole("button", { name: "Open Decision Brief" })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Collapse Interview Decision Brief" }));
+    expect(screen.getByRole("button", { name: "Open Interview Decision Brief" })).toBeInTheDocument();
 
     unmount();
     render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
-    expect(screen.getByRole("button", { name: "Open Decision Brief" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Open Interview Decision Brief" })).toBeInTheDocument();
   });
 
   it("switches to JD-tailored blocks after fit assessment returns", async () => {

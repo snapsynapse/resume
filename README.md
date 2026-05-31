@@ -12,7 +12,7 @@ The product decision behind this repo is simple: if the resume claims AI governa
 The homepage is the primary resume experience. It is interactive, visual, and optimized for human triage. It also includes no-JS fallback content and generated static crawl pages so LLMs, search crawlers, link unfurlers, and agentic tools can still read core facts without executing React.
 This is intentional. Recruiters and hiring teams should not need special tooling, but automated systems should also receive bounded, accurate context rather than scraped fragments.
 ### Copy workflow before novelty
-The Decision Brief sidebar exists because recruiters often need to copy short blocks into ATS notes, Slack threads, hiring-manager summaries, and interview packets. It is pinned on desktop and tablet where copy-paste workflows are realistic, hidden on mobile, expanded by default, and remembered locally.
+The Interview Decision Brief sidebar exists because recruiters often need to copy short blocks into ATS notes, Slack threads, hiring-manager summaries, and interview packets. It is pinned on desktop and tablet where copy-paste workflows are realistic, hidden on mobile, expanded by default, and remembered locally.
 The sidebar does not include contact or booking actions. Its job is evidence transfer, not conversion. It gives recruiters and hiring managers reusable language while preserving the main resume as the source of context.
 ### Honest fit before persuasion
 The fit assessment is deliberately framed as an assessment, not a sales funnel. It can return strong, moderate, or weak fit, names gaps, and distinguishes transferable evidence from missing experience.
@@ -38,7 +38,7 @@ The stack is intentionally ordinary. The point is not to hide behind an exotic a
 ## Architecture
 The app has four main surfaces:
 - Human resume: React-rendered homepage with hero, evidence, work history, fit assessment, booking/contact path, and AI chat.
-- Decision Brief: desktop/tablet sidebar with recruiter and hiring-manager copy blocks, locally remembered state, and fit-result-aware updates.
+- Interview Decision Brief: desktop/tablet sidebar with recruiter and hiring-manager copy blocks, locally remembered state, and fit-result-aware updates.
 - API layer: `/api/chat` and `/api/analyze-fit`, both using Anthropic, rate limits, no-store responses, prompt boundaries, and `/api/limits` discovery.
 - Machine-readable artifacts: static crawl pages and public text/JSON resources for agents, LLMs, search systems, and scanners.
 Profile content is centralized in `src/data/sam-profile.ts` so the interactive app, static crawl pages, AI prompts, and machine-readable files stay aligned.
@@ -66,6 +66,9 @@ Validation command:
 npx -y lighthouse http://127.0.0.1:4175/ --output=json --output-path=/tmp/resume-lighthouse-lazy-fonts.json --chrome-flags="--headless --no-sandbox" --quiet
 ```
 This is a lab validation of the built site, not a guarantee of every visitor's runtime conditions. The implementation choices behind the score include local system fonts, responsive WebP portrait assets, stricter CSP, lazy-loaded chat and fit-assessment surfaces, generated static crawl pages, and metadata validation.
+## Print / PDF Handoff
+The browser print path is intentionally supported for recruiters who need to save or forward a PDF. The print stylesheet keeps the resume source of truth in the webpage while removing interactive-only surfaces: navigation, the Interview Decision Brief sidebar, AI chat, the fit-assessment form, buttons, animations, shadows, and decorative layout treatment.
+The printed output keeps identity, positioning, experience evidence, skills, and contact paths. Important links print with their URLs so a saved PDF remains auditable outside the browser.
 ## Data Flow
 For normal page viewing:
 - Static assets are served from the site.
@@ -81,7 +84,7 @@ For fit assessment:
 - The browser can run a local deterministic review for business-sensitive terms.
 - Only the current reviewed textarea content is sent to `/api/analyze-fit`.
 - The API asks Anthropic for structured JSON with verdict, matches, gaps, transferability, and recommendation.
-- The result updates both the fit panel and Decision Brief sidebar.
+- The result updates both the fit panel and Interview Decision Brief sidebar.
 - Editing the JD after analysis clears the tailored sidebar state so stale fit guidance is not reused.
 ## Privacy And Telemetry
 PostHog is used only for minimal monitoring of whether visitors use the interactive resume surfaces. The intent is lightweight interaction telemetry, not behavioral surveillance.
@@ -93,8 +96,8 @@ The implementation must remain cookieless and should not require a cookie banner
 - no `identify()` calls
 - no user text, job-description text, chat content, email addresses, names, or other user-supplied content in event properties
 - `respect_dnt: true`
-Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, experience-context toggles, and Decision Brief copy actions.
-Job-description review events carry only a flag count, a character-length bucket, and an edited boolean. Decision Brief copy events carry only metadata such as block id, mode, and fit verdict. They never include copied text, scanned text, flagged terms, placeholders, JD content, or any company, client, employee, or project names.
+Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, experience-context toggles, and Interview Decision Brief copy actions.
+Job-description review events carry only a flag count, a character-length bucket, and an edited boolean. Interview Decision Brief copy events carry only metadata such as block id, mode, and fit verdict. They never include copied text, scanned text, flagged terms, placeholders, JD content, or any company, client, employee, or project names.
 ## Security And Compliance Posture
 This is a public resume site, not an enterprise system. The security posture is therefore scoped to public web endpoints, user-submitted text risk, model-boundary risk, and claim integrity.
 Controls include:
@@ -173,7 +176,7 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript check, including Vercel API handlers
 - `npm run validate:metadata`: verify generated crawl pages, structured data, sitemap, and machine-readable files
-- `npm run test`: Vitest test suite, including mocked API success paths for chat streaming, structured fit analysis, Decision Brief behavior, and JD state clearing
+- `npm run test`: Vitest test suite, including mocked API success paths for chat streaming, structured fit analysis, Interview Decision Brief behavior, and JD state clearing
 - `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*` and all other routes to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.
@@ -181,6 +184,6 @@ This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:
 - [SECURITY.md](SECURITY.md): endpoint threat model, disclosure path, and hardening notes.
 - [EVIDENCE.md](EVIDENCE.md): claim ledger behind the resume.
 - [scripts/eval-prompts.mjs](scripts/eval-prompts.mjs): live prompt-boundary evals.
-- [src/components/DecisionBriefSidebar.tsx](src/components/DecisionBriefSidebar.tsx): copy workflow for recruiter and hiring-manager handoff.
+- [src/components/DecisionBriefSidebar.tsx](src/components/DecisionBriefSidebar.tsx): Interview Decision Brief copy workflow for recruiter and hiring-manager handoff.
 - [src/components/FitAssessment.tsx](src/components/FitAssessment.tsx): job-description assessment workflow.
 - [src/components/JDReviewPanel.tsx](src/components/JDReviewPanel.tsx): local business-context review before fit analysis.

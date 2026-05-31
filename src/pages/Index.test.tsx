@@ -8,7 +8,7 @@ const analyticsMock = vi.hoisted(() => ({
 
 vi.mock("@/lib/analytics", () => analyticsMock);
 
-describe("Index Decision Brief integration", () => {
+describe("Index Interview Decision Brief integration", () => {
   afterEach(() => {
     vi.clearAllMocks();
     vi.restoreAllMocks();

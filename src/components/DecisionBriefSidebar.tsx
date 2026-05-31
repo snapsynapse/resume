@@ -334,10 +334,12 @@ const DecisionBriefSidebar = ({
 
   return (
     <aside
-      aria-label="Decision brief"
+      aria-label="Interview Decision Brief"
       className={cn(
-        "sticky top-16 mt-16 hidden h-[calc(100vh-4rem)] shrink-0 border-r border-border bg-card/95 shadow-sm backdrop-blur lg:block",
-        collapsed ? "w-14" : "w-[23rem] xl:w-[25rem]",
+        "sticky hidden shrink-0 border-r border-border bg-card/95 shadow-sm backdrop-blur lg:block",
+        collapsed
+          ? "top-16 mt-16 h-[calc(100vh-4rem)] w-14"
+          : "top-0 z-[60] h-screen w-[23rem] xl:w-[25rem]",
       )}
     >
       {collapsed ? (
@@ -345,13 +347,13 @@ const DecisionBriefSidebar = ({
           <button
             type="button"
             onClick={() => setCollapsed(false)}
-            aria-label="Open Decision Brief"
+            aria-label="Open Interview Decision Brief"
             className="rounded-lg border border-border bg-secondary p-2 text-foreground transition-colors hover:border-accent"
           >
             <PanelLeftOpen className="h-4 w-4" aria-hidden="true" />
           </button>
           <div className="writing-mode-vertical rotate-180 text-xs font-mono uppercase tracking-wider text-muted-foreground [writing-mode:vertical-rl]">
-            Brief
+            Interview Brief
           </div>
           {(fitResult || hasJobDescription) && (
             <span className="rounded-full bg-accent px-1.5 py-1 text-[10px] font-medium text-accent-foreground">
@@ -365,7 +367,7 @@ const DecisionBriefSidebar = ({
             <div className="mb-3 flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                  Decision Brief
+                  Interview Decision Brief
                 </p>
                 <h2 className="mt-1 font-serif text-2xl text-foreground">
                   Copy-ready evidence
@@ -374,7 +376,7 @@ const DecisionBriefSidebar = ({
               <button
                 type="button"
                 onClick={() => setCollapsed(true)}
-                aria-label="Collapse Decision Brief"
+                aria-label="Collapse Interview Decision Brief"
                 className="rounded-lg border border-border bg-secondary p-2 text-foreground transition-colors hover:border-accent"
               >
                 <PanelLeftClose className="h-4 w-4" aria-hidden="true" />
@@ -409,7 +411,7 @@ const DecisionBriefSidebar = ({
             <button
               type="button"
               onClick={copyAll}
-              aria-label="Copy all Decision Brief blocks"
+              aria-label="Copy all Interview Decision Brief blocks"
               className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
             >
               {copiedBlock === "copy-all" ? (

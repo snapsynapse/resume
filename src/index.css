@@ -174,3 +174,169 @@
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
 }
+
+@media print {
+  @page {
+    margin: 0.6in;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transition: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 10.5pt;
+    line-height: 1.35;
+  }
+
+  header,
+  aside[aria-label="Interview Decision Brief"],
+  #fit-assessment,
+  [role="dialog"],
+  button,
+  textarea,
+  input,
+  .pointer-events-none.absolute {
+    display: none !important;
+  }
+
+  main,
+  footer,
+  section,
+  article,
+  div {
+    position: static !important;
+    transform: none !important;
+  }
+
+  main,
+  footer {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  section {
+    min-height: 0 !important;
+    padding: 0 0 18pt !important;
+    border: 0 !important;
+  }
+
+  #about {
+    display: block !important;
+    padding-top: 0 !important;
+  }
+
+  #about > div,
+  #experience > div,
+  #contact > div,
+  footer > div {
+    display: block !important;
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: #111 !important;
+    break-after: avoid;
+  }
+
+  h1 {
+    margin: 0 0 8pt !important;
+    font-size: 34pt !important;
+    line-height: 1.05 !important;
+  }
+
+  h2 {
+    margin: 18pt 0 8pt !important;
+    font-size: 20pt !important;
+  }
+
+  h3 {
+    font-size: 14pt !important;
+  }
+
+  p,
+  li,
+  span {
+    color: #222 !important;
+  }
+
+  a {
+    color: #111 !important;
+    text-decoration: underline;
+  }
+
+  a[href^="http"]::after,
+  a[href^="mailto"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8.5pt;
+    overflow-wrap: anywhere;
+  }
+
+  img {
+    max-width: 1.15in !important;
+    height: auto !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+  }
+
+  article,
+  #experience .grid > div,
+  #contact {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  article {
+    margin: 0 0 11pt !important;
+    padding: 10pt 0 !important;
+    border: 0 !important;
+    border-top: 1px solid #bbb !important;
+  }
+
+  ul {
+    margin: 5pt 0 0 !important;
+    padding-left: 14pt !important;
+  }
+
+  li {
+    margin: 0 0 3pt !important;
+  }
+
+  .rounded-2xl,
+  .rounded-xl,
+  .rounded-lg,
+  .rounded-full {
+    border-radius: 0 !important;
+  }
+
+  .border,
+  .border-t,
+  .border-b,
+  .border-r,
+  .border-l {
+    border-color: #bbb !important;
+  }
+
+  footer {
+    margin-top: 6pt !important;
+    padding: 12pt 0 0 !important;
+    border-top: 1px solid #bbb !important;
+  }
+}
