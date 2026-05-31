@@ -60,6 +60,30 @@ describe("JDReviewPanel", () => {
     expect(textarea.value).toBe(JD);
   });
 
+  it("undoes the correct entry when two flags share a placeholder", () => {
+    const dupJD = "Lead the Globex account and the Initech account this year.";
+    render(<JDReviewPanel originalText={dupJD} onConfirm={vi.fn()} />);
+    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
+
+    // Both "Globex" and "Initech" flag as client-name -> identical [CLIENT NAME].
+    expect(screen.getAllByRole("button", { name: /\[CLIENT NAME\]/ }).length).toBe(2);
+    // Re-query each time: applying re-renders and detaches the prior node list.
+    fireEvent.click(screen.getAllByRole("button", { name: /\[CLIENT NAME\]/ })[0]);
+    fireEvent.click(screen.getAllByRole("button", { name: /\[CLIENT NAME\]/ })[0]);
+
+    let textarea = screen.getByLabelText(/reviewed job description/i) as HTMLTextAreaElement;
+    expect(textarea.value).toBe(
+      "Lead the [CLIENT NAME] account and the [CLIENT NAME] account this year.",
+    );
+
+    // Undo the first applied entry (Globex). Initech must stay redacted.
+    fireEvent.click(screen.getAllByRole("button", { name: /^undo$/i })[0]);
+    textarea = screen.getByLabelText(/reviewed job description/i) as HTMLTextAreaElement;
+    expect(textarea.value).toBe(
+      "Lead the Globex account and the [CLIENT NAME] account this year.",
+    );
+  });
+
   it("gates the confirm button behind the checklist and returns reviewed text", () => {
     const onConfirm = vi.fn();
     render(<JDReviewPanel originalText={JD} onConfirm={onConfirm} />);

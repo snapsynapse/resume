@@ -25,6 +25,8 @@ const confidenceTone: Record<Flag["confidence"], string> = {
 
 interface AppliedReplacement {
   id: string;
+  /** Offset of the placeholder in the current working text. */
+  start: number;
   original: string;
   placeholder: string;
 }
@@ -87,11 +89,17 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
   };
 
   const handleApply = (flag: Flag) => {
+    // flag offsets index into the current working text (flags = scanJD(workingText)).
     setWorkingText((current) => applyFlag(current, flag));
+    // Inserting the placeholder shifts every later offset by this delta.
+    const delta = flag.placeholder.length - (flag.end - flag.start);
     setAppliedReplacements((current) => [
-      ...current,
+      ...current.map((item) =>
+        item.start > flag.start ? { ...item, start: item.start + delta } : item,
+      ),
       {
         id: flag.id,
+        start: flag.start,
         original: flag.match,
         placeholder: flag.placeholder,
       },
@@ -99,11 +107,23 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
   };
 
   const handleUndo = (replacement: AppliedReplacement) => {
-    setWorkingText((current) =>
-      current.replace(replacement.placeholder, replacement.original),
+    // Splice by offset, not string match, so duplicate placeholders (two
+    // [CLIENT NAME] entries) and user-typed placeholder text undo correctly.
+    setWorkingText(
+      (current) =>
+        current.slice(0, replacement.start) +
+        replacement.original +
+        current.slice(replacement.start + replacement.placeholder.length),
     );
+    const delta = replacement.original.length - replacement.placeholder.length;
     setAppliedReplacements((current) =>
-      current.filter((item) => item.id !== replacement.id),
+      current
+        .filter((item) => item.id !== replacement.id)
+        .map((item) =>
+          item.start > replacement.start
+            ? { ...item, start: item.start + delta }
+            : item,
+        ),
     );
   };
 
