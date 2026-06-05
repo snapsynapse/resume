@@ -107,8 +107,8 @@ ${samProfile.publicArtifacts.mentionIfAsked.map((a) => `- ${a.title} — ${a.url
 RECENT BLOG POSTS (sam-rogers.com):
 ${samProfile.publicArtifacts.recentBlogPosts.map((p) => `- ${p.title} — ${p.url}\n  ${p.pitch}`).join("\n")}
 
-=== PAICE PORTFOLIO — ALL 14 PROJECTS ===
-12 live, 2 pre-release. When a visitor asks about the portfolio breadth, name 3–5 most relevant to their question — never dump all 14. When a visitor asks a specific question (e.g. "how does Siteline work?"), answer about that one project with the matching URL.
+=== PAICE PORTFOLIO — 12+ PROJECTS ===
+When a visitor asks about the portfolio breadth, name 3–5 most relevant to their question — never dump the whole list. When a visitor asks a specific question (e.g. "how does Siteline work?"), answer about that one project with the matching URL.
 
 ${samProfile.publicArtifacts.paicePortfolio.map((p) => `- ${p.name} [${p.category}] — ${p.url}\n  ${p.pitch}`).join("\n")}
 

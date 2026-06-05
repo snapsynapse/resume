@@ -17,6 +17,36 @@ The sidebar does not include contact or booking actions. Its job is evidence tra
 ### Honest fit before persuasion
 The fit assessment is deliberately framed as an assessment, not a sales funnel. It can return strong, moderate, or weak fit, names gaps, and distinguishes transferable evidence from missing experience.
 This matters for compliance and IT review because it shows the AI layer is expected to constrain claims, not maximize candidate appeal.
+### Private FAQ disclosure model
+The chat system prompt includes a `recruiterFAQ` block in `src/data/sam-profile.ts` that does not appear on the homepage, static crawl pages, `resume.txt`, `llms.txt`, `llms-full.txt`, `agents.json`, or any other public artifact. The intent is that these answers are surfaced by the chat assistant only when a visitor asks a direct question that warrants them.
+
+This block is still sent to a cloud LLM as part of every chat request. The baseline assumption is that anything fed to a cloud-based LLM should be treated as potentially disclosable, not as a private channel. The "ask-on-direct-question" gating is a behavioral instruction, not a transport boundary.
+
+The rule for what belongs in the private FAQ is therefore not "is it currently hidden from the homepage" but "would it be acceptable if it were disclosed." Concrete examples already in the file:
+- Region appears ("SF Bay Area, hybrid available"). Residential address, ZIP, and precise city do not appear. Precise-address questions route to a direct call, framed as privacy hygiene rather than evasion. This avoids asserting a precise location on a public LLM surface where false precision would be worse than honest deferral.
+- Personal phone does not appear. Disclosure cost is higher and the resume already exposes a personal email contact.
+- A qualitative target band (senior individual contributor or Lead, in-band role types, signal-list for analyzer calibration) appears. Specific compensation numbers do not, because financial detail belongs on a human-to-human call rather than in a system prompt.
+- altMBA, Capital One, and similar career-shape items appear with explicit "disclose only on direct ask" instructions. Disclosure cost is low, but proactively surfacing them weakens the senior-IC and Lead positioning, so the gating is editorial, not protective.
+
+The disclosure rule is enforced mechanically by a PII scan in the test suite. See "Reveal-safe PII evals" below for how that scan is designed so the eval itself does not become a disclosure surface.
+
+The disclosure check is the threshold for adding anything new to the private FAQ. If an item fails the check, the right channel is a direct conversation with Sam, not the chat surface.
+
+### Reveal-safe PII evals
+This repository is open source. A naive PII scan would defeat itself: writing a regex literal of the exact value being blocked puts that value into a publicly readable test file, so any reader of the source learns precisely what was meant to be private. The scan in [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts) is designed so that the eval reveals only the categories of protection, not the candidate-specific values being protected.
+
+Design choices that make this work:
+
+- Two-layer pattern model. Generic shape-based patterns (any US-format phone number, any SSN-shaped string, any dollar-amount figure, any compensation range) are kept as literal regexes because the shapes themselves are public knowledge and reveal nothing about the candidate. Candidate-specific values (a particular residential city, town, state, ZIP, or personal phone number) are stored only as SHA-256 hex digests of normalized lowercase forms. A reader of the test file learns that residential signals are being blocked, but not which specific residential signals.
+- No labels on the digest set. The hash entries are an unordered set, not a labeled map. A reader cannot infer which digest corresponds to a city versus a state versus a phone number, and the order is intentionally rotated when entries are added so positional inference is also unreliable.
+- Tokenization at scan time. The scan tokenizes each file line into one-to-four-word lowercase n-grams and into phone-shape digit windows (digits-only, sliding 10-digit windows). Each candidate is hashed and checked against the digest set. This means a multi-word city name, a state name, a single-token ZIP, and a phone in any format collapse to the same hashed-membership test, without the test file needing to know which kind of literal it is matching.
+- Violation reports never echo the matched substring. When the scan finds a hit, it reports file path and line number only. A CI log, a screenshot, or an issue paste of a failing run does not leak the value the scan was protecting. The author can open the file locally to see what happened.
+- Allowlists are also hashed. Legitimate non-residential references that happen to share a name (e.g. a regulatory project anchor that uses a state's name in a non-residence context) are allowed by full-line SHA-256, not by quoted regex. The legitimate context never has to appear in the test file alongside the rule that permits it.
+- Positive controls cover the allowlisted identifiers. Name, email, and region are asserted to appear somewhere in the scanned set as plain-text positive controls. These three are public by policy, so naming them does not weaken the design. Their presence guarantees the scan is wired to real content rather than silently passing on an empty file collection.
+- Reveal-safety is verifiable. A grep of the test file and this README for any candidate-specific phone, ZIP, city, or state literal returns nothing. This property is mechanical, not editorial, and a future reviewer can re-verify it without trusting prior intent.
+
+Scope reminder: this scan covers committed repository content only. User-submitted text in form fields and chat messages is governed by the API handlers' prompt-boundary tests and the JD review scanner, not by this eval.
+
 ### User context is useful, but sensitive context is risky
 The job-description workflow includes an optional in-browser business-context review before API submission. The scanner is deterministic, runs locally, and flags likely non-public details so the user can replace them with placeholders before sending text for model analysis.
 This is risk reduction, not anonymization. The app explicitly warns users not to paste confidential, proprietary, regulated, or unreleased role data. Sensitive roles should be handled by email instead.
@@ -107,6 +137,7 @@ Controls include:
 - Production fail-closed behavior when rate limiting is not configured.
 - Structured fit-analysis schema with bounded verdict values.
 - Prompt-boundary tests for private information, false credentials, sensitive job material, production-infrastructure overclaiming, and JD prompt injection.
+- PII / compensation exposure scan in the test suite ([src/test/pii-scan.test.ts](src/test/pii-scan.test.ts)). Runs in CI. Designed so the eval itself does not leak the values it protects — full architecture documented under "Reveal-safe PII evals" in Design Decisions above.
 - Public evidence ledger for claims that need more context than a resume page can carry.
 - Responsible disclosure path in `SECURITY.md`.
 Important limits:

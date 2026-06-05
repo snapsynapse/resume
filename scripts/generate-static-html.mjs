@@ -52,22 +52,22 @@ const pages = [
     slug: "about",
     title: "About Sam Rogers - Talent Development and AI Governance",
     description:
-      "About Sam Rogers: talent development leader, founder of PAICE.work PBC, and builder of human-AI collaboration measurement infrastructure.",
+      "About Sam Rogers: senior IC and Lead-band roles in talent development, certification, partner enablement, AI governance, and human-AI collaboration measurement infrastructure.",
     heading: "About Sam Rogers",
     body: [
       {
         heading: "Profile",
         paragraphs: [
-          "Sam Rogers is a talent development leader with 25 years building learning and development systems that move capability into practice.",
-          "He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration.",
-          "He also runs Snap Synapse LLC, the consulting practice behind technical enablement, certification, and learning systems work for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, ADP, and Convatec.",
+          "Sam Rogers has 20+ years building learning and development systems that move capability into practice.",
+          "He currently builds open infrastructure for measuring and governing human-AI collaboration through PAICE.work PBC, a public benefit corporation.",
+          "He also runs Snap Synapse LLC, an independent consulting practice of more than two decades behind technical enablement, certification, and learning systems work for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, and Convatec.",
         ],
       },
       {
         heading: "Why roles now",
         paragraphs: [
           "The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.",
-          "PAICE.work and Snap Synapse are vehicles for that work, not the point of the work. They exist because the next phase of talent development, AI governance, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.",
+          "PAICE.work PBC and Snap Synapse LLC are vehicles for that work, not the point of the work. They exist because the next phase of talent development, AI governance, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.",
           "Sam is open to roles where the work advances Aggregated Intelligence at speed and scale: learning systems, certification, enablement, behavioral measurement, or governance infrastructure that helps people and AI collaborate more safely in practice.",
         ],
       },

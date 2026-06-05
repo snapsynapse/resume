@@ -1,5 +1,25 @@
 # Sam Rogers Resume Changelog
 
+2026-06-05
+- Calibrated target-role list to senior-IC and Lead band, five tightly aligned titles: Lead, Talent Development & Enablement; Certification Development Lead; L&D Systems Architect; Applied AI Enablement Lead; Forward-Deployed Enablement Lead. Removed earlier Head-of-tier entries and the "Agentic Trust Engineer" role. Each title maps to a handoff Tier 1 bucket (Education/enablement or Solutions/forward-deployed/applied).
+- Added Education and certifications section to resume.txt, llms.txt, llms-full.txt, and the no-JS hero so degree-filter ATS workflows do not knock out the candidate.
+- Added Keywords block so recruiter boolean searches against standard L&D/cert/enablement terms can hit.
+- Rewrote above-the-fold copy on the page title, og/twitter tags, no-JS hero, and text artifacts so employer-title scope words (Founder, CEO, President) do not lead the first-impression read.
+- Added Private FAQ disclosure model documentation and a reveal-safe PII / compensation exposure scan to the test suite (see README and SECURITY.md).
+- Geographic FAQ rewritten to a one-line region answer (SF Bay Area, hybrid available) with a privacy-hygiene deferral for precise-address questions on a public LLM surface.
+- Reframed YouTube Certified Program credential as the live playbook still running PAICE.work and AI Posture today.
+- Trimmed lingering 4-H Council, AAA, and ADP references from public client lists per scoping decision.
+- Replaced "25 years" claim with "20+ years" across all surfaces (resume text, llms files, hero, meta description, fit assessment loading copy, internal narrator prompts) to align with the visible 2004-onward record and avoid math the recruiter has to reconcile.
+- Consolidated PAICE portfolio sizing to "12+ projects" across surfaces (no more 14 / 12 live + 2 pre-release inconsistency) so detail-oriented recruiters do not catch a count mismatch.
+- Split Snap Synapse tenure into "2004-2020, 2023-Present" so the visible timeline no longer overlaps the Convatec W-2 period. Standard split-tenure notation; no explanatory parenthetical needed.
+- Standardized parent entity references to "PAICE.work PBC" where the corporation is meant; left "PAICE.work" for the simulator product and "PAICE Portfolio" / paice.foundation for the brand-foundation site so the three-layer naming reads cleanly.
+- Reframed Snap Synapse litigation-expert highlight to lead with the "retained as subject matter expert by counsel" framing so the third-party expert role is unambiguous on first read.
+- Dropped the "talent development leader" headline noun from lead paragraphs across all surfaces (resume.txt, llms.txt, llms-full.txt, agents.json, index.html no-JS hero, static-page generator, agents.json description, and the systemPrompt narrative). Lead paragraphs now open with action-coded language ("20+ years building L&D systems...") so the noun-phrase no longer competes with JD-specific scope vocabulary in recruiter triage. Static title metadata softened to "Talent Development & Enablement" without the "Leader" amplifier.
+- Replaced experience-card role titles "Founder and CEO" (PAICE.work PBC) and "President and Principal Consultant" (Snap Synapse LLC) with "Founder" and "Principal Consultant" respectively. Same legal accuracy, lower scope-trigger surface in recruiter triage.
+- Rewrote the Convatec Manager-to-Leader bullet from "Co-led a 9-month Manager-to-Leader development program for the top 100 managers" to "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers" so the parsing does not read as "managed 100 people."
+- Focused the PAICE highlight bullet to a top-5 featured set (AI Posture, PAICE.work, Siteline, Every AI Law, GuideCheck) instead of enumerating nine project names. The full 12+ count remains; the breadth is reachable via chat.
+- Rewrote the public gap statement so it names three specific non-fits (deep production-infrastructure engineer, ML research / applied-scientist contributor, Director+ scope-management role) instead of one. The Director+ clause anchors the senior-IC / Lead target band without misrepresenting Sam's actual people-management capability. Replaced the off-target "narrow enterprise sales leadership" reference with "steady-state maintenance of mature, established L&D functions" so the role-pattern non-fits map to the handoff's JD red flags rather than to a sales scope.
+
 2026-05-30
 - Validated local production-preview Lighthouse scores at 100 Performance, 100 Accessibility, 100 Best Practices, 100 SEO, and 100 Agentic Browsing after switching to local system fonts, responsive WebP portrait assets, lazy-loaded AI surfaces, and stricter CSP validation.
 - Hardened AI API startup behavior so missing Anthropic configuration returns a structured fail-closed response instead of a Vercel function invocation failure.
@@ -24,8 +44,6 @@
 - Removed stale "New" badge from the hero chat CTA.
 
 2026-05-20
-- Added Head of AI Governance / AI program leadership to target roles.
-- Updated AI governance positioning across resume hero, llms.txt, llms-full.txt, agents.json, and resume.txt.
 - Lifted the Convatec AI deployment (4 countries, 80% adoption in 30 days, cleanest compliance audit in company history) as a regulated AI adoption case study, including Rachel Horwitz testimonial reference.
 - Updated skills to include AI governance program design, AI accountability posture across SOC 2 / ISO 42001 / NIST AI RMF contexts, and AI-enabled capability deployment at scale.
 

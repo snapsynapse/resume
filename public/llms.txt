@@ -1,6 +1,6 @@
 # Sam Rogers Resume
 
-> AI-queryable resume for Sam Rogers, a talent development leader and founder building open infrastructure for human-AI collaboration measurement and governance.
+> AI-queryable resume for Sam Rogers. 20+ years building L&D systems that move capability into practice, currently building open infrastructure for human-AI collaboration measurement and governance.
 
 ## Canonical URLs
 
@@ -14,29 +14,38 @@
 
 ## Who this site is about
 
-Sam Rogers is a talent development leader with 25 years building learning and development systems that move capability into practice. He is founder and CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He also runs Snap Synapse LLC, the consulting practice behind technical enablement, certification, and learning systems work for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, ADP, and Convatec.
+Sam Rogers has 20+ years building learning and development systems that move capability into practice. He currently builds open infrastructure for measuring and governing human-AI collaboration through PAICE.work PBC, a public benefit corporation, and runs Snap Synapse LLC as an independent consulting practice of more than two decades. The consulting work covers technical enablement, certification, and learning systems for organizations including Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, and Convatec.
 
 ## Why roles now
 
 The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.
 
-PAICE.work and Snap Synapse are vehicles for that work, not the point of the work. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
+PAICE.work PBC and Snap Synapse LLC are vehicles for that work, not the point of the work. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
 
 ## Role targets
 
-- Talent development and enablement leadership
-- Head of AI Governance / AI program leadership
-- Certification development
-- Developer education
-- L&D systems architecture
-- Learning engineering
-- AI governance enablement
-- Agentic trust and AI posture measurement
+- Lead, Talent Development & Enablement
+- Certification Development Lead
+- L&D Systems Architect
+- Applied AI Enablement Lead
+- Forward-Deployed Enablement Lead
+
+## Education and certifications
+
+- B.A. Communication Studies, Sonoma State University
+- Prosci Certified Change Practitioner (CCP)
+- Strategic Privacy by Design
+- Data Analytics and Visualization
+- LMS administrator certifications: Cornerstone OnDemand, Docebo, Litmos, Axonify
+
+## Keywords
+
+Learning and Development, Instructional Design, Curriculum Development, ADDIE, Kirkpatrick Model, Bloom's Taxonomy, Adult Learning Theory, Performance Consulting, Learning Experience Design (LXD), Learning Engineering, Talent Development, Talent Enablement, Sales Enablement, Technical Enablement, Developer Education, Developer Relations, Partner Enablement, Onboarding, Credentialing, Certification Architecture, Certification Program Design, Performance-Based Assessment, Competency Frameworks, SCORM, xAPI, LMS Administration, LMS Implementation, Cornerstone OnDemand, Docebo, Litmos, Axonify, Change Management, Prosci, Organizational Health, Organizational Development, Workforce Readiness, AI Governance, AI Posture, AI Adoption, AI Enablement, Responsible AI, Human-AI Collaboration, NIST AI RMF, ISO 42001, SOC 2, AI Risk Management, Agentic Trust, Forward-Deployed Engineering, Solutions Engineering.
 
 ## Strong evidence
 
 - Deployed an AI-based training platform across 4 countries at Convatec (200-person Portugal cohort, 80%+ adoption in 30 days). Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.
-- Built the YouTube Certified Online Training Program at Google, replacing a classroom certification model (~1,000 partners/year) with a scalable online program (~10,000 in year one). 10x scaling at lower marginal cost.
+- Built the YouTube Certified Online Training Program at Google, replacing a classroom certification model (~1,000 partners/year) with a scalable online program (~10,000 in year one). 10x scaling at lower marginal cost. The assessment-first sequencing from that build is the same operating pattern running PAICE.work and AI Posture today.
 - Raised Convatec's Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.
 - Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration, regulation, and agent-readiness.
 - Productized agent-readiness consulting into Siteline while preserving higher-judgment advisory work for paid assessment paths.

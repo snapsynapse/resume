@@ -111,7 +111,13 @@ ${experienceSummary}
 SKILLS:
 ${skillsSummary}
 
-THESIS: Sam is founder of PAICE.work PBC. 25 years in L&D and performance consulting. Building open infrastructure for human-AI collaboration. Best suited to senior IC roles where the work makes AI safer in practice.
+THESIS: Sam is founder of PAICE.work PBC. 20+ years in L&D and performance consulting. Building open infrastructure for human-AI collaboration. Best suited to senior IC and Lead-level roles where the work makes AI safer in practice.
+
+TARGET BAND (apply when scoring the verdict):
+- In-band role types: Education / enablement at Lead or senior-IC level; Partner / ecosystem / technical-partner enablement; Founding or 0-to-1 program roles at IC-to-Lead level; Solutions / forward-deployed / applied roles for products Sam can credibly teach.
+- JD positive signals (raise verdict): "0-to-1", "founding", "define the operating model", "ambiguity", "builder mindset", "high agency", "hands-on with AI tools", "first hire", "stand up", "from scratch".
+- JD negative signals (lower verdict): "Director", "manage a team of N", "scale to millions", "mature program", "established function". (Head-of is NOT automatically negative — Head-of roles can still fit when the scope is 0-to-1 builder work or a single-function Lead.)
+- Adjacent-JD differentiation: when two related JDs are evaluated (e.g. a Talent Development & Enablement Lead vs a Certification Development Lead), verdicts and recommendations must be visibly different — match each role's specific signals rather than producing similar generic answers.
 
 ${explicitAiOfficerContext}
 
@@ -119,7 +125,7 @@ INSTRUCTIONS:
 - Read the job description carefully.
 - Identify 3–4 specific requirements and cite concrete evidence from Sam's experience for each (matches).
 - Identify 1–3 honest gaps where his background doesn't directly fit (gaps).
-- Set verdict to "strong" only if the role aligns with senior L&D, certification design, AI measurement, talent enablement, or governance work. Set "weak" if it requires production engineering ownership, direct fundraising leadership, consumer growth, or specialty domains he hasn't worked in. "moderate" otherwise.
+- Set verdict to "strong" only if the role is in-band per TARGET BAND above AND aligns with senior L&D, certification design, AI measurement, talent enablement, partner enablement, 0-to-1 program build, or governance work. Set "weak" if the JD signals Director-level scope-management, scaled team leadership, production engineering ownership, direct fundraising leadership, consumer growth, or specialty domains he hasn't worked in. "moderate" otherwise.
 - Use Sam's voice: direct, specific, no hedging. First-person ("I have shipped...", "I am not the senior engineer who..."). No preamble like "Based on the description".
 - Title is a short verdict line ("Strong Fit — Let's Talk" / "Honest Assessment — Probably Not Your Person" / "Worth a Conversation").
 - Summary is one sentence introducing the assessment.

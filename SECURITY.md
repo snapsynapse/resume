@@ -43,6 +43,7 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 - Global headers include CSP, `frame-ancestors 'none'`, `Referrer-Policy`, and a restrictive `Permissions-Policy`.
 - PostHog uses the no-external SDK entrypoint; CSP permits ingestion and remote configuration hosts but does not allow PostHog-hosted script injection.
 - PostHog analytics, when configured, is cookieless, explicit-event-only, and must not include user-supplied text.
+- PII and compensation exposure is mechanically gated by [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts), which scans committed repository content for personal phone shapes, SSN shapes, DOB shapes, dollar-amount figures, compensation-range notations, and a hash-based blocklist of candidate-specific residential and contact literals. The scan is designed so the eval source does not reveal the literals it protects: blocked values are stored only as SHA-256 digests, violation reports never echo the matched substring, and allowlisted-exception contexts are also hashed. Full design rationale: README "Reveal-safe PII evals".
 
 ## Prompt-injection posture
 

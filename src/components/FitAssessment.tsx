@@ -313,7 +313,7 @@ const FitAssessment = ({
               <div className="flex items-center justify-center py-12">
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Reading the JD against 25 years of track record...</span>
+                  <span>Reading the JD against 20+ years of track record...</span>
                 </div>
               </div>
             )}

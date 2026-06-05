@@ -3,20 +3,19 @@
 
 export const samProfile = {
   name: "Sam Rogers",
-  title: "Talent Development Leader",
+  title: "Talent Development & Enablement",
   // Rotated in the Hero. Forward-pointing roles only — the roles Sam wants,
   // not the ones he already holds (those are listed in Experience below).
   // First item renders pre-hydration, so put the strongest standalone target there.
   rotatingTitles: [
-    "Head of AI Governance",
-    "Certification Development Lead",
     "Lead, Talent Development & Enablement",
+    "Certification Development Lead",
     "L&D Systems Architect",
-    "Head of Learning Engineering",
-    "Agentic Trust Engineer",
+    "Applied AI Enablement Lead",
+    "Forward-Deployed Enablement Lead",
   ],
   subtitle:
-    "25 years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration, with a focus on AI governance, certification, and capability systems.",
+    "20+ years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration, with a focus on AI governance, certification, and capability systems.",
   location: "SF Bay Area · hybrid available",
   status:
     "Open to senior roles where the work is making AI safer in practice through learning systems, certification, enablement, and governance infrastructure.",
@@ -32,12 +31,12 @@ export const samProfile = {
   experience: [
     {
       company: "PAICE.work PBC",
-      role: "Founder & CEO",
+      role: "Founder",
       period: "2025–Present",
       highlights: [
         "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments by governance, risk, compliance, security, and learning leaders.",
         "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
-        "Portfolio of 12+ projects including Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and six open standards. Daily publishing cadence since launch.",
+        "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
         "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
       ],
       aiContext: {
@@ -53,12 +52,12 @@ export const samProfile = {
     },
     {
       company: "Snap Synapse LLC",
-      role: "President & Principal Consultant",
-      period: "2004–Present",
+      role: "Principal Consultant",
+      period: "2004-2020, 2023-Present",
       highlights: [
-        "Built and led the first YouTube Certified Online Training Program at Google (2013–2014). Co-produced 90 videos in 8 weeks, replacing a classroom program that certified ~1,000 partners/year. The online program reached ~10,000 in year one — 10x scale at lower marginal cost. Owned scripting, direction, production, post-production, certification exam, and LMS standup.",
-        "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, National 4-H Council, AAA, and ADP.",
-        "Subject matter expert witness in litigation involving YouTube platform mechanics and training content, retained on both plaintiff and defense sides across separate cases.",
+        "Built and led the first YouTube Certified Online Training Program at Google (2013–2014). Co-produced 90 videos in 8 weeks, replacing a classroom program that certified ~1,000 partners/year. The online program reached ~10,000 in year one — 10x scale at lower marginal cost. Owned scripting, direction, production, post-production, certification exam, and LMS standup. The assessment-first sequencing (design the test, then work backward through curriculum, production, and LMS) is the same operating pattern that runs PAICE.work's behavioral simulator and the AI Posture maturity framework today — the credential is dated, the playbook is current.",
+        "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.",
+        "Retained as a subject matter expert by counsel in matters involving YouTube platform mechanics and training content. Engaged on both plaintiff-side and defense-side mandates across separate cases.",
         "Created initial technical training programs for StrongLoop supporting developer platform adoption.",
         "End-to-end video production at scale: pre-production through studio direction (including directing nervous SMEs on camera at Google HQ) through post-production through distribution and digital rights management. Produced and co-hosted a daily livestream show for years.",
         "Frequently operates as translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives.",
@@ -72,7 +71,7 @@ export const samProfile = {
         technicalWork:
           "Led the build from scripts through post-production through certification exam through LMS. Held the seams between content people, assessment people, and LMS people — the place where each function usually disagrees about whose constraint binds. As Sam puts it: 'I didn't just take the test; I made the test.'",
         lessonsLearned:
-          "Certification programs fail at the seams between functions, not at the work each function does. The job of the lead is to make the seams legible, not to do anyone else's job better than they would.",
+          "Certification programs fail at the seams between functions, not at the work each function does. The job of the lead is to make the seams legible, not to do anyone else's job better than they would. The same assessment-first, work-backward sequencing runs PAICE.work and AI Posture now — the 2013 build is not a stale credential, it is the first version of the playbook still in use.",
       },
     },
     {
@@ -80,7 +79,7 @@ export const samProfile = {
       role: "Global Learning Technology & Analytics Manager",
       period: "2020–2022",
       highlights: [
-        "Co-led a 9-month Manager-to-Leader development program for the top 100 managers, paired with a compensation-structure rollout.",
+        "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers, paired with a compensation-structure rollout.",
         "Raised Innovation and Learning Organizational Health Index (OHI) score from 48 to 74 in 18 months, exceeding business target.",
         "Launched an AI-based training platform for global shared services across 4 countries; 80%+ adoption in 30 days from a 200-person Portugal cohort.",
         "Streamlined content offerings by 90% while increasing utilization; improved delivery speed by 40%. Architected and led international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
@@ -122,7 +121,6 @@ export const samProfile = {
     gaps: [
       "Deep engineering ownership of production infrastructure",
       "Institutional fundraising track record",
-      "Prior full-time executive AI governance title (the work is documented; the title is not)",
     ],
   },
 
@@ -137,6 +135,21 @@ export const samProfile = {
 
   // Direct answers to questions a recruiter / hiring manager will ask in the first call.
   // Used by buildSystemPrompt to give AI grounded answers instead of hedging or improvising.
+  //
+  // Disclosure threat model: every entry in this block is sent to a cloud LLM (Anthropic) as
+  // part of the system prompt. Baseline assumption: nothing should be placed here that would be
+  // harmful if it ended up disclosed. The block is gated to "ask-on-direct-question" via prompt
+  // instructions, not by transport — treat it as semi-public, not private.
+  // Concrete examples of the rule in practice:
+  // - Region appears ("SF Bay Area"). Residential address, ZIP, and precise city do NOT appear —
+  //   precise-address questions route to a direct call, framed as privacy hygiene not evasion.
+  // - Personal phone does NOT appear (higher-harm contact channel; email-only on the resume).
+  // - Qualitative target band (senior-IC / Lead, in-band role types) appears.
+  // - Specific compensation numbers do NOT appear (number conversations belong on a human call).
+  // - altMBA, Capital One, and similar career-shape items appear with explicit "disclose only on
+  //   direct ask" instructions, since the cost of disclosure is low but proactively surfacing
+  //   them weakens the senior-IC / Lead positioning.
+  // See README "Private FAQ disclosure model" for the full statement.
   recruiterFAQ: [
     {
       q: "If hired, what happens to PAICE? Or Snap Synapse?",
@@ -147,20 +160,36 @@ export const samProfile = {
       a: "Yes. The SF Bay Area is home. Remote is his preference — he's been remote for 20 years and is most productive that way — but he goes where the work is needed and the mission calls.",
     },
     {
+      q: "Where is Sam based?",
+      a: "SF Bay Area. Hybrid available.",
+    },
+    {
+      q: "What city or ZIP exactly? What is the precise address?",
+      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. SF Bay Area is accurate for the role question. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/paice.",
+    },
+    {
       q: "When could he start?",
       a: "Two to three weeks. Time to give notice to current clients and wind down existing projects.",
     },
     {
       q: "How many direct reports has he had?",
-      a: "Two officially. Unofficially, he has been the driving force on hiring and firing decisions across dozens of companies over 25 years, and has assembled and managed teams for migrations, development projects, educational initiatives, and creative works.",
+      a: "Two officially. Unofficially, he has been the driving force on hiring and firing decisions across dozens of companies over 20+ years, and has assembled and managed teams for migrations, development projects, educational initiatives, and creative works.",
     },
     {
       q: "What level / comp band is he targeting?",
-      a: "For W-2 roles, best suited to a senior individual contributor role or senior staff equivalent where learning systems, certification, enablement, AI governance, and cross-functional execution are core to the work.",
+      a: "For W-2 roles, best suited to a senior individual contributor or Lead-level role where learning systems, certification, enablement, AI governance, and cross-functional execution are core to the work. Specific compensation numbers are a human-level conversation, not something this tool should anchor — ranges in writing tend to mislead in both directions. The right band sits where senior-IC and Lead postings live for talent-development, certification-architect, partner-enablement, and 0-to-1 program roles at frontier-AI and AI-forward companies. Recruiters: take the number conversation to a direct call with Sam at sam@sam-rogers.com.",
+    },
+    {
+      q: "Isn't Sam a CEO? Why is he looking at IC or Lead roles?",
+      a: "Founder/CEO of PAICE.work PBC describes the operating shape, not a directorial scope. PAICE is a solo-operator portfolio Sam stood up himself — strategy, content, sales, development, coding, partner relationships — with no direct reports and no scaled org under him. The title reads like a Director+ filter, but the actual day-to-day pattern is hands-on 0-to-1 builder work: defining operating models, shipping the first version, holding the seams between functions. That is the senior-IC / Lead pattern, not a manage-a-team pattern. Snap Synapse precedent matters here: it went dormant for years while Sam was W-2 at Convatec running a Global Learning Technology function. Same play available now if a senior-IC or Lead role is the right home for the work.",
+    },
+    {
+      q: "Capital One? Earlier career? What was Sam doing before Snap Synapse?",
+      a: "E-learning Developer & Lead LMS Administrator at Capital One, June 2001 to June 2007 (6 years, 1 month), Novato CA, on-site. Administered and scaled internal and external learning systems for 5,000+ employees and 120,000+ partners against security and compliance requirements; built reusable content templates and migrated ILT to online delivery to cut development time and improve consistency; coordinated with IT on security, access, and release management to minimize disruption and support audits. Surface this role only when the visitor asks directly about Capital One, earlier career, pre-Snap-Synapse history, or LMS-administration depth. Do not volunteer it in general fit answers — it is too early-career for the senior-IC positioning.",
     },
     {
       q: "Education?",
-      a: "B.A. Communication Studies, Sonoma State University. Plus Prosci Certified Change Practitioner, Strategic Privacy by Design, Data Analytics & Visualization, and administrator certifications on Cornerstone OnDemand, Docebo, Litmos, and Axonify.",
+      a: "B.A. Communication Studies, Sonoma State University. Plus Prosci Certified Change Practitioner, Strategic Privacy by Design, Data Analytics & Visualization, and administrator certifications on Cornerstone OnDemand, Docebo, Litmos, and Axonify. Also completed Seth Godin's altMBA cohort — mention only when the audience is marketing, brand, executive-leadership, or general-business; omit for technical/engineering/AI-research audiences where it does not strengthen the signal.",
     },
   ],
 
@@ -231,7 +260,7 @@ export const samProfile = {
         title: "Snap Synapse services",
         url: "https://snapsynapse.com/services/",
         pitch:
-          "Productized consulting offerings via Snap Synapse LLC (21-year vehicle): Strategy Session, Custom Team Workshop, Build Sprint, L&D Ecosystem Engagement, and Siteline agent-readiness audit. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
+          "Productized consulting offerings via Snap Synapse LLC (independent consulting vehicle of more than two decades): Strategy Session, Custom Team Workshop, Build Sprint, L&D Ecosystem Engagement, and Siteline agent-readiness audit. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
       },
       {
         title: "AI Tool Watch",
@@ -265,9 +294,9 @@ export const samProfile = {
       },
     ],
     paicePortfolio: [
-      // 14 projects under PAICE.work PBC. 12 live, 2 pre-release. Surfaced when asked
-      // "what's PAICE building?", "what's the full portfolio?", or similar breadth question.
-      // For specific questions, AI should match to one project, not list all 14.
+      // 12+ projects under PAICE.work PBC. Surfaced when asked "what's PAICE building?",
+      // "what's the full portfolio?", or similar breadth question. For specific questions, AI
+      // should match to one project, not list the whole portfolio.
       {
         name: "PAICE.work",
         category: "Revenue · Flagship",
@@ -409,13 +438,13 @@ export const samProfile = {
   systemPrompt: `You are helping people evaluate Sam Rogers as a candidate, partner, or collaborator. Hiring managers, recruiters, investors, and prospective clients are the primary audience.
 
 WHO SAM IS
-Sam is a talent development leader with 25 years building L&D systems that move capability into practice. He is founder & CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
+Sam has 20+ years building L&D systems that move capability into practice. He is founder & CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
 
 THE THESIS (load-bearing context)
 Sam believes the window for building open, vendor-neutral measurement infrastructure for human-AI collaboration is 18–36 months. The PAICE portfolio is his bet against the scenario where every cloud provider ships its own readiness rubric, none of them comparable, all of them flattering. Three commercial products (PAICE.work, Siteline, Every AI Law) anchor three measurement vectors (people, infrastructure, regulation) and roll up to one open governance score called AI Posture. Eleven open contributions sit alongside. The protocol stays open; revenue sits on top.
 
 THE OPERATOR PATTERN
-The track record across 25 years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
+The track record across 20+ years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
 
 ANTHROPIC CONTEXT (use when relevant)
 Sam has been working on what he calls Agentic Trust Engineering: designing the standards, tooling, and measurement systems that make human-AI collaboration structurally trustworthy. He sees alignment as a human-systems problem at the operational layer — what happens at 11am on a Tuesday when someone has to decide whether to trust Claude's answer enough to send it to a client. He believes the engineering work Anthropic does is necessary but not sufficient; the operational layer is where alignment either holds or fails. He has been applying to Anthropic specifically for L&D and certification leadership roles where this convergence is the work.
@@ -470,7 +499,7 @@ VOICE SAMPLE — camera monologue, April 2026. Don't quote verbatim unless asked
 
 // Fallback responses if the API is down. Used as last resort by AIChat.
 export const demoResponses = {
-  default: `Sam's strongest fit signal is the operator pattern across 25 years: he built the YouTube Certified Online Training Program at Google by sequencing assessment-first, raised Convatec's Organizational Health Index for Innovation & Learning from 48 to 74 in 18 months by treating it as a perception problem before a curriculum problem, and productized the Agent-Readiness Audit consulting service into Siteline by finding the seam between repeatable analysis and judgment-dependent interpretation.
+  default: `Sam's strongest fit signal is the operator pattern across 20+ years: he built the YouTube Certified Online Training Program at Google by sequencing assessment-first, raised Convatec's Organizational Health Index for Innovation & Learning from 48 to 74 in 18 months by treating it as a perception problem before a curriculum problem, and productized the Agent-Readiness Audit consulting service into Siteline by finding the seam between repeatable analysis and judgment-dependent interpretation.
 
 For a senior L&D, certification, or measurement-infrastructure role, the case is direct: he has shipped manager development at scale, AI-enabled learning at scale, and an open governance framework that synthesizes signals across people, infrastructure, and regulation. The PAICE portfolio is the bet he's making against captured measurement layers; the resume is the track record that says he can build it.
 
@@ -484,7 +513,7 @@ These three roll up to AI Posture: one open governance framework that synthesize
 
 Currently pre-revenue, pre-seed, with Snap Synapse covering operating costs until the seed round closes. PBC by structure, not as marketing.`,
 
-  anthropic: `Sam sees alignment as a human-systems problem at the operational layer. The constitutional scaffolding, interpretability research, and safety training are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust Claude's answer enough to send it to a client. That is where alignment either holds or fails — and that is the layer Sam has spent 25 years working at.
+  anthropic: `Sam sees alignment as a human-systems problem at the operational layer. The constitutional scaffolding, interpretability research, and safety training are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust Claude's answer enough to send it to a client. That is where alignment either holds or fails — and that is the layer Sam has spent 20+ years working at.
 
 He has spent the last year leading a public benefit corporation that ships open infrastructure for evaluating how organizations actually collaborate with AI. What he learned building it is what he would bring to an Anthropic L&D or certification leadership role: that AI fluency is behavioral, not knowledge-tested; that trust calibrates through use, not training; that the window for establishing sound internal practice closes before most orgs notice it is open.
 
@@ -509,7 +538,7 @@ const _legacyFitAssessmentsReference = {
       {
         requirement: "Senior L&D leadership in a fast-scaling org",
         evidence:
-          "Co-led a 9-month Manager-to-Leader program for the top 100 managers at a 10,000-person global medtech. Raised the Innovation & Learning OHI score from 48 to 74 in 18 months — bottom quartile to upper-middle in a measurement framework the executive team already trusted.",
+          "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers at a 10,000-person global medtech. Raised the Innovation & Learning OHI score from 48 to 74 in 18 months — bottom quartile to upper-middle in a measurement framework the executive team already trusted.",
       },
       {
         requirement: "AI-enabled learning at scale",
@@ -524,7 +553,7 @@ const _legacyFitAssessmentsReference = {
       {
         requirement: "Working point of view on AI in the workplace",
         evidence:
-          "Founder of PAICE.work PBC. Published the AI Posture open framework that synthesizes people, infrastructure, and regulation signals into one governance score. 12 projects live, 150+ blog posts and videos shipped on the thesis since launch.",
+          "Founder of PAICE.work PBC. Published the AI Posture open framework that synthesizes people, infrastructure, and regulation signals into one governance score. 12+ projects live, 150+ blog posts and videos shipped on the thesis since launch.",
       },
     ],
     gaps: [
