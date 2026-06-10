@@ -215,13 +215,16 @@ for (const file of ["public/.DS_Store", "dist/.DS_Store"]) {
 }
 
 const sitemap = await text("public/sitemap.xml");
+const sitemapEntries = sitemap.match(/<url>[\s\S]*?<\/url>/g) ?? [];
 for (const route of routes) {
   const url = absoluteUrl(route);
   if (!sitemap.includes(`<loc>${url}</loc>`)) {
     fail(`sitemap.xml: missing ${url}`);
   }
-  if (!sitemap.includes("<lastmod>2026-05-12</lastmod>")) {
-    fail("sitemap.xml: missing lastmod values");
+}
+for (const entry of sitemapEntries) {
+  if (!/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/.test(entry)) {
+    fail("sitemap.xml: entry missing dated lastmod value");
     break;
   }
 }

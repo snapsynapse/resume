@@ -1,5 +1,13 @@
 # Sam Rogers Resume Changelog
 
+2026-06-09
+- Synced the CSP inline-script hashes in vercel.json with the current build so the homepage, /about/, and /experience/ inline scripts are no longer blocked, and moved metadata validation into the build step so hash drift fails the deploy instead of shipping.
+- Added GitHub Actions CI running lint, typecheck, tests (including the PII scan), and the validating build.
+- Added the RFC 9116 required Expires field and a Policy link to /.well-known/security.txt.
+- Updated sitemap lastmod dates to reflect the 2026-06-05 recalibration and made the validator check lastmod shape instead of a hardcoded date.
+- Fixed a JD review bug where undoing one applied replacement could remove another entry from the applied list when flag ids repeated across rescans.
+- Added Cache-Control: no-store and nosniff headers to the fit-analysis success response for parity with the chat endpoint.
+
 2026-06-05
 - Calibrated target-role list to senior-IC and Lead band, five tightly aligned titles: Lead, Talent Development & Enablement; Certification Development Lead; L&D Systems Architect; Applied AI Enablement Lead; Forward-Deployed Enablement Lead. Removed earlier Head-of-tier entries and the "Agentic Trust Engineer" role. Each title maps to a handoff Tier 1 bucket (Education/enablement or Solutions/forward-deployed/applied).
 - Added Education and certifications section to resume.txt, llms.txt, llms-full.txt, and the no-JS hero so degree-filter ATS workflows do not knock out the candidate.

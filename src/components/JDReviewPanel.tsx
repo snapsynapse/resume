@@ -62,6 +62,9 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
   const [checked, setChecked] = useState<boolean[]>(() => CHECKLIST.map(() => false));
   const [appliedReplacements, setAppliedReplacements] = useState<AppliedReplacement[]>([]);
   const openedOnce = useRef(false);
+  // Flag ids restart at f0 on every rescan, so applied entries need their own
+  // ids — reusing flag.id makes undo's id filter remove unrelated entries.
+  const replacementSeq = useRef(0);
 
   // Reset the working copy whenever a fresh JD is pasted.
   useEffect(() => {
@@ -98,7 +101,7 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
         item.start > flag.start ? { ...item, start: item.start + delta } : item,
       ),
       {
-        id: flag.id,
+        id: `r${replacementSeq.current++}`,
         start: flag.start,
         original: flag.match,
         placeholder: flag.placeholder,

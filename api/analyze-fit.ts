@@ -260,7 +260,11 @@ export async function handleAnalyzeFitRequest(req: Request): Promise<Response> {
     }
 
     return new Response(JSON.stringify(parsed), {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+      },
     });
   } catch (error) {
     if (error instanceof Anthropic.RateLimitError) {
