@@ -53,6 +53,10 @@ describe("FitAssessment", () => {
     await waitFor(() => {
       expect(screen.getByText("Strong Fit")).toBeInTheDocument();
     });
+    expect(analyticsMock.track).toHaveBeenCalledWith(
+      "fit_assessment_started",
+      { lengthBucket: "0-499" },
+    );
     expect(screen.getByText("Certification design")).toBeInTheDocument();
     expect(screen.getByText("Direct team size")).toBeInTheDocument();
     expect(screen.getByText("Talk next.")).toBeInTheDocument();

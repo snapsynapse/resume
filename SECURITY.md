@@ -53,7 +53,7 @@ Current boundaries:
 
 - The system prompt instructs the model not to invent unsupported facts.
 - Fit analysis returns a constrained JSON schema.
-- Prompt-eval scripts include adversarial prompt-injection cases for private address, fake credentials, sensitive-material handling, production-engineering overclaiming, and instruction override attempts.
+- Prompt-eval scripts include adversarial prompt-injection cases for private address, fake credentials, sensitive-material handling, sensitive-material approval, production-engineering overclaiming, role-band calibration, and instruction override attempts.
 - The app displays model output as text, not executable HTML.
 
 Future hardening:
@@ -66,7 +66,7 @@ Future hardening:
 ## Dependency and build posture
 
 - The live UI intentionally avoids carrying unused component-library surface area.
-- Dependency audit should pass with `npm audit`.
+- Dependency audit is enforced in CI with `npm audit --audit-level=high`.
 - Static crawl pages are generated at build time from `src/data/sam-profile.ts`.
 - Metadata validation checks sitemap entries, JSON files, security headers, no-JS fallback content, canonical URLs, and URL policy.
 - Metadata validation checks the assistant guide for presence, ASCII-only content, an 8 KiB size ceiling, required GuideCheck sections, and action blocks.

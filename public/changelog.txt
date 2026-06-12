@@ -1,5 +1,14 @@
 # Sam Rogers Resume Changelog
 
+2026-06-12
+- Changed fit-assessment start analytics from exact job-description character length to a coarse length bucket to keep telemetry aligned with the site's data-minimization posture.
+- Changed chat question and response analytics from exact character lengths to coarse length buckets, with regression coverage preventing exact text-length telemetry keys from returning.
+- Tightened agents.json role-fit guidance so agent-facing callers see the same local-review and sensitive-context warnings as human and LLM-facing surfaces.
+- Added public-surface and generated-page checks for sensitive-context fit-assessment guidance, plus live prompt evals for role-band calibration and sensitive-material approval.
+- Refreshed the assistant guide review metadata and added metadata validation so the guide review date cannot lag the latest changelog entry.
+- Added dependency audit enforcement to CI and updated Vitest from 3.2.4 to 3.2.6 to clear the current high-severity audit gate.
+- Documented the Lighthouse baseline as monthly-refresh evidence; the 2026-05-30 score remains current until the next monthly refresh or a material frontend/security-surface change.
+
 2026-06-09
 - Synced the CSP inline-script hashes in vercel.json with the current build so the homepage, /about/, and /experience/ inline scripts are no longer blocked, and moved metadata validation into the build step so hash drift fails the deploy instead of shipping.
 - Added GitHub Actions CI running lint, typecheck, tests (including the PII scan), and the validating build.

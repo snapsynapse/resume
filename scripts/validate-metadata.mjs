@@ -88,6 +88,7 @@ if (apiManifest.standards?.guidecheck?.url !== "https://guidecheck.org/") {
 
 const assistantGuidePath = "public/.well-known/assistant-guide.txt";
 const assistantGuide = await text(assistantGuidePath);
+const changelog = await text("public/changelog.txt");
 if (Buffer.byteLength(assistantGuide, "utf8") > 8192) {
   fail(`${assistantGuidePath}: must be 8 KiB or smaller`);
 }
@@ -113,6 +114,32 @@ for (const required of [
   if (!assistantGuide.includes(required)) {
     fail(`${assistantGuidePath}: missing ${required}`);
   }
+}
+const latestChangelogDate = changelog.match(/^(\d{4}-\d{2}-\d{2})$/m)?.[1];
+const assistantGuideVersion = assistantGuide.match(/^guide-version: (\d{4}-\d{2}-\d{2})$/m)?.[1];
+const assistantGuideLastReviewed = assistantGuide.match(/^last-reviewed: (\d{4}-\d{2}-\d{2})$/m)?.[1];
+if (!latestChangelogDate) {
+  fail("changelog.txt: missing latest dated entry");
+}
+if (!assistantGuideVersion) {
+  fail(`${assistantGuidePath}: missing dated guide-version`);
+}
+if (!assistantGuideLastReviewed) {
+  fail(`${assistantGuidePath}: missing dated last-reviewed`);
+}
+if (
+  latestChangelogDate &&
+  assistantGuideVersion &&
+  assistantGuideVersion < latestChangelogDate
+) {
+  fail(`${assistantGuidePath}: guide-version must not lag latest changelog date ${latestChangelogDate}`);
+}
+if (
+  latestChangelogDate &&
+  assistantGuideLastReviewed &&
+  assistantGuideLastReviewed < latestChangelogDate
+) {
+  fail(`${assistantGuidePath}: last-reviewed must not lag latest changelog date ${latestChangelogDate}`);
 }
 
 const expectedRateLimits = new Map([
@@ -249,6 +276,18 @@ for (const route of routes) {
   for (const hash of inlineScriptHashes(html)) {
     if (!csp.includes(hash)) {
       fail(`${file}: inline script hash ${hash} missing from vercel.json CSP`);
+    }
+  }
+  if (route === "/fit-assessment/") {
+    for (const required of [
+      "local browser-only review",
+      "Job descriptions are sent to Anthropic",
+      "Do not paste confidential",
+      "email Sam directly",
+    ]) {
+      if (!html.includes(required)) {
+        fail(`${file}: missing fit-assessment sensitive-context guidance ${required}`);
+      }
     }
   }
   extractJsonLd(html, file);

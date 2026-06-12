@@ -84,6 +84,20 @@ describe("JDReviewPanel", () => {
     );
   });
 
+  it("clears applied undo entries after manual edits", () => {
+    render(<JDReviewPanel originalText={JD} onConfirm={vi.fn()} />);
+    fireEvent.click(screen.getByRole("button", { name: /review business-sensitive details/i }));
+
+    fireEvent.click(screen.getByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
+    const textarea = screen.getByLabelText(/reviewed job description/i) as HTMLTextAreaElement;
+    const editedValue = `Please review carefully. ${textarea.value}`;
+
+    fireEvent.change(textarea, { target: { value: editedValue } });
+
+    expect(screen.queryByRole("button", { name: /^undo$/i })).not.toBeInTheDocument();
+    expect(textarea.value).toBe(editedValue);
+  });
+
   it("gates the confirm button behind the checklist and returns reviewed text", () => {
     const onConfirm = vi.fn();
     render(<JDReviewPanel originalText={JD} onConfirm={onConfirm} />);

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { demoResponses } from "@/data/sam-profile";
 import { detectRoleContext } from "@/lib/anthropic-detect";
 import { track } from "@/lib/analytics";
+import { lengthBucket } from "@/lib/jd-review";
 
 interface Message {
   role: "user" | "assistant";
@@ -108,7 +109,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     track("ai_chat_message_sent", {
       source,
       roleContext: roleContext ?? "none",
-      questionLength: question.length,
+      lengthBucket: lengthBucket(question.length),
     });
     const nextHistory: Message[] = [
       ...messages,
@@ -124,7 +125,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
       track("ai_chat_response_received", {
         mode: "live",
         source,
-        responseLength: response.length,
+        lengthBucket: lengthBucket(response.length),
       });
       setIsStreaming(false);
       setStreamingText("");

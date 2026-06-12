@@ -130,6 +130,11 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
     );
   };
 
+  const handleManualEdit = (value: string) => {
+    setWorkingText(value);
+    setAppliedReplacements([]);
+  };
+
   const handleConfirm = () => {
     onConfirm(workingText.trim(), { flagCount: initialFlagCount, edited });
   };
@@ -265,7 +270,7 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
           <textarea
             id="jd-reviewed-text"
             value={workingText}
-            onChange={(e) => setWorkingText(e.target.value)}
+            onChange={(e) => handleManualEdit(e.target.value)}
             rows={8}
             className="w-full resize-y rounded-xl border border-border bg-secondary p-3 font-mono text-xs leading-relaxed text-foreground focus:border-accent focus:outline-none"
           />

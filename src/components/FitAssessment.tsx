@@ -155,7 +155,7 @@ const FitAssessment = ({
     setResult(null);
     onResult?.(null);
     setError(null);
-    track("fit_assessment_started", { descriptionLength: jd.length });
+    track("fit_assessment_started", { lengthBucket: lengthBucket(jd.length) });
 
     try {
       const res = await fetch("/api/analyze-fit", {

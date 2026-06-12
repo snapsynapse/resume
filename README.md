@@ -84,7 +84,7 @@ Graceful Boundaries is implemented across the public API surface:
 Non-success API responses include `error`, `detail`, and `why`. HTTP 429 responses also include `limit` and `retryAfterSeconds`. `/api/limits` provides machine-readable discovery for enforced limits and production fail-closed behavior.
 GuideCheck is implemented through `/.well-known/assistant-guide.txt`. The guide is ASCII-only, compact, and written for human verification before agent execution. It defines scope, trust boundaries, approval gates, prohibited behavior, evidence rules, sensitive job-description handling, API usage, and explicit action blocks for candidate-fit review workflows.
 ## Validated Lighthouse Baseline
-Latest local production-preview validation: 2026-05-30, Lighthouse 13.3.0, against generated production assets at `http://127.0.0.1:4175/`.
+Latest local production-preview validation: 2026-05-30, Lighthouse 13.3.0, against generated production assets at `http://127.0.0.1:4175/`. Refresh cadence: monthly, or sooner after material frontend, asset, CSP, routing, or analytics changes. A baseline less than one month old is considered current for this public README.
 Scores:
 - Performance: 100
 - Accessibility: 100
@@ -127,7 +127,7 @@ The implementation must remain cookieless and should not require a cookie banner
 - no user text, job-description text, chat content, email addresses, names, or other user-supplied content in event properties
 - `respect_dnt: true`
 Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, experience-context toggles, and Interview Decision Brief copy actions.
-Job-description review events carry only a flag count, a character-length bucket, and an edited boolean. Interview Decision Brief copy events carry only metadata such as block id, mode, and fit verdict. They never include copied text, scanned text, flagged terms, placeholders, JD content, or any company, client, employee, or project names.
+Chat and fit-assessment text-size events use character-length buckets, not exact lengths. Job-description review events carry only a flag count, a character-length bucket, and an edited boolean. Interview Decision Brief copy events carry only metadata such as block id, mode, and fit verdict. They never include copied text, scanned text, flagged terms, placeholders, JD content, or any company, client, employee, or project names.
 ## Security And Compliance Posture
 This is a public resume site, not an enterprise system. The security posture is therefore scoped to public web endpoints, user-submitted text risk, model-boundary risk, and claim integrity.
 Controls include:
@@ -202,12 +202,13 @@ Vite embeds `VITE_` variables at build time. A deployed build will not capture a
 To debug a configured build in-browser, append `?analytics_debug=1` and watch the console/network panel for PostHog requests to the configured host. The CSP permits PostHog ingestion at `https://us.i.posthog.com` and remote project configuration at `https://us-assets.i.posthog.com`; the bundled SDK uses the no-external entrypoint so it does not inject third-party scripts. Local builds also warn in the console when `VITE_POSTHOG_KEY` is missing.
 ## Scripts
 - `npm run dev`: start local Vite server
-- `npm run build`: production build, then generate static crawl pages
+- `npm run build`: production build, then generate static crawl pages and validate metadata
 - `npm run preview`: preview production build
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript check, including Vercel API handlers
 - `npm run validate:metadata`: verify generated crawl pages, structured data, sitemap, and machine-readable files
 - `npm run test`: Vitest test suite, including mocked API success paths for chat streaming, structured fit analysis, Interview Decision Brief behavior, and JD state clearing
+- `npm audit --audit-level=high`: dependency advisory check enforced in CI
 - `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*` and all other routes to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.

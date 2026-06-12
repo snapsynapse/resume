@@ -91,7 +91,7 @@
     {
       "label": "Analyze role fit",
       "url": "https://resume.sam-rogers.com/#fit-assessment",
-      "description": "Paste a job description for an honest fit assessment. Also accepts RFPs, board AI initiative descriptions, or AI governance scope drafts."
+      "description": "Paste a reviewed job description for an honest fit assessment. The tool runs a local browser-only business-context review first; sensitive, confidential, proprietary, regulated, or unreleased role material should be redacted, placeholdered, or sent by email instead."
     },
     {
       "label": "Contact Sam Rogers",

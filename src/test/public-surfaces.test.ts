@@ -13,6 +13,11 @@ const publicSurfaceFiles = [
   "src/data/sam-profile.ts",
 ];
 
+const analyticsSourceFiles = [
+  "src/components/AIChat.tsx",
+  "src/components/FitAssessment.tsx",
+];
+
 const outdatedSolicitationPatterns = [
   /fractional/i,
   /Chief AI Officer/i,
@@ -27,6 +32,25 @@ describe("public resume surfaces", () => {
     const content = readFileSync(join(root, file), "utf8");
     for (const pattern of outdatedSolicitationPatterns) {
       expect(content).not.toMatch(pattern);
+    }
+  });
+
+  it("keeps agent-facing fit assessment guidance aligned with sensitive-context boundaries", () => {
+    const agents = JSON.parse(readFileSync(join(root, "public/agents.json"), "utf8"));
+    const fitPath = agents.interaction_paths.find(
+      (path: { label?: string }) => path.label === "Analyze role fit",
+    );
+
+    expect(fitPath?.description).toMatch(/review/i);
+    expect(fitPath?.description).toMatch(/browser-only/i);
+    expect(fitPath?.description).toMatch(/sensitive|confidential|proprietary|regulated|unreleased/i);
+    expect(fitPath?.description).toMatch(/redact|placeholder|email/i);
+  });
+
+  it("does not send exact text-derived length telemetry keys", () => {
+    for (const file of analyticsSourceFiles) {
+      const content = readFileSync(join(root, file), "utf8");
+      expect(content).not.toMatch(/\b(?:questionLength|responseLength|descriptionLength)\b/);
     }
   });
 });
