@@ -12,8 +12,8 @@ The active site is functional. Items below are not promises of enterprise comple
 
 ## Measurement And Ops
 - **Post-deploy Siteline self-eval** — rerun an agent-readiness scan after deployment and use remaining failures as the next worklist. This keeps machine-readable surfaces aligned with the human resume.
-- **CI eval gate** — run lint, typecheck, unit tests, build, `validate:metadata`, and prompt-boundary evals against preview URLs when API environment variables are available.
-- **Live API smoke test** — run `/api/chat` and `/api/analyze-fit` against Vercel previews with `ANTHROPIC_API_KEY` configured. Local Vite cannot cover the live API path.
+- **CI eval gate** — done. `ci.yml` runs lint, typecheck, unit tests, and build (which runs `validate:metadata`). `eval-live.yml` runs prompt-boundary evals against each Vercel deployment URL via the `deployment_status` event.
+- **Live API smoke test** — done. `scripts/smoke-api.mjs` (`npm run smoke:api`) checks `/api/chat` and `/api/analyze-fit` liveness and response shape, run by `eval-live.yml` against Vercel deployments. Both skip cleanly when no endpoint is reachable, so they cannot run against local Vite.
 - **Automated accessibility eval** — add axe or equivalent once Playwright/Puppeteer is installed. Cover homepage, Interview Decision Brief sidebar, chat modal, mobile menu, and fit form.
 - **Visual regression snapshots** — capture mobile, tablet, and desktop states for hero, Interview Decision Brief sidebar, mobile menu, chat modal, and fit assessment.
 

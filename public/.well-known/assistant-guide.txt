@@ -2,11 +2,11 @@
 identifier: assistant-guide
 profile: human-verifiable-assistant-guide
 profile-version: 0.4.0
-guide-version: 2026-06-12
+guide-version: 2026-06-22
 applies-to: https://resume.sam-rogers.com/
 canonical-url: https://resume.sam-rogers.com/.well-known/assistant-guide.txt
 source-path: public/.well-known/assistant-guide.txt
-last-reviewed: 2026-06-12
+last-reviewed: 2026-06-22
 status: active
 recommended-verifier: human review before agent execution
 conformance-target: GuideCheck Level 3
