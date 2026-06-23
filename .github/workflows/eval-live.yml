@@ -2,22 +2,27 @@ name: Live API eval
 
 # The /api functions only exist on a real Vercel deployment, so these checks run
 # after a deployment goes live rather than in the main CI job. Vercel's GitHub
-# integration emits a deployment_status event with the live URL when a deploy
-# finishes; we run the smoke test and prompt-boundary evals against that URL.
+# integration emits a deployment_status event when a deploy finishes; we use that
+# as the trigger and run the smoke test plus prompt-boundary evals.
 #
-# Production only: preview deployments sit behind Vercel Deployment Protection
-# and answer every request with 401, so the API is unreachable there without a
-# bypass secret. The public production deployment has no such gate.
+# Production only: preview deployments sit behind Vercel Deployment Protection and
+# answer every request with 401, so we gate to successful Production deploys.
+#
+# We do NOT hit the event's environment_url: Vercel Deployment Protection
+# (Authentication) gates every generated *.vercel.app URL with 401 — including the
+# production deployment URL Vercel reports here. Only the custom production domain
+# is public, so we target that (EVAL_BASE_URL repo variable, defaulting to the
+# canonical resume domain).
 on:
   deployment_status:
 
 jobs:
   live-eval:
-    # Only on a successful Production deploy with a reachable URL.
-    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production' && github.event.deployment_status.environment_url != ''
+    # Only on a successful Production deploy.
+    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'
     runs-on: ubuntu-latest
     env:
-      EVAL_BASE_URL: ${{ github.event.deployment_status.environment_url }}
+      EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL || 'https://resume.sam-rogers.com' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
