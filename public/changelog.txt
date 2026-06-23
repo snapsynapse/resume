@@ -1,5 +1,9 @@
 # Sam Rogers Resume Changelog
 
+2026-06-22
+- Added a live API smoke test (scripts/smoke-api.mjs) covering /api/chat and /api/analyze-fit liveness and response shape.
+- Added a deployment-triggered CI workflow that runs the API smoke test and prompt-boundary evals against each Vercel deployment URL.
+
 2026-06-12
 - Changed fit-assessment start analytics from exact job-description character length to a coarse length bucket to keep telemetry aligned with the site's data-minimization posture.
 - Changed chat question and response analytics from exact character lengths to coarse length buckets, with regression coverage preventing exact text-length telemetry keys from returning.

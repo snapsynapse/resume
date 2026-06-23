@@ -210,12 +210,15 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm run test`: Vitest test suite, including mocked API success paths for chat streaming, structured fit analysis, Interview Decision Brief behavior, and JD state clearing
 - `npm audit --audit-level=high`: dependency advisory check enforced in CI
 - `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`
+- `npm run smoke:api`: live liveness and response-shape checks for `/api/chat` and `/api/analyze-fit`; set `EVAL_BASE_URL` as above. Both skip cleanly when no endpoint is reachable.
+The `.github/workflows/eval-live.yml` workflow runs `smoke:api` and `eval:prompts` automatically against each successful Vercel production deployment, via the `deployment_status` event the Vercel GitHub integration emits. Preview deployments are skipped because Vercel Deployment Protection answers their requests with 401, leaving the API unreachable without a bypass secret.
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*` and all other routes to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.
 ## Review Pointers
 - [SECURITY.md](SECURITY.md): endpoint threat model, disclosure path, and hardening notes.
 - [EVIDENCE.md](EVIDENCE.md): claim ledger behind the resume.
 - [scripts/eval-prompts.mjs](scripts/eval-prompts.mjs): live prompt-boundary evals.
+- [scripts/smoke-api.mjs](scripts/smoke-api.mjs): live API liveness and response-shape smoke test.
 - [src/components/DecisionBriefSidebar.tsx](src/components/DecisionBriefSidebar.tsx): Interview Decision Brief copy workflow for recruiter and hiring-manager handoff.
 - [src/components/FitAssessment.tsx](src/components/FitAssessment.tsx): job-description assessment workflow.
 - [src/components/JDReviewPanel.tsx](src/components/JDReviewPanel.tsx): local business-context review before fit analysis.

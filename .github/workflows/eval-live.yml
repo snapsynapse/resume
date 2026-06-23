@@ -1,0 +1,31 @@
+name: Live API eval
+
+# The /api functions only exist on a real Vercel deployment, so these checks run
+# after a deployment goes live rather than in the main CI job. Vercel's GitHub
+# integration emits a deployment_status event with the live URL when a deploy
+# finishes; we run the smoke test and prompt-boundary evals against that URL.
+#
+# Production only: preview deployments sit behind Vercel Deployment Protection
+# and answer every request with 401, so the API is unreachable there without a
+# bypass secret. The public production deployment has no such gate.
+on:
+  deployment_status:
+
+jobs:
+  live-eval:
+    # Only on a successful Production deploy with a reachable URL.
+    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production' && github.event.deployment_status.environment_url != ''
+    runs-on: ubuntu-latest
+    env:
+      EVAL_BASE_URL: ${{ github.event.deployment_status.environment_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: API smoke test
+        run: npm run smoke:api
+      - name: Prompt-boundary evals
+        run: npm run eval:prompts
