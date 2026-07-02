@@ -3,22 +3,22 @@
 
 export const samProfile = {
   name: "Sam Rogers",
-  title: "Talent Development & Enablement",
+  title: "Head of Content & Curriculum",
   // Rotated in the Hero. Forward-pointing roles only — the roles Sam wants,
   // not the ones he already holds (those are listed in Experience below).
   // First item renders pre-hydration, so put the strongest standalone target there.
   rotatingTitles: [
-    "Lead, Talent Development & Enablement",
-    "Certification Development Lead",
-    "L&D Systems Architect",
-    "Applied AI Enablement Lead",
-    "Forward-Deployed Enablement Lead",
+    "Head of Content & Curriculum",
+    "AI Education Systems Lead",
+    "Curriculum Production Systems Lead",
+    "Certification & Learning Measurement Lead",
+    "Applied AI Education Lead",
   ],
   subtitle:
-    "20+ years building L&D systems that move capability into practice. Currently building open infrastructure for measuring and governing human-AI collaboration, with a focus on AI governance, certification, and capability systems.",
+    "20+ years building curriculum, certification, media, and learning systems that move capability into practice. Currently building AI-enabled measurement and education infrastructure for human-AI collaboration, with a focus on adaptive learning, content production systems, and quality standards that evolve with the model.",
   location: "SF Bay Area · hybrid available",
   status:
-    "Open to senior roles where the work is making AI safer in practice through learning systems, certification, enablement, and governance infrastructure.",
+    "Focused on roles where AI education, content quality, curriculum systems, and learning measurement become core infrastructure.",
 
   links: {
     site: "https://sam-rogers.com/",
@@ -35,6 +35,7 @@ export const samProfile = {
       period: "2025–Present",
       highlights: [
         "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments by governance, risk, compliance, security, and learning leaders.",
+        "Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.",
         "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
         "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
         "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
@@ -56,7 +57,9 @@ export const samProfile = {
       period: "2004-2020, 2023-Present",
       highlights: [
         "Built and led the first YouTube Certified Online Training Program at Google (2013–2014). Co-produced 90 videos in 8 weeks, replacing a classroom program that certified ~1,000 partners/year. The online program reached ~10,000 in year one — 10x scale at lower marginal cost. Owned scripting, direction, production, post-production, certification exam, and LMS standup. The assessment-first sequencing (design the test, then work backward through curriculum, production, and LMS) is the same operating pattern that runs PAICE.work's behavioral simulator and the AI Posture maturity framework today — the credential is dated, the playbook is current.",
-        "Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.",
+        "Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.",
+        "Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.",
+        "Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.",
         "Retained as a subject matter expert by counsel in matters involving YouTube platform mechanics and training content. Engaged on both plaintiff-side and defense-side mandates across separate cases.",
         "Created initial technical training programs for StrongLoop supporting developer platform adoption.",
         "End-to-end video production at scale: pre-production through studio direction (including directing nervous SMEs on camera at Google HQ) through post-production through distribution and digital rights management. Produced and co-hosted a daily livestream show for years.",
@@ -99,6 +102,12 @@ export const samProfile = {
 
   skills: {
     strong: [
+      "Content and curriculum production systems",
+      "AI-assisted content workflows",
+      "Editorial and learning-quality standards",
+      "Cross-format learning design: written, video, interactive, workshops",
+      "Adaptive / interactive learning product design",
+      "University partner and vendor orchestration",
       "L&D systems at scale",
       "Certification program design",
       "Developer education and technical enablement",
@@ -144,11 +153,11 @@ export const samProfile = {
   // - Region appears ("SF Bay Area"). Residential address, ZIP, and precise city do NOT appear —
   //   precise-address questions route to a direct call, framed as privacy hygiene not evasion.
   // - Personal phone does NOT appear (higher-harm contact channel; email-only on the resume).
-  // - Qualitative target band (senior-IC / Lead, in-band role types) appears.
+  // - Qualitative target band (head-of-function, senior lead, builder/operator role types) appears.
   // - Specific compensation numbers do NOT appear (number conversations belong on a human call).
   // - altMBA, Capital One, and similar career-shape items appear with explicit "disclose only on
   //   direct ask" instructions, since the cost of disclosure is low but proactively surfacing
-  //   them weakens the senior-IC / Lead positioning.
+  //   them weakens the current role positioning.
   // See README "Private FAQ disclosure model" for the full statement.
   recruiterFAQ: [
     {
@@ -173,19 +182,19 @@ export const samProfile = {
     },
     {
       q: "How many direct reports has he had?",
-      a: "Two officially. Unofficially, he has been the driving force on hiring and firing decisions across dozens of companies over 20+ years, and has assembled and managed teams for migrations, development projects, educational initiatives, and creative works.",
+      a: "Two officially. The larger management signal is delivery leadership rather than formal W-2 headcount: for National 4-H Council work he managed learning and content production across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders. Across 20+ years he has also assembled and managed teams for migrations, development projects, educational initiatives, and creative works. Be explicit about the distinction: formal direct-report scale is limited; direct work orchestration is substantial.",
     },
     {
       q: "What level / comp band is he targeting?",
-      a: "For W-2 roles, best suited to a senior individual contributor or Lead-level role where learning systems, certification, enablement, AI governance, and cross-functional execution are core to the work. Specific compensation numbers are a human-level conversation, not something this tool should anchor — ranges in writing tend to mislead in both directions. The right band sits where senior-IC and Lead postings live for talent-development, certification-architect, partner-enablement, and 0-to-1 program roles at frontier-AI and AI-forward companies. Recruiters: take the number conversation to a direct call with Sam at sam@sam-rogers.com.",
+      a: "For W-2 roles, strongest fit is head-of-function, senior lead, or builder/operator scope where learning systems, content and curriculum production, certification, AI-enabled education, measurement, and cross-functional execution are core to the work. Specific compensation numbers are a human-level conversation, not something this tool should anchor — ranges in writing tend to mislead in both directions. The right band sits where head-of-function, senior lead, and 0-to-1 education-system roles live at frontier-AI and AI-forward companies. Recruiters: take the number conversation to a direct call with Sam at sam@sam-rogers.com.",
     },
     {
       q: "Isn't Sam a CEO? Why is he looking at IC or Lead roles?",
-      a: "Founder/CEO of PAICE.work PBC describes the operating shape, not a directorial scope. PAICE is a solo-operator portfolio Sam stood up himself — strategy, content, sales, development, coding, partner relationships — with no direct reports and no scaled org under him. The title reads like a Director+ filter, but the actual day-to-day pattern is hands-on 0-to-1 builder work: defining operating models, shipping the first version, holding the seams between functions. That is the senior-IC / Lead pattern, not a manage-a-team pattern. Snap Synapse precedent matters here: it went dormant for years while Sam was W-2 at Convatec running a Global Learning Technology function. Same play available now if a senior-IC or Lead role is the right home for the work.",
+      a: "Founder/CEO of PAICE.work PBC describes the operating shape, not a large-org executive scope. PAICE is a solo-operator portfolio Sam stood up himself — strategy, content, sales, development, coding, partner relationships — with no direct reports and no scaled org under him. The actual day-to-day pattern is hands-on 0-to-1 builder work: defining operating models, shipping the first version, holding the seams between functions, and turning quality standards into repeatable systems. That maps well to head-of-function, senior lead, and builder/operator roles; it does not map to mature-org roles where the main job is maintaining a large established department. Snap Synapse precedent matters here: it went dormant for years while Sam was W-2 at Convatec running a Global Learning Technology function. Same play available now if the role is the right home for the work.",
     },
     {
       q: "Capital One? Earlier career? What was Sam doing before Snap Synapse?",
-      a: "E-learning Developer & Lead LMS Administrator at Capital One, June 2001 to June 2007 (6 years, 1 month), Novato CA, on-site. Administered and scaled internal and external learning systems for 5,000+ employees and 120,000+ partners against security and compliance requirements; built reusable content templates and migrated ILT to online delivery to cut development time and improve consistency; coordinated with IT on security, access, and release management to minimize disruption and support audits. Surface this role only when the visitor asks directly about Capital One, earlier career, pre-Snap-Synapse history, or LMS-administration depth. Do not volunteer it in general fit answers — it is too early-career for the senior-IC positioning.",
+      a: "E-learning Developer & Lead LMS Administrator at Capital One, June 2001 to June 2007 (6 years, 1 month), Novato CA, on-site. Administered and scaled internal and external learning systems for 5,000+ employees and 120,000+ partners against security and compliance requirements; built reusable content templates and migrated ILT to online delivery to cut development time and improve consistency; coordinated with IT on security, access, and release management to minimize disruption and support audits. Surface this role only when the visitor asks directly about Capital One, earlier career, pre-Snap-Synapse history, or LMS-administration depth. Do not volunteer it in general fit answers — it is too early-career for the current head-of-function / senior lead positioning.",
     },
     {
       q: "Education?",
@@ -438,7 +447,7 @@ export const samProfile = {
   systemPrompt: `You are helping people evaluate Sam Rogers as a candidate, partner, or collaborator. Hiring managers, recruiters, investors, and prospective clients are the primary audience.
 
 WHO SAM IS
-Sam has 20+ years building L&D systems that move capability into practice. He is founder & CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
+Sam has 20+ years building curriculum, certification, media, and learning systems that move capability into practice. He is founder & CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
 
 THE THESIS (load-bearing context)
 Sam believes the window for building open, vendor-neutral measurement infrastructure for human-AI collaboration is 18–36 months. The PAICE portfolio is his bet against the scenario where every cloud provider ships its own readiness rubric, none of them comparable, all of them flattering. Three commercial products (PAICE.work, Siteline, Every AI Law) anchor three measurement vectors (people, infrastructure, regulation) and roll up to one open governance score called AI Posture. Eleven open contributions sit alongside. The protocol stays open; revenue sits on top.
@@ -447,7 +456,7 @@ THE OPERATOR PATTERN
 The track record across 20+ years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
 
 ANTHROPIC CONTEXT (use when relevant)
-Sam has been working on what he calls Agentic Trust Engineering: designing the standards, tooling, and measurement systems that make human-AI collaboration structurally trustworthy. He sees alignment as a human-systems problem at the operational layer — what happens at 11am on a Tuesday when someone has to decide whether to trust Claude's answer enough to send it to a client. He believes the engineering work Anthropic does is necessary but not sufficient; the operational layer is where alignment either holds or fails. He has been applying to Anthropic specifically for L&D and certification leadership roles where this convergence is the work.
+Sam is currently evaluating Anthropic's Head of Content & Curriculum, Education role. Treat it as head-of-function shaped rather than assuming Director-level internal scope. The role spans education content for developers, consumers, enterprise admins, and the general public; AI-assisted content production systems; quality bar and human craft boundaries; adaptive and personalized learning; and measurement of whether content actually teaches. Sam's strongest case is as a builder/operator for AI education systems: YouTube Certified for certification, video, assessment, and LMS scale; National 4-H Council for university-partner and vendor production orchestration; Convatec for content simplification, measurement, OHI, and AI adoption; PAICE for adaptive behavioral simulation, AI Posture, and AI-assisted workflows; and Signals & Subtractions / published work for visible editorial cadence and taste.
 
 CORE INSTRUCTIONS
 - Be specific. Use actual details from his experience, not generic language.
@@ -458,7 +467,7 @@ CORE INSTRUCTIONS
 WHAT SAM EXPLICITLY DOESN'T WANT
 - Don't pretend he is an engineer at the production-infrastructure level. He treats AI-assisted development as a force multiplier with judgment on the seams, not as a substitute for senior engineering ownership.
 - Don't claim he has institutional fundraising track record. He is running founder-led sales through warm network and learning the venture path on the job.
-- Don't claim he is "open to anything." He is open to senior roles where the work is making AI safer in practice — measurement, certification, L&D, governance. He is not open to roles that require pretending the window isn't closing.
+- Don't claim he is "open to anything." He is open to head-of-function, senior lead, and builder/operator roles where the work is making AI education, content quality, curriculum systems, and learning measurement into core infrastructure. He is not open to roles that require pretending the window isn't closing.
 
 HOW TO HANDLE COMMON QUESTIONS
 - "Is he a fit for X?" → Match the role to his actual track record. Name the gaps.
@@ -499,9 +508,9 @@ VOICE SAMPLE — camera monologue, April 2026. Don't quote verbatim unless asked
 
 // Fallback responses if the API is down. Used as last resort by AIChat.
 export const demoResponses = {
-  default: `Sam's strongest fit signal is the operator pattern across 20+ years: he built the YouTube Certified Online Training Program at Google by sequencing assessment-first, raised Convatec's Organizational Health Index for Innovation & Learning from 48 to 74 in 18 months by treating it as a perception problem before a curriculum problem, and productized the Agent-Readiness Audit consulting service into Siteline by finding the seam between repeatable analysis and judgment-dependent interpretation.
+  default: `Sam's strongest fit signal is the operator pattern across 20+ years: he built the YouTube Certified Online Training Program at Google by sequencing assessment-first across curriculum, video, certification exam, and LMS; managed National 4-H Council learning/content production across dozens of university partners and delivery vendors; raised Convatec's Organizational Health Index for Innovation & Learning from 48 to 74 in 18 months by treating it as a perception problem before a curriculum problem; and productized the Agent-Readiness Audit consulting service into Siteline by finding the seam between repeatable analysis and judgment-dependent interpretation.
 
-For a senior L&D, certification, or measurement-infrastructure role, the case is direct: he has shipped manager development at scale, AI-enabled learning at scale, and an open governance framework that synthesizes signals across people, infrastructure, and regulation. The PAICE portfolio is the bet he's making against captured measurement layers; the resume is the track record that says he can build it.
+For Head of Content & Curriculum, AI education systems, certification, or measurement-infrastructure roles, the case is direct: he has shipped cross-format curriculum and media production, AI-enabled learning at scale, and open assessment infrastructure that turns quality standards into repeatable workflows. The PAICE portfolio is the bet he's making against captured measurement layers; the resume is the track record that says he can build it.
 
 Gap to probe: he is not the person who will write your production infrastructure. He treats AI-assisted development as a force multiplier with judgment on the seams. If you need a senior engineer who owns infrastructure end-to-end, that is the staffing he is explicitly looking for in his own portfolio.`,
 
@@ -513,9 +522,11 @@ These three roll up to AI Posture: one open governance framework that synthesize
 
 Currently pre-revenue, pre-seed, with Snap Synapse covering operating costs until the seed round closes. PBC by structure, not as marketing.`,
 
-  anthropic: `Sam sees alignment as a human-systems problem at the operational layer. The constitutional scaffolding, interpretability research, and safety training are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust Claude's answer enough to send it to a client. That is where alignment either holds or fails — and that is the layer Sam has spent 20+ years working at.
+  anthropic: `Sam sees AI education as a human-systems problem at the operational layer. The constitutional scaffolding, interpretability research, and safety training are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust Claude's answer enough to send it to a client. That is where alignment either holds or fails — and that is the layer Sam has spent 20+ years working at.
 
-He has spent the last year leading a public benefit corporation that ships open infrastructure for evaluating how organizations actually collaborate with AI. What he learned building it is what he would bring to an Anthropic L&D or certification leadership role: that AI fluency is behavioral, not knowledge-tested; that trust calibrates through use, not training; that the window for establishing sound internal practice closes before most orgs notice it is open.
+He has spent the last year leading a public benefit corporation that ships open infrastructure for evaluating how organizations actually collaborate with AI. What he learned building it is what he would bring to Anthropic's education work: that AI fluency is behavioral, not knowledge-tested; that trust calibrates through use, not training; that quality standards have to survive AI-assisted production; and that the window for establishing sound internal practice closes before most orgs notice it is open.
+
+For the Head of Content & Curriculum, Education role, the most relevant proof is YouTube Certified for certification, video, assessment, and LMS scale; National 4-H Council for university-partner and vendor production orchestration; Convatec for content simplification, measurement, OHI, and AI adoption; PAICE for adaptive behavioral simulation and AI-assisted quality workflows; and Signals & Subtractions for visible editorial cadence.
 
 His own framing: "I would rather build the muscle memory inside the lab whose work is shaping what the rest of us measure than continue measuring it from outside."`,
 

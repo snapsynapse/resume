@@ -8,24 +8,18 @@ const ANTHROPIC_REFERRER_PATTERNS = [
   "job-boards.greenhouse.io/anthropic",
 ];
 
-const ROLE_LABELS: Record<string, string> = {
-  "anthropic-leadtd": "Anthropic — Lead, Talent Development & Enablement",
-  "anthropic-certdev": "Anthropic — Certification Development Lead",
-  "anthropic-applied": "Anthropic — Applied AI / forward-deployed",
-  anthropic: "Anthropic (general)",
-};
+const CURRENT_ANTHROPIC_ROLE = "Anthropic — Head of Content & Curriculum, Education";
 
 export function detectRoleContext(): string | null {
   if (typeof window === "undefined") return null;
 
   const params = new URLSearchParams(window.location.search);
   const roleParam = params.get("role")?.toLowerCase();
-  if (roleParam && ROLE_LABELS[roleParam]) return ROLE_LABELS[roleParam];
-  if (roleParam?.startsWith("anthropic-")) return `Anthropic — ${roleParam.replace("anthropic-", "")}`;
+  if (roleParam === "anthropic") return CURRENT_ANTHROPIC_ROLE;
 
   const ref = (typeof document !== "undefined" && document.referrer) || "";
   if (ANTHROPIC_REFERRER_PATTERNS.some((p) => ref.includes(p))) {
-    return ROLE_LABELS.anthropic;
+    return CURRENT_ANTHROPIC_ROLE;
   }
 
   return null;

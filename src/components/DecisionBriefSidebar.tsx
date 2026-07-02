@@ -54,11 +54,12 @@ function getLocalStorage() {
 }
 
 const evidenceBullets = [
-  "Built YouTube Certified Online Training Program; scaled from about 1,000 partners/year to about 10,000 in year one.",
-  "Raised Convatec Innovation and Learning OHI from 48 to 74 in 18 months.",
+  "Built YouTube Certified Online Training Program across certification, video, assessment, and LMS delivery; scaled from about 1,000 partners/year to about 10,000 in year one.",
+  "Managed National 4-H Council learning and content-production work across dozens of university partners, SMEs, designers, developers, media vendors, and delivery stakeholders.",
+  "Raised Convatec Innovation and Learning OHI from 48 to 74 in 18 months while streamlining content offerings by 90%.",
   "Launched AI-based training platform across 4 countries with 80%+ adoption in 30 days from a 200-person Portugal cohort.",
-  "Architected DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
-  "Built PAICE.work and AI Posture as public AI governance and human-AI collaboration measurement infrastructure.",
+  "Built PAICE.work and AI Posture as adaptive assessment, scoring, and AI-assisted workflow infrastructure.",
+  "Publishes Signals & Subtractions and related field notes with a consistent editorial cadence on AI adoption and L&D transformation.",
 ];
 
 const recruiterBlocks: CopyBlock[] = [
@@ -67,10 +68,10 @@ const recruiterBlocks: CopyBlock[] = [
     title: "Recruiter Summary",
     copyLabel: "Copy recruiter summary",
     content:
-      "Sam Rogers is strongest for senior talent development, certification, enablement, and AI governance adoption roles where the company needs to turn complex technical change into measurable human capability. Best evidence: Google/YouTube certification scaled 10x, Convatec OHI moved from 48 to 74, an AI training platform reached 80%+ adoption in 30 days, and compliance-system work produced the cleanest audit in company history.",
+      "Sam Rogers is strongest for Head of Content & Curriculum, AI education systems, curriculum production, certification, and learning-measurement roles where the company needs to turn complex technical change into educational systems that actually teach. Best evidence: YouTube Certified scaled 10x across video, assessment, and LMS delivery; National 4-H content work coordinated dozens of university partners and vendors; Convatec OHI moved from 48 to 74 while content offerings were streamlined 90%; and PAICE encodes AI-assisted assessment and quality standards into repeatable workflows.",
     display: [
-      "Strongest for senior talent development, certification, enablement, and AI governance adoption roles.",
-      "Best evidence: YouTube certification 10x, Convatec OHI 48 -> 74, 80%+ AI platform adoption, cleanest compliance audit.",
+      "Strongest for Head of Content & Curriculum, AI education systems, curriculum production, certification, and learning measurement.",
+      "Best evidence: YouTube certification 10x, National 4-H partner/vendor orchestration, Convatec OHI 48 -> 74, PAICE adaptive assessment workflows.",
     ],
   },
   {
@@ -78,10 +79,10 @@ const recruiterBlocks: CopyBlock[] = [
     title: "Shortlist Rationale",
     copyLabel: "Copy shortlist rationale",
     content:
-      "Shortlist Sam for roles centered on certification, enablement, AI governance adoption, L&D systems, or developer education. His strongest proof is quantified operating evidence across Google/YouTube, Convatec, and PAICE. Caveat: he is not positioning as a deep production infrastructure owner.",
+      "Shortlist Sam for roles centered on content and curriculum leadership, AI-assisted education systems, certification, learning measurement, developer education, or adaptive learning products. His strongest proof is quantified operating evidence across Google/YouTube, National 4-H Council, Convatec, and PAICE. Caveat: he is not positioning as a deep production infrastructure owner or ML research contributor.",
     display: [
-      "Best fit: certification, enablement, AI governance adoption, L&D systems, developer education.",
-      "Caveat: not a deep production infrastructure owner.",
+      "Best fit: content/curriculum leadership, AI education systems, certification, learning measurement, developer education.",
+      "Caveat: not a deep production infrastructure owner or ML research contributor.",
     ],
   },
   {
@@ -96,12 +97,12 @@ const recruiterBlocks: CopyBlock[] = [
     title: "Gaps / Watch-Outs",
     copyLabel: "Copy gaps",
     content:
-      "- Not positioning as a deep production infrastructure owner.\n- Not a pure ML engineering candidate.\n- Limited formal direct-report history.\n- Strongest as senior IC/staff/operator where learning systems, certification, governance, and cross-functional enablement meet.",
+      "- Not positioning as a deep production infrastructure owner.\n- Not a pure ML engineering candidate.\n- Limited formal direct-report history; stronger signal is partner, vendor, and delivery-team orchestration.\n- Strongest in head-of-function, senior lead, or builder/operator roles where content systems, curriculum, certification, AI education, and learning measurement meet.",
     display: [
       "Not a deep production infrastructure owner.",
       "Not a pure ML engineering candidate.",
-      "Limited formal direct-report history.",
-      "Strongest as senior IC/staff/operator across learning systems, certification, governance, and enablement.",
+      "Limited formal direct-report history; stronger signal is delivery-team orchestration.",
+      "Strongest across content systems, curriculum, certification, AI education, and learning measurement.",
     ],
   },
   {
@@ -109,13 +110,13 @@ const recruiterBlocks: CopyBlock[] = [
     title: "Interview Probes",
     copyLabel: "Copy interview probes",
     content:
-      "- Walk us through the YouTube certification build from assessment design through LMS launch.\n- How did you move Convatec's OHI score from 48 to 74?\n- Where would you need engineering support versus owning the work yourself?\n- How do you measure whether AI adoption is behaviorally real?\n- What role scope would be a poor fit?",
+      "- Walk us through the YouTube certification build from assessment design through video, curriculum, and LMS launch.\n- How did you coordinate the National 4-H university-partner and vendor production system?\n- How did you move Convatec's OHI score from 48 to 74 while reducing content sprawl?\n- Where should AI accelerate content production, and where does human craft remain non-negotiable?\n- How do you measure whether content actually teaches?",
     display: [
       "Walk through the YouTube certification build.",
+      "How did National 4-H partner/vendor orchestration work?",
       "How did Convatec OHI move from 48 to 74?",
-      "Where would engineering support be needed?",
-      "How do you measure real AI adoption?",
-      "What role scope would be a poor fit?",
+      "Where should AI accelerate content, and where should human craft hold?",
+      "How do you measure whether content teaches?",
     ],
   },
 ];
@@ -126,10 +127,10 @@ const hiringManagerBlocks: CopyBlock[] = [
     title: "Best Use Case",
     copyLabel: "Copy best use case",
     content:
-      "Sam is strongest when the problem is turning complex technical or AI-related change into measurable human capability: certification, enablement, governance adoption, and learning infrastructure.",
+      "Sam is strongest when the problem is turning complex technical or AI-related change into measurable education systems: content and curriculum production, certification, adaptive learning, AI-assisted workflows, and learning-quality standards.",
     display: [
-      "Turning complex technical or AI-related change into measurable human capability.",
-      "Best lanes: certification, enablement, governance adoption, and learning infrastructure.",
+      "Turning complex technical or AI-related change into measurable education systems.",
+      "Best lanes: content/curriculum production, certification, adaptive learning, AI-assisted workflows, and quality standards.",
     ],
   },
   {
@@ -137,13 +138,13 @@ const hiringManagerBlocks: CopyBlock[] = [
     title: "Evidence Map",
     copyLabel: "Copy evidence map",
     content:
-      "- Scale: YouTube certification 10x reach.\n- Adoption: Convatec AI training platform adoption.\n- Governance: PAICE / AI Posture.\n- Regulated systems: cleanest compliance audit.\n- Cross-functional: engineering, operations, legal, sales, support, community translation.",
+      "- Scale: YouTube certification 10x reach across video, assessment, curriculum, and LMS.\n- Orchestration: National 4-H university partners, SMEs, designers, developers, vendors, and delivery stakeholders.\n- Adoption: Convatec AI training platform adoption and OHI improvement.\n- Quality systems: PAICE / AI Posture adaptive assessment and scoring workflows.\n- Editorial cadence: Signals & Subtractions and public field notes.",
     display: [
-      "Scale: YouTube certification 10x reach.",
-      "Adoption: Convatec AI platform.",
-      "Governance: PAICE / AI Posture.",
-      "Regulated systems: cleanest compliance audit.",
-      "Cross-functional: engineering, legal, sales, support.",
+      "Scale: YouTube certification 10x reach across video, assessment, curriculum, and LMS.",
+      "Orchestration: National 4-H university partners, SMEs, vendors, and delivery stakeholders.",
+      "Adoption: Convatec AI platform and OHI improvement.",
+      "Quality systems: PAICE / AI Posture adaptive assessment and scoring workflows.",
+      "Editorial cadence: Signals & Subtractions and public field notes.",
     ],
   },
   {
@@ -151,12 +152,12 @@ const hiringManagerBlocks: CopyBlock[] = [
     title: "Likely Ownership",
     copyLabel: "Copy likely ownership",
     content:
-      "- Capability model\n- Certification architecture\n- AI adoption measurement\n- Governance enablement\n- Cross-functional rollout\n- Assessment design\n- Learning systems architecture",
+      "- Content and curriculum production system\n- Editorial and learning-quality standards\n- AI-assisted content workflow boundaries\n- Certification architecture\n- Adaptive learning and assessment design\n- Learning measurement\n- Cross-functional rollout",
     display: [
-      "Capability model and certification architecture.",
-      "AI adoption measurement and governance enablement.",
-      "Cross-functional rollout and assessment design.",
-      "Learning systems architecture.",
+      "Content and curriculum production system.",
+      "Editorial and learning-quality standards.",
+      "AI-assisted content workflow boundaries.",
+      "Certification, adaptive learning, assessment design, and measurement.",
     ],
   },
   {
@@ -178,12 +179,12 @@ const hiringManagerBlocks: CopyBlock[] = [
     title: "First-Call Questions",
     copyLabel: "Copy first-call questions",
     content:
-      "- What behavior change matters most in this role?\n- What evidence would prove adoption?\n- Where is the governance bottleneck?\n- What should be certified versus merely trained?\n- Which parts of this role require deep engineering ownership?",
+      "- What should this audience be able to do after the content works?\n- What evidence would prove the content teaches?\n- Which content workflows should AI accelerate, and which require human craft?\n- What should be certified versus merely explained?\n- Which parts of this role require deep engineering ownership?",
     display: [
-      "What behavior change matters most?",
-      "What evidence would prove adoption?",
-      "Where is the governance bottleneck?",
-      "What should be certified vs trained?",
+      "What should the audience be able to do?",
+      "What evidence would prove the content teaches?",
+      "Where should AI accelerate, and where should human craft hold?",
+      "What should be certified vs explained?",
       "Which parts require deep engineering ownership?",
     ],
   },

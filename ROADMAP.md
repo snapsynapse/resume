@@ -29,6 +29,11 @@ The active site is functional. Items below are not promises of enterprise comple
 - **Per-IP daily cap** — current limits cover burst and hourly use. Add a daily cap if logs show distributed or rotating abuse patterns.
 - **Input abuse handling** — currently the app warns users not to submit sensitive material but does not moderate every possible abusive input before sending it to the model. Add a lightweight preflight check only if abuse becomes evident.
 
+## Job Description Review
+- **Optional PII detection** — consider detecting emails, phone numbers, and internal URLs in pasted job descriptions. Keep it off by default or clearly secondary so the feature remains a business-context review, not an anonymization or legal-compliance claim.
+- **Typed scanner configuration** — externalize phrase lists, allowlists, placeholders, and category metadata from `src/lib/jd-review.ts` into a typed config object. This would make HR-facing rule updates easier without changing scanner logic.
+- **Pre-confirm diff summary** — show a short summary before confirmation, such as "3 details replaced, 1 manual edit." Keep it metadata-only and do not persist or send original/reviewed text to analytics.
+
 ## Accessibility And Usability Polish
 - **Desktop scroll cue review** — mobile cue is hidden. Decide whether the remaining desktop "Scroll to explore" cue is useful or visual noise.
 - **Keyboard copy workflow review** — verify the Interview Decision Brief remains efficient for keyboard-only recruiters and hiring managers after real use.

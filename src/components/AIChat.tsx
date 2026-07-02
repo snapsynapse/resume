@@ -20,7 +20,7 @@ interface AIChatProps {
 type ChatMode = "live" | "sample" | null;
 
 const defaultSuggestedQuestions = [
-  "Would Sam be a fit for a senior L&D or certification role at a frontier AI lab?",
+  "Would Sam be a fit for a Head of Content & Curriculum role at a frontier AI lab?",
   "What's PAICE and why is it structured as a PBC?",
   "Why is Sam applying to Anthropic specifically?",
   "Tell me about a time the obvious approach would have failed.",
@@ -28,8 +28,8 @@ const defaultSuggestedQuestions = [
 
 const anthropicSuggestedQuestions = [
   "If hired at Anthropic, what would happen to PAICE?",
-  "Is Sam a fit for Lead, Talent Development & Enablement?",
-  "Is Sam a fit for Certification Development Lead?",
+  "Is Sam a fit for Head of Content & Curriculum, Education?",
+  "How would Sam use AI without lowering the content quality bar?",
   "When could Sam start, and is he open to relocating?",
 ];
 

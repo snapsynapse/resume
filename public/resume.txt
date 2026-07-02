@@ -1,6 +1,6 @@
 # Sam Rogers
 
-20+ years building L&D systems that move capability into practice. Currently building open infrastructure for human-AI collaboration measurement at PAICE.work PBC, with Snap Synapse LLC as the independent consulting practice of more than two decades behind the work. Focused on AI governance, certification, enablement, and human-AI collaboration measurement.
+20+ years building curriculum, certification, media, and learning systems that move capability into practice. Currently building AI-enabled measurement and education infrastructure at PAICE.work PBC, with Snap Synapse LLC as the independent consulting practice of more than two decades behind the work. Focused on adaptive learning, content production systems, certification, quality standards, and human-AI collaboration measurement.
 
 Canonical resume: https://resume.sam-rogers.com/
 Personal site: https://sam-rogers.com/
@@ -17,11 +17,11 @@ Sam serves the Aggregated Intelligence thesis: human and AI capabilities can com
 
 ## Target roles
 
-- Lead, Talent Development & Enablement
-- Certification Development Lead
-- L&D Systems Architect
-- Applied AI Enablement Lead
-- Forward-Deployed Enablement Lead
+- Head of Content & Curriculum
+- AI Education Systems Lead
+- Curriculum Production Systems Lead
+- Certification & Learning Measurement Lead
+- Applied AI Education Lead
 
 ## Experience
 
@@ -30,6 +30,7 @@ Sam serves the Aggregated Intelligence thesis: human and AI capabilities can com
 Founder, 2025-Present
 
 - Built PAICE.work, an adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0-1000 scale.
+- Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.
 - Designed AI Posture, an open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.
 - Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard).
 - Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration.
@@ -39,7 +40,9 @@ Founder, 2025-Present
 Principal Consultant, 2004-2020, 2023-Present
 
 - Built and led the first YouTube Certified Online Training Program at Google, replacing a classroom program that certified about 1,000 partners per year with an online program that reached about 10,000 in year one. The assessment-first sequencing from that build is the same playbook running PAICE.work and AI Posture today.
-- Built technical enablement, certification, and learning systems for Google/YouTube, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.
+- Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
+- Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.
+- Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.
 - Operates as a translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives.
 - Pivoted toward AI governance, AI program leadership, and civic-infrastructure operators in mid-2025; productized consulting offerings including Strategy Session, Workshop, Build Sprint, L&D Ecosystem Engagement, and agent-readiness assessment work.
 
@@ -57,6 +60,12 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 
 ## Strengths
 
+- Content and curriculum production systems
+- AI-assisted content workflows
+- Editorial and learning-quality standards
+- Cross-format learning design: written, video, interactive, workshops
+- Adaptive / interactive learning product design
+- University partner and vendor orchestration
 - L&D systems at scale
 - AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)
 - AI accountability and governance posture across SOC 2 / ISO 42001 / NIST AI RMF contexts
@@ -79,8 +88,8 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 
 ## Keywords
 
-Learning and Development, Instructional Design, Curriculum Development, ADDIE, Kirkpatrick Model, Bloom's Taxonomy, Adult Learning Theory, Performance Consulting, Learning Experience Design (LXD), Learning Engineering, Talent Development, Talent Enablement, Sales Enablement, Technical Enablement, Developer Education, Developer Relations, Partner Enablement, Onboarding, Credentialing, Certification Architecture, Certification Program Design, Performance-Based Assessment, Competency Frameworks, SCORM, xAPI, LMS Administration, LMS Implementation, Cornerstone OnDemand, Docebo, Litmos, Axonify, Change Management, Prosci, Organizational Health, Organizational Development, Workforce Readiness, AI Governance, AI Posture, AI Adoption, AI Enablement, Responsible AI, Human-AI Collaboration, NIST AI RMF, ISO 42001, SOC 2, AI Risk Management, Agentic Trust, Forward-Deployed Engineering, Solutions Engineering.
+Learning and Development, Instructional Design, Curriculum Development, Content Strategy, Curriculum Production Systems, Editorial Standards, Learning Quality Standards, AI-Assisted Content Workflows, Adaptive Learning, Interactive Learning, ADDIE, Kirkpatrick Model, Bloom's Taxonomy, Adult Learning Theory, Performance Consulting, Learning Experience Design (LXD), Learning Engineering, Talent Development, Talent Enablement, Sales Enablement, Technical Enablement, Developer Education, Developer Relations, Partner Enablement, Onboarding, Credentialing, Certification Architecture, Certification Program Design, Performance-Based Assessment, Competency Frameworks, SCORM, xAPI, LMS Administration, LMS Implementation, Cornerstone OnDemand, Docebo, Litmos, Axonify, Change Management, Prosci, Organizational Health, Organizational Development, Workforce Readiness, AI Governance, AI Posture, AI Adoption, AI Enablement, Responsible AI, Human-AI Collaboration, NIST AI RMF, ISO 42001, SOC 2, AI Risk Management, Agentic Trust, Forward-Deployed Engineering, Solutions Engineering.
 
 ## Gaps to name plainly
 
-Sam is not the deep production-infrastructure engineer, not an ML research or applied-scientist contributor, and not positioning for Director+ roles whose core contribution is scope-management of a sizable existing organization rather than building or transforming systems. He is strongest where learning systems, certification, AI governance, tooling, behavior change, and cross-functional enablement meet, especially in 0-to-1 build and early-scale conditions. For roles requiring steady-state maintenance of mature, established L&D functions or full-time backend platform ownership, evaluate transferability carefully.
+Sam is not the deep production-infrastructure engineer, not an ML research or applied-scientist contributor, and not a fit for mature-org roles where the main job is maintaining a large established department. He is strongest in head-of-function, senior lead, or builder/operator roles where the work is standing up or transforming learning, content, certification, AI education, and measurement systems. For roles requiring steady-state maintenance of mature, established L&D functions or full-time backend platform ownership, evaluate transferability carefully.

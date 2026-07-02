@@ -59,7 +59,7 @@ try {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       jobDescription:
-        "Senior AI enablement role: build certification programs, partner with product and enablement teams, and define credentialing standards.",
+        "Head of Content & Curriculum role: build AI-assisted content workflows, preserve a high quality bar, design adaptive learning experiences, measure whether content teaches, and coordinate curriculum across docs, video, workshops, and interactive products.",
     }),
   });
   const body = await res.text();

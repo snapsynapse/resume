@@ -139,14 +139,14 @@ describe("FitAssessment", () => {
         getData: () =>
           [
             "5/10/26, 1:57 PM",
-            "Job Application for Lead, Talent Development & Enablement at Anthropic",
+            "Job Application for Head of Content & Curriculum, Education at Anthropic",
             "https://job-boards.greenhouse.io/anthropic/jobs/5207861008?gh_src=LinkedIn",
             "1/10",
-            "Lead, Talent Development & Enablement",
+            "Head of Content & Curriculum, Education",
             "About the role",
             "Build innovative, Claude-enabled learning experiences that Ants actually use.",
             "Minimum qualifications",
-            "Deep experience in learning and development at high-growth tech companies.",
+            "Deep experience in curriculum, content quality, and learning measurement at high-growth tech companies.",
             "How we're different",
             "Generic company boilerplate that should not be needed for fit analysis.",
             "Apply for this job",
@@ -155,7 +155,7 @@ describe("FitAssessment", () => {
       },
     });
 
-    expect(textarea.value).toContain("Lead, Talent Development & Enablement");
+    expect(textarea.value).toContain("Head of Content & Curriculum, Education");
     expect(textarea.value).toContain("Minimum qualifications");
     expect(textarea.value).not.toContain("https://job-boards.greenhouse.io");
     expect(textarea.value).not.toContain("How we're different");

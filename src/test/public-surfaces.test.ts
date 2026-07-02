@@ -13,6 +13,20 @@ const publicSurfaceFiles = [
   "src/data/sam-profile.ts",
 ];
 
+const activePositioningFiles = [
+  "index.html",
+  "public/agents.json",
+  "public/llms-full.txt",
+  "public/llms.txt",
+  "public/resume.txt",
+  "src/data/sam-profile.ts",
+  "src/components/AIChat.tsx",
+  "src/components/DecisionBriefSidebar.tsx",
+  "api/analyze-fit.ts",
+  "scripts/eval-prompts.mjs",
+  "scripts/smoke-api.mjs",
+];
+
 const analyticsSourceFiles = [
   "src/components/AIChat.tsx",
   "src/components/FitAssessment.tsx",
@@ -25,6 +39,17 @@ const outdatedSolicitationPatterns = [
   /regulated mid-market/i,
   /retainer/i,
   /snapsynapse\/25min/i,
+];
+
+const outdatedAnthropicRolePatterns = [
+  /Lead, Talent Development & Enablement/i,
+  /Certification Development Lead/i,
+  /L&D Systems Architect/i,
+  /Applied AI Enablement Lead/i,
+  /Forward-Deployed Enablement Lead/i,
+  /anthropic-leadtd/i,
+  /anthropic-certdev/i,
+  /anthropic-applied/i,
 ];
 
 describe("public resume surfaces", () => {
@@ -45,6 +70,19 @@ describe("public resume surfaces", () => {
     expect(fitPath?.description).toMatch(/browser-only/i);
     expect(fitPath?.description).toMatch(/sensitive|confidential|proprietary|regulated|unreleased/i);
     expect(fitPath?.description).toMatch(/redact|placeholder|email/i);
+  });
+
+  it.each(activePositioningFiles)("keeps current role positioning visible in %s", (file) => {
+    const content = readFileSync(join(root, file), "utf8");
+
+    expect(content).toMatch(/Head of Content & Curriculum/i);
+  });
+
+  it.each(activePositioningFiles)("does not revive old Anthropic role targets in %s", (file) => {
+    const content = readFileSync(join(root, file), "utf8");
+    for (const pattern of outdatedAnthropicRolePatterns) {
+      expect(content).not.toMatch(pattern);
+    }
   });
 
   it("does not send exact text-derived length telemetry keys", () => {

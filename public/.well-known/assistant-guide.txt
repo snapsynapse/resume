@@ -2,11 +2,11 @@
 identifier: assistant-guide
 profile: human-verifiable-assistant-guide
 profile-version: 0.4.0
-guide-version: 2026-06-22
+guide-version: 2026-07-02
 applies-to: https://resume.sam-rogers.com/
 canonical-url: https://resume.sam-rogers.com/.well-known/assistant-guide.txt
 source-path: public/.well-known/assistant-guide.txt
-last-reviewed: 2026-06-22
+last-reviewed: 2026-07-02
 status: active
 recommended-verifier: human review before agent execution
 conformance-target: GuideCheck Level 3
@@ -48,6 +48,9 @@ Prefer concrete evidence over generic summaries. When assessing fit, compare rol
 against documented experience and name gaps plainly. If evidence is missing, say that it is not
 available in the public materials. Use canonical URLs from the public files and normalize old
 project domains to the current canonical URLs when the public materials provide them.
+Current role positioning is Head of Content & Curriculum, AI education systems, curriculum
+production, certification, and learning measurement. Treat older Anthropic talent development
+and certification application labels as prior context, not current targets.
 
 [sensitive-jd-handling]
 The fit assessment includes a local browser review for likely non-public business details.

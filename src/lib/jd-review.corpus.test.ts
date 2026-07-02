@@ -70,6 +70,11 @@ const cleanJobDescriptions: CorpusCase[] = [
     expectedCategories: [],
   },
   {
+    name: "head of content and curriculum role",
+    text: "Head of Content & Curriculum role for an AI education team. Build AI-assisted content workflows, preserve editorial and learning-quality standards, design adaptive learning experiences, and measure whether content teaches across docs, video, workshops, and interactive product surfaces.",
+    expectedCategories: [],
+  },
+  {
     name: "general operations launch language",
     text: "Prepare launch communications, office hours, and enablement materials for a publicly announced product release.",
     expectedCategories: [],

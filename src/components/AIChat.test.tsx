@@ -18,7 +18,7 @@ describe("AIChat", () => {
     render(<AIChat isOpen onClose={() => {}} />);
 
     expect(screen.getByText("Ask AI About Sam")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /senior L&D or certification role/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Head of Content & Curriculum role/i })).toBeInTheDocument();
   });
 
   it("labels sample responses when the live endpoint fails", async () => {
@@ -45,7 +45,7 @@ describe("AIChat", () => {
 
     render(<AIChat isOpen onClose={() => {}} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /senior L&D or certification role/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Head of Content & Curriculum role/i }));
 
     await waitFor(() => {
       expect(screen.getByText("Sam matches this role.")).toBeInTheDocument();

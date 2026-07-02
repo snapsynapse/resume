@@ -25,8 +25,8 @@ This block is still sent to a cloud LLM as part of every chat request. The basel
 The rule for what belongs in the private FAQ is therefore not "is it currently hidden from the homepage" but "would it be acceptable if it were disclosed." Concrete examples already in the file:
 - Region appears ("SF Bay Area, hybrid available"). Residential address, ZIP, and precise city do not appear. Precise-address questions route to a direct call, framed as privacy hygiene rather than evasion. This avoids asserting a precise location on a public LLM surface where false precision would be worse than honest deferral.
 - Personal phone does not appear. Disclosure cost is higher and the resume already exposes a personal email contact.
-- A qualitative target band (senior individual contributor or Lead, in-band role types, signal-list for analyzer calibration) appears. Specific compensation numbers do not, because financial detail belongs on a human-to-human call rather than in a system prompt.
-- altMBA, Capital One, and similar career-shape items appear with explicit "disclose only on direct ask" instructions. Disclosure cost is low, but proactively surfacing them weakens the senior-IC and Lead positioning, so the gating is editorial, not protective.
+- A qualitative target band (head-of-function, senior lead, builder/operator, and in-band role types for analyzer calibration) appears. Specific compensation numbers do not, because financial detail belongs on a human-to-human call rather than in a system prompt.
+- altMBA, Capital One, and similar career-shape items appear with explicit "disclose only on direct ask" instructions. Disclosure cost is low, but proactively surfacing them weakens the head-of-function, senior lead, and builder/operator positioning, so the gating is editorial, not protective.
 
 The disclosure rule is enforced mechanically by a PII scan in the test suite. See "Reveal-safe PII evals" below for how that scan is designed so the eval itself does not become a disclosure surface.
 
@@ -136,7 +136,7 @@ Controls include:
 - API rate limiting with burst and sustained windows.
 - Production fail-closed behavior when rate limiting is not configured.
 - Structured fit-analysis schema with bounded verdict values.
-- Prompt-boundary tests for private information, false credentials, sensitive job material, production-infrastructure overclaiming, and JD prompt injection.
+- Prompt-boundary tests for private information, false credentials, sensitive job material, production-infrastructure overclaiming, role-positioning drift, and JD prompt injection.
 - PII / compensation exposure scan in the test suite ([src/test/pii-scan.test.ts](src/test/pii-scan.test.ts)). Runs in CI. Designed so the eval itself does not leak the values it protects — full architecture documented under "Reveal-safe PII evals" in Design Decisions above.
 - Public evidence ledger for claims that need more context than a resume page can carry.
 - Responsible disclosure path in `SECURITY.md`.
