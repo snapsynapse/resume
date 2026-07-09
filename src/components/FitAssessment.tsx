@@ -2,7 +2,7 @@ import { lazy, Suspense, useState, type ClipboardEvent } from "react";
 import { FileText, Check, AlertTriangle, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
-import { lengthBucket } from "@/lib/jd-review";
+import { lengthBucket, scanJD } from "@/lib/jd-review";
 
 const JDReviewPanel = lazy(() => import("./JDReviewPanel"));
 
@@ -80,6 +80,9 @@ const FitAssessment = ({
 
   const showReviewPanel =
     reviewEnabled && !reviewConfirmed && jobDescription.trim().length >= MIN_JD_LENGTH;
+  // Only gate Analyze on an unresolved review when there's something flagged to
+  // resolve — an empty "Nothing flagged" panel shouldn't force a confirmation click.
+  const reviewGateActive = showReviewPanel && scanJD(jobDescription).length > 0;
 
   const handleJDChange = (value: string) => {
     setJobDescription(value);
@@ -151,6 +154,13 @@ const FitAssessment = ({
       setError(`Paste at least ${MIN_JD_LENGTH} characters of the job description.`);
       return;
     }
+    // Defense in depth: the Analyze button is already disabled while there
+    // are unresolved flags (see reviewGateActive), but never send the
+    // original, unreviewed text if this is somehow reached anyway.
+    if (reviewGateActive) {
+      setError("Confirm or dismiss the review first.");
+      return;
+    }
     setAnalyzing(true);
     setResult(null);
     onResult?.(null);
@@ -198,7 +208,7 @@ const FitAssessment = ({
         : { wrap: "bg-secondary border-border", icon: "bg-muted", iconColor: "text-foreground", title: "text-foreground" };
 
   return (
-    <section id="fit-assessment" aria-labelledby="fit-assessment-heading" className="py-24 px-6 bg-secondary/30">
+    <section id="fit-assessment" aria-labelledby="fit-assessment-heading" className="scroll-mt-24 py-24 px-6 bg-secondary/30">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h2 id="fit-assessment-heading" className="text-4xl md:text-5xl font-serif text-foreground mb-4">
@@ -243,7 +253,8 @@ const FitAssessment = ({
               </span>
               <button
                 onClick={handleAnalyze}
-                disabled={analyzing || jobDescription.trim().length < MIN_JD_LENGTH}
+                disabled={analyzing || jobDescription.trim().length < MIN_JD_LENGTH || reviewGateActive}
+                aria-describedby={reviewGateActive ? "jd-review-gate-note" : undefined}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground rounded-xl font-medium disabled:opacity-50 hover:opacity-90 transition-opacity"
               >
                 {analyzing ? (
@@ -259,6 +270,16 @@ const FitAssessment = ({
                 )}
               </button>
             </div>
+            {reviewGateActive && (
+              <p
+                id="jd-review-gate-note"
+                className="mt-4 text-sm text-muted-foreground bg-secondary border border-border rounded-lg px-4 py-3"
+              >
+                Confirm or dismiss the review first. The Analyze button unlocks once you use the
+                reviewed job description below, or uncheck "Review business-sensitive details" to
+                send the original text as pasted.
+              </p>
+            )}
             {error && (
               <p className="mt-4 text-sm text-warning bg-warning-muted border border-warning/20 rounded-lg px-4 py-3">
                 {error}
@@ -403,11 +424,11 @@ const FitAssessment = ({
         <div className="mt-8 text-center">
           <div className="inline-block p-6 bg-card rounded-2xl border border-border max-w-2xl">
             <p className="text-muted-foreground leading-relaxed">
-              This signals something completely different than "please consider my resume."
+              This tool exists so you can check fit before spending a call on it.
               <br />
               <br />
               <span className="text-foreground font-medium">
-                You're qualifying me. Your time is valuable too.
+                Honest answers here save both of us an interview loop.
               </span>
             </p>
           </div>

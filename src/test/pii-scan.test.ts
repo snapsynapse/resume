@@ -10,12 +10,16 @@ import { describe, expect, it } from "vitest";
 // runtime input filter. User-submitted text in form fields and chat messages is governed by
 // the API handlers' prompt-boundary tests and the JD review scanner, not by this file.
 //
-// Reveal-safety note: this repository is open source. The literal values being protected
+// Reveal-resistance note: this repository is open source. The literal values being protected
 // (specific phone numbers, ZIPs, residential city / state strings) are not present in this
 // file. The blocklist is encoded as SHA-256 digests of normalized lowercase forms, so a reader
 // of the source learns the categories the scan covers but not the underlying values. Generic
 // shape-only patterns (any US-format phone number, any dollar-amount, any SSN shape) are kept
-// as literals because the patterns themselves reveal no candidate-specific information.
+// as literals because the patterns themselves reveal no candidate-specific information. Note
+// this is a reveal-resistance property, not a cryptographic one: the digests are unsalted
+// SHA-256 over low-entropy inputs (state names, ZIPs, phone numbers), which is attackable
+// offline by a motivated party with a dictionary; see README "Reveal-resistant PII evals" for
+// the attacker model and why a keyed hash was not used.
 
 const root = process.cwd();
 
@@ -30,6 +34,8 @@ const SCAN_ROOTS = [
   "SECURITY.md",
   "EVIDENCE.md",
   "ROADMAP.md",
+  "INTENT.md",
+  ".github",
 ];
 
 const SCAN_EXTENSIONS = new Set([
@@ -43,6 +49,8 @@ const SCAN_EXTENSIONS = new Set([
   ".txt",
   ".html",
   ".css",
+  ".yml",
+  ".yaml",
 ]);
 
 const EXCLUDED_PATH_FRAGMENTS = [
@@ -230,7 +238,7 @@ describe("PII / compensation exposure scan", () => {
 
   for (const shape of SHAPE_PATTERNS) {
     it(`does not expose ${shape.id} (${shape.category}) in shipped content`, () => {
-      const violations: { file: string; line: number; snippet: string }[] = [];
+      const violations: { file: string; line: number }[] = [];
       for (const file of shippedFiles) {
         const content = readFileSync(file, "utf8");
         content.split("\n").forEach((line, idx) => {
@@ -238,17 +246,18 @@ describe("PII / compensation exposure scan", () => {
             violations.push({
               file: relative(root, file),
               line: idx + 1,
-              snippet: line.trim().slice(0, 200),
             });
           }
         });
       }
       if (violations.length > 0) {
-        const detail = violations
-          .map((v) => `  ${v.file}:${v.line}  ${v.snippet}`)
-          .join("\n");
+        // Intentionally do NOT echo the matched substring in the error message — a shape match
+        // (phone-shaped, dollar-amount, etc.) can still be the exact sensitive value. Reporting
+        // only the pattern category, file, and line keeps CI logs / issue pastes from leaking it;
+        // the author opens the file locally at that line to inspect the actual hit.
+        const detail = violations.map((v) => `  ${v.file}:${v.line}`).join("\n");
         throw new Error(
-          `Shape pattern "${shape.id}" matched ${violations.length} location(s):\n${detail}`,
+          `Shape pattern "${shape.id}" (${shape.category}) matched ${violations.length} location(s):\n${detail}`,
         );
       }
     });
@@ -280,8 +289,8 @@ describe("PII / compensation exposure scan", () => {
     }
     if (violations.length > 0) {
       // Intentionally do NOT echo the matched substring in the error message — it would defeat
-      // the reveal-safe design. The file:line location is enough for the editor to locate the
-      // line and inspect locally.
+      // the reveal-resistant design. The file:line location is enough for the editor to locate
+      // the line and inspect locally.
       const detail = violations.map((v) => `  ${v.file}:${v.line}`).join("\n");
       throw new Error(
         `Hash-based literal scan matched ${violations.length} location(s):\n${detail}\n\n` +

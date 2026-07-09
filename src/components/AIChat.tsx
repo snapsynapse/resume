@@ -24,6 +24,31 @@ interface AIChatProps {
 
 type ChatMode = "live" | "sample" | null;
 
+// Server caps a single /api/chat request at 20 messages (see api/chat.ts). Once a
+// conversation grows past that, every subsequent turn would otherwise fail forever.
+// Trim silently from the front, keeping the most recent messages, and never split a
+// user/assistant pair so the trimmed history still starts on a user turn.
+const MAX_REQUEST_MESSAGES = 20;
+
+const trimHistoryForRequest = (history: Message[], maxMessages = MAX_REQUEST_MESSAGES): Message[] => {
+  if (history.length <= maxMessages) return history;
+  let start = history.length - maxMessages;
+  if (history[start].role === "assistant") start += 1;
+  return history.slice(start);
+};
+
+// A mid-stream failure sometimes still carries whatever text arrived before the
+// connection dropped. Carrying that text on the thrown error lets the caller keep
+// a partial live answer instead of discarding it for the canned sample fallback.
+class PartialStreamError extends Error {
+  partialText: string;
+
+  constructor(partialText: string, message = "stream_interrupted") {
+    super(message);
+    this.partialText = partialText;
+  }
+}
+
 const defaultSuggestedQuestions = [
   "Would Sam be a fit for a content operations or AI education systems role?",
   "What's PAICE and why is it structured as a PBC?",
@@ -81,9 +106,15 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     });
 
     // Rate-limit / error path: server returns JSON with structured error body, not a stream.
+    // This shape (detail + limit/graceful_boundary) is the Graceful Boundaries response
+    // format; it can arrive on 429 or on other 4xx statuses (e.g. a conversation-length
+    // cap), so detect it by shape rather than pinning to one status code.
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
-      if (res.status === 429 && typeof data.detail === "string") {
+      const isGracefulBoundary =
+        typeof data.detail === "string" &&
+        (res.status === 429 || Boolean(data.graceful_boundary) || typeof data.limit === "string");
+      if (isGracefulBoundary) {
         return `${data.detail}\n\n(Rate limit: ${data.limit ?? "public API limit"}. Retry in ~${data.retryAfterSeconds ?? 0}s, or email sam@sam-rogers.com directly.)`;
       }
       throw new Error(data.detail || data.error || `HTTP ${res.status}`);
@@ -100,8 +131,18 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     setStreamingText("");
 
     while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+      let done: boolean | undefined;
+      let value: Uint8Array | undefined;
+      try {
+        ({ done, value } = await reader.read());
+      } catch (err) {
+        throw new PartialStreamError(full, err instanceof Error ? err.message : "stream_read_failed");
+      }
+      if (done) {
+        // Flush any buffered bytes from a multi-byte char split across chunks.
+        full += decoder.decode();
+        break;
+      }
       const chunk = decoder.decode(value, { stream: true });
       full += chunk;
       setStreamingText(full);
@@ -127,30 +168,53 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     setIsWaiting(true);
 
     try {
-      const response = await streamFromApi(nextHistory);
+      const response = await streamFromApi(trimHistoryForRequest(nextHistory));
       setChatMode("live");
       track("ai_chat_response_received", {
         mode: "live",
         source,
         lengthBucket: lengthBucket(response.length),
       });
-      setIsStreaming(false);
-      setStreamingText("");
       setMessages((prev) => [...prev, { role: "assistant", content: response }]);
     } catch (err) {
       console.warn("API call failed, using fallback:", err);
-      setChatMode("sample");
-      track("ai_chat_response_failed", { source });
+      const partialText = err instanceof PartialStreamError ? err.partialText.trim() : "";
+      if (partialText) {
+        // A live answer arrived and was interrupted mid-stream. Keep it rather than
+        // discarding it for the sample fallback, which would misrepresent it as a
+        // complete answer or as a total outage.
+        setChatMode("live");
+        // Reuse the existing "received" event (rather than adding a new analytics
+        // event type owned by src/lib/analytics.ts) and mark it interrupted via `mode`.
+        track("ai_chat_response_received", {
+          mode: "interrupted",
+          source,
+          lengthBucket: lengthBucket(partialText.length),
+        });
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: `${partialText}\n\n[Response interrupted — connection dropped mid-answer.]`,
+          },
+        ]);
+      } else {
+        setChatMode("sample");
+        track("ai_chat_response_failed", { source });
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: `Sample response because the live AI endpoint is unavailable:\n\n${fallbackResponse(question, roleContext)}`,
+          },
+        ]);
+      }
+    } finally {
+      // Always clear the loading indicators on every terminal path (success, rate
+      // limit, or error) so the input never stays disabled after one failed turn.
       setIsWaiting(false);
       setIsStreaming(false);
       setStreamingText("");
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: `Sample response because the live AI endpoint is unavailable:\n\n${fallbackResponse(question, roleContext)}`,
-        },
-      ]);
     }
   };
 

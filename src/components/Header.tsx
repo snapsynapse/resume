@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import type { MouseEvent } from "react";
-import { Menu, X } from "lucide-react";
+import { Download, Menu, Printer, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
+
+// Broadcast to DecisionBriefSidebar to open its mobile overlay. Kept as a plain
+// window event so Header and the sidebar stay decoupled (no shared parent state).
+export const OPEN_INTERVIEW_BRIEF_EVENT = "resume:open-interview-brief";
 
 interface HeaderProps {
   onOpenChat?: () => void;
@@ -22,7 +26,30 @@ const Header = ({ onOpenChat }: HeaderProps) => {
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth" });
+    // Lazy-mounted sections above the target (e.g. the fit assessment) can grow
+    // from a short placeholder to full height after the smooth scroll starts,
+    // which leaves the target short of the viewport. Re-issue the scroll until
+    // the target's position stops moving.
+    let last = Number.POSITIVE_INFINITY;
+    let settled = 0;
+    const start = Date.now();
+    const correct = () => {
+      const top = el.getBoundingClientRect().top;
+      if (Math.abs(top - last) < 2) {
+        settled += 1;
+      } else {
+        settled = 0;
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+      last = top;
+      if (settled < 3 && Date.now() - start < 2000) {
+        window.setTimeout(correct, 120);
+      }
+    };
+    window.setTimeout(correct, 120);
   };
 
   const handleSectionLink =
@@ -42,6 +69,28 @@ const Header = ({ onOpenChat }: HeaderProps) => {
     }
   };
 
+  // Reuse the typed nav_section_clicked event (analytics.ts owns the closed event
+  // union) and distinguish these header actions via the section property.
+  const handlePrint = () => {
+    setMobileMenuOpen(false);
+    track("nav_section_clicked", { section: "print" });
+    if (typeof window !== "undefined") {
+      window.print();
+    }
+  };
+
+  const handleDownload = () => {
+    track("nav_section_clicked", { section: "resume-download" });
+  };
+
+  const handleOpenBrief = () => {
+    setMobileMenuOpen(false);
+    track("nav_section_clicked", { section: "interview-brief" });
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent(OPEN_INTERVIEW_BRIEF_EVENT));
+    }
+  };
+
   return (
     <header
       className={cn(
@@ -56,10 +105,10 @@ const Header = ({ onOpenChat }: HeaderProps) => {
           href="https://sam-rogers.com/"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="SR - Sam Rogers main site"
+          aria-label="Sam Rogers - main site"
           className="font-serif text-xl text-foreground hover:text-primary transition-colors"
         >
-          SR
+          Sam Rogers
         </a>
 
         {/* Desktop nav */}
@@ -85,6 +134,23 @@ const Header = ({ onOpenChat }: HeaderProps) => {
           >
             Contact
           </a>
+          <a
+            href="/resume.txt"
+            download
+            onClick={handleDownload}
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Download className="w-4 h-4" aria-hidden="true" />
+            Resume
+          </a>
+          <button
+            type="button"
+            onClick={handlePrint}
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Printer className="w-4 h-4" aria-hidden="true" />
+            Print / PDF
+          </button>
           <button
             onClick={handleAskAI}
             className="text-sm px-4 py-2 bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
@@ -130,6 +196,30 @@ const Header = ({ onOpenChat }: HeaderProps) => {
             >
               Contact
             </a>
+            <button
+              type="button"
+              onClick={handleOpenBrief}
+              className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Interview brief
+            </button>
+            <a
+              href="/resume.txt"
+              download
+              onClick={handleDownload}
+              className="flex w-full items-center gap-2 text-left text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Download className="w-4 h-4" aria-hidden="true" />
+              Download resume
+            </a>
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="flex w-full items-center gap-2 text-left text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Printer className="w-4 h-4" aria-hidden="true" />
+              Print / PDF
+            </button>
             <button
               onClick={handleAskAI}
               className="block w-full text-left text-accent hover:opacity-80 transition-opacity"

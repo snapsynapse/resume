@@ -15,6 +15,7 @@ interface ExperienceCardProps {
   role: string;
   period: string;
   highlights: string[];
+  note?: string;
   aiContext: AIContext;
   index: number;
 }
@@ -24,6 +25,7 @@ const ExperienceCard = ({
   role,
   period,
   highlights,
+  note,
   aiContext,
   index,
 }: ExperienceCardProps) => {
@@ -59,6 +61,13 @@ const ExperienceCard = ({
           </li>
         ))}
       </ul>
+
+      {/* Card note */}
+      {note && (
+        <p className="mb-6 text-sm text-muted-foreground border-l-2 border-accent/40 pl-3 italic">
+          {note}
+        </p>
+      )}
 
       {/* AI Context Toggle */}
       <button

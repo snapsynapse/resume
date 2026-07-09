@@ -2,7 +2,14 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile.js";
-import { composeRoleContext, type RoleSelection } from "../src/lib/role-context.js";
+import {
+  composeRoleContext,
+  targetPresets,
+  companyPresets,
+  type RoleSelection,
+  type TargetKey,
+  type CompanyKey,
+} from "../src/lib/role-context.js";
 import { explicitAiOfficerContext } from "./explicit-role-context.js";
 import {
   ANTHROPIC_MODEL,
@@ -12,6 +19,9 @@ import {
   missingAnthropicConfigResponse,
   missingRateLimitConfigResponse,
 } from "./config.js";
+
+const MAX_MESSAGES = 20;
+const MAX_MESSAGE_CHARS = 8000;
 import { boundaryResponse, rateLimitResponse } from "./boundaries.js";
 import { withVercelAdapter } from "./vercel-adapter.js";
 
@@ -48,7 +58,24 @@ interface ChatMessage {
   content: string;
 }
 
-function buildSystemPrompt(roleSelection: RoleSelection, legacyRoleContext: string | null): string {
+// The role/company keys are used to index preset records. Client-supplied keys
+// must be validated against known own-property keys before use, or a
+// prototype-polluting key (e.g. "__proto__") yields a degenerate context.
+function sanitizeRoleSelection(raw: unknown): RoleSelection {
+  if (!raw || typeof raw !== "object") return {};
+  const candidate = raw as Record<string, unknown>;
+  const selection: RoleSelection = {};
+  const { target, company } = candidate;
+  if (typeof target === "string" && Object.hasOwn(targetPresets, target)) {
+    selection.target = target as TargetKey;
+  }
+  if (typeof company === "string" && Object.hasOwn(companyPresets, company)) {
+    selection.company = company as CompanyKey;
+  }
+  return selection;
+}
+
+function buildSystemPrompt(roleSelection: RoleSelection): string {
   const activeRoleContext = composeRoleContext(roleSelection);
   const experienceContext = samProfile.experience
     .map(
@@ -122,8 +149,6 @@ ${samProfile.publicArtifacts.paicePortfolio.map((p) => `- ${p.name} [${p.categor
 
   const roleBlock = activeRoleContext
     ? `\n=== VISITOR CONTEXT ===\nThe person asking these questions appears to be evaluating Sam in this context: ${activeRoleContext.label}.\n${activeRoleContext.promptContext}\nWhen they ask fit questions, lead with concrete evidence from Sam's track record before any framing. Keep the answer honest about gaps.\n`
-    : legacyRoleContext
-      ? `\n=== VISITOR CONTEXT ===\nThe person asking these questions appears to be evaluating Sam for a role at: ${legacyRoleContext}.\nWhen they ask fit questions, lead with concrete evidence from Sam's track record before any framing. Keep the answer honest about gaps.\n`
     : "";
 
   return `${samProfile.systemPrompt}
@@ -166,6 +191,91 @@ function gracefulBoundary(detail: string, retryAfterSeconds: number, limit: stri
   });
 }
 
+// Limiter outage posture. Mirrors the missing-config 503 shape from config.ts:
+// public AI endpoints fail closed in production when limits cannot be enforced.
+function rateLimitUnavailableResponse(): Response {
+  return boundaryResponse({
+    status: 503,
+    error: "rate_limit_unavailable",
+    detail:
+      "Rate limiting is temporarily unavailable, so this public AI endpoint is failing closed until it recovers.",
+    why: "Public AI endpoints must fail closed in production when cost-control and abuse-control limits cannot be enforced.",
+  });
+}
+
+// Enforce burst + sustained limits. Redis outages become a fail-closed 503 in
+// production and a fail-open console warning in development, rather than an
+// unhandled rejection surfacing as a bare 500.
+async function enforceRateLimits(req: Request): Promise<Response | null> {
+  if (!burstLimiter || !sustainedLimiter) return null;
+  const ip = getClientIp(req);
+  let burst: Awaited<ReturnType<typeof burstLimiter.limit>>;
+  let sustained: Awaited<ReturnType<typeof sustainedLimiter.limit>>;
+  try {
+    [burst, sustained] = await Promise.all([
+      burstLimiter.limit(ip),
+      sustainedLimiter.limit(ip),
+    ]);
+  } catch (err) {
+    if (isProductionRuntime()) {
+      console.error("Rate limiter error:", err);
+      return rateLimitUnavailableResponse();
+    }
+    console.warn("Rate limiter unavailable, failing open in development:", err);
+    return null;
+  }
+
+  if (!burst.success) {
+    const retryAfter = Math.max(1, Math.ceil((burst.reset - Date.now()) / 1000));
+    return gracefulBoundary(
+      "Slow down. You are sending messages faster than the burst limit allows. Try again in a moment.",
+      retryAfter,
+      "5 requests per 60 seconds for /api/chat.",
+    );
+  }
+  if (!sustained.success) {
+    const retryAfter = Math.max(1, Math.ceil((sustained.reset - Date.now()) / 1000));
+    return gracefulBoundary(
+      "You have hit the hourly cap for this conversation. Try again later, or email sam@sam-rogers.com to keep talking.",
+      retryAfter,
+      "50 requests per 1 hour for /api/chat.",
+    );
+  }
+  return null;
+}
+
+// role must be user|assistant and content a non-empty string within the cap.
+// Garbage/system roles otherwise reach Anthropic and surface as an opaque 502.
+function validateChatMessages(messages: ChatMessage[]): Response | null {
+  for (const m of messages) {
+    if (!m || (m.role !== "user" && m.role !== "assistant")) {
+      return boundaryResponse({
+        status: 400,
+        error: "invalid_message_role",
+        detail: 'Each chat message must have a role of "user" or "assistant".',
+        why: "Only user and assistant turns are valid conversation input for the resume chat model.",
+      });
+    }
+    if (typeof m.content !== "string" || m.content.trim().length === 0) {
+      return boundaryResponse({
+        status: 400,
+        error: "empty_message_content",
+        detail: "Each chat message must include non-empty text content.",
+        why: "Empty messages carry no question for the resume context to answer.",
+      });
+    }
+    if (m.content.length > MAX_MESSAGE_CHARS) {
+      return boundaryResponse({
+        status: 400,
+        error: "message_too_long",
+        detail: `Each chat message must be a string of ${MAX_MESSAGE_CHARS} characters or fewer.`,
+        why: "The limit keeps public API calls bounded before upstream model processing.",
+      });
+    }
+  }
+  return null;
+}
+
 function getAnthropicClient(): Anthropic {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 }
@@ -188,41 +298,12 @@ export async function handleChatRequest(req: Request): Promise<Response> {
     return missingAnthropicConfigResponse();
   }
 
-  if (burstLimiter && sustainedLimiter) {
-    const ip = getClientIp(req);
-    const [burst, sustained] = await Promise.all([
-      burstLimiter.limit(ip),
-      sustainedLimiter.limit(ip),
-    ]);
-
-    if (!burst.success) {
-      const retryAfter = Math.max(
-        1,
-        Math.ceil((burst.reset - Date.now()) / 1000),
-      );
-      return gracefulBoundary(
-        "Slow down. You are sending messages faster than the burst limit allows. Try again in a moment.",
-        retryAfter,
-        "5 requests per 60 seconds for /api/chat.",
-      );
-    }
-    if (!sustained.success) {
-      const retryAfter = Math.max(
-        1,
-        Math.ceil((sustained.reset - Date.now()) / 1000),
-      );
-      return gracefulBoundary(
-        "You have hit the hourly cap for this conversation. Try again later, or email sam@sam-rogers.com to keep talking.",
-        retryAfter,
-        "50 requests per 1 hour for /api/chat.",
-      );
-    }
-  }
+  const limited = await enforceRateLimits(req);
+  if (limited) return limited;
 
   let body: {
     messages?: ChatMessage[];
-    roleSelection?: RoleSelection;
-    roleContext?: string | null;
+    roleSelection?: unknown;
   };
   try {
     body = await req.json();
@@ -244,25 +325,20 @@ export async function handleChatRequest(req: Request): Promise<Response> {
       why: "/api/chat compares user questions against the resume context, so an empty request cannot be answered.",
     });
   }
-  if (messages.length > 20) {
-    return gracefulBoundary(
-      "Conversation length capped at 20 turns. Start a new conversation to continue, or email Sam directly.",
-      0,
-      "20 messages per /api/chat request.",
-    );
+  if (messages.length > MAX_MESSAGES) {
+    // Not a rate limit: retrying the same oversized conversation can never
+    // succeed, so this is a validation-style boundary, not a 429/Retry-After.
+    return boundaryResponse({
+      status: 413,
+      error: "conversation_too_long",
+      detail: `Conversation length is capped at ${MAX_MESSAGES} messages per request. Start a new conversation to continue, or email Sam directly.`,
+      why: "A single request carries the full conversation, so an unbounded history would grow cost and latency without limit.",
+    });
   }
-  for (const m of messages) {
-    if (typeof m.content !== "string" || m.content.length > 8000) {
-      return boundaryResponse({
-        status: 400,
-        error: "message_too_long",
-        detail: "Each chat message must be a string of 8000 characters or fewer.",
-        why: "The limit keeps public API calls bounded before upstream model processing.",
-      });
-    }
-  }
+  const invalid = validateChatMessages(messages);
+  if (invalid) return invalid;
 
-  const systemPrompt = buildSystemPrompt(body.roleSelection ?? {}, body.roleContext ?? null);
+  const systemPrompt = buildSystemPrompt(sanitizeRoleSelection(body.roleSelection));
 
   try {
     const client = getAnthropicClient();

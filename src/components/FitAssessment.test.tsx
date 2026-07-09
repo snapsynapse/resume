@@ -113,6 +113,85 @@ describe("FitAssessment", () => {
     expect(body.jobDescription).not.toContain("REQ-12345");
   });
 
+  it("blocks Analyze and sends nothing while flags are unconfirmed", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response("{}", { status: 200, headers: { "Content-Type": "application/json" } }),
+    );
+
+    render(<FitAssessment />);
+
+    fireEvent.change(screen.getByLabelText("Job description"), {
+      target: {
+        value:
+          "Confidential search for a senior leader. Requisition REQ-12345 to lead Project Atlas across the org.",
+      },
+    });
+
+    // Review is on by default; the panel shows a flag count badge and Analyze is gated.
+    expect(await screen.findByText(/to review/i)).toBeInTheDocument();
+    const analyzeButton = screen.getByRole("button", { name: /analyze fit/i });
+    expect(analyzeButton).toBeDisabled();
+    expect(
+      screen.getByText(/confirm or dismiss the review first/i),
+    ).toBeInTheDocument();
+
+    fireEvent.click(analyzeButton);
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    // Original, unreviewed text (with the requisition code) must never be sent.
+    expect(screen.queryByText(/reading the jd against/i)).not.toBeInTheDocument();
+  });
+
+  it("re-enables Analyze and sends the reviewed text once confirmed", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          verdict: "moderate",
+          title: "Possible Fit",
+          summary: "Reviewed.",
+          matches: [],
+          gaps: [],
+          whatTransfers: "",
+          recommendation: "Maybe.",
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+
+    render(<FitAssessment />);
+
+    fireEvent.change(screen.getByLabelText("Job description"), {
+      target: {
+        value:
+          "Confidential search for a senior leader. Requisition REQ-12345 to lead Project Atlas across the org.",
+      },
+    });
+
+    const analyzeButton = screen.getByRole("button", { name: /analyze fit/i });
+    expect(await screen.findByText(/to review/i)).toBeInTheDocument();
+    expect(analyzeButton).toBeDisabled();
+
+    fireEvent.click(await screen.findByRole("button", { name: /review business-sensitive details/i }));
+    fireEvent.click(await screen.findByRole("button", { name: /\[INTERNAL JOB CODE\]/ }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /I removed non-public/i }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /I kept useful public context/i }));
+    fireEvent.click(screen.getByRole("checkbox", { name: /Use this reviewed JD/i }));
+    fireEvent.click(screen.getByRole("button", { name: /use reviewed jd/i }));
+
+    expect(analyzeButton).not.toBeDisabled();
+    expect(screen.queryByText(/confirm or dismiss the review first/i)).not.toBeInTheDocument();
+
+    fireEvent.click(analyzeButton);
+
+    await waitFor(() => {
+      expect(screen.getByText("Possible Fit")).toBeInTheDocument();
+    });
+
+    const body = JSON.parse((fetchMock.mock.calls[0][1] as RequestInit).body as string);
+    expect(body.jobDescription).toContain("[INTERNAL JOB CODE]");
+    expect(body.jobDescription).not.toContain("REQ-12345");
+  });
+
   it("skips the review panel when the toggle is turned off", async () => {
     render(<FitAssessment />);
 

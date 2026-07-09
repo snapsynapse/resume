@@ -79,13 +79,54 @@ describe("DecisionBriefSidebar", () => {
     expect(screen.getByText("Shortlist Rationale")).toBeInTheDocument();
     expect(screen.getByText(/YouTube certification 10x/i)).toBeInTheDocument();
 
-    const summaryBlock = screen.getByRole("button", { name: "Copy recruiter summary" });
-    expect(summaryBlock).toHaveClass("cursor-copy");
-    expect(summaryBlock.querySelector(".max-h-10")).toBeInTheDocument();
-    expect(summaryBlock.querySelector(".group-hover\\:max-h-80")).toBeInTheDocument();
-    expect(summaryBlock.querySelector(".group-focus\\:max-h-80")).not.toBeInTheDocument();
-    expect(summaryBlock.querySelector(".group-focus-visible\\:max-h-80")).toBeInTheDocument();
-    expect(summaryBlock.querySelector(".bg-gradient-to-b")).toBeInTheDocument();
+    const copyButton = screen.getByRole("button", { name: "Copy recruiter summary" });
+    expect(copyButton).toHaveClass("cursor-copy");
+
+    // Content is collapsed by default and revealed by an explicit toggle, not hover.
+    const toggle = screen.getByRole("button", { name: "Recruiter Summary" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(toggle).toHaveAttribute("aria-controls", "decision-brief-content-summary");
+
+    const region = document.getElementById("decision-brief-content-summary");
+    expect(region).toHaveClass("max-h-10");
+    expect(region?.querySelector(".bg-gradient-to-b")).toBeInTheDocument();
+  });
+
+  it("expands and collapses a block on tap without copying", () => {
+    const writeText = mockClipboard();
+    render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
+
+    const toggle = screen.getByRole("button", { name: "Recruiter Summary" });
+    const region = document.getElementById("decision-brief-content-summary");
+
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(region).toHaveClass("max-h-10");
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(region).toHaveClass("max-h-80");
+    expect(region?.querySelector(".bg-gradient-to-b")).not.toBeInTheDocument();
+
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(region).toHaveClass("max-h-10");
+
+    // Toggling expansion must never trigger a clipboard copy.
+    expect(writeText).not.toHaveBeenCalled();
+  });
+
+  it("opens the mobile brief overlay on the header broadcast event", () => {
+    render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    fireEvent(window, new CustomEvent("resume:open-interview-brief"));
+
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Close Interview Decision Brief" }),
+    ).toBeInTheDocument();
   });
 
   it("copies individual blocks with metadata-only analytics", async () => {

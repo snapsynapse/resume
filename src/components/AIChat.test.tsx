@@ -12,6 +12,7 @@ describe("AIChat", () => {
   afterEach(() => {
     vi.clearAllMocks();
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
     window.history.pushState({}, "", "/");
   });
 
@@ -73,5 +74,113 @@ describe("AIChat", () => {
       expect(properties).not.toHaveProperty("questionLength");
       expect(properties).not.toHaveProperty("responseLength");
     }
+  });
+
+  it("re-enables the input after a 429 rate-limit response instead of locking up the chat", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          error: "rate_limited",
+          detail: "Slow down. You are sending messages faster than the burst limit allows.",
+          limit: "5 requests per 60 seconds for /api/chat.",
+          retryAfterSeconds: 12,
+          graceful_boundary: { spec: "https://gracefulboundaries.dev/", level: 2 },
+        }),
+        { status: 429, headers: { "Content-Type": "application/json" } },
+      ),
+    );
+
+    render(<AIChat isOpen onClose={() => {}} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /What's PAICE/i }));
+
+    await screen.findByText(/Rate limit: 5 requests per 60 seconds/);
+    expect(screen.queryByText("Thinking...")).not.toBeInTheDocument();
+
+    const input = screen.getByLabelText("Ask a follow-up question") as HTMLInputElement;
+    expect(input.disabled).toBe(false);
+
+    // Prove the chat is genuinely usable again, not just visually re-enabled.
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response("All clear.", { status: 200, headers: { "Content-Type": "text/plain" } }),
+    );
+    fireEvent.change(input, { target: { value: "Try again" } });
+    fireEvent.click(screen.getByLabelText("Send question"));
+    await screen.findByText("All clear.");
+  });
+
+  it("keeps accumulated streamed text and flags it as interrupted on a mid-stream read failure", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    let reads = 0;
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => ({}),
+      body: {
+        getReader: () => ({
+          read: async () => {
+            reads += 1;
+            if (reads === 1) {
+              return { done: false, value: new TextEncoder().encode("Sam has shipped ") };
+            }
+            throw new Error("network drop");
+          },
+        }),
+      },
+    } as unknown as Response);
+
+    render(<AIChat isOpen onClose={() => {}} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /What's PAICE/i }));
+
+    const message = await screen.findByText((_, node) =>
+      Boolean(
+        node?.tagName === "P" &&
+          node?.textContent?.includes("Sam has shipped") &&
+          node?.textContent?.includes("[Response interrupted") &&
+          node?.textContent?.includes("connection dropped mid-answer."),
+      ),
+    );
+    expect(message).toBeInTheDocument();
+
+    // Must not fall back to the labeled "sample response" copy — the live partial
+    // answer should be kept, not discarded.
+    expect(screen.queryByText(/Sample response because the live AI endpoint/)).not.toBeInTheDocument();
+
+    const input = screen.getByLabelText("Ask a follow-up question") as HTMLInputElement;
+    expect(input.disabled).toBe(false);
+  });
+
+  it("silently trims the request payload to stay under the server's 20-message cap", async () => {
+    const fetchMock = vi.fn().mockImplementation(
+      async () => new Response("ok", { status: 200, headers: { "Content-Type": "text/plain" } }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<AIChat isOpen onClose={() => {}} />);
+
+    fireEvent.click(screen.getByRole("button", { name: /What's PAICE/i }));
+    await screen.findAllByText("ok");
+
+    const input = screen.getByLabelText("Ask a follow-up question") as HTMLInputElement;
+    for (let round = 0; round < 9; round += 1) {
+      fireEvent.change(input, { target: { value: `Question number ${round}` } });
+      fireEvent.click(screen.getByLabelText("Send question"));
+      await screen.findAllByText("ok");
+    }
+
+    fetchMock.mockClear();
+    fireEvent.change(input, { target: { value: "One more question that would push the request over the cap" } });
+    fireEvent.click(screen.getByLabelText("Send question"));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    const [, requestInit] = fetchMock.mock.calls[0];
+    const sentBody = JSON.parse((requestInit as RequestInit).body as string);
+
+    expect(sentBody.messages.length).toBeLessThanOrEqual(20);
+    expect(sentBody.messages[0].role).toBe("user");
+    expect(
+      sentBody.messages.some((m: { content: string }) => m.content === "One more question that would push the request over the cap"),
+    ).toBe(true);
   });
 });

@@ -1,12 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   Check,
+  ChevronDown,
   Clipboard,
   Copy,
   PanelLeftClose,
   PanelLeftOpen,
+  X,
 } from "lucide-react";
 import type { FitResult } from "./FitAssessment";
+import { OPEN_INTERVIEW_BRIEF_EVENT } from "./Header";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -287,6 +292,171 @@ async function copyToClipboard(text: string) {
   document.body.removeChild(textarea);
 }
 
+interface BriefBodyProps {
+  blocks: CopyBlock[];
+  mode: BriefMode;
+  onModeChange: (mode: BriefMode) => void;
+  hasJobDescription: boolean;
+  fitResult: FitResult | null;
+  copiedBlock: BriefBlock | null;
+  onCopyAll: () => void;
+  onCopyBlock: (block: CopyBlock) => void;
+  expandedBlock: BriefBlock | null;
+  onToggleBlock: (id: BriefBlock) => void;
+  headerControl: ReactNode;
+}
+
+const BriefBody = ({
+  blocks,
+  mode,
+  onModeChange,
+  hasJobDescription,
+  fitResult,
+  copiedBlock,
+  onCopyAll,
+  onCopyBlock,
+  expandedBlock,
+  onToggleBlock,
+  headerControl,
+}: BriefBodyProps) => (
+  <div className="flex h-full flex-col">
+    <div className="border-b border-border px-4 py-4">
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
+            Interview Decision Brief
+          </p>
+          <h2 className="mt-1 font-serif text-2xl text-foreground">
+            Copy-ready evidence
+          </h2>
+        </div>
+        {headerControl}
+      </div>
+
+      <div className="grid grid-cols-2 rounded-lg border border-border bg-secondary p-1">
+        {(["recruiter", "hiring-manager"] as const).map((item) => (
+          <button
+            key={item}
+            type="button"
+            onClick={() => onModeChange(item)}
+            className={cn(
+              "rounded-md px-2 py-1.5 text-xs font-medium transition-colors",
+              mode === item
+                ? "bg-card text-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {item === "recruiter" ? "Recruiter" : "Hiring Manager"}
+          </button>
+        ))}
+      </div>
+
+      {hasJobDescription && !fitResult && (
+        <p className="mt-3 rounded-lg border border-border bg-secondary px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+          Role context detected. Run fit assessment to update this brief from the
+          reviewed JD.
+        </p>
+      )}
+
+      <button
+        type="button"
+        onClick={onCopyAll}
+        aria-label="Copy all Interview Decision Brief blocks"
+        className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
+      >
+        {copiedBlock === "copy-all" ? (
+          <Check className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          <Clipboard className="h-4 w-4" aria-hidden="true" />
+        )}
+        {copiedBlock === "copy-all" ? "Copied" : "Copy all visible blocks"}
+      </button>
+    </div>
+
+    <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
+      {blocks.map((block) => {
+        const expanded = expandedBlock === block.id;
+        const contentId = `decision-brief-content-${block.id}`;
+        return (
+          <div
+            key={block.id}
+            className="group rounded-lg border border-border bg-background p-3 text-left transition-colors duration-200 hover:border-accent focus-within:border-accent"
+          >
+            <div className="flex items-start justify-between gap-2">
+              {/* Tap/click (and keyboard) toggle — replaces hover-only reveal so touch works. */}
+              <button
+                type="button"
+                onClick={() => onToggleBlock(block.id)}
+                aria-expanded={expanded}
+                aria-controls={contentId}
+                className="min-w-0 flex-1 rounded text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+              >
+                <span className="flex items-center gap-1.5">
+                  <ChevronDown
+                    className={cn(
+                      "h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform duration-200",
+                      expanded && "rotate-180",
+                    )}
+                    aria-hidden="true"
+                  />
+                  <span
+                    id={`decision-brief-${block.id}`}
+                    className="text-sm font-medium text-foreground"
+                  >
+                    {block.title}
+                  </span>
+                </span>
+                {block.badge && (
+                  <span className="ml-5 mt-1 inline-flex rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                    {block.badge}
+                  </span>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => onCopyBlock(block)}
+                aria-label={block.copyLabel}
+                className="inline-flex shrink-0 cursor-copy items-center gap-1.5 rounded-lg border border-border bg-secondary px-2 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+              >
+                {copiedBlock === block.id ? (
+                  <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+                )}
+                <span>{copiedBlock === block.id ? "Copied" : "Copy"}</span>
+              </button>
+            </div>
+            <div
+              id={contentId}
+              className={cn(
+                "relative mt-2 overflow-hidden transition-[max-height] duration-300 ease-out",
+                expanded ? "max-h-80" : "max-h-10",
+              )}
+            >
+              <ul className="space-y-1.5 pb-1">
+                {block.display.map((item) => (
+                  <li
+                    key={item}
+                    className="text-xs leading-relaxed text-muted-foreground"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              {!expanded && (
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-background/0 to-background"
+                />
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+);
+
 const DecisionBriefSidebar = ({
   fitResult,
   hasJobDescription,
@@ -294,6 +464,8 @@ const DecisionBriefSidebar = ({
   const [collapsed, setCollapsed] = useState(readInitialCollapsed);
   const [mode, setMode] = useState<BriefMode>(readInitialMode);
   const [copiedBlock, setCopiedBlock] = useState<BriefBlock | null>(null);
+  const [expandedBlock, setExpandedBlock] = useState<BriefBlock | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     getLocalStorage()?.setItem(COLLAPSED_KEY, String(collapsed));
@@ -309,10 +481,20 @@ const DecisionBriefSidebar = ({
     return () => window.clearTimeout(timeout);
   }, [copiedBlock]);
 
+  // Header (mobile menu) broadcasts a request to open the brief as an overlay.
+  useEffect(() => {
+    const open = () => setMobileOpen(true);
+    window.addEventListener(OPEN_INTERVIEW_BRIEF_EVENT, open);
+    return () => window.removeEventListener(OPEN_INTERVIEW_BRIEF_EVENT, open);
+  }, []);
+
   const blocks = useMemo(() => {
     if (fitResult) return buildFitBlocks(fitResult, mode);
     return mode === "recruiter" ? recruiterBlocks : hiringManagerBlocks;
   }, [fitResult, mode]);
+
+  const toggleBlock = (id: BriefBlock) =>
+    setExpandedBlock((current) => (current === id ? null : id));
 
   const copyBlock = async (block: CopyBlock) => {
     await copyToClipboard(blockText(block));
@@ -334,47 +516,53 @@ const DecisionBriefSidebar = ({
     });
   };
 
+  const bodyProps: Omit<BriefBodyProps, "headerControl"> = {
+    blocks,
+    mode,
+    onModeChange: setMode,
+    hasJobDescription,
+    fitResult,
+    copiedBlock,
+    onCopyAll: copyAll,
+    onCopyBlock: copyBlock,
+    expandedBlock,
+    onToggleBlock: toggleBlock,
+  };
+
   return (
-    <aside
-      aria-label="Interview Decision Brief"
-      className={cn(
-        "sticky hidden shrink-0 border-r border-border bg-card/95 shadow-sm backdrop-blur lg:block",
-        collapsed
-          ? "top-16 mt-16 h-[calc(100vh-4rem)] w-14"
-          : "top-0 z-[60] h-screen w-[23rem] xl:w-[25rem]",
-      )}
-    >
-      {collapsed ? (
-        <div className="flex h-full flex-col items-center gap-3 px-2 py-4">
-          <button
-            type="button"
-            onClick={() => setCollapsed(false)}
-            aria-label="Open Interview Decision Brief"
-            className="rounded-lg border border-border bg-secondary p-2 text-foreground transition-colors hover:border-accent"
-          >
-            <PanelLeftOpen className="h-4 w-4" aria-hidden="true" />
-          </button>
-          <div className="writing-mode-vertical rotate-180 text-xs font-mono uppercase tracking-wider text-muted-foreground [writing-mode:vertical-rl]">
-            Interview Brief
+    <>
+      <aside
+        aria-label="Interview Decision Brief"
+        className={cn(
+          "sticky hidden shrink-0 border-r border-border bg-card/95 shadow-sm backdrop-blur lg:block",
+          collapsed
+            ? "top-16 mt-16 h-[calc(100vh-4rem)] w-14"
+            : "top-0 z-[60] h-screen w-[23rem] xl:w-[25rem]",
+        )}
+      >
+        {collapsed ? (
+          <div className="flex h-full flex-col items-center gap-3 px-2 py-4">
+            <button
+              type="button"
+              onClick={() => setCollapsed(false)}
+              aria-label="Open Interview Decision Brief"
+              className="rounded-lg border border-border bg-secondary p-2 text-foreground transition-colors hover:border-accent"
+            >
+              <PanelLeftOpen className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <div className="writing-mode-vertical rotate-180 text-xs font-mono uppercase tracking-wider text-muted-foreground [writing-mode:vertical-rl]">
+              Interview Brief
+            </div>
+            {(fitResult || hasJobDescription) && (
+              <span className="rounded-full bg-accent px-1.5 py-1 text-[10px] font-medium text-accent-foreground">
+                {fitResult ? "Fit" : "JD"}
+              </span>
+            )}
           </div>
-          {(fitResult || hasJobDescription) && (
-            <span className="rounded-full bg-accent px-1.5 py-1 text-[10px] font-medium text-accent-foreground">
-              {fitResult ? "Fit" : "JD"}
-            </span>
-          )}
-        </div>
-      ) : (
-        <div className="flex h-full flex-col">
-          <div className="border-b border-border px-4 py-4">
-            <div className="mb-3 flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                  Interview Decision Brief
-                </p>
-                <h2 className="mt-1 font-serif text-2xl text-foreground">
-                  Copy-ready evidence
-                </h2>
-              </div>
+        ) : (
+          <BriefBody
+            {...bodyProps}
+            headerControl={
               <button
                 type="button"
                 onClick={() => setCollapsed(true)}
@@ -383,108 +571,40 @@ const DecisionBriefSidebar = ({
               >
                 <PanelLeftClose className="h-4 w-4" aria-hidden="true" />
               </button>
-            </div>
+            }
+          />
+        )}
+      </aside>
 
-            <div className="grid grid-cols-2 rounded-lg border border-border bg-secondary p-1">
-              {(["recruiter", "hiring-manager"] as const).map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => setMode(item)}
-                  className={cn(
-                    "rounded-md px-2 py-1.5 text-xs font-medium transition-colors",
-                    mode === item
-                      ? "bg-card text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
+      {/* Mobile path: full-width bottom-sheet overlay opened from the Header menu. */}
+      <DialogPrimitive.Root
+        open={mobileOpen}
+        onOpenChange={(open) => setMobileOpen(open)}
+      >
+        <DialogPrimitive.Portal>
+          <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-background/80 backdrop-blur-sm animate-fade-in lg:hidden" />
+          <DialogPrimitive.Content
+            aria-describedby={undefined}
+            className="fixed inset-x-0 bottom-0 z-[70] flex h-[85vh] flex-col overflow-hidden rounded-t-2xl border-t border-border bg-card shadow-2xl animate-slide-up focus:outline-none lg:hidden"
+          >
+            <DialogPrimitive.Title className="sr-only">
+              Interview Decision Brief
+            </DialogPrimitive.Title>
+            <BriefBody
+              {...bodyProps}
+              headerControl={
+                <DialogPrimitive.Close
+                  aria-label="Close Interview Decision Brief"
+                  className="rounded-lg border border-border bg-secondary p-2 text-foreground transition-colors hover:border-accent"
                 >
-                  {item === "recruiter" ? "Recruiter" : "Hiring Manager"}
-                </button>
-              ))}
-            </div>
-
-            {hasJobDescription && !fitResult && (
-              <p className="mt-3 rounded-lg border border-border bg-secondary px-3 py-2 text-xs leading-relaxed text-muted-foreground">
-                Role context detected. Run fit assessment to update this brief from the
-                reviewed JD.
-              </p>
-            )}
-
-            <button
-              type="button"
-              onClick={copyAll}
-              aria-label="Copy all Interview Decision Brief blocks"
-              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-3 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
-            >
-              {copiedBlock === "copy-all" ? (
-                <Check className="h-4 w-4" aria-hidden="true" />
-              ) : (
-                <Clipboard className="h-4 w-4" aria-hidden="true" />
-              )}
-              {copiedBlock === "copy-all" ? "Copied" : "Copy all visible blocks"}
-            </button>
-          </div>
-
-          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
-            {blocks.map((block) => (
-              <div
-                key={block.id}
-                role="button"
-                tabIndex={0}
-                aria-label={block.copyLabel}
-                onClick={() => copyBlock(block)}
-                onKeyDown={(event) => {
-                  if (event.key !== "Enter" && event.key !== " ") return;
-                  event.preventDefault();
-                  copyBlock(block);
-                }}
-                className="group cursor-copy rounded-lg border border-border bg-background p-3 text-left transition-all duration-200 hover:border-accent focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <h3
-                      id={`decision-brief-${block.id}`}
-                      className="text-sm font-medium text-foreground"
-                    >
-                      {block.title}
-                    </h3>
-                    {block.badge && (
-                      <span className="mt-1 inline-flex rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-                        {block.badge}
-                      </span>
-                    )}
-                  </div>
-                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-secondary px-2 py-1.5 text-xs font-medium text-foreground transition-colors group-hover:border-accent group-focus:border-accent">
-                    {copiedBlock === block.id ? (
-                      <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                    ) : (
-                      <Copy className="h-3.5 w-3.5" aria-hidden="true" />
-                    )}
-                    <span>{copiedBlock === block.id ? "Copied" : "Copy"}</span>
-                  </span>
-                </div>
-                <div className="relative mt-2 max-h-10 overflow-hidden transition-[max-height] duration-300 ease-out group-hover:max-h-80 group-focus-visible:max-h-80">
-                  <ul className="space-y-1.5 pb-1">
-                    {block.display.map((item) => (
-                      <li
-                        key={item}
-                        className="text-xs leading-relaxed text-muted-foreground"
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-background/0 to-background transition-opacity duration-200 group-hover:opacity-0 group-focus-visible:opacity-0"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </aside>
+                  <X className="h-4 w-4" aria-hidden="true" />
+                </DialogPrimitive.Close>
+              }
+            />
+          </DialogPrimitive.Content>
+        </DialogPrimitive.Portal>
+      </DialogPrimitive.Root>
+    </>
   );
 };
 

@@ -9,6 +9,25 @@ interface HeroProps {
 }
 
 const ROTATE_MS = 3000;
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return false;
+    return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const query = window.matchMedia(REDUCED_MOTION_QUERY);
+    const onChange = () => setReduced(query.matches);
+    setReduced(query.matches);
+    query.addEventListener?.("change", onChange);
+    return () => query.removeEventListener?.("change", onChange);
+  }, []);
+
+  return reduced;
+}
 
 const Hero = ({ onOpenChat }: HeroProps) => {
   const [roleContext, setRoleContext] = useState(() => composeRoleContext({}));
@@ -17,6 +36,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
     [roleContext?.heroTitles],
   );
   const [index, setIndex] = useState(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     setRoleContext(composeRoleContext(detectRoleSelection()));
@@ -24,12 +44,13 @@ const Hero = ({ onOpenChat }: HeroProps) => {
 
   useEffect(() => {
     setIndex(0);
-    if (titles.length < 2) return;
+    // Respect reduced-motion: hold on the primary title instead of cycling.
+    if (prefersReducedMotion || titles.length < 2) return;
     const interval = window.setInterval(() => {
       setIndex((i) => (i + 1) % titles.length);
     }, ROTATE_MS);
     return () => window.clearInterval(interval);
-  }, [titles]);
+  }, [titles, prefersReducedMotion]);
 
   const handleOpenChat = () => {
     track("ai_chat_opened", { source: "hero" });
@@ -55,14 +76,14 @@ const Hero = ({ onOpenChat }: HeroProps) => {
             {samProfile.name}
           </h1>
 
-          {/* Rotating role line — `key` change re-mounts the span so the fade-in animation re-runs */}
-          <div
-            className="text-2xl md:text-3xl text-primary font-serif mb-4 min-h-[2.5rem] md:min-h-[3rem]"
-            aria-live="polite"
-          >
-            <span key={index} className="inline-block animate-fade-in">
+          {/* Rotating role line — `key` change re-mounts the span so the fade-in animation re-runs.
+              The animation is decorative and hidden from assistive tech; a single static label
+              carries the primary title so screen readers are not re-announced on every rotation. */}
+          <div className="text-2xl md:text-3xl text-primary font-serif mb-4 min-h-[2.5rem] md:min-h-[3rem]">
+            <span key={index} aria-hidden="true" className="inline-block animate-fade-in">
               {titles[index]}
             </span>
+            <span className="sr-only">{titles[0]}</span>
           </div>
 
           {/* Subtitle */}

@@ -31,9 +31,9 @@ const Index = () => {
             <Hero onOpenChat={openChat} />
             <Experience />
             <LazyOnVisible
-              fallback={<div id="fit-assessment" className="min-h-[24rem]" />}
+              fallback={<div id="fit-assessment" className="scroll-mt-24 min-h-[24rem]" />}
             >
-              <Suspense fallback={<div id="fit-assessment" className="min-h-[24rem]" />}>
+              <Suspense fallback={<div id="fit-assessment" className="scroll-mt-24 min-h-[24rem]" />}>
                 <FitAssessment
                   onResult={setFitResult}
                   onJobDescriptionStateChange={setHasJobDescription}

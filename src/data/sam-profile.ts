@@ -40,6 +40,7 @@ export const samProfile = {
         "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
         "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
       ],
+      note: "Why W2 now: the open protocols stay maintained regardless of employer, and there is precedent — Snap Synapse went dormant for years while Sam ran a Global Learning Technology function at Convatec. Same play when the role is the right home for the work.",
       aiContext: {
         situation:
           "Snap Synapse ran an Agent-Readiness Audit consulting service. Demand was real but the work scaled linearly with my time. Standard productization paths either kept it high-touch forever or rebuilt it as a self-serve tool that lost the judgment layer that made the consulting valuable.",

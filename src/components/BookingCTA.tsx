@@ -3,7 +3,7 @@ import { track } from "@/lib/analytics";
 
 const BookingCTA = () => {
   return (
-    <section id="contact" aria-labelledby="contact-heading" className="py-20 px-6 border-t border-border">
+    <section id="contact" aria-labelledby="contact-heading" className="scroll-mt-24 py-20 px-6 border-t border-border">
       <div className="max-w-3xl mx-auto text-center">
         <h2 id="contact-heading" className="text-3xl md:text-4xl font-serif text-foreground mb-4">
           Talked to the AI. Now talk to me.

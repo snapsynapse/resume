@@ -30,24 +30,26 @@ The rule for what belongs in the private FAQ is therefore not "is it currently h
 - A qualitative target band (head-of-function, senior lead, builder/operator, and in-band role types for analyzer calibration) appears. Specific compensation numbers do not, because financial detail belongs on a human-to-human call rather than in a system prompt.
 - altMBA, Capital One, and similar career-shape items appear with explicit "disclose only on direct ask" instructions. Disclosure cost is low, but proactively surfacing them weakens the head-of-function, senior lead, and builder/operator positioning, so the gating is editorial, not protective.
 
-The disclosure rule is enforced mechanically by a PII scan in the test suite. See "Reveal-safe PII evals" below for how that scan is designed so the eval itself does not become a disclosure surface.
+The disclosure rule is enforced mechanically by a PII scan in the test suite. See "Reveal-resistant PII evals" below for how that scan is designed so the eval itself does not become a disclosure surface.
 
 The disclosure check is the threshold for adding anything new to the private FAQ. If an item fails the check, the right channel is a direct conversation with Sam, not the chat surface.
 
-### Reveal-safe PII evals
+### Reveal-resistant PII evals
 This repository is open source. A naive PII scan would defeat itself: writing a regex literal of the exact value being blocked puts that value into a publicly readable test file, so any reader of the source learns precisely what was meant to be private. The scan in [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts) is designed so that the eval reveals only the categories of protection, not the candidate-specific values being protected.
+
+Attacker model: this design protects against a casual reader of the source or CI output (a recruiter, engineer, or bot scanning the repo or a failing build log) picking up a candidate-specific value incidentally. It does not protect against a motivated attacker who downloads the digest set and runs an offline dictionary or hashcat-style attack against it. The blocklist hashes low-entropy values (US state names, city names, ZIP codes, 10-digit phone numbers), and unsalted SHA-256 of a low-entropy input is crackable offline in a bounded search space. A keyed hash (HMAC with a secret) would resist that attack, but the key would then have to live somewhere the public CI runner can reach it, which turns a build secret into the actual protection boundary and reintroduces the exposure this design is trying to avoid. The scan is a source-reveal and log-reveal control, not a cryptographic one.
 
 Design choices that make this work:
 
 - Two-layer pattern model. Generic shape-based patterns (any US-format phone number, any SSN-shaped string, any dollar-amount figure, any compensation range) are kept as literal regexes because the shapes themselves are public knowledge and reveal nothing about the candidate. Candidate-specific values (a particular residential city, town, state, ZIP, or personal phone number) are stored only as SHA-256 hex digests of normalized lowercase forms. A reader of the test file learns that residential signals are being blocked, but not which specific residential signals.
 - No labels on the digest set. The hash entries are an unordered set, not a labeled map. A reader cannot infer which digest corresponds to a city versus a state versus a phone number, and the order is intentionally rotated when entries are added so positional inference is also unreliable.
 - Tokenization at scan time. The scan tokenizes each file line into one-to-four-word lowercase n-grams and into phone-shape digit windows (digits-only, sliding 10-digit windows). Each candidate is hashed and checked against the digest set. This means a multi-word city name, a state name, a single-token ZIP, and a phone in any format collapse to the same hashed-membership test, without the test file needing to know which kind of literal it is matching.
-- Violation reports never echo the matched substring. When the scan finds a hit, it reports file path and line number only. A CI log, a screenshot, or an issue paste of a failing run does not leak the value the scan was protecting. The author can open the file locally to see what happened.
+- Violation reports never echo the matched substring, for either scan layer. When the hash-based scan finds a hit it reports file path and line number only. When a shape-based scan finds a hit (a phone-shaped string, a dollar-amount figure, and so on) it reports file path, line number, and the pattern category name only, never the matched text, because a shape match can itself be the exact sensitive value. A CI log, a screenshot, or an issue paste of a failing run does not leak the value the scan was protecting. The author can open the file locally at the reported line to see what happened.
 - Allowlists are also hashed. Legitimate non-residential references that happen to share a name (e.g. a regulatory project anchor that uses a state's name in a non-residence context) are allowed by full-line SHA-256, not by quoted regex. The legitimate context never has to appear in the test file alongside the rule that permits it.
 - Positive controls cover the allowlisted identifiers. Name, email, and region are asserted to appear somewhere in the scanned set as plain-text positive controls. These three are public by policy, so naming them does not weaken the design. Their presence guarantees the scan is wired to real content rather than silently passing on an empty file collection.
-- Reveal-safety is verifiable. A grep of the test file and this README for any candidate-specific phone, ZIP, city, or state literal returns nothing. This property is mechanical, not editorial, and a future reviewer can re-verify it without trusting prior intent.
+- Reveal-resistance is verifiable. A grep of the test file and this README for any candidate-specific phone, ZIP, city, or state literal returns nothing. This property is mechanical, not editorial, and a future reviewer can re-verify it without trusting prior intent.
 
-Scope reminder: this scan covers committed repository content only. User-submitted text in form fields and chat messages is governed by the API handlers' prompt-boundary tests and the JD review scanner, not by this eval.
+Scope reminder: this scan covers committed repository content only, including INTENT.md and .github (workflow files). User-submitted text in form fields and chat messages is governed by the API handlers' prompt-boundary tests and the JD review scanner, not by this eval.
 
 ### User context is useful, but sensitive context is risky
 The job-description workflow includes an optional in-browser business-context review before API submission. The scanner is deterministic, runs locally, and flags likely non-public details so the user can replace them with placeholders before sending text for model analysis.
@@ -73,6 +75,7 @@ The implementation lives in [src/lib/role-context.ts](src/lib/role-context.ts). 
 - Upstash Redis: optional public-endpoint rate limiting with production fail-closed behavior.
 - PostHog: optional cookieless interaction analytics with autocapture disabled.
 - Vitest and Testing Library: unit, integration, public-surface, API-handler, and prompt-boundary test coverage.
+- Lovable: initial scaffold. The first commits in `git log` are the Lovable/gpt-engineer bot; the 52 commits since are the substantive build, including the API layer, prompt boundaries, evals, and every governance surface described in this README.
 The stack is intentionally ordinary. The point is not to hide behind an exotic architecture. The point is to make the AI-enabled parts easy to inspect, constrain, test, and replace.
 ## Architecture
 The app has four main surfaces:
@@ -146,7 +149,7 @@ Controls include:
 - Production fail-closed behavior when rate limiting is not configured.
 - Structured fit-analysis schema with bounded verdict values.
 - Prompt-boundary tests for private information, false credentials, sensitive job material, production-infrastructure overclaiming, role-positioning drift, and JD prompt injection.
-- PII / compensation exposure scan in the test suite ([src/test/pii-scan.test.ts](src/test/pii-scan.test.ts)). Runs in CI. Designed so the eval itself does not leak the values it protects — full architecture documented under "Reveal-safe PII evals" in Design Decisions above.
+- PII / compensation exposure scan in the test suite ([src/test/pii-scan.test.ts](src/test/pii-scan.test.ts)). Runs in CI. Designed so the eval itself does not leak the values it protects, full architecture documented under "Reveal-resistant PII evals" in Design Decisions above.
 - Public evidence ledger for claims that need more context than a resume page can carry.
 - Responsible disclosure path in `SECURITY.md`.
 Important limits:

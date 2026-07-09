@@ -115,7 +115,7 @@ THESIS: Sam is founder of PAICE.work PBC. 25 years building curriculum, certific
 
 TARGET BAND (apply when scoring the verdict):
 - In-band role types: content operations; customer education systems; AI education systems; curriculum production systems; certification and learning measurement; content portfolio governance; knowledge management and discoverability; developer education; adaptive / interactive learning products; partner / ecosystem / technical-partner education; founding or 0-to-1 program roles for products Sam can credibly teach.
-- JD positive signals (raise verdict): "content operations", "content portfolio", "content lifecycle", "governance", "discoverability", "reuse", "operating rhythm", "handoffs", "education", "adaptive learning", "personalized learning", "content quality", "quality bar", "measurement", "certification", "developer education", "AI-assisted content", "AI workflow", "quality control", "0-to-1", "founding", "define the operating model", "ambiguity", "builder mindset", "high agency", "hands-on with AI tools", "stand up", "from scratch".
+- JD positive signals (raise verdict): content-operations, content-portfolio, or content-lifecycle ownership; governance, discoverability, and reuse expectations; education, certification, and learning-measurement scope; adaptive or personalized learning products; developer, partner, or customer education; AI-assisted content production and AI workflow quality expectations; explicit quality-bar or quality-control ownership; 0-to-1 or founding program scope where the role defines its own operating model; high-autonomy builder/operator environments that expect hands-on fluency with AI tools and comfort with ambiguity.
 - JD negative signals (lower verdict): deep production engineering ownership, ML research / applied-scientist ownership, direct institutional fundraising ownership, consumer growth ownership, or mature large-department maintenance where the main job is sustaining a sizable established organization. Head-of-function language is NOT automatically negative; Head-of roles can fit when the scope is building or transforming an education/content system.
 - Adjacent-JD differentiation: when related JDs are evaluated, verdicts and recommendations must be visibly different. Match each role's specific signals rather than producing similar generic answers.
 
@@ -132,6 +132,47 @@ INSTRUCTIONS:
 - whatTransfers covers transferable skills even in a weak-fit case (always populate, even on strong fits).
 - recommendation closes with what should happen next.
 - Use the record_fit_assessment tool. Do not return markdown or prose outside the tool call.`;
+}
+
+// Limiter outage posture. Mirrors the missing-config 503 shape from config.ts:
+// public AI endpoints fail closed in production when limits cannot be enforced.
+function rateLimitUnavailableResponse(): Response {
+  return boundaryResponse({
+    status: 503,
+    error: "rate_limit_unavailable",
+    detail:
+      "Rate limiting is temporarily unavailable, so this public AI endpoint is failing closed until it recovers.",
+    why: "Public AI endpoints must fail closed in production when cost-control and abuse-control limits cannot be enforced.",
+  });
+}
+
+// Enforce the fit limit. Redis outages become a fail-closed 503 in production
+// and a fail-open console warning in development, rather than an unhandled
+// rejection surfacing as a bare 500.
+async function enforceRateLimit(req: Request): Promise<Response | null> {
+  if (!fitLimiter) return null;
+  const ip = getClientIp(req);
+  let success: boolean;
+  let reset: number;
+  try {
+    ({ success, reset } = await fitLimiter.limit(ip));
+  } catch (err) {
+    if (isProductionRuntime()) {
+      console.error("Rate limiter error:", err);
+      return rateLimitUnavailableResponse();
+    }
+    console.warn("Rate limiter unavailable, failing open in development:", err);
+    return null;
+  }
+  if (!success) {
+    const retryAfter = Math.max(1, Math.ceil((reset - Date.now()) / 1000));
+    return gracefulBoundary(
+      "Fit assessments are capped at 10 per hour. Try again later or email sam@sam-rogers.com with the JD directly.",
+      retryAfter,
+      "10 requests per 1 hour for /api/analyze-fit.",
+    );
+  }
+  return null;
 }
 
 function getAnthropicClient(): Anthropic {
@@ -168,18 +209,8 @@ export async function handleAnalyzeFitRequest(req: Request): Promise<Response> {
     return missingAnthropicConfigResponse();
   }
 
-  if (fitLimiter) {
-    const ip = getClientIp(req);
-    const { success, reset } = await fitLimiter.limit(ip);
-    if (!success) {
-      const retryAfter = Math.max(1, Math.ceil((reset - Date.now()) / 1000));
-      return gracefulBoundary(
-        "Fit assessments are capped at 10 per hour. Try again later or email sam@sam-rogers.com with the JD directly.",
-        retryAfter,
-        "10 requests per 1 hour for /api/analyze-fit.",
-      );
-    }
-  }
+  const limited = await enforceRateLimit(req);
+  if (limited) return limited;
 
   let body: { jobDescription?: string };
   try {
@@ -233,7 +264,7 @@ export async function handleAnalyzeFitRequest(req: Request): Promise<Response> {
         {
           name: "record_fit_assessment",
           description: "Return the structured fit assessment for this role.",
-          input_schema: fitSchema,
+          input_schema: fitSchema as Anthropic.Messages.Tool.InputSchema,
         },
       ],
       tool_choice: { type: "tool", name: "record_fit_assessment" },
