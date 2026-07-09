@@ -281,7 +281,7 @@ for (const route of routes) {
   if (route === "/fit-assessment/") {
     for (const required of [
       "local browser-only review",
-      "Job descriptions are sent to Anthropic",
+      "configured cloud LLM provider",
       "Do not paste confidential",
       "email Sam directly",
     ]) {

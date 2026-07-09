@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MessageSquare } from "lucide-react";
 import { samProfile } from "@/data/sam-profile";
 import { track } from "@/lib/analytics";
+import { composeRoleContext, detectRoleSelection } from "@/lib/role-context";
 
 interface HeroProps {
   onOpenChat: () => void;
@@ -10,16 +11,25 @@ interface HeroProps {
 const ROTATE_MS = 3000;
 
 const Hero = ({ onOpenChat }: HeroProps) => {
-  const titles = samProfile.rotatingTitles ?? [samProfile.title];
+  const [roleContext, setRoleContext] = useState(() => composeRoleContext({}));
+  const titles = useMemo(
+    () => roleContext?.heroTitles ?? samProfile.rotatingTitles ?? [samProfile.title],
+    [roleContext?.heroTitles],
+  );
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    setRoleContext(composeRoleContext(detectRoleSelection()));
+  }, []);
+
+  useEffect(() => {
+    setIndex(0);
     if (titles.length < 2) return;
     const interval = window.setInterval(() => {
       setIndex((i) => (i + 1) % titles.length);
     }, ROTATE_MS);
     return () => window.clearInterval(interval);
-  }, [titles.length]);
+  }, [titles]);
 
   const handleOpenChat = () => {
     track("ai_chat_opened", { source: "hero" });
@@ -37,7 +47,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
           {/* Status badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full mb-8 animate-fade-in">
             <span className="w-2 h-2 rounded-full bg-success animate-pulse-soft" />
-            <span className="text-sm text-muted-foreground">{samProfile.status}</span>
+            <span className="text-sm text-muted-foreground">{roleContext?.status ?? samProfile.status}</span>
           </div>
 
           {/* Main heading */}

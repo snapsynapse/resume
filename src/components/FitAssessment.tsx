@@ -220,7 +220,7 @@ const FitAssessment = ({
               </span>
             </div>
             <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
-              Job descriptions are sent to Anthropic for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data. For sensitive roles, email sam@sam-rogers.com instead.
+              Job descriptions are sent to the configured cloud LLM provider for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data. For sensitive roles, email sam@sam-rogers.com instead.
             </p>
             <textarea
               value={jobDescription}
@@ -235,7 +235,7 @@ const FitAssessment = ({
               className="w-full bg-secondary rounded-xl p-4 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-none transition-colors disabled:opacity-50 resize-y font-mono leading-relaxed"
             />
             <span id="jd-privacy-note" className="sr-only">
-              Job descriptions are sent to Anthropic for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data.
+              Job descriptions are sent to the configured cloud LLM provider for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data.
             </span>
             <div className="flex items-center justify-between mt-3">
               <span className="text-xs text-muted-foreground">
@@ -313,7 +313,7 @@ const FitAssessment = ({
               <div className="flex items-center justify-center py-12">
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Reading the JD against 20+ years of track record...</span>
+                  <span>Reading the JD against 25 years of track record...</span>
                 </div>
               </div>
             )}

@@ -7,6 +7,8 @@ The site is designed for a staged hiring workflow:
 - Hiring manager: evaluate fit against an actual job description, including gaps, transferability, and interview probes.
 - Security, IT, and AI compliance reviewers: inspect the candidate's approach to AI-enabled product design, data minimization, prompt boundaries, evidence discipline, and operational controls.
 The product decision behind this repo is simple: if the resume claims AI governance, certification, human-AI collaboration, and responsible adoption experience, the resume itself should demonstrate those habits. The implementation favors narrow surfaces, explicit boundaries, minimal telemetry, and auditable source material over a generic chatbot wrapper.
+
+For the repo-level audience strategy, see [INTENT.md](INTENT.md). Short version: the web page serves recruiters at the top of the funnel, the interactive and agentic surfaces shape hiring-manager conversations in the middle, and the open repository exists so engineering, security, IT, compliance, and secondary-interview reviewers can inspect how the artifact works.
 ## Design Decisions
 ### Human-first, machine-readable second
 The homepage is the primary resume experience. It is interactive, visual, and optimized for human triage. It also includes no-JS fallback content and generated static crawl pages so LLMs, search crawlers, link unfurlers, and agentic tools can still read core facts without executing React.
@@ -53,6 +55,13 @@ This is risk reduction, not anonymization. The app explicitly warns users not to
 ### Public positioning and server-only context are separated
 Public surfaces avoid proactively marketing previous or overly narrow role positioning. Server-side prompts may still retain context needed to answer user-supplied role descriptions honestly. For example, if a pasted role explicitly asks about an AI officer-style scope, the model can assess transferable evidence and gaps without advertising that as Sam's current offer.
 This separation is a governance decision: public metadata should not solicit roles the candidate is not actively positioning for, while the LLM should not become less accurate when the user supplies legitimate context.
+### Target and company routing
+The default public resume is employer-neutral. Tailored application context is selected through two optional URL fields:
+```txt
+?target=content-ops&company=openai
+```
+`target` owns the positioning wedge: content operations, AI education, certification systems, or another durable job family. `company` owns only employer-specific context: label, referrer patterns, source role metadata, and application-specific prompt deltas. Either field may be used alone, but the durable strategy should live under `target`, not under a company name.
+The implementation lives in [src/lib/role-context.ts](src/lib/role-context.ts). Adding a new application should usually mean adding or reusing a target preset and, when needed, adding a company application entry. It should not require rewriting the homepage, public text artifacts, system prompt, chat questions, and tests by hand.
 ## What Was Used And Why
 - Vite: fast static frontend build with predictable output.
 - React: interactive resume surfaces, fit workflow, AI chat, and copy-ready sidebar.
@@ -60,7 +69,7 @@ This separation is a governance decision: public metadata should not solicit rol
 - Tailwind CSS: local design system with constrained, inspectable styling.
 - Radix Dialog: accessible modal foundation for the AI chat surface.
 - Vercel Functions: small server-side API endpoints for chat and fit analysis.
-- Anthropic Messages API: LLM responses for resume questions and structured job-description fit analysis.
+- Cloud LLM provider API: LLM responses for resume questions and structured job-description fit analysis. The current implementation uses Anthropic Messages API.
 - Upstash Redis: optional public-endpoint rate limiting with production fail-closed behavior.
 - PostHog: optional cookieless interaction analytics with autocapture disabled.
 - Vitest and Testing Library: unit, integration, public-surface, API-handler, and prompt-boundary test coverage.
@@ -69,7 +78,7 @@ The stack is intentionally ordinary. The point is not to hide behind an exotic a
 The app has four main surfaces:
 - Human resume: React-rendered homepage with hero, evidence, work history, fit assessment, booking/contact path, and AI chat.
 - Interview Decision Brief: desktop/tablet sidebar with recruiter and hiring-manager copy blocks, locally remembered state, and fit-result-aware updates.
-- API layer: `/api/chat` and `/api/analyze-fit`, both using Anthropic, rate limits, no-store responses, prompt boundaries, and `/api/limits` discovery.
+- API layer: `/api/chat` and `/api/analyze-fit`, both using the configured cloud LLM provider, rate limits, no-store responses, prompt boundaries, and `/api/limits` discovery.
 - Machine-readable artifacts: static crawl pages and public text/JSON resources for agents, LLMs, search systems, and scanners.
 Profile content is centralized in `src/data/sam-profile.ts` so the interactive app, static crawl pages, AI prompts, and machine-readable files stay aligned.
 ## Trust And Agent Interaction Standards
@@ -107,13 +116,13 @@ For normal page viewing:
 For AI chat:
 - The user's chat message is sent to `/api/chat`.
 - The API builds a bounded system prompt from public resume data and server-side role-context rules.
-- The message is sent to Anthropic.
+- The message is sent to the configured cloud LLM provider. The current production provider is Anthropic.
 - The app does not intentionally store chat messages.
 For fit assessment:
 - The user pastes a job description.
 - The browser can run a local deterministic review for business-sensitive terms.
 - Only the current reviewed textarea content is sent to `/api/analyze-fit`.
-- The API asks Anthropic for structured JSON with verdict, matches, gaps, transferability, and recommendation.
+- The API asks the configured cloud LLM provider for structured JSON with verdict, matches, gaps, transferability, and recommendation. The current production provider is Anthropic.
 - The result updates both the fit panel and Interview Decision Brief sidebar.
 - Editing the JD after analysis clears the tailored sidebar state so stale fit guidance is not reused.
 ## Privacy And Telemetry
@@ -143,7 +152,7 @@ Controls include:
 Important limits:
 - The business-context review is not anonymization.
 - The app is not a compliance certification system.
-- User-submitted text is sent to Anthropic when chat or fit assessment is used.
+- User-submitted text is sent to the configured cloud LLM provider when chat or fit assessment is used. The current production provider is Anthropic.
 - Visitors should not paste confidential, proprietary, regulated, or unreleased role data.
 ## Evidence Discipline
 The resume makes claims about certification scale, learning systems, AI adoption, compliance systems, PAICE, AI Posture, and governance-oriented work. Claims that need more context than a public page can carry are mapped in [EVIDENCE.md](EVIDENCE.md).
@@ -212,6 +221,7 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`
 - `npm run smoke:api`: live liveness and response-shape checks for `/api/chat` and `/api/analyze-fit`; set `EVAL_BASE_URL` as above. Both skip cleanly when no endpoint is reachable.
 The `.github/workflows/eval-live.yml` workflow runs `smoke:api` and `eval:prompts` automatically against each successful Vercel production deployment, via the `deployment_status` event the Vercel GitHub integration emits. Preview deployments are skipped because Vercel Deployment Protection answers their requests with 401, leaving the API unreachable without a bypass secret.
+Local note: `npm run dev` starts Vite and serves the frontend only. Use `vercel dev` or a deployed URL for `/api/chat`, `/api/analyze-fit`, `npm run smoke:api`, and `npm run eval:prompts`.
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*` and all other routes to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.
 ## Review Pointers

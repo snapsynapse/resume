@@ -17,7 +17,7 @@
     }
   },
   "privacy": {
-    "summary": "The fit assessment and chat endpoints receive user-supplied text for Anthropic analysis. Submitted text is not intentionally stored by this app. Users should not paste confidential, proprietary, regulated, or unreleased role data; they should email sensitive roles to sam@sam-rogers.com instead.",
+    "summary": "The fit assessment and chat endpoints receive user-supplied text for analysis by the configured cloud LLM provider. The current production provider is Anthropic. Submitted text is not intentionally stored by this app. Users should not paste confidential, proprietary, regulated, or unreleased role data; they should email sensitive roles to sam@sam-rogers.com instead.",
     "contact": "mailto:sam@sam-rogers.com"
   },
   "endpoints": [

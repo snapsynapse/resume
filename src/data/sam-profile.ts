@@ -3,22 +3,22 @@
 
 export const samProfile = {
   name: "Sam Rogers",
-  title: "Head of Content & Curriculum",
+  title: "AI-Enabled Content Systems Operator",
   // Rotated in the Hero. Forward-pointing roles only — the roles Sam wants,
   // not the ones he already holds (those are listed in Experience below).
   // First item renders pre-hydration, so put the strongest standalone target there.
   rotatingTitles: [
-    "Head of Content & Curriculum",
+    "AI-Enabled Content Systems Operator",
+    "Content & Systems Operations Lead",
     "AI Education Systems Lead",
-    "Curriculum Production Systems Lead",
-    "Certification & Learning Measurement Lead",
-    "Applied AI Education Lead",
+    "Customer Education Systems Lead",
+    "Certification & Assessment Systems Lead",
   ],
   subtitle:
-    "20+ years building curriculum, certification, media, and learning systems that move capability into practice. Currently building AI-enabled measurement and education infrastructure for human-AI collaboration, with a focus on adaptive learning, content production systems, and quality standards that evolve with the model.",
+    "25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. Currently building AI-enabled assessment and enablement infrastructure that turns AI capability into human capability.",
   location: "SF Bay Area · hybrid available",
   status:
-    "Focused on roles where AI education, content quality, curriculum systems, and learning measurement become core infrastructure.",
+    "Focused on roles where content operations, AI education, workflow quality, and measurement become durable operating systems.",
 
   links: {
     site: "https://sam-rogers.com/",
@@ -145,7 +145,8 @@ export const samProfile = {
   // Direct answers to questions a recruiter / hiring manager will ask in the first call.
   // Used by buildSystemPrompt to give AI grounded answers instead of hedging or improvising.
   //
-  // Disclosure threat model: every entry in this block is sent to a cloud LLM (Anthropic) as
+  // Disclosure threat model: every entry in this block is sent to a cloud LLM provider
+  // (currently Anthropic) as
   // part of the system prompt. Baseline assumption: nothing should be placed here that would be
   // harmful if it ended up disclosed. The block is gated to "ask-on-direct-question" via prompt
   // instructions, not by transport — treat it as semi-public, not private.
@@ -182,7 +183,7 @@ export const samProfile = {
     },
     {
       q: "How many direct reports has he had?",
-      a: "Two officially. The larger management signal is delivery leadership rather than formal W-2 headcount: for National 4-H Council work he managed learning and content production across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders. Across 20+ years he has also assembled and managed teams for migrations, development projects, educational initiatives, and creative works. Be explicit about the distinction: formal direct-report scale is limited; direct work orchestration is substantial.",
+      a: "Two officially. The larger management signal is delivery leadership rather than formal W-2 headcount: for National 4-H Council work he managed learning and content production across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders. Across 25 years he has also assembled and managed teams for migrations, development projects, educational initiatives, and creative works. Be explicit about the distinction: formal direct-report scale is limited; direct work orchestration is substantial.",
     },
     {
       q: "What level / comp band is he targeting?",
@@ -270,6 +271,12 @@ export const samProfile = {
         url: "https://snapsynapse.com/services/",
         pitch:
           "Productized consulting offerings via Snap Synapse LLC (independent consulting vehicle of more than two decades): Strategy Session, Custom Team Workshop, Build Sprint, L&D Ecosystem Engagement, and Siteline agent-readiness audit. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
+      },
+      {
+        title: "Harnessie",
+        url: "https://harnessie.com",
+        pitch:
+          "Brain-agnostic multi-agent harness from Snap Synapse LLC. Builds verification gates, quality control, and a tamper-evident audit trail into repeatable AI workflows. Mention when the inquiry is about AI workflow quality control, durable operating practice, or verification-oriented process design.",
       },
       {
         title: "AI Tool Watch",
@@ -447,16 +454,16 @@ export const samProfile = {
   systemPrompt: `You are helping people evaluate Sam Rogers as a candidate, partner, or collaborator. Hiring managers, recruiters, investors, and prospective clients are the primary audience.
 
 WHO SAM IS
-Sam has 20+ years building curriculum, certification, media, and learning systems that move capability into practice. He is founder & CEO of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
+Sam has 25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. He is founder of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
 
 THE THESIS (load-bearing context)
 Sam believes the window for building open, vendor-neutral measurement infrastructure for human-AI collaboration is 18–36 months. The PAICE portfolio is his bet against the scenario where every cloud provider ships its own readiness rubric, none of them comparable, all of them flattering. Three commercial products (PAICE.work, Siteline, Every AI Law) anchor three measurement vectors (people, infrastructure, regulation) and roll up to one open governance score called AI Posture. Eleven open contributions sit alongside. The protocol stays open; revenue sits on top.
 
 THE OPERATOR PATTERN
-The track record across 20+ years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
+The track record across 25 years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
 
-ANTHROPIC CONTEXT (use when relevant)
-Sam is currently evaluating Anthropic's Head of Content & Curriculum, Education role. Treat it as head-of-function shaped rather than assuming Director-level internal scope. The role spans education content for developers, consumers, enterprise admins, and the general public; AI-assisted content production systems; quality bar and human craft boundaries; adaptive and personalized learning; and measurement of whether content actually teaches. Sam's strongest case is as a builder/operator for AI education systems: YouTube Certified for certification, video, assessment, and LMS scale; National 4-H Council for university-partner and vendor production orchestration; Convatec for content simplification, measurement, OHI, and AI adoption; PAICE for adaptive behavioral simulation, AI Posture, and AI-assisted workflows; and Signals & Subtractions / published work for visible editorial cadence and taste.
+DEFAULT POSITIONING
+Sam builds systems that turn AI capability into human capability. Default public positioning should stay employer-neutral: content operations, AI education systems, curriculum and certification infrastructure, assessment design, workflow quality, and learning measurement. Employer-specific slants belong in role-context presets, not in the durable profile.
 
 CORE INSTRUCTIONS
 - Be specific. Use actual details from his experience, not generic language.
@@ -472,7 +479,7 @@ WHAT SAM EXPLICITLY DOESN'T WANT
 HOW TO HANDLE COMMON QUESTIONS
 - "Is he a fit for X?" → Match the role to his actual track record. Name the gaps.
 - "What's PAICE?" → Three commercial products funding eleven open contributions, all serving the open-measurement thesis.
-- "Why is he applying to Anthropic?" → Alignment is human-systems work at the operational layer. He wants to build the muscle memory inside the lab whose work is shaping what the rest of the field measures.
+- "Why is he applying to a lab or AI company?" → Alignment is human-systems work at the operational layer. He wants to build the muscle memory inside institutions whose work is shaping what the rest of the field measures.
 - "Tell me about a failure" → Share one of the two documented stories with the actual situation, what most people would have done, and the lesson Sam now acts on.
 
 VOICE — how Sam writes and speaks externally
@@ -508,9 +515,9 @@ VOICE SAMPLE — camera monologue, April 2026. Don't quote verbatim unless asked
 
 // Fallback responses if the API is down. Used as last resort by AIChat.
 export const demoResponses = {
-  default: `Sam's strongest fit signal is the operator pattern across 20+ years: he built the YouTube Certified Online Training Program at Google by sequencing assessment-first across curriculum, video, certification exam, and LMS; managed National 4-H Council learning/content production across dozens of university partners and delivery vendors; raised Convatec's Organizational Health Index for Innovation & Learning from 48 to 74 in 18 months by treating it as a perception problem before a curriculum problem; and productized the Agent-Readiness Audit consulting service into Siteline by finding the seam between repeatable analysis and judgment-dependent interpretation.
+  default: `Sam's strongest fit signal is the operator pattern across 25 years: he built the YouTube Certified Online Training Program at Google by sequencing assessment-first across curriculum, video, certification exam, and LMS; managed National 4-H Council learning/content production across dozens of university partners and delivery vendors; raised Convatec's Organizational Health Index for Innovation & Learning from 48 to 74 in 18 months by treating it as a perception problem before a curriculum problem; and productized the Agent-Readiness Audit consulting service into Siteline by finding the seam between repeatable analysis and judgment-dependent interpretation.
 
-For Head of Content & Curriculum, AI education systems, certification, or measurement-infrastructure roles, the case is direct: he has shipped cross-format curriculum and media production, AI-enabled learning at scale, and open assessment infrastructure that turns quality standards into repeatable workflows. The PAICE portfolio is the bet he's making against captured measurement layers; the resume is the track record that says he can build it.
+For content operations, AI education systems, certification, or measurement-infrastructure roles, the case is direct: he has shipped cross-format curriculum and media production, AI-enabled learning at scale, and open assessment infrastructure that turns quality standards into repeatable workflows. The PAICE portfolio is the bet he's making against captured measurement layers; the resume is the track record that says he can build it.
 
 Gap to probe: he is not the person who will write your production infrastructure. He treats AI-assisted development as a force multiplier with judgment on the seams. If you need a senior engineer who owns infrastructure end-to-end, that is the staffing he is explicitly looking for in his own portfolio.`,
 
@@ -522,13 +529,19 @@ These three roll up to AI Posture: one open governance framework that synthesize
 
 Currently pre-revenue, pre-seed, with Snap Synapse covering operating costs until the seed round closes. PBC by structure, not as marketing.`,
 
-  anthropic: `Sam sees AI education as a human-systems problem at the operational layer. The constitutional scaffolding, interpretability research, and safety training are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust Claude's answer enough to send it to a client. That is where alignment either holds or fails — and that is the layer Sam has spent 20+ years working at.
+  anthropic: `Sam sees AI education as a human-systems problem at the operational layer. The constitutional scaffolding, interpretability research, and safety training are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust Claude's answer enough to send it to a client. That is where alignment either holds or fails — and that is the layer Sam has spent 25 years working at.
 
 He has spent the last year leading a public benefit corporation that ships open infrastructure for evaluating how organizations actually collaborate with AI. What he learned building it is what he would bring to Anthropic's education work: that AI fluency is behavioral, not knowledge-tested; that trust calibrates through use, not training; that quality standards have to survive AI-assisted production; and that the window for establishing sound internal practice closes before most orgs notice it is open.
 
 For the Head of Content & Curriculum, Education role, the most relevant proof is YouTube Certified for certification, video, assessment, and LMS scale; National 4-H Council for university-partner and vendor production orchestration; Convatec for content simplification, measurement, OHI, and AI adoption; PAICE for adaptive behavioral simulation and AI-assisted quality workflows; and Signals & Subtractions for visible editorial cadence.
 
 His own framing: "I would rather build the muscle memory inside the lab whose work is shaping what the rest of us measure than continue measuring it from outside."`,
+
+  openaiContentOps: `Sam's strongest OpenAI content-operations case is that he builds the operating system behind education at scale: portfolio health, operating rhythm, governance, discoverability, reuse, handoffs, and quality control.
+
+The proof is concrete. PAICE is a 12-plus project content-and-systems operating system run by a single operator, with daily publishing, reusable standards, AI-assisted scoring workflows, and portfolio governance across PAICE.work, Siteline, Every AI Law, and AI Posture. YouTube Certified scaled a content-and-credential portfolio from about 1,000 partners per year to about 10,000 in year one. National 4-H Council required a shared production system across dozens of university partners. Convatec streamlined content offerings by 90% while increasing utilization and delivery speed.
+
+For OpenAI's Customer Education, Content and Systems Operations Lead role, the match is strongest around operating rhythm, content lifecycle, cross-functional translation, AI-enabled automation, and quality control. Gap to probe: he is not a deep production platform engineer. He is the operator who defines the system, holds the handoffs, designs the quality bar, and knows where specialist engineering support should own the substrate.`,
 
   failure: `The cleanest documented one: Sam got fired (circa 2013) for refusing to ship a compliance course as pure liability theater. The client wanted a checkbox. Sam pushed back that a course that wouldn't change behavior was an institutional CYA maneuver dressed as L&D, and asked them to either fix the design or own it as a legal artifact rather than call it training. They picked someone else; he held the line and lost the engagement.
 

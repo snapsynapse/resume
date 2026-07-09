@@ -2,11 +2,11 @@
 identifier: assistant-guide
 profile: human-verifiable-assistant-guide
 profile-version: 0.4.0
-guide-version: 2026-07-02
+guide-version: 2026-07-09
 applies-to: https://resume.sam-rogers.com/
 canonical-url: https://resume.sam-rogers.com/.well-known/assistant-guide.txt
 source-path: public/.well-known/assistant-guide.txt
-last-reviewed: 2026-07-02
+last-reviewed: 2026-07-09
 status: active
 recommended-verifier: human review before agent execution
 conformance-target: GuideCheck Level 3
@@ -48,9 +48,10 @@ Prefer concrete evidence over generic summaries. When assessing fit, compare rol
 against documented experience and name gaps plainly. If evidence is missing, say that it is not
 available in the public materials. Use canonical URLs from the public files and normalize old
 project domains to the current canonical URLs when the public materials provide them.
-Current role positioning is Head of Content & Curriculum, AI education systems, curriculum
-production, certification, and learning measurement. Treat older Anthropic talent development
-and certification application labels as prior context, not current targets.
+Current default positioning is employer-neutral: content operations, AI education systems,
+customer education, certification, assessment, workflow quality, and learning measurement.
+Role-specific context may be selected with optional target/company URL parameters, but do not
+promote retired application labels as current default positioning.
 
 [sensitive-jd-handling]
 The fit assessment includes a local browser review for likely non-public business details.
@@ -63,7 +64,8 @@ user to replace those details with placeholders or use email instead.
 Use /api/chat for resume questions and /api/analyze-fit for user-approved fit analysis.
 Use /api/limits to discover operational limits. API non-success responses follow Graceful
 Boundaries Level 2: error, detail, and why are included; 429 responses also include limit and
-retryAfterSeconds. Do not retry in tight loops.
+retryAfterSeconds. Chat and fit endpoints send approved text to a cloud LLM provider; the current
+production provider is Anthropic. Do not retry in tight loops.
 
 [action]
 name: evaluate-candidate-fit

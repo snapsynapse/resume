@@ -174,7 +174,7 @@ describe("API validation", () => {
     expect(anthropicMocks.create).not.toHaveBeenCalled();
   });
 
-  it("streams chat text from Anthropic", async () => {
+  it("streams chat text from the configured provider", async () => {
     anthropicMocks.stream.mockReturnValue(
       (async function* () {
         yield {
@@ -277,7 +277,7 @@ describe("API validation", () => {
     });
   });
 
-  it("fails closed when Anthropic is not configured", async () => {
+  it("fails closed when the model provider is not configured", async () => {
     vi.stubEnv("ANTHROPIC_API_KEY", "");
 
     const res = await handleAnalyzeFitRequest(

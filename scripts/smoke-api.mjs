@@ -57,11 +57,11 @@ try {
   const res = await fetch(`${baseUrl}/api/analyze-fit`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      jobDescription:
-        "Head of Content & Curriculum role: build AI-assisted content workflows, preserve a high quality bar, design adaptive learning experiences, measure whether content teaches, and coordinate curriculum across docs, video, workshops, and interactive products.",
-    }),
-  });
+      body: JSON.stringify({
+        jobDescription:
+        "Content operations role: own content portfolio health, lifecycle governance, discoverability, reuse, AI-assisted workflow quality, scalable handoffs, and measurement of whether customer education content changes capability.",
+      }),
+    });
   const body = await res.text();
   if (!res.ok) {
     fail("POST /api/analyze-fit returns 200", `HTTP ${res.status}: ${body.slice(0, 200)}`);

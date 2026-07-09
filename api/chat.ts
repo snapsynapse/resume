@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile.js";
+import { composeRoleContext, type RoleSelection } from "../src/lib/role-context.js";
 import { explicitAiOfficerContext } from "./explicit-role-context.js";
 import {
   ANTHROPIC_MODEL,
@@ -47,7 +48,8 @@ interface ChatMessage {
   content: string;
 }
 
-function buildSystemPrompt(roleContext: string | null): string {
+function buildSystemPrompt(roleSelection: RoleSelection, legacyRoleContext: string | null): string {
+  const activeRoleContext = composeRoleContext(roleSelection);
   const experienceContext = samProfile.experience
     .map(
       (e) => `
@@ -118,8 +120,10 @@ ${samProfile.publicArtifacts.paicePortfolio.map((p) => `- ${p.name} [${p.categor
 - Founder monologues: ${samProfile.publicArtifacts.archives.youtube.url} — ${samProfile.publicArtifacts.archives.youtube.note}`
     : "";
 
-  const roleBlock = roleContext
-    ? `\n=== VISITOR CONTEXT ===\nThe person asking these questions appears to be evaluating Sam for a role at: ${roleContext}.\nWhen they ask fit questions, use the ANTHROPIC CONTEXT block in the base prompt above to give role-specific answers. Lead with concrete evidence from his track record before any framing.\n`
+  const roleBlock = activeRoleContext
+    ? `\n=== VISITOR CONTEXT ===\nThe person asking these questions appears to be evaluating Sam in this context: ${activeRoleContext.label}.\n${activeRoleContext.promptContext}\nWhen they ask fit questions, lead with concrete evidence from Sam's track record before any framing. Keep the answer honest about gaps.\n`
+    : legacyRoleContext
+      ? `\n=== VISITOR CONTEXT ===\nThe person asking these questions appears to be evaluating Sam for a role at: ${legacyRoleContext}.\nWhen they ask fit questions, lead with concrete evidence from Sam's track record before any framing. Keep the answer honest about gaps.\n`
     : "";
 
   return `${samProfile.systemPrompt}
@@ -215,7 +219,11 @@ export async function handleChatRequest(req: Request): Promise<Response> {
     }
   }
 
-  let body: { messages?: ChatMessage[]; roleContext?: string | null };
+  let body: {
+    messages?: ChatMessage[];
+    roleSelection?: RoleSelection;
+    roleContext?: string | null;
+  };
   try {
     body = await req.json();
   } catch {
@@ -254,7 +262,7 @@ export async function handleChatRequest(req: Request): Promise<Response> {
     }
   }
 
-  const systemPrompt = buildSystemPrompt(body.roleContext ?? null);
+  const systemPrompt = buildSystemPrompt(body.roleSelection ?? {}, body.roleContext ?? null);
 
   try {
     const client = getAnthropicClient();

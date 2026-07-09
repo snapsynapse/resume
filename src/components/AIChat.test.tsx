@@ -12,13 +12,23 @@ describe("AIChat", () => {
   afterEach(() => {
     vi.clearAllMocks();
     vi.restoreAllMocks();
+    window.history.pushState({}, "", "/");
   });
 
   it("renders suggested recruiter questions", () => {
     render(<AIChat isOpen onClose={() => {}} />);
 
     expect(screen.getByText("Ask AI About Sam")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Head of Content & Curriculum role/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /content operations or AI education systems role/i })).toBeInTheDocument();
+  });
+
+  it("renders target and company specific questions", () => {
+    window.history.pushState({}, "", "/?target=content-ops&company=openai");
+
+    render(<AIChat isOpen onClose={() => {}} />);
+
+    expect(screen.getByText(/Here about OpenAI - Customer Education/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /OpenAI's Customer Education/i })).toBeInTheDocument();
   });
 
   it("labels sample responses when the live endpoint fails", async () => {
@@ -45,7 +55,7 @@ describe("AIChat", () => {
 
     render(<AIChat isOpen onClose={() => {}} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /Head of Content & Curriculum role/i }));
+    fireEvent.click(screen.getByRole("button", { name: /content operations or AI education systems role/i }));
 
     await waitFor(() => {
       expect(screen.getByText("Sam matches this role.")).toBeInTheDocument();

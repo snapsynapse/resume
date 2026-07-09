@@ -15,23 +15,23 @@
 
 ## Summary
 
-Sam Rogers has 20+ years building curriculum, certification, media, and learning systems that move capability into practice. He currently builds AI-enabled measurement and education infrastructure through PAICE.work PBC, a public benefit corporation, and runs Snap Synapse LLC as the independent consulting practice of more than two decades that has funded and shaped this work.
+Sam Rogers has 25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. He currently builds AI-enabled assessment and enablement infrastructure through PAICE.work PBC, a public benefit corporation, and runs Snap Synapse LLC as the independent consulting practice of more than two decades that has funded and shaped this work.
 
 ## Why roles now
 
 The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.
 
-PAICE.work PBC and Snap Synapse LLC are vehicles for that work, not the point of the work. They exist because the next phase of AI education, curriculum systems, content quality, learning measurement, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
+PAICE.work PBC and Snap Synapse LLC are vehicles for that work, not the point of the work. They exist because the next phase of AI education, content operations, workflow quality, learning measurement, and organizational capability needs practical measurement infrastructure. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
 
-Sam is open to roles where the work advances Aggregated Intelligence at speed and scale: content and curriculum systems, AI education, certification, adaptive learning, behavioral measurement, or governance infrastructure that helps people and AI collaborate more safely in practice.
+Sam is open to roles where the work advances Aggregated Intelligence at speed and scale: content operations, AI education, certification, adaptive learning, behavioral measurement, workflow quality, or governance infrastructure that helps people and AI collaborate more safely in practice.
 
-## Current target roles
+## Current target lanes
 
-- Head of Content & Curriculum
+- AI-enabled content systems
+- Content and systems operations
 - AI Education Systems Lead
-- Curriculum Production Systems Lead
-- Certification & Learning Measurement Lead
-- Applied AI Education Lead
+- Customer education systems
+- Certification and assessment systems
 
 ## Education and certifications
 
@@ -47,7 +47,7 @@ Learning and Development, Instructional Design, Curriculum Development, Content 
 
 ## Status
 
-Open to head-of-function, senior lead, or builder/operator roles where AI education, content quality, curriculum systems, and learning measurement become core infrastructure.
+Open to senior lead or builder/operator roles where content operations, AI education, workflow quality, certification, assessment, and learning measurement become durable operating systems.
 
 ## Core evidence
 
@@ -65,6 +65,7 @@ Open to head-of-function, senior lead, or builder/operator roles where AI educat
 - Replaced a classroom certification program that certified about 1,000 partners per year with an online program reaching about 10,000 in year one.
 - Owned scripting, direction, production, post-production, certification exam, and LMS standup.
 - The assessment-first sequencing from that 2013 build (design the test, then work backward through curriculum, production, LMS) is the same operating pattern running PAICE.work and AI Posture today.
+- Shipped Harnessie, a brain-agnostic multi-agent harness that builds verification gates, quality control, and a tamper-evident audit trail into repeatable AI workflows.
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
 - Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.
 - Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.
@@ -83,6 +84,9 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 ## Strengths
 
 - Content and curriculum production systems
+- Content portfolio governance and lifecycle
+- Program operating rhythm
+- Knowledge management and discoverability
 - AI-assisted content workflows
 - Editorial and learning-quality standards
 - Cross-format learning design: written, video, interactive, workshops
@@ -96,6 +100,7 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 - Developer education and technical enablement
 - Manager and leader development
 - Agentic tooling infrastructure using local LLMs and multi-model orchestration
+- AI workflow quality control and verification gates
 - End-to-end video production from pre-production through distribution and DRM
 - Cross-functional translation between engineering, legal, sales, support, operations, and community
 - Productizing consulting offerings
@@ -110,12 +115,13 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 
 ## Gaps to name plainly
 
-Sam is not the deep production-infrastructure engineer, not an ML research or applied-scientist contributor, and not a fit for mature-org roles where the main job is maintaining a large established department. He is strongest in head-of-function, senior lead, or builder/operator roles where the work is standing up or transforming learning, content, certification, AI education, and measurement systems. For roles requiring steady-state maintenance of mature, established L&D functions or full-time backend platform ownership, evaluate transferability carefully.
+Sam is not the deep production-infrastructure engineer, not an ML research or applied-scientist contributor, and not a fit for mature-org roles where the main job is maintaining a large established department. He is strongest in senior lead or builder/operator roles where the work is standing up or transforming content operations, education, certification, AI-enabled workflows, assessment, and measurement systems. For roles requiring steady-state maintenance of mature, established L&D functions or full-time backend platform ownership, evaluate transferability carefully.
 
 ## Portfolio map
 
 - PAICE Portfolio: https://paice.foundation/ - canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.
 - Snap Synapse tools: https://snapsynapse.com/tools/ - tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.
+- Harnessie: https://harnessie.com/ - Snap Synapse tool for repeatable AI workflow quality control, verification gates, and tamper-evident audit trails.
 - GitHub profile: https://github.com/snapsynapse - additional repositories and experiments not necessarily listed in either portfolio surface.
 - PAICE.work: https://paice.work/ - adaptive behavioral simulator scoring AI collaboration across five dimensions.
 - Siteline: https://siteline.to/ - agent-usability scanner for websites.

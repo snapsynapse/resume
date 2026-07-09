@@ -3,7 +3,12 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X, Send, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { demoResponses } from "@/data/sam-profile";
-import { detectRoleContext } from "@/lib/anthropic-detect";
+import {
+  composeRoleContext,
+  detectRoleSelection,
+  type ActiveRoleContext,
+  type RoleSelection,
+} from "@/lib/role-context";
 import { track } from "@/lib/analytics";
 import { lengthBucket } from "@/lib/jd-review";
 
@@ -20,24 +25,23 @@ interface AIChatProps {
 type ChatMode = "live" | "sample" | null;
 
 const defaultSuggestedQuestions = [
-  "Would Sam be a fit for a Head of Content & Curriculum role at a frontier AI lab?",
+  "Would Sam be a fit for a content operations or AI education systems role?",
   "What's PAICE and why is it structured as a PBC?",
-  "Why is Sam applying to Anthropic specifically?",
+  "How does Sam turn AI capability into human capability?",
   "Tell me about a time the obvious approach would have failed.",
 ];
 
-const anthropicSuggestedQuestions = [
-  "If hired at Anthropic, what would happen to PAICE?",
-  "Is Sam a fit for Head of Content & Curriculum, Education?",
-  "How would Sam use AI without lowering the content quality bar?",
-  "When could Sam start, and is he open to relocating?",
-];
-
 // Fallback router used when /api/chat is unavailable (local `vite` dev without `vercel dev`, or upstream failure).
-const fallbackResponse = (question: string): string => {
+const fallbackResponse = (question: string, roleContext: ActiveRoleContext | null): string => {
+  if (roleContext?.demoResponseKey && roleContext.demoResponseKey in demoResponses) {
+    return demoResponses[roleContext.demoResponseKey];
+  }
   const q = question.toLowerCase();
   if (q.includes("anthropic") || q.includes("frontier") || q.includes("claude")) {
     return demoResponses.anthropic;
+  }
+  if (q.includes("openai") || q.includes("content ops") || q.includes("content operations")) {
+    return demoResponses.openaiContentOps;
   }
   if (q.includes("paice") || q.includes("portfolio") || q.includes("pbc")) {
     return demoResponses.paice;
@@ -54,12 +58,15 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [streamingText, setStreamingText] = useState("");
-  const [roleContext, setRoleContext] = useState<string | null>(null);
+  const [roleSelection, setRoleSelection] = useState<RoleSelection>({});
+  const [roleContext, setRoleContext] = useState<ActiveRoleContext | null>(null);
   const [chatMode, setChatMode] = useState<ChatMode>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setRoleContext(detectRoleContext());
+    const selection = detectRoleSelection();
+    setRoleSelection(selection);
+    setRoleContext(composeRoleContext(selection));
   }, []);
 
   useEffect(() => {
@@ -70,7 +77,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: history, roleContext }),
+      body: JSON.stringify({ messages: history, roleSelection }),
     });
 
     // Rate-limit / error path: server returns JSON with structured error body, not a stream.
@@ -108,7 +115,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     const source = messages.length === 0 ? "initial" : "follow_up";
     track("ai_chat_message_sent", {
       source,
-      roleContext: roleContext ?? "none",
+      roleContext: roleContext?.label ?? "none",
       lengthBucket: lengthBucket(question.length),
     });
     const nextHistory: Message[] = [
@@ -141,7 +148,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
         ...prev,
         {
           role: "assistant",
-          content: `Sample response because the live AI endpoint is unavailable:\n\n${fallbackResponse(question)}`,
+          content: `Sample response because the live AI endpoint is unavailable:\n\n${fallbackResponse(question, roleContext)}`,
         },
       ]);
     }
@@ -170,7 +177,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
                 {chatMode === "sample"
                   ? "Sample mode: live AI unavailable"
                   : roleContext
-                    ? `Tuned for: ${roleContext}`
+                    ? `Tuned for: ${roleContext.label}`
                     : "Ready to answer your questions"}
               </p>
             </div>
@@ -196,7 +203,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
               <Sparkles className="w-12 h-12 text-accent mb-4" />
               <h3 className="text-xl font-serif text-foreground mb-2">
                 {roleContext
-                  ? `Here about ${roleContext}?`
+                  ? `Here about ${roleContext.label}?`
                   : "What would you like to know?"}
               </h3>
               <p className="text-muted-foreground text-sm mb-6 max-w-md">
@@ -205,7 +212,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
                   : "Ask specific questions about Sam's experience, skills, or fit for your role. Get honest, detailed answers."}
               </p>
               <div className="w-full max-w-md space-y-2">
-                {(roleContext ? anthropicSuggestedQuestions : defaultSuggestedQuestions).map((q, i) => (
+                {(roleContext ? roleContext.suggestedQuestions : defaultSuggestedQuestions).map((q, i) => (
                   <button
                     key={i}
                     onClick={() => handleSubmit(q)}

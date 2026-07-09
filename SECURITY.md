@@ -21,7 +21,7 @@ Please include:
 | `/api/analyze-fit` | Compare a pasted job description against Sam's profile. | None | Pasted job description. | No intentional storage by this app. |
 | `/api/limits` | Publish machine-readable API limit discovery. | None | None. | No user-submitted data. |
 
-The two AI-backed endpoints send user-supplied text to Anthropic for analysis. Visitors should not submit confidential, proprietary, regulated, or unreleased role data.
+The two AI-backed endpoints send user-supplied text to the configured cloud LLM provider for analysis. The current production provider is Anthropic. Visitors should not submit confidential, proprietary, regulated, or unreleased role data.
 
 ## Job description business context review
 
@@ -31,7 +31,7 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 
 ## Production controls
 
-- Model selection is explicit through `ANTHROPIC_MODEL`, defaulting to `claude-opus-4-8`.
+- Model selection is explicit through provider configuration. The current Anthropic implementation uses `ANTHROPIC_MODEL`, defaulting to `claude-opus-4-8`.
 - API keys are server-side only and must never use a `VITE_` prefix.
 - Request bodies are bounded by character limits before upstream model calls.
 - Chat history is capped at 20 turns.
@@ -58,7 +58,7 @@ Current boundaries:
 
 Future hardening:
 
-- Run `npm run eval:prompts` in CI against a staging deployment with `ANTHROPIC_API_KEY`.
+- Run `npm run eval:prompts` in CI against a staging deployment with the configured provider key.
 - Add regression cases for claims inflation, false credential requests, and malicious job descriptions.
 - Add structured refusal fields to fit assessment output for clearly abusive or irrelevant inputs.
 - Add request-level abuse monitoring that records counts and outcomes without storing submitted text.

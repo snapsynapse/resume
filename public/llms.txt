@@ -1,6 +1,6 @@
 # Sam Rogers Resume
 
-> AI-queryable resume for Sam Rogers. 20+ years building curriculum, certification, media, and learning systems that move capability into practice, currently building AI-enabled measurement and education infrastructure.
+> AI-queryable resume for Sam Rogers. 25 years building curriculum, certification, media, content operations, and learning systems that turn AI capability into human capability.
 
 ## Canonical URLs
 
@@ -14,7 +14,7 @@
 
 ## Who this site is about
 
-Sam Rogers has 20+ years building curriculum, certification, media, and learning systems that move capability into practice. He currently builds AI-enabled measurement and education infrastructure through PAICE.work PBC, a public benefit corporation, and runs Snap Synapse LLC as an independent consulting practice of more than two decades. The consulting work covers technical enablement, certification, curriculum, media, and learning systems for organizations including Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, and Convatec.
+Sam Rogers has 25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. He currently builds AI-enabled assessment and enablement infrastructure through PAICE.work PBC, a public benefit corporation, and runs Snap Synapse LLC as an independent consulting practice of more than two decades. The consulting work covers technical enablement, certification, curriculum, media, content operations, AI workflow quality, and learning systems for organizations including Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, and Convatec.
 
 ## Why roles now
 
@@ -22,13 +22,13 @@ The obvious question is why someone already running PAICE.work PBC and Snap Syna
 
 PAICE.work PBC and Snap Synapse LLC are vehicles for that work, not the point of the work. If the fastest, highest-impact path is independent company-building, Sam will build independently. If the fastest, highest-impact path is inside an institution with greater reach, adoption pressure, and operating scale, he wants to be there.
 
-## Role targets
+## Target lanes
 
-- Head of Content & Curriculum
+- AI-enabled content systems
+- Content and systems operations
 - AI Education Systems Lead
-- Curriculum Production Systems Lead
-- Certification & Learning Measurement Lead
-- Applied AI Education Lead
+- Customer education systems
+- Certification and assessment systems
 
 ## Education and certifications
 
@@ -48,16 +48,19 @@ Learning and Development, Instructional Design, Curriculum Development, Content 
 - Built the YouTube Certified Online Training Program at Google, replacing a classroom certification model (~1,000 partners/year) with a scalable online program (~10,000 in year one). 10x scaling at lower marginal cost across video, assessment, curriculum, and LMS delivery.
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
 - Raised Convatec's Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.
+- Streamlined Convatec content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
 - Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration, regulation, and agent-readiness.
+- Shipped Harnessie as repeatable AI workflow quality control with verification gates and a tamper-evident audit trail.
 - Productized agent-readiness consulting into Siteline while preserving higher-judgment advisory work for paid assessment paths.
 
 ## Portfolio surfaces
 
 - [PAICE Portfolio](https://paice.foundation/)
 - [Snap Synapse tools](https://snapsynapse.com/tools/)
+- [Harnessie](https://harnessie.com/)
 - [GitHub profile](https://github.com/snapsynapse)
 
-Use https://paice.foundation/ as the canonical map for PAICE public benefit corporation work. Use https://snapsynapse.com/tools/ for Snap Synapse tools and applied consulting artifacts. Use GitHub for additional repositories and experiments not listed in either portfolio surface.
+Use https://paice.foundation/ as the canonical map for PAICE public benefit corporation work. Use https://snapsynapse.com/tools/ and https://harnessie.com/ for Snap Synapse tools and applied consulting artifacts. Use GitHub for additional repositories and experiments not listed in either portfolio surface.
 
 ## Public next steps
 
