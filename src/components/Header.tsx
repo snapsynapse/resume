@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { MouseEvent } from "react";
-import { Download, Menu, Printer, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 
@@ -69,20 +69,6 @@ const Header = ({ onOpenChat }: HeaderProps) => {
     }
   };
 
-  // Reuse the typed nav_section_clicked event (analytics.ts owns the closed event
-  // union) and distinguish these header actions via the section property.
-  const handlePrint = () => {
-    setMobileMenuOpen(false);
-    track("nav_section_clicked", { section: "print" });
-    if (typeof window !== "undefined") {
-      window.print();
-    }
-  };
-
-  const handleDownload = () => {
-    track("nav_section_clicked", { section: "resume-download" });
-  };
-
   const handleOpenBrief = () => {
     setMobileMenuOpen(false);
     track("nav_section_clicked", { section: "interview-brief" });
@@ -134,23 +120,6 @@ const Header = ({ onOpenChat }: HeaderProps) => {
           >
             Contact
           </a>
-          <a
-            href="/resume.txt"
-            download
-            onClick={handleDownload}
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Download className="w-4 h-4" aria-hidden="true" />
-            Resume
-          </a>
-          <button
-            type="button"
-            onClick={handlePrint}
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <Printer className="w-4 h-4" aria-hidden="true" />
-            Print / PDF
-          </button>
           <button
             onClick={handleAskAI}
             className="text-sm px-4 py-2 bg-accent text-accent-foreground rounded-full hover:opacity-90 transition-opacity"
@@ -202,23 +171,6 @@ const Header = ({ onOpenChat }: HeaderProps) => {
               className="block w-full text-left text-muted-foreground hover:text-foreground transition-colors"
             >
               Interview brief
-            </button>
-            <a
-              href="/resume.txt"
-              download
-              onClick={handleDownload}
-              className="flex w-full items-center gap-2 text-left text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Download className="w-4 h-4" aria-hidden="true" />
-              Download resume
-            </a>
-            <button
-              type="button"
-              onClick={handlePrint}
-              className="flex w-full items-center gap-2 text-left text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Printer className="w-4 h-4" aria-hidden="true" />
-              Print / PDF
             </button>
             <button
               onClick={handleAskAI}

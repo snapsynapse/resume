@@ -209,6 +209,19 @@
     transition: none !important;
   }
 
+  /* Entrance animations normally carry elements from opacity-0 to visible via a
+   * forwards fill. With animations disabled above, the base opacity-0 class wins
+   * and whole sections print blank. Force them visible and unshifted. */
+  .opacity-0 {
+    opacity: 1 !important;
+  }
+
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-slide-down {
+    transform: none !important;
+  }
+
   html {
     scroll-behavior: auto;
   }

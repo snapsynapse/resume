@@ -301,7 +301,7 @@ interface BriefBodyProps {
   copiedBlock: BriefBlock | null;
   onCopyAll: () => void;
   onCopyBlock: (block: CopyBlock) => void;
-  expandedBlock: BriefBlock | null;
+  collapsedBlocks: ReadonlySet<BriefBlock>;
   onToggleBlock: (id: BriefBlock) => void;
   headerControl: ReactNode;
 }
@@ -315,7 +315,7 @@ const BriefBody = ({
   copiedBlock,
   onCopyAll,
   onCopyBlock,
-  expandedBlock,
+  collapsedBlocks,
   onToggleBlock,
   headerControl,
 }: BriefBodyProps) => (
@@ -375,7 +375,7 @@ const BriefBody = ({
 
     <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
       {blocks.map((block) => {
-        const expanded = expandedBlock === block.id;
+        const expanded = !collapsedBlocks.has(block.id);
         const contentId = `decision-brief-content-${block.id}`;
         return (
           <div
@@ -430,7 +430,7 @@ const BriefBody = ({
               id={contentId}
               className={cn(
                 "relative mt-2 overflow-hidden transition-[max-height] duration-300 ease-out",
-                expanded ? "max-h-80" : "max-h-10",
+                expanded ? "max-h-[40rem]" : "max-h-10",
               )}
             >
               <ul className="space-y-1.5 pb-1">
@@ -464,7 +464,10 @@ const DecisionBriefSidebar = ({
   const [collapsed, setCollapsed] = useState(readInitialCollapsed);
   const [mode, setMode] = useState<BriefMode>(readInitialMode);
   const [copiedBlock, setCopiedBlock] = useState<BriefBlock | null>(null);
-  const [expandedBlock, setExpandedBlock] = useState<BriefBlock | null>(null);
+  // Blocks render expanded by default; this tracks the ones a user has folded.
+  const [collapsedBlocks, setCollapsedBlocks] = useState<Set<BriefBlock>>(
+    () => new Set(),
+  );
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -493,8 +496,21 @@ const DecisionBriefSidebar = ({
     return mode === "recruiter" ? recruiterBlocks : hiringManagerBlocks;
   }, [fitResult, mode]);
 
+  // When the block list changes (mode switch, fit result), start expanded again.
+  useEffect(() => {
+    setCollapsedBlocks(new Set());
+  }, [mode, fitResult]);
+
   const toggleBlock = (id: BriefBlock) =>
-    setExpandedBlock((current) => (current === id ? null : id));
+    setCollapsedBlocks((current) => {
+      const next = new Set(current);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
 
   const copyBlock = async (block: CopyBlock) => {
     await copyToClipboard(blockText(block));
@@ -525,7 +541,7 @@ const DecisionBriefSidebar = ({
     copiedBlock,
     onCopyAll: copyAll,
     onCopyBlock: copyBlock,
-    expandedBlock,
+    collapsedBlocks,
     onToggleBlock: toggleBlock,
   };
 

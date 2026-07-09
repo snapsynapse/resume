@@ -82,34 +82,39 @@ describe("DecisionBriefSidebar", () => {
     const copyButton = screen.getByRole("button", { name: "Copy recruiter summary" });
     expect(copyButton).toHaveClass("cursor-copy");
 
-    // Content is collapsed by default and revealed by an explicit toggle, not hover.
+    // Blocks populate expanded by default; the toggle folds them individually.
     const toggle = screen.getByRole("button", { name: "Recruiter Summary" });
-    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
     expect(toggle).toHaveAttribute("aria-controls", "decision-brief-content-summary");
 
     const region = document.getElementById("decision-brief-content-summary");
-    expect(region).toHaveClass("max-h-10");
-    expect(region?.querySelector(".bg-gradient-to-b")).toBeInTheDocument();
+    expect(region).toHaveClass("max-h-[40rem]");
+    expect(region?.querySelector(".bg-gradient-to-b")).not.toBeInTheDocument();
   });
 
-  it("expands and collapses a block on tap without copying", () => {
+  it("collapses and re-expands a block on tap without copying", () => {
     const writeText = mockClipboard();
     render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
 
     const toggle = screen.getByRole("button", { name: "Recruiter Summary" });
     const region = document.getElementById("decision-brief-content-summary");
 
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(region).toHaveClass("max-h-[40rem]");
+
+    fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(region).toHaveClass("max-h-10");
+    expect(region?.querySelector(".bg-gradient-to-b")).toBeInTheDocument();
+
+    // Collapsing one block must not fold the others (multi-open, not accordion).
+    expect(
+      screen.getByRole("button", { name: "Shortlist Rationale" }),
+    ).toHaveAttribute("aria-expanded", "true");
 
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "true");
-    expect(region).toHaveClass("max-h-80");
-    expect(region?.querySelector(".bg-gradient-to-b")).not.toBeInTheDocument();
-
-    fireEvent.click(toggle);
-    expect(toggle).toHaveAttribute("aria-expanded", "false");
-    expect(region).toHaveClass("max-h-10");
+    expect(region).toHaveClass("max-h-[40rem]");
 
     // Toggling expansion must never trigger a clipboard copy.
     expect(writeText).not.toHaveBeenCalled();

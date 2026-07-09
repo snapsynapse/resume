@@ -30,6 +30,9 @@ dist-ssr
 # Local handoff notes
 handoffs/
 
+# Claude Code per-machine settings (launch.json is shared, settings.local.json is not)
+.claude/settings.local.json
+
 # --- baseline additions (automated audit 2026-05-30) ---
 __pycache__/
 *.pyc
