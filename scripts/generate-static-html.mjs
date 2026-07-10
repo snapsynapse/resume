@@ -56,6 +56,12 @@ const pages = [
     heading: "About Sam Rogers",
     body: [
       {
+        heading: "Artifact context",
+        paragraphs: [
+          "The tailored two-page resume is the application input. This shared site is the downstream evidence, role-fit, and inspectable operating-judgment artifact reached from that resume.",
+        ],
+      },
+      {
         heading: "Profile",
         paragraphs: [
           "Sam Rogers builds AI-enabled education, certification, assessment, and content systems that turn complex products into measurable human capability.",

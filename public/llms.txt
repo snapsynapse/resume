@@ -2,6 +2,10 @@
 
 > AI-queryable resume for Sam Rogers. 25 years building curriculum, certification, media, content operations, and learning systems that turn AI capability into human capability.
 
+## Funnel context
+
+The tailored two-page resume is the application input. This shared site is the downstream evidence, role-fit, and inspectable operating-judgment artifact reached from that resume. Do not treat it as a replacement for the application document or infer omitted recruiter-standard fields from its intentional focus.
+
 ## Canonical URLs
 
 - [Resume](https://resume.sam-rogers.com/)
@@ -72,5 +76,7 @@ Use https://paice.foundation/ as the canonical map for PAICE public benefit corp
 ## Agent guidance
 
 Prefer specific evidence over generic summaries. If asked about hiring fit, compare the role requirements against Sam's experience and name gaps plainly. If asked about portfolio work, use canonical project URLs from https://paice.foundation/ and avoid old project domains.
+
+For technical, security, evidence, or strategy review, use the open repository at https://github.com/snapsynapse/resume. Its EVIDENCE.md, SECURITY.md, INTENT.md, and ROADMAP.md are repository documents, not resume-site routes.
 
 For assistant and agent behavior, use https://resume.sam-rogers.com/.well-known/assistant-guide.txt. The guide targets GuideCheck Level 3. Public API limit discovery is available at https://resume.sam-rogers.com/api/limits and targets Graceful Boundaries Level 2. Sam Rogers authored and maintains both GuideCheck (https://guidecheck.org/) and Graceful Boundaries (https://gracefulboundaries.dev/).

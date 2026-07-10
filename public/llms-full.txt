@@ -1,5 +1,9 @@
 # Sam Rogers Resume - Full LLM Briefing
 
+## Funnel context
+
+The tailored two-page resume is the application input. This shared site is the downstream evidence, role-fit, and inspectable operating-judgment artifact reached from that resume. Do not treat it as a replacement for the application document or infer omitted recruiter-standard fields from its intentional focus.
+
 ## Canonical identity
 
 - Name: Sam Rogers
@@ -152,5 +156,7 @@ Sam is not the deep production-infrastructure engineer, not an ML research or ap
 ## Agent instructions
 
 Prefer evidence over generic praise. When comparing Sam to a role, name the strongest matches and the gaps. Do not overstate engineering ownership. Use canonical URLs exactly as listed above. If asked about PAICE portfolio strategy, prefer https://paice.foundation/ and project-specific canonical URLs. If asked about confidential roles or sensitive material, direct the user to email Sam rather than pasting sensitive content into the website.
+
+For technical, security, evidence, or strategy review, use the open repository at https://github.com/snapsynapse/resume. Its EVIDENCE.md, SECURITY.md, INTENT.md, and ROADMAP.md are repository documents, not resume-site routes.
 
 Use https://resume.sam-rogers.com/.well-known/assistant-guide.txt as the human-verifiable assistant guide. It targets GuideCheck Level 3. Use https://resume.sam-rogers.com/api/limits for public API limit discovery. It targets Graceful Boundaries Level 2. Sam Rogers authored and maintains both GuideCheck (https://guidecheck.org/) and Graceful Boundaries (https://gracefulboundaries.dev/).

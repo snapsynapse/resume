@@ -31,7 +31,7 @@ The product decision behind this repo is simple: if the resume claims AI governa
 For the full repo-level audience strategy, see [INTENT.md](INTENT.md).
 ## Design Decisions
 ### Human-first, machine-readable second
-The homepage is the primary resume experience. It is interactive, visual, and optimized for human triage. It also includes no-JS fallback content and generated static crawl pages so LLMs, search crawlers, link unfurlers, and agentic tools can still read core facts without executing React.
+The homepage is the primary interactive evidence experience for this downstream artifact. It is visual and optimized for human triage after the two-page resume introduces the candidacy. It also includes no-JS fallback content and generated static crawl pages so LLMs, search crawlers, link unfurlers, and agentic tools can still read core facts without executing React.
 This is intentional. Recruiters and hiring teams should not need special tooling, but automated systems should also receive bounded, accurate context rather than scraped fragments.
 ### Copy workflow before novelty
 The Interview Decision Brief sidebar exists because recruiters often need to copy short blocks into ATS notes, Slack threads, hiring-manager summaries, and interview packets. It is pinned on desktop and tablet where copy-paste workflows are realistic, hidden on mobile, expanded by default, and remembered locally.

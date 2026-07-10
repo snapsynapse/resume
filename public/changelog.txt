@@ -1,6 +1,7 @@
 # Sam Rogers Resume Changelog
 
 2026-07-09
+- Aligned llms.txt, llms-full.txt, agents.json, the assistant guide, API manifest, static fallback, and generated About page around the two-page-resume funnel. The guide now explicitly classifies chat and fit-analysis routes as website UI endpoints rather than a general agent-integration API, links repository reviewer artifacts from agents.json, and distinguishes repository documents from resume-site routes. Regression coverage protects both contracts.
 - Clarified the funnel boundary: the tailored two-page resume is the application input, while the shared web artifact provides downstream evidence, role-fit context, copy-ready handoff, and technical/governance inspection.
 - Added a stable hero promise and three compact evidence points while preserving rotating role lanes for multiple active applications.
 - Removed the decorative desktop scroll cue after the evidence row made its overlap risk visible at shorter desktop viewports.
