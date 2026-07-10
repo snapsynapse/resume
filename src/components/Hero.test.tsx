@@ -77,4 +77,18 @@ describe("Hero rotating title", () => {
     expect(screen.queryByText("Second Title")).not.toBeInTheDocument();
     expect(screen.queryByText("Third Title")).not.toBeInTheDocument();
   });
+
+  it("shows the stable positioning promise and three compact evidence points", () => {
+    setReducedMotion(true);
+    render(<Hero onOpenChat={() => {}} />);
+
+    expect(
+      screen.getByText(/turn complex products into measurable human capability/i),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("list", { name: "Selected evidence" })).toBeInTheDocument();
+    expect(screen.getAllByRole("listitem")).toHaveLength(3);
+    expect(screen.getByText("10x reach")).toBeInTheDocument();
+    expect(screen.getByText("90% simpler · 40% faster")).toBeInTheDocument();
+    expect(screen.getByText("80% adoption in 30 days")).toBeInTheDocument();
+  });
 });

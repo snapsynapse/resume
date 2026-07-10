@@ -43,7 +43,27 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 - Global headers include CSP, `frame-ancestors 'none'`, `Referrer-Policy`, and a restrictive `Permissions-Policy`.
 - PostHog uses the no-external SDK entrypoint; CSP permits ingestion and remote configuration hosts but does not allow PostHog-hosted script injection.
 - PostHog analytics, when configured, is cookieless, explicit-event-only, and must not include user-supplied text.
-- PII and compensation exposure is mechanically gated by [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts), which scans committed repository content for personal phone shapes, SSN shapes, DOB shapes, dollar-amount figures, compensation-range notations, and a hash-based blocklist of candidate-specific residential and contact literals. The scan is designed so the eval source does not reveal the literals it protects: blocked values are stored only as SHA-256 digests, violation reports never echo the matched substring, and allowlisted-exception contexts are also hashed. Full design rationale, including the explicit attacker model and its limits, is in README "Reveal-resistant PII evals".
+- PII and compensation exposure is mechanically gated by [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts), which scans committed repository content for personal phone shapes, SSN shapes, DOB shapes, dollar-amount figures, compensation-range notations, and a hash-based blocklist of candidate-specific residential and contact literals.
+
+## Reveal-resistant PII evals
+
+A public PII scan can defeat itself if the exact blocked value appears in its regex, fixture, allowlist, or failure output. This repository therefore exposes the protection categories without publishing the candidate-specific values being protected.
+
+Attacker model: the scan protects against a casual reader of source or CI output incidentally discovering a candidate-specific value. It does not protect against a motivated offline dictionary attack. The blocked inputs include low-entropy values, so unsalted SHA-256 is a source-reveal and log-reveal control, not a cryptographic secrecy boundary. Using an HMAC would move that boundary to a CI secret and would not fit this public-repository threat model.
+
+Design:
+
+- Generic shape patterns cover US-format phone numbers, SSN-shaped strings, DOB-shaped strings, dollar figures, and compensation ranges.
+- Candidate-specific residential and contact values are stored only as an unordered set of SHA-256 digests of normalized values.
+- Scan-time tokenization checks one-to-four-word n-grams and normalized 10-digit phone windows against the digest set.
+- Violation output reports only file, line, and pattern category. It never echoes a matched substring.
+- Allowlisted exceptions are stored as full-line digests so the allowlist does not disclose the protected context.
+- Public name, email, and region assertions act as positive controls so an empty scan cannot pass silently.
+- The digest order is intentionally non-semantic and can be rotated when entries are added.
+
+Scope: the scan covers committed repository content, including `INTENT.md` and `.github`. User-submitted chat or job-description text is governed by request boundaries and the job-description review scanner, not this repository-content eval.
+
+Verification: run `npm run test` and inspect [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts). A reviewer can confirm that the test contains only generic shapes and unlabeled digests and that failure paths do not print matched values.
 
 ## Prompt-injection posture
 

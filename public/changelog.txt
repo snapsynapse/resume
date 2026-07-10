@@ -1,7 +1,14 @@
 # Sam Rogers Resume Changelog
 
 2026-07-09
-- Added repo-level INTENT.md documenting the three-audience ladder: recruiter top-funnel web page, hiring-manager mid-funnel interactive/agentic surfaces, and open-repo vetting for engineering/security/compliance reviewers.
+- Clarified the funnel boundary: the tailored two-page resume is the application input, while the shared web artifact provides downstream evidence, role-fit context, copy-ready handoff, and technical/governance inspection.
+- Added a stable hero promise and three compact evidence points while preserving rotating role lanes for multiple active applications.
+- Removed the decorative desktop scroll cue after the evidence row made its overlap risk visible at shorter desktop viewports.
+- Top-aligned the mobile hero and reduced the mobile portrait size so the expanded evidence block cannot center content underneath the fixed header.
+- Moved the W2 explanation out of the visible experience chronology and kept it available through direct-answer context.
+- Refined the capability taxonomy: promoted demonstrated open-standards and change-management work, made people-management scale explicit as moderate, and limited visible gaps to production engineering and ML research ownership.
+- Reoriented the README around hiring signal and reviewer navigation, moved reveal-resistant PII detail to SECURITY.md, and recorded that browser print is not the canonical resume workflow.
+- Added repo-level INTENT.md documenting the downstream recruiter/hiring-manager workflow and open-repo vetting for engineering/security/compliance reviewers.
 - Renamed product and agent-facing model-provider language to cloud LLM / model provider terminology while keeping Anthropic named where the current implementation boundary matters.
 - Added target/company role-context routing so tailored links can compose an optional positioning target with optional employer context, e.g. `?target=content-ops&company=openai`.
 - Moved the default public resume positioning to an employer-neutral content-operations and AI-education systems wedge, while keeping Anthropic and OpenAI application context in explicit presets.

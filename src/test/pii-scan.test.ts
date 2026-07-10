@@ -18,7 +18,7 @@ import { describe, expect, it } from "vitest";
 // as literals because the patterns themselves reveal no candidate-specific information. Note
 // this is a reveal-resistance property, not a cryptographic one: the digests are unsalted
 // SHA-256 over low-entropy inputs (state names, ZIPs, phone numbers), which is attackable
-// offline by a motivated party with a dictionary; see README "Reveal-resistant PII evals" for
+// offline by a motivated party with a dictionary; see SECURITY "Reveal-resistant PII evals" for
 // the attacker model and why a keyed hash was not used.
 
 const root = process.cwd();

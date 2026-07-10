@@ -127,7 +127,8 @@ describe("public resume surfaces", () => {
     const intent = readFileSync(join(root, "INTENT.md"), "utf8");
     const readme = readFileSync(join(root, "README.md"), "utf8");
 
-    expect(intent).toMatch(/Recruiters.*top of the funnel/is);
+    expect(intent).toMatch(/two-page paper resume is the application input/is);
+    expect(intent).toMatch(/Recruiters after initial resume review/is);
     expect(intent).toMatch(/Hiring managers.*middle of the funnel/is);
     expect(intent).toMatch(/Engineering, security, IT, compliance/is);
     expect(intent).toMatch(/open repository|public repository/i);
