@@ -1,17 +1,37 @@
 # Sam Rogers AI Resume
-This repository is part of the resume.
-It is not only source code for https://sam-rogers.com/. It is also an inspectable artifact for recruiters, hiring managers, security reviewers, IT teams, and AI compliance teams who need to understand how the resume behaves, what it sends to third parties, what it does not store, and why the implementation choices were made.
+
+Live artifact: https://resume.sam-rogers.com/
+
+The two-page resume is the application input. It points here for the evidence, role-fit context, and inspectable operating judgment that a static resume cannot carry. This repository is therefore part of the candidacy, not merely source code behind a portfolio page.
+
+## Hiring Signal
+
+- Scaled YouTube certification reach from about 1,000 partners per year to about 10,000 in year one.
+- Streamlined Convatec content offerings by 90 percent while improving delivery speed by 40 percent.
+- Reached more than 80 percent adoption in 30 days for an AI-based training platform deployed across four countries.
+- Built the site itself as a bounded AI product with role-fit analysis, copy-ready hiring briefs, prompt and PII evals, minimal telemetry, and machine-readable evidence.
+
+## Reviewer Map
+
+- Candidate claims and reference paths: [EVIDENCE.md](EVIDENCE.md)
+- Security, data flow, and reveal-resistant PII design: [SECURITY.md](SECURITY.md)
+- Funnel, audience, and positioning decisions: [INTENT.md](INTENT.md)
+- Delivered posture and open work: [ROADMAP.md](ROADMAP.md)
+
 ## What This Is For
-The site is designed for a staged hiring workflow:
-- Recruiter: quickly determine whether Sam belongs on the shortlist, copy evidence into an ATS or hiring-manager note, and avoid spending time decoding a nonlinear career.
+
+The site supports the stages after a recruiter or hiring manager receives the two-page resume:
+
+- Recruiter: validate the shortlist decision, copy evidence into an ATS or hiring-manager note, and avoid spending time decoding a nonlinear career.
 - Hiring manager: evaluate fit against an actual job description, including gaps, transferability, and interview probes.
 - Security, IT, and AI compliance reviewers: inspect the candidate's approach to AI-enabled product design, data minimization, prompt boundaries, evidence discipline, and operational controls.
+
 The product decision behind this repo is simple: if the resume claims AI governance, certification, human-AI collaboration, and responsible adoption experience, the resume itself should demonstrate those habits. The implementation favors narrow surfaces, explicit boundaries, minimal telemetry, and auditable source material over a generic chatbot wrapper.
 
-For the repo-level audience strategy, see [INTENT.md](INTENT.md). Short version: the web page serves recruiters at the top of the funnel, the interactive and agentic surfaces shape hiring-manager conversations in the middle, and the open repository exists so engineering, security, IT, compliance, and secondary-interview reviewers can inspect how the artifact works.
+For the full repo-level audience strategy, see [INTENT.md](INTENT.md).
 ## Design Decisions
 ### Human-first, machine-readable second
-The homepage is the primary resume experience. It is interactive, visual, and optimized for human triage. It also includes no-JS fallback content and generated static crawl pages so LLMs, search crawlers, link unfurlers, and agentic tools can still read core facts without executing React.
+The homepage is the primary interactive evidence experience for this downstream artifact. It is visual and optimized for human triage after the two-page resume introduces the candidacy. It also includes no-JS fallback content and generated static crawl pages so LLMs, search crawlers, link unfurlers, and agentic tools can still read core facts without executing React.
 This is intentional. Recruiters and hiring teams should not need special tooling, but automated systems should also receive bounded, accurate context rather than scraped fragments.
 ### Copy workflow before novelty
 The Interview Decision Brief sidebar exists because recruiters often need to copy short blocks into ATS notes, Slack threads, hiring-manager summaries, and interview packets. It is pinned on desktop and tablet where copy-paste workflows are realistic, hidden on mobile, expanded by default, and remembered locally.
@@ -35,21 +55,7 @@ The disclosure rule is enforced mechanically by a PII scan in the test suite. Se
 The disclosure check is the threshold for adding anything new to the private FAQ. If an item fails the check, the right channel is a direct conversation with Sam, not the chat surface.
 
 ### Reveal-resistant PII evals
-This repository is open source. A naive PII scan would defeat itself: writing a regex literal of the exact value being blocked puts that value into a publicly readable test file, so any reader of the source learns precisely what was meant to be private. The scan in [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts) is designed so that the eval reveals only the categories of protection, not the candidate-specific values being protected.
-
-Attacker model: this design protects against a casual reader of the source or CI output (a recruiter, engineer, or bot scanning the repo or a failing build log) picking up a candidate-specific value incidentally. It does not protect against a motivated attacker who downloads the digest set and runs an offline dictionary or hashcat-style attack against it. The blocklist hashes low-entropy values (US state names, city names, ZIP codes, 10-digit phone numbers), and unsalted SHA-256 of a low-entropy input is crackable offline in a bounded search space. A keyed hash (HMAC with a secret) would resist that attack, but the key would then have to live somewhere the public CI runner can reach it, which turns a build secret into the actual protection boundary and reintroduces the exposure this design is trying to avoid. The scan is a source-reveal and log-reveal control, not a cryptographic one.
-
-Design choices that make this work:
-
-- Two-layer pattern model. Generic shape-based patterns (any US-format phone number, any SSN-shaped string, any dollar-amount figure, any compensation range) are kept as literal regexes because the shapes themselves are public knowledge and reveal nothing about the candidate. Candidate-specific values (a particular residential city, town, state, ZIP, or personal phone number) are stored only as SHA-256 hex digests of normalized lowercase forms. A reader of the test file learns that residential signals are being blocked, but not which specific residential signals.
-- No labels on the digest set. The hash entries are an unordered set, not a labeled map. A reader cannot infer which digest corresponds to a city versus a state versus a phone number, and the order is intentionally rotated when entries are added so positional inference is also unreliable.
-- Tokenization at scan time. The scan tokenizes each file line into one-to-four-word lowercase n-grams and into phone-shape digit windows (digits-only, sliding 10-digit windows). Each candidate is hashed and checked against the digest set. This means a multi-word city name, a state name, a single-token ZIP, and a phone in any format collapse to the same hashed-membership test, without the test file needing to know which kind of literal it is matching.
-- Violation reports never echo the matched substring, for either scan layer. When the hash-based scan finds a hit it reports file path and line number only. When a shape-based scan finds a hit (a phone-shaped string, a dollar-amount figure, and so on) it reports file path, line number, and the pattern category name only, never the matched text, because a shape match can itself be the exact sensitive value. A CI log, a screenshot, or an issue paste of a failing run does not leak the value the scan was protecting. The author can open the file locally at the reported line to see what happened.
-- Allowlists are also hashed. Legitimate non-residential references that happen to share a name (e.g. a regulatory project anchor that uses a state's name in a non-residence context) are allowed by full-line SHA-256, not by quoted regex. The legitimate context never has to appear in the test file alongside the rule that permits it.
-- Positive controls cover the allowlisted identifiers. Name, email, and region are asserted to appear somewhere in the scanned set as plain-text positive controls. These three are public by policy, so naming them does not weaken the design. Their presence guarantees the scan is wired to real content rather than silently passing on an empty file collection.
-- Reveal-resistance is verifiable. A grep of the test file and this README for any candidate-specific phone, ZIP, city, or state literal returns nothing. This property is mechanical, not editorial, and a future reviewer can re-verify it without trusting prior intent.
-
-Scope reminder: this scan covers committed repository content only, including INTENT.md and .github (workflow files). User-submitted text in form fields and chat messages is governed by the API handlers' prompt-boundary tests and the JD review scanner, not by this eval.
+The public test suite checks committed content for sensitive shapes and candidate-specific literals without placing the protected values in source or CI output. The attacker model, hash design, reporting behavior, limits, and verification procedure now live in [SECURITY.md](SECURITY.md#reveal-resistant-pii-evals), where security reviewers will look for them.
 
 ### User context is useful, but sensitive context is risky
 The job-description workflow includes an optional in-browser business-context review before API submission. The scanner is deterministic, runs locally, and flags likely non-public details so the user can replace them with placeholders before sending text for model analysis.
@@ -96,7 +102,7 @@ Graceful Boundaries is implemented across the public API surface:
 Non-success API responses include `error`, `detail`, and `why`. HTTP 429 responses also include `limit` and `retryAfterSeconds`. `/api/limits` provides machine-readable discovery for enforced limits and production fail-closed behavior.
 GuideCheck is implemented through `/.well-known/assistant-guide.txt`. The guide is ASCII-only, compact, and written for human verification before agent execution. It defines scope, trust boundaries, approval gates, prohibited behavior, evidence rules, sensitive job-description handling, API usage, and explicit action blocks for candidate-fit review workflows.
 ## Validated Lighthouse Baseline
-Latest local production-preview validation: 2026-05-30, Lighthouse 13.3.0, against generated production assets at `http://127.0.0.1:4175/`. Refresh cadence: monthly, or sooner after material frontend, asset, CSP, routing, or analytics changes. A baseline less than one month old is considered current for this public README.
+Latest recorded local production-preview validation: 2026-05-30, Lighthouse 13.3.0, against generated production assets at `http://127.0.0.1:4175/`. Re-run after material frontend, asset, CSP, routing, or analytics changes; this dated result is evidence of the recorded build, not a claim about the current deployment.
 Scores:
 - Performance: 100
 - Accessibility: 100
@@ -109,8 +115,7 @@ npx -y lighthouse http://127.0.0.1:4175/ --output=json --output-path=/tmp/resume
 ```
 This is a lab validation of the built site, not a guarantee of every visitor's runtime conditions. The implementation choices behind the score include local system fonts, responsive WebP portrait assets, stricter CSP, lazy-loaded chat and fit-assessment surfaces, generated static crawl pages, and metadata validation.
 ## Print / PDF Handoff
-The browser print path is intentionally supported for recruiters who need to save or forward a PDF. The print stylesheet keeps the resume source of truth in the webpage while removing interactive-only surfaces: navigation, the Interview Decision Brief sidebar, AI chat, the fit-assessment form, buttons, animations, shadows, and decorative layout treatment.
-The printed output keeps identity, positioning, experience evidence, skills, and contact paths. Important links print with their URLs so a saved PDF remains auditable outside the browser.
+The tailored two-page resume is upstream of this artifact and remains the application document. Browser print is a best-effort convenience for reviewers, not the canonical resume or a distribution format this repository generates. Its stylesheet removes interactive-only surfaces and prints important link destinations for auditability.
 ## Data Flow
 For normal page viewing:
 - Static assets are served from the site.

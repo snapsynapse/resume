@@ -2,13 +2,21 @@
 
 This repository is the source for https://resume.sam-rogers.com/. It stays open because the repo is part of the resume, not merely the build artifact behind it.
 
+## Funnel Position
+
+The two-page paper resume is the application input and points to this shared artifact. This site is not intended to replace that document or repeat every recruiter-standard field it already carries. It provides the downstream evidence, role-fit context, and inspectable operating judgment that a static resume cannot.
+
+Because the artifact supports multiple active applications, the default hero keeps several forward-looking role lanes in rotation while a stable positioning promise and compact evidence remain constant. Target and company parameters can narrow the context for tailored application links without creating separate deployments.
+
+The Interview Decision Brief opens by default on desktop because observed use favors immediate copy-ready evidence. Mobile remains supported, but desktop and tablet hiring workflows are the primary optimization target for this downstream artifact.
+
 ## Audience Ladder
 
 The artifact serves three hiring-stage audiences.
 
-1. Recruiters at the top of the funnel
-   - Primary surface: public web page.
-   - Job to be done: quickly decide whether Sam belongs on the shortlist.
+1. Recruiters after initial resume review
+   - Primary surface: public web page reached from the two-page resume.
+   - Job to be done: validate the shortlist decision and transfer concise evidence into the hiring workflow.
    - Supporting features: concise hero positioning, evidence-forward experience cards, target-lane clarity, and copy-ready Interview Decision Brief blocks for ATS notes, recruiter handoff, and hiring-manager summaries.
 
 2. Hiring managers in the middle of the funnel

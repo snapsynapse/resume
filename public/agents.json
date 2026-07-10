@@ -3,7 +3,7 @@
   "site": {
     "name": "Sam Rogers Resume",
     "url": "https://resume.sam-rogers.com/",
-    "description": "AI-queryable resume for Sam Rogers. 25 years building curriculum, certification, media, content operations, and learning systems. Current target lanes: content operations, AI education systems, customer education, certification, assessment, workflow quality, and learning measurement.",
+    "description": "Downstream, AI-queryable evidence and role-fit artifact for Sam Rogers. The tailored two-page resume is the application input; this shared site provides evidence, fit context, and inspectable operating judgment. Current target lanes: content operations, AI education systems, customer education, certification, assessment, workflow quality, and learning measurement.",
     "language": "en-US"
   },
   "person": {
@@ -27,7 +27,31 @@
       "description": "GuideCheck Level 3 human-verifiable instructions for agents and automated reviewers."
     },
     {
-      "name": "Resume homepage",
+      "name": "Inspectable source repository",
+      "url": "https://github.com/snapsynapse/resume",
+      "type": "repository",
+      "description": "Open source for the downstream evidence artifact, including tests, prompt boundaries, and implementation decisions."
+    },
+    {
+      "name": "Evidence ledger",
+      "url": "https://github.com/snapsynapse/resume/blob/main/EVIDENCE.md",
+      "type": "evidence-ledger",
+      "description": "Claim-by-claim public sources, reference paths, confidence, and caveats."
+    },
+    {
+      "name": "Security posture",
+      "url": "https://github.com/snapsynapse/resume/blob/main/SECURITY.md",
+      "type": "security",
+      "description": "Public endpoint, data-flow, prompt-boundary, and reveal-resistant PII controls."
+    },
+    {
+      "name": "Artifact intent",
+      "url": "https://github.com/snapsynapse/resume/blob/main/INTENT.md",
+      "type": "intent",
+      "description": "Funnel position, audience ladder, provider posture, and role-context maintenance rules."
+    },
+    {
+      "name": "Downstream evidence homepage",
       "url": "https://resume.sam-rogers.com/",
       "type": "profile"
     },
@@ -62,6 +86,12 @@
       "type": "changelog"
     },
     {
+      "name": "Artifact roadmap",
+      "url": "https://github.com/snapsynapse/resume/blob/main/ROADMAP.md",
+      "type": "roadmap",
+      "description": "Delivered posture, open work, and intentionally excluded scope."
+    },
+    {
       "name": "About Sam Rogers",
       "url": "https://resume.sam-rogers.com/about/",
       "type": "profile-section"
@@ -86,12 +116,12 @@
     {
       "label": "Ask AI about Sam Rogers",
       "url": "https://resume.sam-rogers.com/#about",
-      "description": "Use the on-page chat interface for specific questions about fit, evidence, gaps, and portfolio context."
+      "description": "Use the on-page chat interface for specific questions about fit, evidence, gaps, and portfolio context. The underlying endpoint is a website UI surface, not a general agent-integration API."
     },
     {
       "label": "Analyze role fit",
       "url": "https://resume.sam-rogers.com/#fit-assessment",
-      "description": "Paste a reviewed job description for an honest fit assessment. The tool runs a local browser-only business-context review first; sensitive, confidential, proprietary, regulated, or unreleased role material should be redacted, placeholdered, or sent by email instead."
+      "description": "Use the on-page UI for an honest fit assessment. The tool runs a local browser-only business-context review first; sensitive, confidential, proprietary, regulated, or unreleased role material should be redacted, placeholdered, or sent by email instead. The underlying endpoint is a website UI surface, not a general agent-integration API."
     },
     {
       "label": "Contact Sam Rogers",

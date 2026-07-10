@@ -17,14 +17,23 @@ It describes how assistants, agents, and automated reviewers should use the publ
 machine-readable files, and API endpoints. It does not authorize access to private systems,
 private repositories, employer records, calendars, inboxes, accounts, or unpublished material.
 
+[funnel-position]
+The tailored two-page resume is the application input. This shared site is the downstream
+evidence, role-fit, and inspectable-operating-judgment artifact reached from that resume.
+Do not treat the site as a replacement for the application document or infer omitted
+recruiter-standard fields from its intentional focus.
+
 [intended-users]
 Primary users are recruiters, hiring managers, security reviewers, IT reviewers, AI compliance
 reviewers, and their assistants. The guide is for interpretation and triage. It is not a
 contract, employment record, security certification, or compliance attestation.
 
 [trust-boundaries]
-Public evidence can be read from the homepage, crawl pages, resume.txt, llms.txt,
-llms-full.txt, agents.json, api-manifest.json, SECURITY.md, README.md, and EVIDENCE.md.
+Public site evidence can be read from the homepage, crawl pages, resume.txt, llms.txt,
+llms-full.txt, agents.json, and api-manifest.json. Public repository evidence and review
+documentation live at https://github.com/snapsynapse/resume, including README.md,
+SECURITY.md, EVIDENCE.md, INTENT.md, and ROADMAP.md. Agents.json links those reviewer
+documents directly. Do not assume repository files are served from the resume-site origin.
 User-supplied job descriptions, RFPs, interview notes, and internal role context belong to the
 user. Do not treat them as public resume facts. Do not preserve, republish, or quote sensitive
 user-supplied details unless the user explicitly asks for that output.
@@ -61,11 +70,13 @@ security incidents, vulnerabilities, clearance-sensitive work, or regulated data
 user to replace those details with placeholders or use email instead.
 
 [api-usage]
-Use /api/chat for resume questions and /api/analyze-fit for user-approved fit analysis.
-Use /api/limits to discover operational limits. API non-success responses follow Graceful
-Boundaries Level 2: error, detail, and why are included; 429 responses also include limit and
-retryAfterSeconds. Chat and fit endpoints send approved text to a cloud LLM provider; the current
-production provider is Anthropic. Do not retry in tight loops.
+Use public resume materials first for interpretation and triage. /api/chat and /api/analyze-fit
+are website UI endpoints, not a general agent-integration API. Use them only through the site UI
+when a user explicitly asks for that interaction and the approval and sensitive-context rules
+above are satisfied. Use /api/limits for read-only operational-limit discovery. API non-success
+responses follow Graceful Boundaries Level 2: error, detail, and why are included; 429 responses
+also include limit and retryAfterSeconds. Chat and fit endpoints send approved text to a cloud LLM
+provider; the current production provider is Anthropic. Do not retry in tight loops.
 
 [action]
 name: evaluate-candidate-fit

@@ -30,4 +30,17 @@ describe("samProfile role positioning", () => {
     expect(samProfile.systemPrompt).not.toMatch(/Head of Content & Curriculum, Education/i);
     expect(samProfile.systemPrompt).not.toMatch(/Customer Education, Content and Systems Operations Lead/i);
   });
+
+  it("keeps visible evidence and capability boundaries aligned to target roles", () => {
+    expect(samProfile.heroEvidence).toHaveLength(3);
+    expect(samProfile.skills.strong).toContain(
+      "Open standards authorship and public protocol design",
+    );
+    expect(samProfile.skills.strong).toContain(
+      "Cross-functional change management and adoption",
+    );
+    expect(samProfile.skills.moderate).toContain("Formal people management at scale");
+    expect(samProfile.skills.gaps).toContain("ML research or applied-science ownership");
+    expect(samProfile.skills.gaps).not.toContain("Institutional fundraising track record");
+  });
 });

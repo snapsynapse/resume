@@ -57,6 +57,14 @@ const providerProductLanguageFiles = [
   "scripts/generate-static-html.mjs",
 ];
 
+const downstreamArtifactFiles = [
+  "public/agents.json",
+  "public/llms.txt",
+  "public/llms-full.txt",
+  "public/.well-known/assistant-guide.txt",
+  "public/api-manifest.json",
+];
+
 const outdatedSolicitationPatterns = [
   /fractional/i,
   /Chief AI Officer/i,
@@ -109,6 +117,37 @@ describe("public resume surfaces", () => {
     expect(content).not.toMatch(/Anthropic.*Head of Content|OpenAI.*Customer Education/i);
   });
 
+  it.each(downstreamArtifactFiles)("documents the two-page-resume funnel in %s", (file) => {
+    const content = readFileSync(join(root, file), "utf8");
+
+    expect(content).toMatch(/two-page(?: paper)? resume.*application input/is);
+    expect(content).toMatch(/downstream/i);
+  });
+
+  it("keeps agent guidance consistent with the UI-only API contract", () => {
+    const guide = readFileSync(join(root, "public/.well-known/assistant-guide.txt"), "utf8");
+    const manifest = JSON.parse(readFileSync(join(root, "public/api-manifest.json"), "utf8"));
+
+    expect(guide).toMatch(/website UI endpoints, not a general agent-integration API/i);
+    expect(manifest.openapi.provided).toBe(false);
+    expect(manifest.openapi.reason).toMatch(/website UI rather than a public integration API/i);
+  });
+
+  it("links repository reviewer artifacts from the agent registry", () => {
+    const agents = JSON.parse(readFileSync(join(root, "public/agents.json"), "utf8"));
+    const resourceNames = new Set(agents.resources.map((resource: { name?: string }) => resource.name));
+
+    expect([...resourceNames]).toEqual(
+      expect.arrayContaining([
+        "Inspectable source repository",
+        "Evidence ledger",
+        "Security posture",
+        "Artifact intent",
+        "Artifact roadmap",
+      ]),
+    );
+  });
+
   it.each(activePositioningFiles)("does not revive old Anthropic role targets in %s", (file) => {
     const content = readFileSync(join(root, file), "utf8");
     for (const pattern of outdatedAnthropicRolePatterns) {
@@ -127,7 +166,8 @@ describe("public resume surfaces", () => {
     const intent = readFileSync(join(root, "INTENT.md"), "utf8");
     const readme = readFileSync(join(root, "README.md"), "utf8");
 
-    expect(intent).toMatch(/Recruiters.*top of the funnel/is);
+    expect(intent).toMatch(/two-page paper resume is the application input/is);
+    expect(intent).toMatch(/Recruiters after initial resume review/is);
     expect(intent).toMatch(/Hiring managers.*middle of the funnel/is);
     expect(intent).toMatch(/Engineering, security, IT, compliance/is);
     expect(intent).toMatch(/open repository|public repository/i);

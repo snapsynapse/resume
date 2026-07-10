@@ -61,18 +61,18 @@ const Hero = ({ onOpenChat }: HeroProps) => {
     <section
       id="about"
       aria-labelledby="about-heading"
-      className="min-h-screen flex flex-col justify-center px-6 pt-20"
+      className="min-h-screen flex flex-col justify-start px-6 pb-10 pt-20 md:justify-center"
     >
-      <div className="max-w-5xl mx-auto w-full grid md:grid-cols-[1fr_auto] gap-10 items-center">
+      <div className="max-w-5xl mx-auto w-full grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-center">
         <div>
           {/* Status badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full mb-8 animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full mb-5 animate-fade-in">
             <span className="w-2 h-2 rounded-full bg-success animate-pulse-soft" />
             <span className="text-sm text-muted-foreground">{roleContext?.status ?? samProfile.status}</span>
           </div>
 
           {/* Main heading */}
-          <h1 id="about-heading" className="text-5xl md:text-7xl lg:text-8xl font-serif text-foreground mb-6 animate-slide-up">
+          <h1 id="about-heading" className="text-5xl md:text-6xl lg:text-7xl font-serif text-foreground mb-4 animate-slide-up">
             {samProfile.name}
           </h1>
 
@@ -86,10 +86,23 @@ const Hero = ({ onOpenChat }: HeroProps) => {
             <span className="sr-only">{titles[0]}</span>
           </div>
 
-          {/* Subtitle */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 animate-slide-up stagger-2">
+          {/* Stable positioning promise beneath the rotating application lanes. */}
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-6 animate-slide-up stagger-2">
             {samProfile.subtitle}
           </p>
+
+          {/* Compact proof points keep the common artifact grounded across role contexts. */}
+          <ul
+            aria-label="Selected evidence"
+            className="mb-6 grid max-w-3xl gap-2 text-sm text-foreground sm:grid-cols-3 animate-slide-up stagger-2"
+          >
+            {samProfile.heroEvidence.map((item) => (
+              <li key={item.metric} className="border-l-2 border-accent/60 pl-3">
+                <span className="block font-semibold text-foreground">{item.metric}</span>
+                <span className="text-muted-foreground">{item.detail}</span>
+              </li>
+            ))}
+          </ul>
 
           {/* CTA Button */}
           <button
@@ -107,7 +120,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
             <source
               type="image/webp"
               srcSet="/imgs/samrogers-256.webp 256w, /imgs/samrogers-512.webp 512w"
-              sizes="(min-width: 1024px) 256px, (min-width: 768px) 224px, 160px"
+              sizes="(min-width: 1024px) 256px, (min-width: 768px) 224px, 128px"
             />
             <img
               src="/imgs/samrogers.png"
@@ -116,17 +129,12 @@ const Hero = ({ onOpenChat }: HeroProps) => {
               height={512}
               fetchpriority="high"
               decoding="async"
-              className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full object-cover border-4 border-card shadow-lg"
+              className="w-32 h-32 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full object-cover border-4 border-card shadow-lg"
             />
           </picture>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="pointer-events-none absolute bottom-12 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground animate-fade-in opacity-0 md:flex" style={{ animationDelay: "1.5s", animationFillMode: "forwards" }}>
-        <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
-        <div className="w-px h-8 bg-gradient-to-b from-muted-foreground to-transparent" />
-      </div>
     </section>
   );
 };

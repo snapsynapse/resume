@@ -32,6 +32,9 @@ const Experience = () => {
             <h3 className="text-sm font-mono uppercase tracking-wider text-success mb-4">
               Strong
             </h3>
+            <p className="mb-4 text-xs text-muted-foreground">
+              Repeated, shipped, or quantified evidence.
+            </p>
             <ul className="space-y-2">
               {samProfile.skills.strong.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">
@@ -46,6 +49,9 @@ const Experience = () => {
             <h3 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
               Moderate
             </h3>
+            <p className="mb-4 text-xs text-muted-foreground">
+              Real exposure; less depth or scale than the strongest evidence.
+            </p>
             <ul className="space-y-2">
               {samProfile.skills.moderate.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">
@@ -60,6 +66,9 @@ const Experience = () => {
             <h3 className="text-sm font-mono uppercase tracking-wider text-warning mb-4">
               Gaps (I'll tell you)
             </h3>
+            <p className="mb-4 text-xs text-muted-foreground">
+              Not claimed; evaluate when the role actually requires it.
+            </p>
             <ul className="space-y-2">
               {samProfile.skills.gaps.map((skill) => (
                 <li key={skill} className="text-foreground flex items-center gap-2">

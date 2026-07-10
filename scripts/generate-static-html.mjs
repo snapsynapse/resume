@@ -56,12 +56,22 @@ const pages = [
     heading: "About Sam Rogers",
     body: [
       {
+        heading: "Artifact context",
+        paragraphs: [
+          "The tailored two-page resume is the application input. This shared site is the downstream evidence, role-fit, and inspectable operating-judgment artifact reached from that resume.",
+        ],
+      },
+      {
         heading: "Profile",
         paragraphs: [
-          "Sam Rogers has 25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice.",
+          "Sam Rogers builds AI-enabled education, certification, assessment, and content systems that turn complex products into measurable human capability.",
           "He currently builds AI-enabled measurement and education infrastructure through PAICE.work PBC, a public benefit corporation.",
           "He also runs Snap Synapse LLC, an independent consulting practice of more than two decades behind technical enablement, certification, curriculum, media, and learning systems work for organizations including Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, Sunrun, and Convatec.",
         ],
+      },
+      {
+        heading: "Selected evidence",
+        list: samProfile.heroEvidence.map((item) => `${item.metric}: ${item.detail}`),
       },
       {
         heading: "Why roles now",

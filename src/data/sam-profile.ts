@@ -15,7 +15,21 @@ export const samProfile = {
     "Certification & Assessment Systems Lead",
   ],
   subtitle:
-    "25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. Currently building AI-enabled assessment and enablement infrastructure that turns AI capability into human capability.",
+    "I build AI-enabled education, certification, assessment, and content systems that turn complex products into measurable human capability.",
+  heroEvidence: [
+    {
+      metric: "10x reach",
+      detail: "YouTube certification, from ~1K to ~10K partners in year one",
+    },
+    {
+      metric: "90% simpler · 40% faster",
+      detail: "Convatec content portfolio and delivery",
+    },
+    {
+      metric: "80% adoption in 30 days",
+      detail: "AI training platform across 4 countries",
+    },
+  ],
   location: "SF Bay Area · hybrid available",
   status:
     "Focused on roles where content operations, AI education, workflow quality, and measurement become durable operating systems.",
@@ -40,7 +54,6 @@ export const samProfile = {
         "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
         "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
       ],
-      note: "Why W2 now: the open protocols stay maintained regardless of employer, and there is precedent — Snap Synapse went dormant for years while Sam ran a Global Learning Technology function at Convatec. Same play when the role is the right home for the work.",
       aiContext: {
         situation:
           "Snap Synapse ran an Agent-Readiness Audit consulting service. Demand was real but the work scaled linearly with my time. Standard productization paths either kept it high-touch forever or rebuilt it as a self-serve tool that lost the judgment layer that made the consulting valuable.",
@@ -116,21 +129,22 @@ export const samProfile = {
       "AI-enabled learning experience design (deployed AI training platform across 4 countries, 80% adoption in 30 days at Convatec)",
       "AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)",
       "AI accountability and governance posture across SOC 2 / ISO 42001 / NIST AI RMF contexts",
+      "Open standards authorship and public protocol design",
       "Agentic tooling infrastructure (local LLMs, multi-model orchestration)",
       "End-to-end video production (pre-prod → studio direction → post → distribution → DRM)",
       "Cross-functional translation (engineering ↔ legal ↔ sales ↔ community)",
+      "Cross-functional change management and adoption",
       "Productizing consulting offerings",
       "Performance consulting (not classroom training)",
     ],
     moderate: [
-      "Founder-led sales in regulated industries",
-      "Open standards authorship",
       "Multi-model evaluation design",
-      "Cross-functional change management",
+      "Formal people management at scale",
+      "Enterprise knowledge-management platform ownership",
     ],
     gaps: [
       "Deep engineering ownership of production infrastructure",
-      "Institutional fundraising track record",
+      "ML research or applied-science ownership",
     ],
   },
 

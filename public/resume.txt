@@ -77,11 +77,19 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 - Certification program design
 - Developer education and technical enablement
 - Manager and leader development
+- Open standards authorship and public protocol design
 - Agentic tooling infrastructure
 - AI workflow quality control and verification gates
 - Cross-functional translation
+- Cross-functional change management and adoption
 - Productizing consulting offerings
 - Performance consulting
+
+## Moderate areas
+
+- Multi-model evaluation design
+- Formal people management at scale
+- Enterprise knowledge-management platform ownership
 
 ## Education and certifications
 

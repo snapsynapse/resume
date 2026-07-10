@@ -32,8 +32,8 @@ The active site is functional. Items below are not promises of enterprise comple
 - **Keyboard copy smoke check** — add a focused test for tab order and copy button reachability in the Interview Decision Brief before investing in broader visual regression.
 - **Role-context fixture helper** — add a tiny test helper for target/company URL setup so future application presets do not duplicate `window.history.pushState` boilerplate across component tests.
 
-## Distribution Artifacts
-- **PDF download** — recruiters still share PDFs internally. Currently we have a print stylesheet that produces a usable PDF, but it might be useful in some cases to provide a `/resume.pdf` route that renders the current evidence hierarchy cleanly.
+## Distribution Boundary
+- **Two-page resume stays upstream** — the tailored application resume points to this common artifact. A generated `/resume.pdf` is not planned because it would reverse that funnel and create a second canonical resume. Browser print remains a best-effort reviewer convenience rather than a distribution artifact.
 
 ## Drift Monitoring
 - **Prompt eval fixtures** — keep current boundary fixtures for private facts, false credentials, sensitive-material handling, production-engineering boundaries, fit-assessment injection, and role-context routing. Add recruiter- or compliance-specific cases only when real conversations expose a recurring failure mode.
@@ -50,7 +50,6 @@ The active site is functional. Items below are not promises of enterprise comple
 - **Pre-confirm diff summary** — show a short summary before confirmation, such as "3 details replaced, 1 manual edit." Keep it metadata-only and do not persist or send original/reviewed text to analytics.
 
 ## Accessibility And Usability Polish
-- **Desktop scroll cue review** — mobile cue is hidden. Decide whether the remaining desktop "Scroll to explore" cue is useful or visual noise.
 - **Keyboard copy workflow review** — verify the Interview Decision Brief remains efficient for keyboard-only recruiters and hiring managers after real use.
 
 ## Not On Roadmap

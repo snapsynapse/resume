@@ -100,6 +100,7 @@ for (const required of [
   "profile: human-verifiable-assistant-guide",
   "conformance-target: GuideCheck Level 3",
   "[scope]",
+  "[funnel-position]",
   "[trust-boundaries]",
   "[approval-gates]",
   "[prohibited-behavior]",
