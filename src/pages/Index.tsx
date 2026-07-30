@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Experience from "@/components/Experience";
+import AIUsageCard from "@/components/AIUsageCard";
 import type { FitResult } from "@/components/FitAssessment";
 import BookingCTA from "@/components/BookingCTA";
 import Footer from "@/components/Footer";
@@ -30,6 +31,7 @@ const Index = () => {
           <main aria-label="Sam Rogers resume">
             <Hero onOpenChat={openChat} />
             <Experience />
+            <AIUsageCard />
             <LazyOnVisible
               fallback={<div id="fit-assessment" className="scroll-mt-24 min-h-[24rem]" />}
             >

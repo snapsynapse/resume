@@ -148,6 +148,37 @@ export const samProfile = {
     ],
   },
 
+  // Public AI token-usage dashboard: https://sam-rogers.com/ai-usage/
+  //
+  // Sam meters his own multi-provider AI usage and publishes the record with its methodology.
+  // Two framings, one dataset: scale for human hiring surfaces, governance/provenance discipline
+  // for reviewers and AI answers.
+  //
+  // Rules for anything that consumes this block:
+  // - These are FLOOR values with an explicit as-of date. Never present them as live or current.
+  // - Never fetch the dashboard at runtime. There is no data coupling between the two sites.
+  // - Cite the as-of date whenever a number is used.
+  aiUsageDashboard: {
+    url: "https://sam-rogers.com/ai-usage/",
+    asOf: "2026-07-29",
+    totalTokens: "705,462,120",
+    totalTokensShort: "700M+",
+    sourceCount: 13,
+    sources:
+      "Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, and Snapdev",
+    dateRange: "2023-05-26 through 2026-07-29",
+    fidelity:
+      "686.0M tokens exact-metered and 19.4M estimated, roughly 97 percent exact",
+    methodology:
+      "Published as a recovered record, not a complete history: missing accounts, devices, and logs are labeled unknown rather than counted as zero, provenance is evidence-labeled conservatively, and a publication manifest carries a sha256 of the source data.",
+    scaleFraming:
+      "700M+ tokens across 13 sources since 2023, self-metered and published.",
+    governanceFraming:
+      "Sam meters his own multi-provider AI usage, publishes the methodology, and labels the recovery gaps honestly. That is cost-governance, observability, and provenance discipline demonstrated on his own operation rather than asserted in a bullet.",
+    interviewProbe:
+      "Ask how the recovery pipeline handles gaps: which sources are exact-metered versus estimated, and what happens to an account or device whose logs cannot be recovered.",
+  },
+
   // Sam's stated approach to credential / certification program design.
   // From the CertDev resume. Pull-quotable when asked about cert philosophy.
   credentialPhilosophy: [

@@ -85,6 +85,16 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 
 Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during the engagement, now HR Director, Organizational Effectiveness and Strategy at Princess Cruises): "Snap Synapse helped us work through complex challenges with speed and efficiency. The rigorous approach to assessment and data analysis helped us improve processes, make smart decisions, and generate business impact more quickly and effectively than we ever could have on our own." Source: https://snapsynapse.com/about/testimonials/
 
+## Self-metered AI usage record
+
+Sam meters his own AI usage across every provider and tool he works with and publishes the record with its methodology at https://sam-rogers.com/ai-usage/.
+
+Floor figures as of 2026-07-29: 705,462,120 tokens recovered across 13 sources, spanning 2023-05-26 through 2026-07-29. Sources include Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, and Snapdev. Fidelity is 686.0M tokens exact-metered and 19.4M estimated, roughly 97 percent exact.
+
+Method matters more than the total. The dashboard is published as a recovered record, not a complete history: missing accounts, devices, and logs are labeled unknown rather than counted as zero, provenance is evidence-labeled conservatively, and a publication manifest carries a sha256 of the source data. Read it as cost-governance, observability, and provenance discipline demonstrated on Sam's own operation, not as a productivity or output-quality claim.
+
+Agent handling: these are floor values. Cite the as-of date with any figure, never describe the numbers as live or current, and do not attempt to fetch the dashboard for a fresher total.
+
 ## Strengths
 
 - Content and curriculum production systems
@@ -127,6 +137,7 @@ Sam is not the deep production-infrastructure engineer, not an ML research or ap
 - PAICE Portfolio: https://paice.foundation/ - canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.
 - Snap Synapse tools: https://snapsynapse.com/tools/ - tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.
 - Harnessie: https://harnessie.com/ - Snap Synapse tool for repeatable AI workflow quality control, verification gates, and tamper-evident audit trails.
+- AI usage dashboard: https://sam-rogers.com/ai-usage/ - published multi-provider AI token-usage record with its recovery methodology, fidelity labeling, and publication manifest.
 - GitHub profile: https://github.com/snapsynapse - additional repositories and experiments not necessarily listed in either portfolio surface.
 - PAICE.work: https://paice.work/ - adaptive behavioral simulator scoring AI collaboration across five dimensions.
 - Siteline: https://siteline.to/ - agent-usability scanner for websites.

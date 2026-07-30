@@ -114,6 +114,16 @@ Sam's stated principles for cert / credential program design. Surface verbatim w
 ${samProfile.credentialPhilosophy.map((p) => `- ${p}`).join("\n")}`
     : "";
 
+  const aiUsageContext = samProfile.aiUsageDashboard
+    ? `
+=== SELF-METERED AI USAGE RECORD ===
+Sam publishes his own multi-provider AI token-usage dashboard at ${samProfile.aiUsageDashboard.url}.
+Floor figures as of ${samProfile.aiUsageDashboard.asOf}: ${samProfile.aiUsageDashboard.totalTokens} tokens recovered (${samProfile.aiUsageDashboard.totalTokensShort}) across ${samProfile.aiUsageDashboard.sourceCount} sources — ${samProfile.aiUsageDashboard.sources} — spanning ${samProfile.aiUsageDashboard.dateRange}. Fidelity: ${samProfile.aiUsageDashboard.fidelity}.
+Methodology: ${samProfile.aiUsageDashboard.methodology}
+Why it matters: ${samProfile.aiUsageDashboard.governanceFraming}
+Rules: lead with the methodology, not the raw number. These are floor values — always cite the as-of date and never describe them as live or current. Never claim to have fetched the dashboard. Surface this when asked about hands-on AI depth, cost governance, observability, provenance, measurement discipline, or evidence that Sam actually uses the tools he writes about.`
+    : "";
+
   const recruiterFAQContext = samProfile.recruiterFAQ
     ? `
 === RECRUITER FAQ ===
@@ -160,6 +170,8 @@ ${skillsContext}
 ${failuresContext}
 
 ${credentialPhilosophyContext}
+
+${aiUsageContext}
 
 ${recruiterFAQContext}
 

@@ -103,6 +103,12 @@ function buildFitSystemPrompt(): string {
 
   const skillsSummary = `Strong: ${samProfile.skills.strong.join(", ")}. Moderate: ${samProfile.skills.moderate.join(", ")}. Gaps: ${samProfile.skills.gaps.join(", ")}.`;
 
+  const usage = samProfile.aiUsageDashboard;
+  const aiUsageSummary = usage
+    ? `SELF-METERED AI USAGE RECORD (floor values, as of ${usage.asOf}; never describe as live):
+Sam publishes his own multi-provider AI token-usage dashboard at ${usage.url}: ${usage.totalTokens} tokens recovered (${usage.totalTokensShort}) across ${usage.sourceCount} sources, spanning ${usage.dateRange}, at ${usage.fidelity}. ${usage.methodology} Cite this only when the JD asks for hands-on AI depth, cost governance, observability, provenance, or measurement discipline — and cite the as-of date with any number.`
+    : "";
+
   return `You are analyzing a job description against Sam Rogers's track record. Return a structured fit assessment.
 
 SAM'S EXPERIENCE:
@@ -110,6 +116,8 @@ ${experienceSummary}
 
 SKILLS:
 ${skillsSummary}
+
+${aiUsageSummary}
 
 THESIS: Sam is founder of PAICE.work PBC. 25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. Building AI-enabled assessment and enablement infrastructure for human-AI collaboration. Best suited to senior lead and builder/operator roles where content operations, AI education, workflow quality, certification, assessment, and learning measurement become durable operating systems.
 

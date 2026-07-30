@@ -65,6 +65,21 @@ const downstreamArtifactFiles = [
   "public/api-manifest.json",
 ];
 
+// Sam's published AI token-usage dashboard. Floor values with an explicit as-of date; the site
+// must never fetch it at runtime, so the pointer and the date are asserted as literal content.
+const AI_USAGE_DASHBOARD_URL = "https://sam-rogers.com/ai-usage/";
+const AI_USAGE_AS_OF = "2026-07-29";
+
+const aiUsageDashboardSurfaces = [
+  "index.html",
+  "public/agents.json",
+  "public/llms.txt",
+  "public/llms-full.txt",
+  "public/.well-known/assistant-guide.txt",
+  "src/data/sam-profile.ts",
+  "EVIDENCE.md",
+];
+
 const outdatedSolicitationPatterns = [
   /fractional/i,
   /Chief AI Officer/i,
@@ -196,6 +211,38 @@ describe("public resume surfaces", () => {
     expect(roadmap).toMatch(/## Low-Hanging Fruit/);
     expect(roadmap).not.toMatch(/CI eval gate.*done/i);
     expect(roadmap).not.toMatch(/Live API smoke test.*done/i);
+  });
+
+  it.each(aiUsageDashboardSurfaces)("points at the published AI usage dashboard in %s", (file) => {
+    const content = readFileSync(join(root, file), "utf8");
+
+    expect(content).toContain(AI_USAGE_DASHBOARD_URL);
+    expect(content).toContain(AI_USAGE_AS_OF);
+  });
+
+  it("keeps the AI usage dashboard decoupled from runtime and framed as a floor value", () => {
+    // Anti-goal guard: the two sites must stay decoupled. No fetch, no iframe, no live counter.
+    for (const file of ["src/components/AIUsageCard.tsx", "src/data/sam-profile.ts"]) {
+      const content = readFileSync(join(root, file), "utf8");
+      expect(content).not.toMatch(/fetch\(|<iframe|axios|XMLHttpRequest/i);
+    }
+
+    const profile = readFileSync(join(root, "src/data/sam-profile.ts"), "utf8");
+    expect(profile).toMatch(/FLOOR values/i);
+    expect(profile).toContain(AI_USAGE_AS_OF);
+
+    // Governance framing lives in the reviewer/AI corpus, not only in the scale hook.
+    const evidence = readFileSync(join(root, "EVIDENCE.md"), "utf8");
+    expect(evidence).toContain(AI_USAGE_DASHBOARD_URL);
+    expect(evidence).toMatch(/recovered record/i);
+    expect(evidence).toMatch(/labeled unknown/i);
+    expect(evidence).toMatch(/provenance/i);
+
+    // Agent-facing surfaces must tell an agent not to treat the number as live.
+    for (const file of ["public/llms-full.txt", "public/.well-known/assistant-guide.txt", "public/agents.json"]) {
+      const content = readFileSync(join(root, file), "utf8");
+      expect(content).toMatch(/(?:not|never|must not).{0,40}live/i);
+    }
   });
 
   it("keeps product-facing provider language model-portable while disclosing current provider", () => {

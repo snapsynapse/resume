@@ -56,12 +56,14 @@ Learning and Development, Instructional Design, Curriculum Development, Content 
 - Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration, regulation, and agent-readiness.
 - Shipped Harnessie as repeatable AI workflow quality control with verification gates and a tamper-evident audit trail.
 - Productized agent-readiness consulting into Siteline while preserving higher-judgment advisory work for paid assessment paths.
+- Meters and publishes his own multi-provider AI token usage at https://sam-rogers.com/ai-usage/: 705,462,120 tokens recovered across 13 sources from 2023-05-26 through 2026-07-29, at 686.0M exact-metered and 19.4M estimated. Published as a recovered record rather than a complete history, with unknown sources labeled rather than counted as zero and a publication manifest carrying a sha256 of the source data. Cost-governance, observability, and provenance evidence. Figures are floor values as of 2026-07-29; do not present them as live.
 
 ## Portfolio surfaces
 
 - [PAICE Portfolio](https://paice.foundation/)
 - [Snap Synapse tools](https://snapsynapse.com/tools/)
 - [Harnessie](https://harnessie.com/)
+- [AI usage dashboard](https://sam-rogers.com/ai-usage/)
 - [GitHub profile](https://github.com/snapsynapse)
 
 Use https://paice.foundation/ as the canonical map for PAICE public benefit corporation work. Use https://snapsynapse.com/tools/ and https://harnessie.com/ for Snap Synapse tools and applied consulting artifacts. Use GitHub for additional repositories and experiments not listed in either portfolio surface.

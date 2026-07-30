@@ -27,7 +27,17 @@ This file is a reviewer-facing map of the claims made by the resume. It separate
 | Harnessie builds verification gates, quality control, and a tamper-evident audit trail into repeatable AI workflows. | https://harnessie.com/ | Public package, project repository, release records, and implementation artifacts. | Public-source strong for existence and positioning. | Do not overstate this as deep security-engineering ownership; the resume uses it as workflow-quality evidence. |
 | Every AI Law is a jurisdiction-aware AI regulation index. | https://everyailaw.com/ | Public site, data pipeline records, repo/project records where shareable. | Public-source strong. | Coverage and classification may evolve over time. |
 | Signals & Subtractions is a weekly Monday newsletter on AI adoption and L&D transformation. | https://signalsandsubtractions.substack.com/ and https://www.linkedin.com/newsletters/signals-subtractions-7336818173234581504/ | Publication archive. | Public-source strong. | Subscriber metrics are not asserted here. |
+| Meters his own multi-provider AI usage and publishes the record with its methodology: 705,462,120 tokens recovered across 13 sources (Anthropic, OpenAI, Perplexity, local models, and coding tools), 2023-05-26 through 2026-07-29, at 686.0M exact-metered and 19.4M estimated. Published as a recovered record rather than a complete history — missing accounts, devices, and logs are labeled unknown rather than counted as zero, provenance is evidence-labeled conservatively, and a publication manifest carries a sha256 of the source data. | https://sam-rogers.com/ai-usage/ | Provider billing/usage exports, the publication manifest and its source-data hash, and the recovery pipeline itself, walkable during a technical conversation. | Public-source strong for the published figures and the stated method. | Figures are floor values as of 2026-07-29, not a live feed and not a complete history. The dashboard's own methodology page is the authority on what is counted, what is estimated, and what is unknown. The claim is cost-governance, observability, and provenance discipline — not a productivity or output-quality claim. |
 | Sam has a B.A. in Communication Studies from Sonoma State University plus Prosci, privacy, analytics/visualization, and LMS administrator certifications. | Resume summary: https://resume.sam-rogers.com/resume.txt | Degree/certification records. | Reference-check strong, public-source limited. | Credential records are available during formal process if needed. |
+
+## Note on the AI usage dashboard
+
+The usage dashboard at https://sam-rogers.com/ai-usage/ is included here as governance evidence, not as a volume brag. The reviewable properties are the ones that make an AI program auditable: a candidate who instruments his own multi-provider spend, states fidelity per source, publishes the method alongside the number, and refuses to backfill unknowns with zeros. Reviewers should read the methodology before the total.
+
+Two handling rules apply anywhere this artifact is cited on this site:
+
+- Figures are floor values carried in `src/data/sam-profile.ts` with an explicit as-of date. They are never fetched at runtime, so there is no live coupling between this site and the dashboard.
+- Any restatement of a number must carry the as-of date. Nothing here should read as a live counter.
 
 ## Stated gaps
 

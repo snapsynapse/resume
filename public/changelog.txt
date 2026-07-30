@@ -1,5 +1,10 @@
 # Sam Rogers Resume Changelog
 
+2026-07-30
+- Added Sam's public multi-provider AI token-usage dashboard (https://sam-rogers.com/ai-usage/) as a first-class evidence artifact: a homepage evidence card, an Interview Decision Brief copy block with an interview probe, an EVIDENCE.md claim entry, and pointers from llms.txt, llms-full.txt, agents.json, and the assistant guide.
+- Framed the artifact two ways on purpose: scale on human-facing surfaces, and cost-governance, observability, and provenance discipline in the AI corpus and reviewer documentation.
+- Kept the figures as floor values carried in source with an explicit as-of date. No runtime fetch, no iframe, and no live coupling between the resume site and the dashboard.
+
 2026-07-09
 - Aligned llms.txt, llms-full.txt, agents.json, the assistant guide, API manifest, static fallback, and generated About page around the two-page-resume funnel. The guide now explicitly classifies chat and fit-analysis routes as website UI endpoints rather than a general agent-integration API, links repository reviewer artifacts from agents.json, and distinguishes repository documents from resume-site routes. Regression coverage protects both contracts.
 - Clarified the funnel boundary: the tailored two-page resume is the application input, while the shared web artifact provides downstream evidence, role-fit context, copy-ready handoff, and technical/governance inspection.

@@ -31,6 +31,21 @@ describe("samProfile role positioning", () => {
     expect(samProfile.systemPrompt).not.toMatch(/Customer Education, Content and Systems Operations Lead/i);
   });
 
+  it("carries the AI usage dashboard as dated floor values, not a live figure", () => {
+    const usage = samProfile.aiUsageDashboard;
+
+    expect(usage.url).toBe("https://sam-rogers.com/ai-usage/");
+    expect(usage.asOf).toBe("2026-07-29");
+    expect(usage.totalTokens).toBe("705,462,120");
+    expect(usage.totalTokensShort).toBe("700M+");
+    expect(usage.sourceCount).toBe(13);
+    // Governance framing is the point of the artifact; scale is only the hook.
+    expect(usage.methodology).toMatch(/recovered record, not a complete history/i);
+    expect(usage.methodology).toMatch(/labeled unknown rather than counted as zero/i);
+    expect(usage.governanceFraming).toMatch(/cost-governance|provenance|observability/i);
+    expect(usage.interviewProbe).toMatch(/recovery pipeline/i);
+  });
+
   it("keeps visible evidence and capability boundaries aligned to target roles", () => {
     expect(samProfile.heroEvidence).toHaveLength(3);
     expect(samProfile.skills.strong).toContain(

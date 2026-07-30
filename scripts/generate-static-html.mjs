@@ -74,6 +74,14 @@ const pages = [
         list: samProfile.heroEvidence.map((item) => `${item.metric}: ${item.detail}`),
       },
       {
+        heading: "Self-metered AI usage",
+        paragraphs: [
+          `Sam meters his own AI usage across every provider and tool he works with and publishes the record with its methodology at ${samProfile.aiUsageDashboard.url}.`,
+          `Floor figures as of ${samProfile.aiUsageDashboard.asOf}: ${samProfile.aiUsageDashboard.totalTokens} tokens recovered across ${samProfile.aiUsageDashboard.sourceCount} sources, spanning ${samProfile.aiUsageDashboard.dateRange}, at ${samProfile.aiUsageDashboard.fidelity}.`,
+          `${samProfile.aiUsageDashboard.methodology} Read it as cost-governance, observability, and provenance evidence rather than a productivity claim, and cite the as-of date with any figure.`,
+        ],
+      },
+      {
         heading: "Why roles now",
         paragraphs: [
           "The obvious question is why someone already running PAICE.work PBC and Snap Synapse LLC is also open to senior roles. The answer is mission alignment. Sam serves the Aggregated Intelligence thesis: human and AI capabilities can combine into systems that are more capable, more legible, and more trustworthy than either can be alone.",

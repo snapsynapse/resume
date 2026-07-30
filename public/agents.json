@@ -86,6 +86,12 @@
       "type": "changelog"
     },
     {
+      "name": "AI usage dashboard",
+      "url": "https://sam-rogers.com/ai-usage/",
+      "type": "evidence-artifact",
+      "description": "Sam's published multi-provider AI token-usage record with its recovery methodology: 705,462,120 tokens across 13 sources, 2023-05-26 through 2026-07-29, 686.0M exact-metered and 19.4M estimated. Cost-governance, observability, and provenance evidence. Figures are floor values as of 2026-07-29 and must not be presented as live; gaps are labeled unknown rather than counted as zero."
+    },
+    {
       "name": "Artifact roadmap",
       "url": "https://github.com/snapsynapse/resume/blob/main/ROADMAP.md",
       "type": "roadmap",

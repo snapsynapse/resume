@@ -16,7 +16,8 @@ type AnalyticsEvent =
   | "email_clicked"
   | "footer_link_clicked"
   | "nav_section_clicked"
-  | "experience_context_toggled";
+  | "experience_context_toggled"
+  | "ai_usage_dashboard_clicked";
 
 type AnalyticsProperties = Record<string, string | number | boolean | null | undefined>;
 type TrackOptions = {

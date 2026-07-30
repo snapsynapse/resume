@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import type { FitResult } from "./FitAssessment";
+import { samProfile } from "@/data/sam-profile";
 import { OPEN_INTERVIEW_BRIEF_EVENT } from "./Header";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,7 @@ type BriefBlock =
   | "evidence"
   | "gaps"
   | "interview-probes"
+  | "ai-usage-record"
   | "best-use-case"
   | "evidence-map"
   | "ownership"
@@ -68,6 +70,24 @@ const evidenceBullets = [
   "Publishes Signals & Subtractions and related field notes with a consistent editorial cadence on AI adoption and L&D transformation.",
 ];
 
+// Shared across both modes. Floor values with an explicit as-of date, sourced from the profile
+// so the copy cannot drift from what the AI surfaces say. No live fetch, no volatile numbers.
+const usage = samProfile.aiUsageDashboard;
+
+const aiUsageBlock: CopyBlock = {
+  id: "ai-usage-record",
+  title: "Self-Metered AI Usage",
+  copyLabel: "Copy AI usage record",
+  content: `Sam meters his own AI usage across every provider he works with and publishes the record with its methodology: ${usage.totalTokensShort} tokens across ${usage.sourceCount} sources since 2023 (${usage.totalTokens} recovered, ${usage.dateRange}, as of ${usage.asOf}). Fidelity is stated openly — ${usage.fidelity}. It is published as a recovered record rather than a complete history: missing accounts, devices, and logs are labeled unknown instead of counted as zero. Dashboard: ${usage.url}\nInterview probe: ${usage.interviewProbe}`,
+  display: [
+    `${usage.totalTokensShort} tokens across ${usage.sourceCount} sources since 2023, self-metered and published (as of ${usage.asOf}).`,
+    `Fidelity stated openly: ${usage.fidelity}.`,
+    "Recovered record, not complete history — gaps are labeled unknown, never counted as zero.",
+    `Probe: ${usage.interviewProbe}`,
+    usage.url,
+  ],
+};
+
 const recruiterBlocks: CopyBlock[] = [
   {
     id: "summary",
@@ -98,6 +118,7 @@ const recruiterBlocks: CopyBlock[] = [
     content: evidenceBullets.map((item) => `- ${item}`).join("\n"),
     display: evidenceBullets,
   },
+  aiUsageBlock,
   {
     id: "gaps",
     title: "Gaps / Watch-Outs",
@@ -153,6 +174,7 @@ const hiringManagerBlocks: CopyBlock[] = [
       "Editorial cadence: Signals & Subtractions and public field notes.",
     ],
   },
+  aiUsageBlock,
   {
     id: "ownership",
     title: "Likely Ownership",

@@ -92,6 +92,23 @@ describe("DecisionBriefSidebar", () => {
     expect(region?.querySelector(".bg-gradient-to-b")).not.toBeInTheDocument();
   });
 
+  it("offers a copy-ready self-metered AI usage block with a scale hook and an interview probe", async () => {
+    const writeText = mockClipboard();
+    render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
+
+    expect(screen.getByText("Self-Metered AI Usage")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Copy AI usage record" }));
+
+    await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
+    const copied = writeText.mock.calls[0][0] as string;
+    expect(copied).toContain("700M+");
+    expect(copied).toContain("13 sources");
+    expect(copied).toContain("https://sam-rogers.com/ai-usage/");
+    expect(copied).toContain("2026-07-29");
+    expect(copied).toMatch(/Interview probe: .*recovery pipeline/i);
+  });
+
   it("collapses and re-expands a block on tap without copying", () => {
     const writeText = mockClipboard();
     render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
