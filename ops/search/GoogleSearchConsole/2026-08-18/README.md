@@ -28,11 +28,15 @@
 
 ## Search performance
 
-- Time range: default three months.
+- Time range: 2026-05-17 through 2026-08-16.
 
-- Observation: Search Console displayed no query data.
+- Property totals: 34 impressions, 0 clicks, 0% click-through rate, and average position 8.4.
 
-- This is a dated provider observation, not proof of zero impressions or a repository defect.
+- Page totals: `/` received 31 impressions and `/experience/` received 3 impressions; all other pages received none in the reported window.
+
+- Search Console displayed no query rows. Privacy-omitted queries can remain included in aggregate totals.
+
+- Impressions are appearances in Google Search, not page visits. The 0 clicks indicate no visits attributed to Google Search in this report; total site visits are unavailable because automatic PostHog pageview capture is intentionally disabled.
 
 ## Sitemaps
 
@@ -60,6 +64,10 @@ Production still contains the same six verified canonical URLs, so no sitemap re
 
 - Affected URLs: `/about/`, `/contact/`, `/fit-assessment/`, and `/portfolio/`; all showed last crawl `N/A`.
 
+- The aggregate report is stale relative to individual inspection. Google crawled `/about/` on 2026-08-18 at 18:35 MDT and now reports `URL is on Google`; the discovered source and referring page are both `https://resume.sam-rogers.com/sitemap.xml`.
+
+- Individual inspection still reports `/contact/`, `/fit-assessment/`, and `/portfolio/` as `Discovered - currently not indexed` with last crawl `N/A`. Google has discovered but not yet crawled these pages, so this state does not identify a page-level content or metadata defect.
+
 ## Profile page enhancement
 
 - Report last updated: 2026-08-16.
@@ -72,12 +80,16 @@ Production still contains the same six verified canonical URLs, so no sitemap re
 
 - Live production exposed the required `mainEntity` before validation began.
 
+- Root URL Inspection still reports the pre-repair invalid item from a 2026-08-18 13:22 MDT crawl, which preceded the repair deployment and validation request.
+
+- The later `/about/` crawl reports one valid ProfilePage item, confirming that Google can parse the deployed `mainEntity` structure. Validation remains started and should not be restarted while the root awaits recrawl.
+
 ## Action ledger
 
 | Provider and property ID | Action and target | Accepted or attempted at | Confirmation | Result class | Repeat policy | Next review |
 |---|---|---|---|---|---|---|
 | Google Search Console, `https://resume.sam-rogers.com/` | Validate fix for missing `ProfilePage.mainEntity` | 2026-08-18 18:33 MDT | `Validation Started`; started 2026-08-18 | Accepted and pending | Do not restart | Validation status changes after Google recrawls the root page |
-| Google Search Console, `https://resume.sam-rogers.com/` | Request indexing for `https://resume.sam-rogers.com/about/` | 2026-08-18 18:34 MDT | URL added to the priority crawl queue | Accepted and pending | Never repeat | URL Inspection or page-indexing report changes |
+| Google Search Console, `https://resume.sam-rogers.com/` | Request indexing for `https://resume.sam-rogers.com/about/` | 2026-08-18 18:34 MDT | URL added to the priority crawl queue; individual inspection showed indexed after the 18:35 MDT crawl | Accepted and completed | Never repeat | Aggregate page-indexing report refreshes |
 | Google Search Console, `https://resume.sam-rogers.com/` | Request indexing for `https://resume.sam-rogers.com/contact/` | 2026-08-18 18:36 MDT | Daily quota exceeded; request could not be processed | Failed, not queued | Reinspect on a later day before one new attempt | Daily quota is available and the URL remains eligible |
 | Google Search Console, `https://resume.sam-rogers.com/` | Request indexing for `https://resume.sam-rogers.com/fit-assessment/` | Not attempted | Stopped after the quota failure | Not attempted | Inspect before a future one-time request | Daily quota is available and the URL remains eligible |
 | Google Search Console, `https://resume.sam-rogers.com/` | Request indexing for `https://resume.sam-rogers.com/portfolio/` | Not attempted | Stopped after the quota failure | Not attempted | Inspect before a future one-time request | Daily quota is available and the URL remains eligible |
