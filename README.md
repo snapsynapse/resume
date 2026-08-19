@@ -231,7 +231,7 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 The `.github/workflows/eval-live.yml` workflow runs `smoke:api` and `eval:prompts` automatically against each successful Vercel production deployment, via the `deployment_status` event the Vercel GitHub integration emits. Preview deployments are skipped because Vercel Deployment Protection answers their requests with 401, leaving the API unreachable without a bypass secret.
 Local note: `npm run dev` starts Vite and serves the frontend only. Use `vercel dev` or a deployed URL for `/api/chat`, `/api/analyze-fit`, `npm run smoke:api`, and `npm run eval:prompts`.
 ## Deployment
-This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*` and all other routes to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.
+This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*`; generated static route files serve the public crawl pages, and unknown paths retain Vercel's real 404 response instead of falling back to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.
 ## Review Pointers
 - [SECURITY.md](SECURITY.md): endpoint threat model, disclosure path, and hardening notes.
 - [EVIDENCE.md](EVIDENCE.md): claim ledger behind the resume.

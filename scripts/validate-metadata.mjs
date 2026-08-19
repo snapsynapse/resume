@@ -184,6 +184,10 @@ for (const endpoint of apiManifest.endpoints ?? []) {
 
 const vercelConfig = JSON.parse(await text("vercel.json"));
 const headersBySource = new Map((vercelConfig.headers ?? []).map((entry) => [entry.source, entry.headers ?? []]));
+const rewrites = vercelConfig.rewrites ?? [];
+if (rewrites.some((rewrite) => rewrite.source === "/(.*)" && rewrite.destination === "/index.html")) {
+  fail("vercel.json: global SPA fallback masks unknown paths with HTTP 200");
+}
 const globalHeaderKeys = new Set(headersBySource.get("/(.*)")?.map((header) => header.key));
 for (const key of [
   "Content-Security-Policy",
@@ -291,7 +295,13 @@ for (const route of routes) {
       }
     }
   }
-  extractJsonLd(html, file);
+  const jsonLd = extractJsonLd(html, file);
+  const graphNodes = jsonLd.flatMap((entry) => entry["@graph"] ?? [entry]);
+  for (const profilePage of graphNodes.filter((entry) => entry["@type"] === "ProfilePage")) {
+    if (profilePage.mainEntity?.["@id"] !== `${siteUrl}/#sam-rogers`) {
+      fail(`${file}: ProfilePage mainEntity must identify ${siteUrl}/#sam-rogers`);
+    }
+  }
 }
 
 const rootHtml = await text("dist/index.html");
