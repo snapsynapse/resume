@@ -68,6 +68,7 @@ The default public resume is employer-neutral. Tailored application context is s
 ```txt
 ?target=content-ops&company=openai
 ```
+The Instructure Director context uses `?target=ai-transformation&company=instructure`. The durable target is employer-neutral; the application entry adds the exact role, evidence boundaries, and public-safe `Remote from Utah` answer. A generic Instructure referrer selects company context only because Instructure has materially different openings.
 `target` owns the positioning wedge: content operations, AI education, certification systems, or another durable job family. `company` owns only employer-specific context: label, referrer patterns, source role metadata, and application-specific prompt deltas. Either field may be used alone, but the durable strategy should live under `target`, not under a company name.
 The implementation lives in [src/lib/role-context.ts](src/lib/role-context.ts). Adding a new application should usually mean adding or reusing a target preset and, when needed, adding a company application entry. It should not require rewriting the homepage, public text artifacts, system prompt, chat questions, and tests by hand.
 ## What Was Used And Why
@@ -224,6 +225,7 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm run lint`: ESLint
 - `npm run typecheck`: TypeScript check, including Vercel API handlers
 - `npm run validate:metadata`: verify generated crawl pages, structured data, sitemap, and machine-readable files
+- `npm run eval:ats-artifact`: fail closed if the published plain-text resume loses its identity/contact fields, reading order, experience structure, target-lane signals, or completeness
 - `npm run test`: Vitest test suite, including mocked API success paths for chat streaming, structured fit analysis, Interview Decision Brief behavior, and JD state clearing
 - `npm audit --audit-level=high`: dependency advisory check enforced in CI
 - `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`

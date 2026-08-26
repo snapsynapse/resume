@@ -12,6 +12,7 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "validate:metadata": "node scripts/validate-metadata.mjs",
+    "eval:ats-artifact": "node scripts/eval-ats-artifact.mjs",
     "eval:prompts": "node scripts/eval-prompts.mjs",
     "smoke:api": "node scripts/smoke-api.mjs",
     "test:watch": "vitest"

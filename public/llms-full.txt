@@ -61,7 +61,8 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 - Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.
 - Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.
 - Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard).
-- Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration.
+- Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration, including PAICE2 model cascades, operational monitoring, confidential routing, and administrative controls.
+- Public products and institutional commercial packaging are implemented; significant paying-customer or realized product-revenue traction is not established.
 
 ### Snap Synapse LLC - Principal Consultant, 2004-2020, 2023-Present
 
@@ -70,6 +71,7 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 - Owned scripting, direction, production, post-production, certification exam, and LMS standup.
 - The assessment-first sequencing from that 2013 build (design the test, then work backward through curriculum, production, LMS) is the same operating pattern running PAICE.work and AI Posture today.
 - Shipped Harnessie, a brain-agnostic multi-agent harness that builds verification gates, quality control, and a tamper-evident audit trail into repeatable AI workflows.
+- Co-authored the public 2023 Chat Souffle LLM learning workflow; contributed workflow logic, raw-data reporting and analysis, and evidence-led refinement without repository access or direct code commits.
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
 - Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.
 - Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.
@@ -77,7 +79,8 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 
 ### Convatec - Global Learning Technology and Analytics Manager, 2020-2022
 
-- Launched an AI-based training platform for global shared services across four countries, with more than 80 percent adoption in 30 days from a 200-person Portugal cohort. The kind of result a regulated employer can verify in its own data.
+- Personally selected and hired two direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.
+- Configured Axonify from the ground up and administered all AI/ML-enabled controls exposed through its vendor interface; launched it across four countries with more than 80 percent adoption in 30 days from a 200-person Portugal cohort.
 - Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history: designated accountability, structured controls, evidence the auditor can verify.
 - Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months by treating it as a perception, infrastructure, and leadership-narrative problem before a curriculum problem.
 - Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
@@ -130,7 +133,7 @@ Agent handling: these are floor values. Cite the as-of date with any figure, nev
 
 ## Gaps to name plainly
 
-Sam is not the deep production-infrastructure engineer, not an ML research or applied-scientist contributor, and not a fit for mature-org roles where the main job is maintaining a large established department. He is strongest in senior lead or builder/operator roles where the work is standing up or transforming content operations, education, certification, AI-enabled workflows, assessment, and measurement systems. For roles requiring steady-state maintenance of mature, established L&D functions or full-time backend platform ownership, evaluate transferability carefully.
+Sam is not claiming dedicated end-to-end production-infrastructure engineering ownership or ML research and applied-science ownership. His evidence supports director-level architecture, integration, administration, governance, controls, adoption, and hands-on zero-to-one implementation. He is strongest where the work is standing up or transforming operating systems rather than maintaining a large established department. Formal line-management scale is two; broader project, vendor, partner, and cross-functional leadership is substantial but separately labeled.
 
 ## Portfolio map
 

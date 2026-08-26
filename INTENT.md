@@ -62,3 +62,4 @@ When adding a new application context:
 - Add `company` metadata only for employer label, referrer matching, source role title, and employer-specific prompt deltas.
 - Keep the default public resume employer-neutral unless Sam explicitly changes the active positioning.
 - Update or add public-surface tests before manually editing generated text artifacts.
+- Evidence interview: before adding a target that changes claims, gaps, disclosure, or location, run `docs/ROLE_CONTEXT_INTAKE.md` privately.

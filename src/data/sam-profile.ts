@@ -48,11 +48,11 @@ export const samProfile = {
       role: "Founder",
       period: "2025–Present",
       highlights: [
-        "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments by governance, risk, compliance, security, and learning leaders.",
+        "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale, with free individual access and institutional commercial packaging. Significant paying-customer or realized product-revenue traction is not established.",
         "Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.",
         "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
         "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
-        "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration — the build system that ships the portfolio.",
+        "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration, including PAICE2 model cascades, operational monitoring, confidential routing, and administrative controls.",
       ],
       aiContext: {
         situation:
@@ -60,7 +60,7 @@ export const samProfile = {
         approach:
           "Sat with the engagements long enough to find what was repeatable vs what required judgment. The scanning of basic agent-incompatibility — broken structured data, hostile robots directives, JavaScript-only renders — was repeatable. The interpretive layer (what does 30% agent bounce mean for *your* business) was not.",
         technicalWork:
-          "Siteline ships the repeatable layer as a free scan tier and tiered paid assessments. The consulting service still exists for engagements where judgment is the actual work. Two layers, two questions: scanner says 'here is the floor'; consulting says 'here is what the floor means for you.'",
+          "Siteline ships the repeatable layer as a free scan tier with institutional assessment packaging. That commercial packaging describes the offer, not realized sales or significant product traction. The consulting service still exists for engagements where judgment is the actual work. Two layers, two questions: scanner says 'here is the floor'; consulting says 'here is what the floor means for you.'",
         lessonsLearned:
           "The productization question is not 'should I productize.' It is 'where in the offering does the judgment live, and can the productized version stay honest about not having access to it.' Tools that overclaim kill the consulting that birthed them.",
       },
@@ -79,6 +79,8 @@ export const samProfile = {
         "End-to-end video production at scale: pre-production through studio direction (including directing nervous SMEs on camera at Google HQ) through post-production through distribution and digital rights management. Produced and co-hosted a daily livestream show for years.",
         "Frequently operates as translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives.",
         "Published frameworks: SNAP Methodology, Engineering Trust series, Signals & Subtractions (weekly field notes on AI adoption and L&D transformation).",
+        "Shipped Harnessie, a brain-agnostic multi-agent harness with schema-validated model catalogs, provider and endpoint configuration, routing, fallbacks, budgets, sandboxing, approval gates, ownership controls, verification, and a tamper-evident audit trail.",
+        "Co-authored the public 2023 Chat Souffle LLM learning workflow; contributed workflow logic, raw-data reporting and analysis, and evidence-led refinement without repository access or direct code commits.",
       ],
       aiContext: {
         situation:
@@ -96,9 +98,10 @@ export const samProfile = {
       role: "Global Learning Technology & Analytics Manager",
       period: "2020–2022",
       highlights: [
+        "Personally selected and hired two direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.",
         "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers, paired with a compensation-structure rollout.",
         "Raised Innovation and Learning Organizational Health Index (OHI) score from 48 to 74 in 18 months, exceeding business target.",
-        "Launched an AI-based training platform for global shared services across 4 countries; 80%+ adoption in 30 days from a 200-person Portugal cohort.",
+        "Configured Axonify from the ground up and administered all AI/ML-enabled controls exposed through its vendor interface; launched it for global shared services across 4 countries with 80%+ adoption in 30 days from a 200-person Portugal cohort.",
         "Streamlined content offerings by 90% while increasing utilization; improved delivery speed by 40%. Architected and led international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
       ],
       aiContext: {
@@ -281,7 +284,7 @@ export const samProfile = {
         format: "Adaptive behavioral simulator + open governance framework",
         url: "https://paice.work",
         pitch:
-          "Measures how people behave when AI gets things wrong — risk lives in recovery, not the happy path. Free for individuals; paid for institutional deployments.",
+          "Measures how people behave when AI gets things wrong. Free individual access and institutional commercial packaging are implemented; significant paying-customer or realized product-revenue traction is not established.",
       },
       {
         title: "Engineering Trust series",
@@ -292,10 +295,10 @@ export const samProfile = {
       },
       {
         title: "Signals & Subtractions",
-        format: "Weekly newsletter (Mondays)",
-        url: "https://signalsandsubtractions.substack.com",
+        format: "Weekly show and newsletter",
+        url: "https://sigsub.show/",
         pitch:
-          "One signal, one strategic human prompt, one subtraction opportunity, one fresh AI analogy. 300–500 words for operators who need better signals, not more noise. The recent 'Skills' arc is the strongest pull for frontier-lab audiences.",
+          "Current cadence: livestream Wednesday, episode Friday, newsletter Sunday. Newsletter archive: https://sigsub.substack.com/. LinkedIn newsletter: https://linkedin.com/newsletters/signals-subtractions-7336818173234581504/.",
       },
       {
         title: "Shipped open standards",
@@ -361,21 +364,21 @@ export const samProfile = {
       // should match to one project, not list the whole portfolio.
       {
         name: "PAICE.work",
-        category: "Revenue · Flagship",
+        category: "Commercial Offer · Flagship",
         url: "https://paice.work",
         pitch:
-          "Adaptive behavioral simulator scoring AI collaboration across 5 dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments.",
+          "Adaptive behavioral simulator scoring AI collaboration across 5 dimensions on a 0–1000 scale. Free individual access and institutional commercial packaging are implemented; significant paying-customer or realized product-revenue traction is not established.",
       },
       {
         name: "Siteline",
-        category: "Revenue",
+        category: "Commercial Offer",
         url: "https://siteline.to",
         pitch:
           "Agent-usability scanner for websites. Lighthouse for the agents that now browse and transact on behalf of users.",
       },
       {
         name: "Every AI Law",
-        category: "Revenue",
+        category: "Commercial Offer",
         url: "https://everyailaw.com",
         pitch:
           "Searchable, jurisdiction-aware index of global AI regulation for GRC, legal, and compliance professionals.",
@@ -466,8 +469,8 @@ export const samProfile = {
         note: "Daily cadence since PAICE launch. 150+ posts on aggregated intelligence.",
       },
       newsletter: {
-        url: "https://signalsandsubtractions.substack.com",
-        note: "Weekly Monday cadence. 50+ issues on AI encountering the real world inside organizations.",
+        url: "https://sigsub.substack.com/",
+        note: "Signals & Subtractions publishes a livestream Wednesday, episode Friday, and newsletter Sunday. Canonical show index: https://sigsub.show/.",
       },
       youtube: {
         url: "https://youtube.com/@paicework",
@@ -503,7 +506,7 @@ WHO SAM IS
 Sam has 25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. He is founder of PAICE.work PBC, a public benefit corporation building open infrastructure for measuring and governing human-AI collaboration. He still runs Snap Synapse LLC, the consulting practice that has funded the work for two decades.
 
 THE THESIS (load-bearing context)
-Sam believes the window for building open, vendor-neutral measurement infrastructure for human-AI collaboration is 18–36 months. The PAICE portfolio is his bet against the scenario where every cloud provider ships its own readiness rubric, none of them comparable, all of them flattering. Three commercial products (PAICE.work, Siteline, Every AI Law) anchor three measurement vectors (people, infrastructure, regulation) and roll up to one open governance score called AI Posture. Eleven open contributions sit alongside. The protocol stays open; revenue sits on top.
+Sam believes the window for building open, vendor-neutral measurement infrastructure for human-AI collaboration is 18–36 months. The PAICE portfolio is his bet against the scenario where every cloud provider ships its own readiness rubric, none of them comparable, all of them flattering. Three commercially packaged products (PAICE.work, Siteline, Every AI Law) anchor three measurement vectors (people, infrastructure, regulation) and roll up to one open governance score called AI Posture. Eleven open contributions sit alongside. Commercial packaging is implemented, but significant paying customers and realized product revenue are not established.
 
 THE OPERATOR PATTERN
 The track record across 25 years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
@@ -569,7 +572,7 @@ Gap to probe: he is not the person who will write your production infrastructure
 
   paice: `PAICE is three commercial products designed to fund eleven open contributions, all serving one thesis: that the trust infrastructure for human-AI collaboration has to be built in the open, by someone willing to do it sustainably, before the window closes.
 
-PAICE.work is the flagship — an adaptive behavioral simulator scoring how someone actually collaborates with AI across five dimensions on a 0–1000 scale. Free for individuals; paid for institutional deployments by governance, risk, compliance, security, and learning leaders. Siteline scans agent-readiness on websites. Every AI Law indexes global AI regulation for compliance teams.
+PAICE.work is the flagship, an adaptive behavioral simulator scoring how someone actually collaborates with AI across five dimensions on a 0–1000 scale. Free individual access and institutional commercial packaging are implemented. Significant paying customers and realized product revenue are not established. Siteline scans agent-readiness on websites. Every AI Law indexes global AI regulation for compliance teams.
 
 These three roll up to AI Posture: one open governance framework that synthesizes signals across people, infrastructure, and regulation. Released as a free public protocol because the alternative — every cloud provider shipping a flattering rubric — is the scenario the portfolio exists to prevent.
 
@@ -588,6 +591,12 @@ His own framing: "I would rather build the muscle memory inside the lab whose wo
 The proof is concrete. PAICE is a 12-plus project content-and-systems operating system run by a single operator, with daily publishing, reusable standards, AI-assisted scoring workflows, and portfolio governance across PAICE.work, Siteline, Every AI Law, and AI Posture. YouTube Certified scaled a content-and-credential portfolio from about 1,000 partners per year to about 10,000 in year one. National 4-H Council required a shared production system across dozens of university partners. Convatec streamlined content offerings by 90% while increasing utilization and delivery speed.
 
 For OpenAI's Customer Education, Content and Systems Operations Lead role, the match is strongest around operating rhythm, content lifecycle, cross-functional translation, AI-enabled automation, and quality control. Gap to probe: he is not a deep production platform engineer. He is the operator who defines the system, holds the handoffs, designs the quality bar, and knows where specialist engineering support should own the substrate.`,
+
+  aiTransformation: `Sam's AI-transformation case is strongest for a zero-to-one mandate, where the job is to build the operating model, governance, shared model controls, adoption system, and scorecard together.
+
+The evidence is direct but not identical. At Convatec, he delivered 80%+ AI-platform adoption in 30 days across a four-country rollout, raised the Innovation and Learning OHI score from 48 to 74, reduced the content portfolio by 90%, and improved delivery speed by 40%. He personally selected and hired two direct reports, set goals, coached and planned their development, and conducted formal reviews. PAICE2, Harnessie, and paice-near-integration provide inspectable current evidence for model catalogs, routing, fallbacks, privacy boundaries, budgets, approvals, verification, and attestation.
+
+The boundaries matter. Sam has not previously owned an enterprise AI Center of Excellence or enterprise DLP function, his formal line-management scale is two, and he is not claiming dedicated end-to-end production-infrastructure engineering ownership. The candidacy is credible for founding transformation leadership, but it is not conventionally obvious from title history.`,
 
   failure: `The cleanest documented one: Sam got fired (circa 2013) for refusing to ship a compliance course as pure liability theater. The client wanted a checkbox. Sam pushed back that a course that wouldn't change behavior was an institutional CYA maneuver dressed as L&D, and asked them to either fix the design or own it as a legal artifact rather than call it training. They picked someone else; he held the line and lost the engagement.
 

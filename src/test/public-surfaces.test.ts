@@ -129,7 +129,7 @@ describe("public resume surfaces", () => {
   it.each(defaultPublicPositioningFiles)("keeps default public artifacts employer-neutral in %s", (file) => {
     const content = readFileSync(join(root, file), "utf8");
 
-    expect(content).not.toMatch(/Anthropic.*Head of Content|OpenAI.*Customer Education/i);
+    expect(content).not.toMatch(/Anthropic.*Head of Content|OpenAI.*Customer Education|Instructure.*Director, AI Center of Excellence/i);
   });
 
   it.each(downstreamArtifactFiles)("documents the two-page-resume funnel in %s", (file) => {
@@ -255,5 +255,28 @@ describe("public resume surfaces", () => {
     expect(readme).not.toMatch(/- Anthropic Messages API:/);
     expect(readme).not.toMatch(/both using Anthropic/);
     expect(readme).toMatch(/current (?:implementation|production provider) is Anthropic/i);
+  });
+
+  it("uses the current Signals & Subtractions identity and cadence", () => {
+    const files = ["EVIDENCE.md", "src/data/sam-profile.ts"];
+
+    for (const file of files) {
+      const content = readFileSync(join(root, file), "utf8");
+      expect(content).not.toMatch(/signalsandsubtractions\.substack\.com/i);
+      expect(content).not.toMatch(/weekly newsletter \(Mondays\)|weekly Monday cadence/i);
+      expect(content).toContain("https://sigsub.show/");
+      expect(content).toContain("https://sigsub.substack.com/");
+      expect(content).toMatch(/livestream Wednesday.*episode Friday.*newsletter Sunday/is);
+    }
+  });
+
+  it("distinguishes commercial packaging from realized PAICE traction", () => {
+    const profile = readFileSync(join(root, "src/data/sam-profile.ts"), "utf8");
+    const evidence = readFileSync(join(root, "EVIDENCE.md"), "utf8");
+
+    expect(profile).toMatch(/commercial packaging/i);
+    expect(profile).toMatch(/significant paying customers.*not established/i);
+    expect(evidence).toMatch(/significant paying customers.*not established/i);
+    expect(profile).not.toMatch(/revenue sits on top/i);
   });
 });

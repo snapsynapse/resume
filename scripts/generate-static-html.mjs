@@ -14,8 +14,8 @@ const profileExperience = samProfile.experience.map((item) => ({
   summary: item.highlights[0],
   highlights: item.highlights,
 }));
-const commercialPortfolio = samProfile.publicArtifacts.paicePortfolio.filter((item) => item.category.includes("Revenue"));
-const standardsPortfolio = samProfile.publicArtifacts.paicePortfolio.filter((item) => !item.category.includes("Revenue"));
+const commercialPortfolio = samProfile.publicArtifacts.paicePortfolio.filter((item) => item.category.includes("Commercial"));
+const standardsPortfolio = samProfile.publicArtifacts.paicePortfolio.filter((item) => !item.category.includes("Commercial"));
 const portfolioItems = [
   ["PAICE Portfolio", "https://paice.foundation/", "Canonical map for Sam's public benefit corporation work."],
   ["Snap Synapse", "https://snapsynapse.com/", "Consulting, tools, frameworks, and applied artifacts from Snap Synapse."],

@@ -143,6 +143,11 @@ const BLOCKED_LITERAL_HASHES = new Set<string>([
 const ALLOWED_LINE_HASHES = new Set<string>([
   // Legitimate non-residential / regulatory-anchor reference. Hash of the lowercased full line.
   "2263976cde56cedf778112fdbc0c6c286e778cdec2d67d235182052312b6e36a",
+  // Public-safe state-level application context and its deterministic semantic tests.
+  "3c93dacc0b83cd01f406da8bf00e2f722f51bd4a8a321b0fe072e3ac8ebfd4c3",
+  "b1fa4d00a2353c90fd436b0a817cf5b828403d76c16fd16ac678d2e1cdd89315",
+  "5274cafe500407ded557c859a12eed2953bea0d7b593a36b8ff73aa7ed7446fb",
+  "2abbaea594a52c862be42e2130b502ff3067c61b6c84a1346b030bbd3a9904ed",
 ]);
 
 const MAX_NGRAM = 4;

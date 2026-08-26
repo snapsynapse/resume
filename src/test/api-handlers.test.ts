@@ -170,6 +170,35 @@ describe("API validation", () => {
     expect(systemText).not.toContain("VISITOR CONTEXT");
   });
 
+  it("composes the Instructure AI transformation boundaries into the server prompt", async () => {
+    anthropicMocks.stream.mockReturnValue(
+      (async function* () {
+        yield { type: "content_block_delta", delta: { type: "text_delta", text: "ok" } };
+      })(),
+    );
+
+    const res = await handleChatRequest(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "Where is Sam based for this role?" }],
+          roleSelection: { target: "ai-transformation", company: "instructure" },
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    await res.text();
+    const call = anthropicMocks.stream.mock.calls[0][0];
+    const systemText = call.system[0].text as string;
+    expect(systemText).toMatch(/Instructure - Director, AI Center of Excellence/);
+    expect(systemText).toMatch(/Remote from U[a-z]+/);
+    expect(systemText).toMatch(/formal line-management scale is two/i);
+    expect(systemText).toMatch(/no prior enterprise AI CoE ownership/i);
+    expect(systemText).toMatch(/no enterprise DLP ownership/i);
+    expect(systemText).toMatch(/Do not disclose a street address, ZIP code.*phone number/i);
+  });
+
   it("rejects chat messages over 8000 characters", async () => {
     const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", {

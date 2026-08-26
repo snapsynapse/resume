@@ -1,5 +1,5 @@
-export type TargetKey = "ai-education" | "content-ops";
-export type CompanyKey = "anthropic" | "openai";
+export type TargetKey = "ai-education" | "content-ops" | "ai-transformation";
+export type CompanyKey = "anthropic" | "openai" | "instructure";
 
 export interface RoleSelection {
   target?: TargetKey;
@@ -13,13 +13,14 @@ interface TargetPreset {
   status: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey: "anthropic" | "openaiContentOps";
+  demoResponseKey: "anthropic" | "openaiContentOps" | "aiTransformation";
 }
 
 interface CompanyApplicationPreset {
   sourceRole: string;
   reqId?: string;
   sourceUrl?: string;
+  locationContext?: string;
   promptDelta: string;
   suggestedQuestions: string[];
 }
@@ -39,11 +40,12 @@ export interface ActiveRoleContext {
   targetLabel?: string;
   companyLabel?: string;
   sourceRole?: string;
+  locationContext?: string;
   heroTitles?: string[];
   status?: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey?: "anthropic" | "openaiContentOps";
+  demoResponseKey?: "anthropic" | "openaiContentOps" | "aiTransformation";
 }
 
 export const targetPresets: Record<TargetKey, TargetPreset> = {
@@ -90,6 +92,28 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       "How does Sam use AI for workflow automation and quality control?",
     ],
     demoResponseKey: "openaiContentOps",
+  },
+  "ai-transformation": {
+    key: "ai-transformation",
+    label: "AI Transformation",
+    heroTitles: [
+      "AI Transformation & Center of Excellence Leader",
+      "AI Center of Excellence Builder",
+      "AI Governance & Adoption Leader",
+      "Zero-to-One AI Transformation Operator",
+    ],
+    status:
+      "Focused on zero-to-one AI transformation roles that combine operating-model design, governance, adoption, measurement, and hands-on implementation.",
+    promptContext:
+      "Use the AI transformation lens when the visitor asks fit questions. Treat the work as zero-to-one operating-system construction: AI roadmaps and operating models, governance and approval controls, shared model-management functions, adoption and capability building, and measurement of cost, throughput, quality, and impact. Lead with Convatec's measured adoption and organizational outcomes, the PAICE portfolio's governance systems, and current inspectable work in PAICE2, Harnessie, and paice-near-integration. Distinguish director-level architecture, integration, administration, control design, and fast technical acquisition from dedicated production-infrastructure engineering ownership. Distinguish formal line management from project, vendor, partner, and advisory leadership. Do not claim prior enterprise AI Center of Excellence ownership, enterprise DLP ownership, a technical degree, or significant PAICE customer or revenue traction.",
+    suggestedQuestions: [
+      "Is Sam a fit to stand up an AI Center of Excellence?",
+      "What evidence supports Sam's production AI and model-registry experience?",
+      "Has Sam hired, coached, and formally evaluated a team?",
+      "Where is the fit transferable rather than identical?",
+      "What should the first interview probe?",
+    ],
+    demoResponseKey: "aiTransformation",
   },
 };
 
@@ -145,14 +169,41 @@ export const companyPresets: Record<CompanyKey, CompanyPreset> = {
       },
     },
   },
+  instructure: {
+    key: "instructure",
+    label: "Instructure",
+    referrerPatterns: ["instructure.com", "jobs.ashbyhq.com/instructure"],
+    companyOnlyPrompt:
+      "The visitor appears to be evaluating Sam in an Instructure context. Instructure has materially different openings, so do not assume a specific role unless target context is also present or the visitor names it.",
+    applications: {
+      "ai-transformation": {
+        sourceRole: "Director, AI Center of Excellence",
+        reqId: "4001e25a-4523-4d4c-9c53-11597d03cfd5",
+        sourceUrl:
+          "https://jobs.ashbyhq.com/instructure/4001e25a-4523-4d4c-9c53-11597d03cfd5/",
+        locationContext: "Remote from Utah",
+        promptDelta:
+          "For Instructure's Director, AI Center of Excellence role, treat the mandate as a founding AI Center of Excellence build rather than mature-department maintenance. Lead with Convatec's four-country rollout, 80 percent adoption in 30 days, 48-to-74 OHI gain, 90 percent portfolio reduction, and 40 percent faster delivery; then connect PAICE governance artifacts and current model-catalog, routing, fallback, privacy, budget, approval, and verification controls. Sam personally selected and hired two Convatec direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews; formal line-management scale is two, while broader project, vendor, partner, and advisory leadership must remain separately labeled. The candidacy is credible but not conventionally obvious from title history. Preserve these boundaries explicitly: no prior enterprise AI CoE ownership, no enterprise DLP ownership, no dedicated end-to-end production-infrastructure engineering claim, and no computer-science-equivalent degree claim.",
+        suggestedQuestions: [
+          "Is Sam a fit to stand up Instructure's AI Center of Excellence?",
+          "What evidence supports Sam's production AI and model-registry experience?",
+          "Has Sam hired, coached, and formally evaluated a team?",
+          "Where is the fit transferable rather than identical?",
+          "What should the first interview probe?",
+        ],
+      },
+    },
+  },
 };
 
 function isTargetKey(value: string | null): value is TargetKey {
-  return value === "ai-education" || value === "content-ops";
+  return value === "ai-education"
+    || value === "content-ops"
+    || value === "ai-transformation";
 }
 
 function isCompanyKey(value: string | null): value is CompanyKey {
-  return value === "anthropic" || value === "openai";
+  return value === "anthropic" || value === "openai" || value === "instructure";
 }
 
 export function parseRoleSelection(
@@ -204,6 +255,9 @@ export function composeRoleContext(
   const promptParts = [
     target?.promptContext,
     company && !application ? company.companyOnlyPrompt : undefined,
+    application?.locationContext
+      ? `For public location questions in this application context, answer: ${application.locationContext}. Do not disclose a street address, ZIP code, precise residential city, or phone number.`
+      : undefined,
     application?.promptDelta,
   ].filter(Boolean);
 
@@ -220,6 +274,7 @@ export function composeRoleContext(
     targetLabel: target?.label,
     companyLabel: company?.label,
     sourceRole: application?.sourceRole,
+    locationContext: application?.locationContext,
     heroTitles: target?.heroTitles,
     status: target?.status,
     promptContext: promptParts.join("\n\n"),
