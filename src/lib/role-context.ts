@@ -1,5 +1,5 @@
 export type TargetKey = "ai-education" | "content-ops" | "ai-transformation";
-export type CompanyKey = "anthropic" | "openai" | "instructure";
+export type CompanyKey = "openai" | "instructure";
 
 export interface RoleSelection {
   target?: TargetKey;
@@ -13,7 +13,7 @@ interface TargetPreset {
   status: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey: "anthropic" | "openaiContentOps" | "aiTransformation";
+  demoResponseKey: "aiEducation" | "openaiContentOps" | "aiTransformation";
 }
 
 interface CompanyApplicationPreset {
@@ -44,7 +44,7 @@ export interface ActiveRoleContext {
   status?: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey?: "anthropic" | "openaiContentOps" | "aiTransformation";
+  demoResponseKey?: "aiEducation" | "openaiContentOps" | "aiTransformation";
 }
 
 export const targetPresets: Record<TargetKey, TargetPreset> = {
@@ -68,7 +68,7 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       "How does Sam measure whether content actually teaches?",
       "When could Sam start, and is he open to relocating?",
     ],
-    demoResponseKey: "anthropic",
+    demoResponseKey: "aiEducation",
   },
   "content-ops": {
     key: "content-ops",
@@ -117,30 +117,6 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
 };
 
 export const companyPresets: Record<CompanyKey, CompanyPreset> = {
-  anthropic: {
-    key: "anthropic",
-    label: "Anthropic",
-    referrerPatterns: [
-      "anthropic.com",
-      "boards.greenhouse.io/anthropic",
-      "job-boards.greenhouse.io/anthropic",
-    ],
-    companyOnlyPrompt:
-      "The visitor appears to be evaluating Sam in an Anthropic context. Do not assume a specific role unless target context is also present or the visitor names it.",
-    applications: {
-      "ai-education": {
-        sourceRole: "Head of Content & Curriculum, Education",
-        promptDelta:
-          "For the Anthropic Head of Content & Curriculum, Education role, treat the opportunity as head-of-function shaped rather than assuming mature Director-level department maintenance. The role spans education content for developers, consumers, enterprise admins, and the general public; AI-assisted content production systems; quality bar and human craft boundaries; adaptive and personalized learning; and measurement of whether content actually teaches.",
-        suggestedQuestions: [
-          "If hired at Anthropic, what would happen to PAICE?",
-          "Is Sam a fit for Head of Content & Curriculum, Education?",
-          "How would Sam use AI without lowering the content quality bar?",
-          "When could Sam start, and is he open to relocating?",
-        ],
-      },
-    },
-  },
   openai: {
     key: "openai",
     label: "OpenAI",
@@ -200,7 +176,7 @@ function isTargetKey(value: string | null): value is TargetKey {
 }
 
 function isCompanyKey(value: string | null): value is CompanyKey {
-  return value === "anthropic" || value === "openai" || value === "instructure";
+  return value === "openai" || value === "instructure";
 }
 
 export function parseRoleSelection(
@@ -215,10 +191,10 @@ export function parseRoleSelection(
   if (isTargetKey(targetParam)) selection.target = targetParam;
   if (isCompanyKey(companyParam)) selection.company = companyParam;
 
-  // Backward compatibility for old shared Anthropic links.
+  // Backward compatibility for old shared links. The employer application behind this alias
+  // is closed; the link now lands on the durable target only.
   if (targetParam === "anthropic") {
     selection.target = "ai-education";
-    selection.company = "anthropic";
   }
 
   if (!selection.company && referrer) {

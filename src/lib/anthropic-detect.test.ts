@@ -2,7 +2,6 @@ import { afterEach, describe, expect, it } from "vitest";
 import { detectRoleContext } from "./anthropic-detect";
 import { composeRoleContext, detectRoleSelection, parseRoleSelection } from "./role-context";
 
-const anthropicRole = "Anthropic - Head of Content & Curriculum, Education";
 const openAiRole = "OpenAI - Customer Education, Content and Systems Operations Lead";
 
 function setSearch(search: string) {
@@ -22,10 +21,10 @@ describe("detectRoleContext", () => {
     setReferrer("");
   });
 
-  it("keeps role=anthropic as a compatibility alias", () => {
+  it("keeps role=anthropic as a compatibility alias that lands on the durable target only", () => {
     setSearch("?role=anthropic");
 
-    expect(detectRoleContext()).toBe(anthropicRole);
+    expect(detectRoleContext()).toBe("AI Education Systems");
   });
 
   it("uses target and company together for OpenAI content operations", () => {
@@ -48,10 +47,10 @@ describe("detectRoleContext", () => {
     expect(composeRoleContext(parseRoleSelection("?company=openai"))?.label).toBe("OpenAI");
   });
 
-  it("uses Anthropic referrers as company-only context", () => {
+  it("ignores referrers for employers with no open application", () => {
     setReferrer("https://job-boards.greenhouse.io/anthropic/jobs/123");
 
-    expect(detectRoleContext()).toBe("Anthropic");
+    expect(detectRoleContext()).toBeNull();
   });
 
   it("uses OpenAI referrers as company-only context", () => {

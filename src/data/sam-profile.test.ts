@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { samProfile } from "./sam-profile";
+import { demoResponses, samProfile } from "./sam-profile";
 import { aiUsageSnapshot } from "./ai-usage-snapshot";
 
 describe("samProfile role positioning", () => {
@@ -24,6 +24,11 @@ describe("samProfile role positioning", () => {
     expect(profileText).not.toMatch(/L&D Systems Architect/i);
     expect(profileText).not.toMatch(/Applied AI Enablement Lead/i);
     expect(profileText).not.toMatch(/Forward-Deployed Enablement Lead/i);
+  });
+
+  it("keeps the AI education demo response employer-neutral", () => {
+    expect(demoResponses.aiEducation).not.toMatch(/Anthropic|Claude|constitutional/i);
+    expect(demoResponses).not.toHaveProperty("anthropic");
   });
 
   it("keeps employer-specific context out of the default system prompt", () => {

@@ -44,8 +44,12 @@ describe("role-context routing", () => {
       parseRoleSelection("", "https://jobs.ashbyhq.com/openai/example"),
     ).toEqual({ company: "openai" });
     expect(
+      parseRoleSelection("", "https://jobs.ashbyhq.com/instructure/example"),
+    ).toEqual({ company: "instructure" });
+    // Closed applications leave no referrer footprint.
+    expect(
       parseRoleSelection("", "https://job-boards.greenhouse.io/anthropic/jobs/123"),
-    ).toEqual({ company: "anthropic" });
+    ).toEqual({});
   });
 
   it("combines an explicit target with a referrer-detected company", () => {
@@ -57,8 +61,10 @@ describe("role-context routing", () => {
   it("keeps old role=anthropic links working without making role the new contract", () => {
     expect(parseRoleSelection("?role=anthropic")).toEqual({
       target: "ai-education",
-      company: "anthropic",
     });
+    expect(composeRoleContext(parseRoleSelection("?role=anthropic"))?.label).toBe(
+      "AI Education Systems",
+    );
   });
 
   it("routes the durable AI transformation target into the Instructure application", () => {

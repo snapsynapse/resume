@@ -1,5 +1,11 @@
 # Sam Rogers Resume Changelog
 
+2026-09-07
+- Removed the closed Anthropic Head of Content & Curriculum, Education application context. The durable AI Education Systems target stays; old role=anthropic links now land on that target with no employer framing, and the target's fallback demo response is employer-neutral.
+- Referrers select company context only. A job family is never inferred from a job board and requires an explicit target link.
+- Self-metered AI usage figures now come from a committed snapshot that a weekly workflow regenerates from the published dashboard behind the full CI gate. Hand-maintained public files carry no token figures. Still no runtime fetch.
+- Added the published operating-method write-up (The Facilitator in the Machine) to the chat prompt, EVIDENCE.md, and README hiring signal; replaced the chat blog corpus with a lane-tagged top 10 favoring shipped work.
+
 2026-07-30
 - Added Sam's public multi-provider AI token-usage dashboard (https://sam-rogers.com/ai-usage/) as a first-class evidence artifact: a homepage evidence card, an Interview Decision Brief copy block with an interview probe, an EVIDENCE.md claim entry, and pointers from llms.txt, llms-full.txt, agents.json, and the assistant guide.
 - Framed the artifact two ways on purpose: scale on human-facing surfaces, and cost-governance, observability, and provenance discipline in the AI corpus and reviewer documentation.

@@ -62,8 +62,8 @@ const fallbackResponse = (question: string, roleContext: ActiveRoleContext | nul
     return demoResponses[roleContext.demoResponseKey];
   }
   const q = question.toLowerCase();
-  if (q.includes("anthropic") || q.includes("frontier") || q.includes("claude")) {
-    return demoResponses.anthropic;
+  if (q.includes("ai education") || q.includes("curriculum") || q.includes("learning")) {
+    return demoResponses.aiEducation;
   }
   if (q.includes("openai") || q.includes("content ops") || q.includes("content operations")) {
     return demoResponses.openaiContentOps;
