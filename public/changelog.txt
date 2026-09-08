@@ -1,5 +1,9 @@
 # Sam Rogers Resume Changelog
 
+2026-09-08
+- Repaired the assistant guide's native GuideCheck envelope, compact verification instruction, metadata, action schema, and acceptance boundaries while preserving profile 0.4.0 and the Level 3 claim. The guide now uses the SemVer calendar identity 2026.9.8; last-reviewed remains the dated freshness field.
+- Added an evidence-based Siteline gate to the deployment procedure. Local candidate diagnostics, persisted API results, deployed-byte verification, and live acceptance remain separate evidence states.
+
 2026-09-07
 - Removed the closed Anthropic Head of Content & Curriculum, Education application context. The durable AI Education Systems target stays; old role=anthropic links now land on that target with no employer framing, and the target's fallback demo response is employer-neutral.
 - Referrers select company context only. A job family is never inferred from a job board and requires an explicit target link.

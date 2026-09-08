@@ -237,6 +237,8 @@ The `.github/workflows/eval-live.yml` workflow runs `smoke:api` and `eval:prompt
 Local note: `npm run dev` starts Vite and serves the frontend only. Use `vercel dev` or a deployed URL for `/api/chat`, `/api/analyze-fit`, `npm run smoke:api`, and `npm run eval:prompts`.
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*`; generated static route files serve the public crawl pages, and unknown paths retain Vercel's real 404 response instead of falling back to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.
+
+Before delivery review, assess the local candidate for https://resume.sam-rogers.com/ with Siteline. Retain the timestamp, scanner and rubric versions, grade, score, findings, and commit; for a persisted API result, also retain its result ID and confirmed storage location. Reconcile each finding against source and intended behavior; do not add irrelevant surfaces merely to improve a grade. A local candidate-engine diagnostic is not a persisted Siteline API result or live acceptance. After an authorized deployment, verify the deployed bytes and scan the live canonical site before recording acceptance.
 ## Review Pointers
 - [SECURITY.md](SECURITY.md): endpoint threat model, disclosure path, and hardening notes.
 - [EVIDENCE.md](EVIDENCE.md): claim ledger behind the resume.

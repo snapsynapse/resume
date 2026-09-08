@@ -1,6 +1,10 @@
 import { readFile, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { createHash } from "node:crypto";
+import {
+  assistantGuideMetadata,
+  validateAssistantGuideContract,
+} from "./lib/assistant-guide.mjs";
 
 const siteUrl = "https://resume.sam-rogers.com";
 const routes = ["/", "/about/", "/experience/", "/fit-assessment/", "/portfolio/", "/contact/"];
@@ -95,45 +99,17 @@ if (Buffer.byteLength(assistantGuide, "utf8") > 8192) {
 if (!/^[\x00-\x7F]*$/.test(assistantGuide)) {
   fail(`${assistantGuidePath}: must be ASCII-only`);
 }
-for (const required of [
-  "[assistant-guide-metadata]",
-  "profile: human-verifiable-assistant-guide",
-  "conformance-target: GuideCheck Level 3",
-  "[scope]",
-  "[funnel-position]",
-  "[trust-boundaries]",
-  "[approval-gates]",
-  "[prohibited-behavior]",
-  "[evidence-rules]",
-  "[sensitive-jd-handling]",
-  "[api-usage]",
-  "name: evaluate-candidate-fit",
-  "name: analyze-user-supplied-job-description",
-  "name: answer-evidence-and-portfolio-questions",
-  "name: handle-sensitive-role-context",
-]) {
-  if (!assistantGuide.includes(required)) {
-    fail(`${assistantGuidePath}: missing ${required}`);
-  }
+
+for (const error of validateAssistantGuideContract(assistantGuide)) {
+  fail(`${assistantGuidePath}: ${error}`);
 }
 const latestChangelogDate = changelog.match(/^(\d{4}-\d{2}-\d{2})$/m)?.[1];
-const assistantGuideVersion = assistantGuide.match(/^guide-version: (\d{4}-\d{2}-\d{2})$/m)?.[1];
-const assistantGuideLastReviewed = assistantGuide.match(/^last-reviewed: (\d{4}-\d{2}-\d{2})$/m)?.[1];
+const assistantGuideLastReviewed = assistantGuideMetadata(assistantGuide).lastReviewed;
 if (!latestChangelogDate) {
   fail("changelog.txt: missing latest dated entry");
 }
-if (!assistantGuideVersion) {
-  fail(`${assistantGuidePath}: missing dated guide-version`);
-}
 if (!assistantGuideLastReviewed) {
   fail(`${assistantGuidePath}: missing dated last-reviewed`);
-}
-if (
-  latestChangelogDate &&
-  assistantGuideVersion &&
-  assistantGuideVersion < latestChangelogDate
-) {
-  fail(`${assistantGuidePath}: guide-version must not lag latest changelog date ${latestChangelogDate}`);
 }
 if (
   latestChangelogDate &&

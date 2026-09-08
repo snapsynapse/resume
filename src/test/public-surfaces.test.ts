@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { aiUsageSnapshot } from "@/data/ai-usage-snapshot";
+import { validateAssistantGuideContract } from "../../scripts/lib/assistant-guide.mjs";
 
 const root = process.cwd();
 const publicSurfaceFiles = [
@@ -101,6 +102,19 @@ const outdatedAnthropicRolePatterns = [
   /anthropic-applied/i,
 ];
 
+const guideContractMutations: Array<[string, (guide: string) => string]> = [
+  ["missing metadata close", (guide) => guide.replace("[/assistant-guide-metadata]", "")],
+  ["empty duplicate metadata field", (guide) => guide.replace("profile-version: 0.4.0", "profile-version: 0.4.0\nprofile-version:")],
+  ["malformed duplicate metadata field", (guide) => guide.replace("profile-version: 0.4.0", "profile-version: 0.4.0\nprofile-version = 0.4.0")],
+  ["trailing metadata whitespace", (guide) => guide.replace("guide-version: 2026.9.8", "guide-version: 2026.9.8 ")],
+  ["leading-zero guide version", (guide) => guide.replace("guide-version: 2026.9.8", "guide-version: 2026.09.08")],
+  ["invalid review date", (guide) => guide.replace("last-reviewed: 2026-09-08", "last-reviewed: banana")],
+  ["missing compact approval", (guide) => guide.replace("approve proceeding under the reported level", "proceed")],
+  ["missing action command", (guide) => guide.replace(/^command: .+$/m, "")],
+  ["missing action egress", (guide) => guide.replace(/^egress: .+$/m, "")],
+  ["unbalanced action fence", (guide) => guide.replace("[/action]", "[action]")],
+];
+
 describe("public resume surfaces", () => {
   it.each(publicSurfaceFiles)("does not expose outdated AI-officer solicitation in %s", (file) => {
     const content = readFileSync(join(root, file), "utf8");
@@ -147,6 +161,16 @@ describe("public resume surfaces", () => {
     expect(guide).toMatch(/website UI endpoints, not a general agent-integration API/i);
     expect(manifest.openapi.provided).toBe(false);
     expect(manifest.openapi.reason).toMatch(/website UI rather than a public integration API/i);
+  });
+
+  it("keeps the assistant guide's native GuideCheck structure valid", () => {
+    const guide = readFileSync(join(root, "public/.well-known/assistant-guide.txt"), "utf8");
+    expect(validateAssistantGuideContract(guide)).toEqual([]);
+  });
+
+  it.each(guideContractMutations)("rejects assistant guide contract mutation: %s", (_name, mutate) => {
+    const guide = readFileSync(join(root, "public/.well-known/assistant-guide.txt"), "utf8");
+    expect(validateAssistantGuideContract(mutate(guide))).not.toEqual([]);
   });
 
   it("links repository reviewer artifacts from the agent registry", () => {
