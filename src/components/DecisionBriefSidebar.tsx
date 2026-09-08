@@ -71,7 +71,8 @@ const evidenceBullets = [
 ];
 
 // Shared across both modes. Floor values with an explicit as-of date, sourced from the profile
-// so the copy cannot drift from what the AI surfaces say. No live fetch, no volatile numbers.
+// (which reads the committed snapshot) so the copy cannot drift from what the AI surfaces say.
+// No live fetch, no volatile numbers.
 const usage = samProfile.aiUsageDashboard;
 
 const aiUsageBlock: CopyBlock = {

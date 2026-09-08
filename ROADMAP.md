@@ -24,6 +24,8 @@ The active site is functional. Items below are not promises of enterprise comple
 - **Operating contract** — `INTENT.md` records the recruiter-shortlist primary outcome, durable-target admission rule, explicit-link requirement for role context, default-positioning change threshold, and the technical-work stop rule.
 - **Referrer company-only routing** — referrers now select company context only; a job family requires an explicit `target`. No default target is inferred from a job board.
 - **Operating method evidence** — the chat system prompt, `EVIDENCE.md`, and the README hiring signal now cite the published governed multi-model development practice at https://sam-rogers.com/facilitator-in-the-machine.
+- **Self-updating AI usage figures** — `scripts/fetch-ai-usage.mjs` regenerates `src/data/ai-usage-snapshot.ts` and the index.html no-JS fallback from the published dashboard; `refresh-ai-usage.yml` runs it weekly, gates it with lint, typecheck, tests, and build, and commits only on change. Hand-maintained public text files no longer carry token figures. Still no runtime fetch.
+- **Hiring-first blog corpus** — the chat surface carries a top-10 post list tagged by lane (operating method, measurement, ai-education, ai-transformation, content-ops, shipped work) with canonical URLs, plus the AI usage methodology write-up as a cited reference path.
 - **Local API eval note** — `README.md` now clarifies that Vite serves the frontend only; `vercel dev` or a deployed URL is required for `/api/chat`, `/api/analyze-fit`, `smoke:api`, and `eval:prompts`.
 
 ## Measurement And Ops

@@ -64,6 +64,8 @@ This is risk reduction, not anonymization. The app explicitly warns users not to
 ### Public positioning and server-only context are separated
 Public surfaces avoid proactively marketing previous or overly narrow role positioning. Server-side prompts may still retain context needed to answer user-supplied role descriptions honestly. For example, if a pasted role explicitly asks about an AI officer-style scope, the model can assess transferable evidence and gaps without advertising that as Sam's current offer.
 This separation is a governance decision: public metadata should not solicit roles the candidate is not actively positioning for, while the LLM should not become less accurate when the user supplies legitimate context.
+### Evidence figures refresh on a schedule, never at runtime
+The self-metered AI usage figures come from `src/data/ai-usage-snapshot.ts`, a generated module that `scripts/fetch-ai-usage.mjs` derives from the published dashboard at https://sam-rogers.com/ai-usage/. A weekly workflow regenerates it, runs the full CI gate, and commits only when the figures changed. The site never fetches the dashboard at runtime, and hand-maintained public text files carry no token figures at all, so nothing a reviewer reads can be stale in a way git history cannot explain. Methodology write-up: https://sam-rogers.com/counting-what-i-delegated-to-ai
 ### Target and company routing
 The default public resume is employer-neutral. Tailored application context is selected through two optional URL fields:
 ```txt

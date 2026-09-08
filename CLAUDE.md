@@ -23,9 +23,10 @@ Source for Sam Rogers' AI-enabled resume site (live at https://resume.sam-rogers
 - `src/pages/` — route-level pages
 - `src/lib/` — shared logic, including `role-context.ts` (target/company routing) and `jd-review.ts` (local sensitive-term scanner)
 - `src/data/sam-profile.ts` — single source of truth for profile content, consumed by the app, static crawl pages, AI prompts, and machine-readable files
+- `src/data/ai-usage-snapshot.ts` — GENERATED floor figures for the AI usage dashboard; edit via `npm run refresh:ai-usage`, never by hand. Hand-maintained public files (`llms.txt`, `agents.json`, `assistant-guide.txt`, `llms-full.txt`) deliberately carry no token figures so they cannot go stale
 - `src/test/` — test suite, including `pii-scan.test.ts` (reveal-resistant PII/compensation scan)
 - `api/` — Vercel serverless functions (`chat.ts`, `analyze-fit.ts`, `limits.ts`, `boundaries.ts`, `config.ts`, `explicit-role-context.ts`, `vercel-adapter.ts`)
-- `scripts/` — build-time and eval tooling: `generate-static-html.mjs` (static crawl pages), `validate-metadata.mjs`, `eval-prompts.mjs` (live prompt-boundary evals), `smoke-api.mjs` (live API liveness checks)
+- `scripts/` — build-time and eval tooling: `generate-static-html.mjs` (static crawl pages), `validate-metadata.mjs`, `eval-prompts.mjs` (live prompt-boundary evals), `smoke-api.mjs` (live API liveness checks), `fetch-ai-usage.mjs` (regenerates `src/data/ai-usage-snapshot.ts` and the index.html no-JS figures from the published dashboard; run by `refresh-ai-usage.yml` weekly, never at runtime)
 - `public/` — machine-readable artifacts: `llms.txt`, `llms-full.txt`, `agents.json`, `api-manifest.json`, `resume.txt`, `changelog.txt`, `sitemap.xml`, `.well-known/assistant-guide.txt`, `.well-known/security.txt`
 - Root docs: `README.md` (architecture/design decisions), `INTENT.md` (audience strategy), `ROADMAP.md` (delivered vs. open work), `SECURITY.md` (threat model, PII eval design), `EVIDENCE.md` (claim ledger)
 
@@ -52,6 +53,7 @@ npm run preview          # preview production build
 npm audit --audit-level=high
 npm run eval:prompts     # live prompt-boundary evals; needs EVAL_BASE_URL + ANTHROPIC_API_KEY
 npm run smoke:api        # live API liveness/shape checks; needs EVAL_BASE_URL
+npm run refresh:ai-usage # regenerate the AI usage snapshot from the live dashboard (network)
 ```
 
 Required env: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` (defaults to `claude-opus-4-8` locally, should be explicit in production). Optional: Upstash Redis vars for rate limiting, `VITE_POSTHOG_*` for analytics.

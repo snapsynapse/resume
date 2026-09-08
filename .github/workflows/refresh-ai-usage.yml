@@ -1,0 +1,57 @@
+name: Refresh AI usage snapshot
+
+# Keeps the self-metered AI usage figures current by default. Fetches the published dashboard,
+# regenerates src/data/ai-usage-snapshot.ts and the index.html no-JS fallback, runs the full
+# gate, and commits only when the figures changed. The commit lands on main, which Vercel
+# deploys. Nothing is fetched at runtime; the committed snapshot is the artifact.
+#
+# GITHUB_TOKEN pushes do not trigger ci.yml, so the same checks run here before committing.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1" # Mondays 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-ai-usage
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch dashboard and regenerate snapshot
+        run: npm run refresh:ai-usage
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet -- src/data/ai-usage-snapshot.ts index.html; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run the CI gate on the refreshed snapshot
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          npm run lint
+          npm run typecheck
+          npm run test
+          npm run build
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/ai-usage-snapshot.ts index.html
+          AS_OF=$(sed -n 's/^  asOf: "\(.*\)",$/\1/p' src/data/ai-usage-snapshot.ts)
+          git commit -m "Refresh AI usage snapshot (as of ${AS_OF})"
+          git push

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { samProfile } from "./sam-profile";
+import { aiUsageSnapshot } from "./ai-usage-snapshot";
 
 describe("samProfile role positioning", () => {
   it("keeps the default role positioning employer-neutral", () => {
@@ -35,10 +36,12 @@ describe("samProfile role positioning", () => {
     const usage = samProfile.aiUsageDashboard;
 
     expect(usage.url).toBe("https://sam-rogers.com/ai-usage/");
-    expect(usage.asOf).toBe("2026-07-29");
-    expect(usage.totalTokens).toBe("705,462,120");
-    expect(usage.totalTokensShort).toBe("700M+");
-    expect(usage.sourceCount).toBe(13);
+    expect(usage.asOf).toBe(aiUsageSnapshot.asOf);
+    expect(usage.asOf).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(usage.totalTokens).toBe(aiUsageSnapshot.totalTokens);
+    expect(usage.totalTokensShort).toBe(aiUsageSnapshot.totalTokensShort);
+    expect(usage.sourceCount).toBe(aiUsageSnapshot.sourceCount);
+    expect(usage.methodologyPostUrl).toBe("https://sam-rogers.com/counting-what-i-delegated-to-ai");
     // Governance framing is the point of the artifact; scale is only the hook.
     expect(usage.methodology).toMatch(/recovered record, not a complete history/i);
     expect(usage.methodology).toMatch(/labeled unknown rather than counted as zero/i);

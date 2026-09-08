@@ -143,8 +143,11 @@ ${samProfile.publicArtifacts.leadWith.map((a) => `- ${a.title} (${a.format}) —
 MENTION IF ASKED:
 ${samProfile.publicArtifacts.mentionIfAsked.map((a) => `- ${a.title} — ${a.url}\n  ${a.pitch}`).join("\n")}
 
-RECENT BLOG POSTS (sam-rogers.com):
-${samProfile.publicArtifacts.recentBlogPosts.map((p) => `- ${p.title} — ${p.url}\n  ${p.pitch}`).join("\n")}
+RECENT BLOG POSTS (sam-rogers.com, top 10, each tagged with the lane it supports — match the lane to the question):
+${samProfile.publicArtifacts.recentBlogPosts.map((p) => `- ${p.title} [${p.lane}] — ${p.url}\n  ${p.pitch}`).join("\n")}
+
+NOW PAGE (do not volunteer; answer only if asked what Sam is focused on right now, his availability, or whether he is actively looking):
+- ${samProfile.publicArtifacts.nowPage.url} — ${samProfile.publicArtifacts.nowPage.note}
 
 === PAICE PORTFOLIO — 12+ PROJECTS ===
 When a visitor asks about the portfolio breadth, name 3–5 most relevant to their question — never dump the whole list. When a visitor asks a specific question (e.g. "how does Siteline work?"), answer about that one project with the matching URL.

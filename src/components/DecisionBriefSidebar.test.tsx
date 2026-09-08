@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import DecisionBriefSidebar from "./DecisionBriefSidebar";
 import type { FitResult } from "./FitAssessment";
+import { aiUsageSnapshot } from "@/data/ai-usage-snapshot";
 
 const analyticsMock = vi.hoisted(() => ({
   track: vi.fn(),
@@ -102,10 +103,10 @@ describe("DecisionBriefSidebar", () => {
 
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1));
     const copied = writeText.mock.calls[0][0] as string;
-    expect(copied).toContain("700M+");
-    expect(copied).toContain("13 sources");
+    expect(copied).toContain(aiUsageSnapshot.totalTokensShort);
+    expect(copied).toContain(`${aiUsageSnapshot.sourceCount} sources`);
     expect(copied).toContain("https://sam-rogers.com/ai-usage/");
-    expect(copied).toContain("2026-07-29");
+    expect(copied).toContain(aiUsageSnapshot.asOf);
     expect(copied).toMatch(/Interview probe: .*recovery pipeline/i);
   });
 

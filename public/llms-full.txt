@@ -92,9 +92,9 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 
 Sam meters his own AI usage across every provider and tool he works with and publishes the record with its methodology at https://sam-rogers.com/ai-usage/.
 
-Floor figures as of 2026-07-29: 705,462,120 tokens recovered across 13 sources, spanning 2023-05-26 through 2026-07-29. Sources include Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, and Snapdev. Fidelity is 686.0M tokens exact-metered and 19.4M estimated, roughly 97 percent exact.
+The record covers 13 providers and tools since 2023: Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, and Snapdev. Headline figures are floor values with an explicit as-of date. They are carried on this site's static pages from a scheduled snapshot committed to the public repository, so the figure a reviewer sees and the date it was true are always paired and traceable in git history.
 
-Method matters more than the total. The dashboard is published as a recovered record, not a complete history: missing accounts, devices, and logs are labeled unknown rather than counted as zero, provenance is evidence-labeled conservatively, and a publication manifest carries a sha256 of the source data. Read it as cost-governance, observability, and provenance discipline demonstrated on Sam's own operation, not as a productivity or output-quality claim.
+Method matters more than the total. The dashboard is published as a recovered record, not a complete history: missing accounts, devices, and logs are labeled unknown rather than counted as zero, and provenance is evidence-labeled conservatively. The companion write-up at https://sam-rogers.com/counting-what-i-delegated-to-ai documents the recovery errors that were caught (double counting, unknown-versus-empty, day-boundary duplicates) and how. Read it as cost-governance, observability, and provenance discipline demonstrated on Sam's own operation, not as a productivity or output-quality claim.
 
 Agent handling: these are floor values. Cite the as-of date with any figure, never describe the numbers as live or current, and do not attempt to fetch the dashboard for a fresher total.
 
@@ -140,7 +140,7 @@ Sam is not claiming dedicated end-to-end production-infrastructure engineering o
 - PAICE Portfolio: https://paice.foundation/ - canonical map for Sam's public benefit corporation work on Aggregated Intelligence, AI Posture, Siteline, Every AI Law, and related open standards.
 - Snap Synapse tools: https://snapsynapse.com/tools/ - tools, frameworks, and applied consulting artifacts from the long-running Snap Synapse practice.
 - Harnessie: https://harnessie.com/ - Snap Synapse tool for repeatable AI workflow quality control, verification gates, and tamper-evident audit trails.
-- AI usage dashboard: https://sam-rogers.com/ai-usage/ - published multi-provider AI token-usage record with its recovery methodology, fidelity labeling, and publication manifest.
+- AI usage dashboard: https://sam-rogers.com/ai-usage/ - published multi-provider AI token-usage record with its recovery methodology and fidelity labeling.
 - GitHub profile: https://github.com/snapsynapse - additional repositories and experiments not necessarily listed in either portfolio surface.
 - PAICE.work: https://paice.work/ - adaptive behavioral simulator scoring AI collaboration across five dimensions.
 - Siteline: https://siteline.to/ - agent-usability scanner for websites.

@@ -4,9 +4,10 @@ import { track } from "@/lib/analytics";
 
 // Static evidence card for Sam's public AI token-usage dashboard.
 //
-// Deliberately static: the numbers are floor values carried in sam-profile.ts with an explicit
-// as-of date. There is no fetch and no iframe here — the two sites stay decoupled, and nothing
-// on this page can go stale in a way a reviewer cannot see.
+// Deliberately static at runtime: the numbers are floor values from src/data/ai-usage-snapshot.ts
+// with an explicit as-of date, refreshed by a scheduled build-time script and committed. There is
+// no fetch and no iframe here — the two sites stay decoupled, and nothing on this page can go
+// stale in a way a reviewer cannot see.
 const AIUsageCard = () => {
   const usage = samProfile.aiUsageDashboard;
 

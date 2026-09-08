@@ -1,6 +1,8 @@
 // Sam Rogers profile data
 // Canonical corpus lives in LocalBrain _Inbox/resume/ — keep this file in sync with that material.
 
+import { aiUsageSnapshot } from "./ai-usage-snapshot.ts";
+
 export const samProfile = {
   name: "Sam Rogers",
   title: "AI-Enabled Content Systems Operator",
@@ -159,23 +161,26 @@ export const samProfile = {
   //
   // Rules for anything that consumes this block:
   // - These are FLOOR values with an explicit as-of date. Never present them as live or current.
-  // - Never fetch the dashboard at runtime. There is no data coupling between the two sites.
+  // - Never fetch the dashboard at runtime. The figures come from src/data/ai-usage-snapshot.ts,
+  //   which scripts/fetch-ai-usage.mjs regenerates on a schedule and commits, so every figure
+  //   the site shows is one a reviewer can find in git history.
   // - Cite the as-of date whenever a number is used.
   aiUsageDashboard: {
-    url: "https://sam-rogers.com/ai-usage/",
-    asOf: "2026-07-29",
-    totalTokens: "705,462,120",
-    totalTokensShort: "700M+",
-    sourceCount: 13,
+    url: aiUsageSnapshot.url,
+    asOf: aiUsageSnapshot.asOf,
+    totalTokens: aiUsageSnapshot.totalTokens,
+    totalTokensShort: aiUsageSnapshot.totalTokensShort,
+    sourceCount: aiUsageSnapshot.sourceCount,
     sources:
       "Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, and Snapdev",
-    dateRange: "2023-05-26 through 2026-07-29",
+    dateRange: `${aiUsageSnapshot.firstDate} through ${aiUsageSnapshot.asOf}`,
     fidelity:
-      "686.0M tokens exact-metered and 19.4M estimated, roughly 97 percent exact",
+      `${aiUsageSnapshot.exactTokens} tokens exact-metered and ${aiUsageSnapshot.estimatedTokens} estimated, roughly ${aiUsageSnapshot.percentExact} percent exact`,
     methodology:
-      "Published as a recovered record, not a complete history: missing accounts, devices, and logs are labeled unknown rather than counted as zero, provenance is evidence-labeled conservatively, and a publication manifest carries a sha256 of the source data.",
+      "Published as a recovered record, not a complete history: missing accounts, devices, and logs are labeled unknown rather than counted as zero, and provenance is evidence-labeled conservatively. The companion write-up, Counting what I delegated to AI, documents the recovery errors that were caught and how.",
+    methodologyPostUrl: "https://sam-rogers.com/counting-what-i-delegated-to-ai",
     scaleFraming:
-      "700M+ tokens across 13 sources since 2023, self-metered and published.",
+      `${aiUsageSnapshot.totalTokensShort} tokens across ${aiUsageSnapshot.sourceCount} sources since 2023, self-metered and published.`,
     governanceFraming:
       "Sam meters his own multi-provider AI usage, publishes the methodology, and labels the recovery gaps honestly. That is cost-governance, observability, and provenance discipline demonstrated on his own operation rather than asserted in a bullet.",
     interviewProbe:
@@ -462,6 +467,14 @@ export const samProfile = {
       },
     ],
 
+    // Chat-only. Sam's Now page is personal; never link it from public surfaces or volunteer it.
+    // Surface only when the visitor asks what Sam is focused on right now or about availability.
+    nowPage: {
+      url: "https://sam-rogers.com/now",
+      note:
+        "Monthly update on what Sam is focused on. As of September 2026 it states he is open to select full-time roles (SF hybrid or remote) alongside consulting, and points to this resume.",
+    },
+
     archives: {
       // Volume signals — don't enumerate, just direct the visitor to the archives.
       paiceBlog: {
@@ -478,24 +491,81 @@ export const samProfile = {
       },
     },
 
+    // Top 10 only, hiring-first. Each entry names the lane it supports so the chat can match a
+    // post to the visitor's question instead of dumping the list. Canonical URLs, no /blog/ prefix.
+    // Top 10 only, hiring-first. No Signals & Subtractions issues here; the newsletter archive
+    // is a volume signal below. Each entry names the lane it supports so the chat can match a
+    // post to the visitor's question instead of dumping the list. Canonical URLs, no /blog/ prefix.
     recentBlogPosts: [
       {
-        title: "95% failure",
-        url: "https://sam-rogers.com/blog/95-percent-failure/",
+        title: "The Facilitator in the Machine",
+        url: "https://sam-rogers.com/facilitator-in-the-machine",
+        lane: "operating method",
         pitch:
-          "Reads the MIT NANDA 'GenAI projects return zero' finding through 20+ years of change-management research. Framing AI as a tech project is what kills it.",
+          "How Sam runs a governed multi-model development practice: routing by work shape, cross-vendor author/verifier separation, server-boundary permissions, and an enforced register of his own error patterns.",
       },
       {
-        title: "Applying AI in L&D",
-        url: "https://sam-rogers.com/blog/applying-ai-in-ld/",
+        title: "Counting what I delegated to AI",
+        url: "https://sam-rogers.com/counting-what-i-delegated-to-ai",
+        lane: "measurement",
         pitch:
-          "Practitioner-grade guidance on where AI actually belongs in L&D workflows.",
+          "Methodology behind the self-metered AI usage dashboard. Unknown is not zero, three ways the count inflated in a flattering direction, and how each was caught.",
       },
       {
-        title: "Addition is Easy",
-        url: "https://sam-rogers.com/blog/addition-is-easy/",
+        title: "Applying AI in Learning & Development",
+        url: "https://sam-rogers.com/applying-ai-in-ld",
+        lane: "ai-education",
         pitch:
-          "Sam's subtraction philosophy compressed — addition is easy, subtraction is hard, most orgs default wrong.",
+          "Sam facilitates the ATD certificate program of the same name. Frames AI in L&D as supercharged performance consulting, not tool tours.",
+      },
+      {
+        title: "How Do You Measure Whether Someone Is Actually Good at Working With AI?",
+        url: "https://sam-rogers.com/paice-work",
+        lane: "shipped work",
+        pitch:
+          "The engineering problem behind PAICE.work: why quizzes fail to measure human-AI collaboration quality and how an adaptive behavioral simulator measures it instead.",
+      },
+      {
+        title: "Your site works fine in a browser. AI agents can't use it.",
+        url: "https://sam-rogers.com/siteline",
+        lane: "shipped work",
+        pitch:
+          "Siteline, a free scanner that shows where and why a website breaks for AI agents. Product write-up with the failure taxonomy behind it.",
+      },
+      {
+        title: "EveryAILaw: A Structured Database of AI Compliance Obligations",
+        url: "https://sam-rogers.com/everyailaw",
+        lane: "shipped work",
+        pitch:
+          "Open-source reference tracking AI regulation obligations across 12 regulations and 8 authorities, with a JSON API and MCP server.",
+      },
+      {
+        title: "Knowledge as Code",
+        url: "https://sam-rogers.com/knowledge-as-code",
+        lane: "shipped work",
+        pitch:
+          "The pattern under several PAICE references: plain text, Git-native, zero-dependency knowledge bases that verify themselves through AI cascades and publish to multiple outputs from one source.",
+      },
+      {
+        title: "Graceful Boundaries",
+        url: "https://sam-rogers.com/graceful-boundaries",
+        lane: "shipped work",
+        pitch:
+          "An open spec that makes every API refusal self-explanatory, written after measuring that bad 429s generate more traffic than they prevent. JS, Python, and Go references.",
+      },
+      {
+        title: "Teach Your AI Coding Agent to Run Accessibility Audits",
+        url: "https://sam-rogers.com/skill-a11y-audit",
+        lane: "shipped work",
+        pitch:
+          "A reusable agent skill for WCAG 2.1 AA audits using axe-core and Lighthouse, portable across Claude Code, Codex, and other agents. The quality gate for agent-authored interfaces.",
+      },
+      {
+        title: "Harnessie",
+        url: "https://sam-rogers.com/harnessie",
+        lane: "shipped work",
+        pitch:
+          "Taking a brain-agnostic multi-agent harness public, and discovering the same five safety mechanisms rebuilt across ten of Sam's own repos.",
       },
     ],
   },
