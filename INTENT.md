@@ -10,6 +10,15 @@ Because the artifact supports multiple active applications, the default hero kee
 
 The Interview Decision Brief opens by default on desktop because observed use favors immediate copy-ready evidence. Mobile remains supported, but desktop and tablet hiring workflows are the primary optimization target for this downstream artifact.
 
+## Operating Contract
+
+- Primary outcome: convince a recruiter to shortlist Sam for a hiring-manager conversation. The intended 30-second conclusion is that the title history is nonstandard but the evidence is specific enough that rejecting before that conversation would be a mistake. Novelty is never a success criterion.
+- Durable-target admission: a new `target` is admitted only when it names a recurring operating pattern materially different from existing lanes, has at least three independently supportable proof points, and is likely to recur across employers. Company-specific variation belongs in an application entry.
+- Role-specific context requires an explicit `target` link. Referrers may select company-only context and must never infer a job family.
+- Default positioning changes only after repeated external evidence, such as two or more serious interview processes or recurring recruiter feedback pointing to one operating pattern.
+- Technical-work stop rule: further public-repo work must improve recruiter or hiring-manager evidence transfer, resolve a real reviewer objection, prove a concrete claim a recruiter should rely on, or reduce a live public-risk exposure. Accessibility and keyboard usability qualify. New abstract governance machinery does not without a demonstrated need.
+- Application-to-interview outcome tracking lives in a private workspace, never in this repository.
+
 ## Audience Ladder
 
 The artifact serves three hiring-stage audiences.

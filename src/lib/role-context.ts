@@ -29,7 +29,6 @@ interface CompanyPreset {
   key: CompanyKey;
   label: string;
   referrerPatterns: string[];
-  referrerDefaultTarget?: TargetKey;
   companyOnlyPrompt: string;
   applications: Partial<Record<TargetKey, CompanyApplicationPreset>>;
 }
@@ -105,7 +104,7 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
     status:
       "Focused on zero-to-one AI transformation roles that combine operating-model design, governance, adoption, measurement, and hands-on implementation.",
     promptContext:
-      "Use the AI transformation lens when the visitor asks fit questions. Treat the work as zero-to-one operating-system construction: AI roadmaps and operating models, governance and approval controls, shared model-management functions, adoption and capability building, and measurement of cost, throughput, quality, and impact. Lead with Convatec's measured adoption and organizational outcomes, the PAICE portfolio's governance systems, and current inspectable work in PAICE2, Harnessie, and paice-near-integration. Distinguish director-level architecture, integration, administration, control design, and fast technical acquisition from dedicated production-infrastructure engineering ownership. Distinguish formal line management from project, vendor, partner, and advisory leadership. Do not claim prior enterprise AI Center of Excellence ownership, enterprise DLP ownership, a technical degree, or significant PAICE customer or revenue traction.",
+      "Use the AI transformation lens when the visitor asks fit questions. Treat the work as zero-to-one operating-system construction: AI roadmaps and operating models, governance and approval controls, shared model-management functions, adoption and capability building, and measurement of cost, throughput, quality, and impact. Lead with Convatec's measured adoption and organizational outcomes, the PAICE portfolio's governance systems, and current inspectable work in PAICE2, Harnessie, and paice-near-integration. Where the role covers agent operations, AI governance, or human-AI workflow design, lead with the OPERATING METHOD: model routing by work shape, cross-vendor author/verifier separation, server-boundary agent permissions, and the enforced error-pattern register. Distinguish director-level architecture, integration, administration, control design, and fast technical acquisition from dedicated production-infrastructure engineering ownership. Distinguish formal line management from project, vendor, partner, and advisory leadership. Do not claim prior enterprise AI Center of Excellence ownership, enterprise DLP ownership, a technical degree, or significant PAICE customer or revenue traction.",
     suggestedQuestions: [
       "Is Sam a fit to stand up an AI Center of Excellence?",
       "What evidence supports Sam's production AI and model-registry experience?",
@@ -126,7 +125,6 @@ export const companyPresets: Record<CompanyKey, CompanyPreset> = {
       "boards.greenhouse.io/anthropic",
       "job-boards.greenhouse.io/anthropic",
     ],
-    referrerDefaultTarget: "ai-education",
     companyOnlyPrompt:
       "The visitor appears to be evaluating Sam in an Anthropic context. Do not assume a specific role unless target context is also present or the visitor names it.",
     applications: {
@@ -150,7 +148,6 @@ export const companyPresets: Record<CompanyKey, CompanyPreset> = {
       "openai.com",
       "jobs.ashbyhq.com/openai",
     ],
-    referrerDefaultTarget: "content-ops",
     companyOnlyPrompt:
       "The visitor appears to be evaluating Sam in an OpenAI context. Do not assume a specific role unless target context is also present or the visitor names it.",
     applications: {
@@ -228,10 +225,8 @@ export function parseRoleSelection(
     const matchedCompany = Object.values(companyPresets).find((company) =>
       company.referrerPatterns.some((pattern) => referrer.includes(pattern)),
     );
-    if (matchedCompany) {
-      selection.company = matchedCompany.key;
-      if (!selection.target) selection.target = matchedCompany.referrerDefaultTarget;
-    }
+    // Referrers select company-only context. A job family requires an explicit target.
+    if (matchedCompany) selection.company = matchedCompany.key;
   }
 
   return selection;

@@ -511,6 +511,9 @@ Sam believes the window for building open, vendor-neutral measurement infrastruc
 THE OPERATOR PATTERN
 The track record across 25 years shows a willingness to do things in a more sustainable and aligned fashion, with long-term value not compromised for short-term gain. Snap Synapse is the practice that built the operator. PAICE is where the practice's most generalizable patterns get extracted, productized, and shipped.
 
+OPERATING METHOD
+Sam runs a governed multi-model development practice and has published it (https://sam-rogers.com/facilitator-in-the-machine). Routes work across heterogeneous AI models by shape: local models for private material, inexpensive models for documented procedures, frontier models for novel architecture. Separates author from verifier across model vendors; acceptance checks are stated before work starts, and exit codes and artifacts count as evidence while prose approval does not. Enforces agent permissions at the server boundary rather than in prompt text, so rules bind every model identically. Maintains a documented register of his own recurring error patterns, each with a trigger signature and a countermeasure that agents enforce in live sessions. This is personal operating infrastructure at one-operator scale, not a client deliverable; describe the mechanisms, not private tool names.
+
 DEFAULT POSITIONING
 Sam builds systems that turn AI capability into human capability. Default public positioning should stay employer-neutral: content operations, AI education systems, curriculum and certification infrastructure, assessment design, workflow quality, and learning measurement. Employer-specific slants belong in role-context presets, not in the durable profile.
 

@@ -21,12 +21,18 @@ The active site is functional. Items below are not promises of enterprise comple
 - **Public-surface drift checks** — tests now cover current role-family positioning, employer-neutral default artifacts, model-provider language, repo-vetting artifact discoverability, and the three-audience strategy.
 - **Roadmap freshness check** — public-surface tests now confirm delivered target/company routing, provider-portable language, and open-repo strategy are recorded here.
 - **Target preset authoring note** — `INTENT.md` now includes a checklist for adding a new `target` or `company` without turning each application into a site rewrite.
+- **Operating contract** — `INTENT.md` records the recruiter-shortlist primary outcome, durable-target admission rule, explicit-link requirement for role context, default-positioning change threshold, and the technical-work stop rule.
+- **Referrer company-only routing** — referrers now select company context only; a job family requires an explicit `target`. No default target is inferred from a job board.
+- **Operating method evidence** — the chat system prompt, `EVIDENCE.md`, and the README hiring signal now cite the published governed multi-model development practice at https://sam-rogers.com/facilitator-in-the-machine.
 - **Local API eval note** — `README.md` now clarifies that Vite serves the frontend only; `vercel dev` or a deployed URL is required for `/api/chat`, `/api/analyze-fit`, `smoke:api`, and `eval:prompts`.
 
 ## Measurement And Ops
 - **Post-deploy Siteline self-eval** — rerun an agent-readiness scan after deployment and use remaining failures as the next worklist. This keeps machine-readable surfaces aligned with the human resume.
 - **Automated accessibility eval** — add axe or equivalent once Playwright/Puppeteer is installed. Cover homepage, Interview Decision Brief sidebar, chat modal, mobile menu, and fit form.
 - **Visual regression snapshots** — capture mobile, tablet, and desktop states for hero, Interview Decision Brief sidebar, mobile menu, chat modal, and fit assessment.
+
+## Deferred Pending Evidence
+- **Visible target-only Operating fit block** — a compact target-selected block (one fit statement, three proof points, one caveat) rendered below the hero evidence. Deferred until application or interview evidence confirms it is the highest-value recruiter intervention. Governed by the stop rule in `INTENT.md`. Acceptance when built: absent on the default route, present only for an explicit valid `target`, exactly three proof points and one caveat, never shown for company-only context, copy owned by the target preset rather than component conditionals, keyboard and screen-reader semantics, and mobile long-copy containment.
 
 ## Low-Hanging Fruit
 - **Keyboard copy smoke check** — add a focused test for tab order and copy button reachability in the Interview Decision Brief before investing in broader visual regression.

@@ -48,15 +48,15 @@ describe("detectRoleContext", () => {
     expect(composeRoleContext(parseRoleSelection("?company=openai"))?.label).toBe("OpenAI");
   });
 
-  it("uses Anthropic referrers as AI education context", () => {
+  it("uses Anthropic referrers as company-only context", () => {
     setReferrer("https://job-boards.greenhouse.io/anthropic/jobs/123");
 
-    expect(detectRoleContext()).toBe(anthropicRole);
+    expect(detectRoleContext()).toBe("Anthropic");
   });
 
-  it("uses OpenAI referrers as content operations context", () => {
+  it("uses OpenAI referrers as company-only context", () => {
     setReferrer("https://jobs.ashbyhq.com/openai/2250b09d-f6fb-4ebc-9d27-dfd34d2ccbec");
 
-    expect(detectRoleContext()).toBe(openAiRole);
+    expect(detectRoleContext()).toBe("OpenAI");
   });
 });

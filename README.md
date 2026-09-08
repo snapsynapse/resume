@@ -10,6 +10,7 @@ The two-page resume is the application input. It points here for the evidence, r
 - Streamlined Convatec content offerings by 90 percent while improving delivery speed by 40 percent.
 - Reached more than 80 percent adoption in 30 days for an AI-based training platform deployed across four countries.
 - Built the site itself as a bounded AI product with role-fit analysis, copy-ready hiring briefs, prompt and PII evals, minimal telemetry, and machine-readable evidence.
+- Documents and publishes his own governed multi-model AI development practice, including cross-vendor verification and self-instrumentation: https://sam-rogers.com/facilitator-in-the-machine
 
 ## Reviewer Map
 
@@ -68,7 +69,7 @@ The default public resume is employer-neutral. Tailored application context is s
 ```txt
 ?target=content-ops&company=openai
 ```
-The Instructure Director context uses `?target=ai-transformation&company=instructure`. The durable target is employer-neutral; the application entry adds the exact role, evidence boundaries, and public-safe `Remote from Utah` answer. A generic Instructure referrer selects company context only because Instructure has materially different openings.
+The Instructure Director context uses `?target=ai-transformation&company=instructure`. The durable target is employer-neutral; the application entry adds the exact role, evidence boundaries, and public-safe `Remote from Utah` answer. Referrers select company context only; a job family is never inferred from a referrer and requires an explicit `target`.
 `target` owns the positioning wedge: content operations, AI education, certification systems, or another durable job family. `company` owns only employer-specific context: label, referrer patterns, source role metadata, and application-specific prompt deltas. Either field may be used alone, but the durable strategy should live under `target`, not under a company name.
 The implementation lives in [src/lib/role-context.ts](src/lib/role-context.ts). Adding a new application should usually mean adding or reusing a target preset and, when needed, adding a company application entry. It should not require rewriting the homepage, public text artifacts, system prompt, chat questions, and tests by hand.
 ## What Was Used And Why

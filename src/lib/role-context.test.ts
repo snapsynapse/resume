@@ -39,19 +39,19 @@ describe("role-context routing", () => {
     expect(context?.promptContext).toMatch(/content-and-systems operations spine/i);
   });
 
-  it("maps referrers to company and default target without URL compounding", () => {
+  it("maps referrers to company-only context and never infers a target", () => {
     expect(
       parseRoleSelection("", "https://jobs.ashbyhq.com/openai/example"),
-    ).toEqual({
-      target: "content-ops",
-      company: "openai",
-    });
+    ).toEqual({ company: "openai" });
     expect(
       parseRoleSelection("", "https://job-boards.greenhouse.io/anthropic/jobs/123"),
-    ).toEqual({
-      target: "ai-education",
-      company: "anthropic",
-    });
+    ).toEqual({ company: "anthropic" });
+  });
+
+  it("combines an explicit target with a referrer-detected company", () => {
+    expect(
+      parseRoleSelection("?target=content-ops", "https://jobs.ashbyhq.com/openai/example"),
+    ).toEqual({ target: "content-ops", company: "openai" });
   });
 
   it("keeps old role=anthropic links working without making role the new contract", () => {
