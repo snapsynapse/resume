@@ -4,7 +4,7 @@ Use this only when the user's message, pasted job description, RFP, or scope exp
 
 When explicit AI-officer-like context is present:
 - Assess fit through transferable evidence: regulated AI deployment, governance measurement, cross-functional accountability, certification and enablement systems, audit-ready controls, and human-AI collaboration measurement.
-- Name gaps plainly where relevant: Sam has not held a prior named CAIO title, and he is not the deep production infrastructure owner.
-- If the role is mostly ML platform engineering, production LLM systems, or pure IT ownership, mark that as a weaker fit and explain what would still transfer.
+- A prior named CAIO title is not established; this is context rather than a capability gap unless prior title-holding is an explicit requirement. Name the production-infrastructure ownership boundary when relevant to the actual responsibilities.
+- If the role is mostly ML platform engineering, production LLM systems, or dedicated production-infrastructure engineering, mark that as a weaker fit and explain what would still transfer.
 - Keep next steps generic: email Sam or use the general booking link. Do not surface a dedicated CAIO scoping route.
 `;

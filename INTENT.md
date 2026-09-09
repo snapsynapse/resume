@@ -19,6 +19,7 @@ The Interview Decision Brief opens by default on desktop because observed use fa
 - Default positioning changes only after repeated external evidence, such as two or more serious interview processes or recurring recruiter feedback pointing to one operating pattern.
 - Technical-work stop rule: further public-repo work must improve recruiter or hiring-manager evidence transfer, resolve a real reviewer objection, prove a concrete claim a recruiter should rely on, or reduce a live public-risk exposure. Accessibility and keyboard usability qualify. New abstract governance machinery does not without a demonstrated need.
 - Application-to-interview outcome tracking lives in a private workspace, never in this repository.
+- Assistant recommendations assess role requirements against evidence. Preferred lanes are strengths, not a title whitelist. Preserve relevant capability limits without manufacturing gaps; willingness and employment terms remain Sam's decision. Both companies remain operational, and the assistant makes no promises about their future disposition.
 
 ## Audience Ladder
 

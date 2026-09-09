@@ -18,7 +18,8 @@
     "presets:validate": "node scripts/role-context-presets.mjs validate",
     "presets:env": "node scripts/role-context-presets.mjs env",
     "smoke:api": "node scripts/smoke-api.mjs",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "eval:recruiter": "node scripts/eval-recruiter.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",

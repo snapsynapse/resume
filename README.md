@@ -41,7 +41,7 @@ The sidebar does not include contact or booking actions. Its job is evidence tra
 The fit assessment is deliberately framed as an assessment, not a sales funnel. It can return strong, moderate, or weak fit, names gaps, and distinguishes transferable evidence from missing experience.
 This matters for compliance and IT review because it shows the AI layer is expected to constrain claims, not maximize candidate appeal.
 ### Private FAQ disclosure model
-The chat system prompt includes a `recruiterFAQ` block in `src/data/sam-profile.ts` that does not appear on the homepage, static crawl pages, `resume.txt`, `llms.txt`, `llms-full.txt`, `agents.json`, or any other public artifact. The intent is that these answers are surfaced by the chat assistant only when a visitor asks a direct question that warrants them.
+The chat system prompt includes a `recruiterFAQ` block in `src/data/sam-profile.ts` that does not appear on the homepage, static crawl pages, `resume.txt`, `llms.txt`, `llms-full.txt`, `agents.json`, or other generated public resume surfaces. Its source is inspectable in this public repository; it is not secret. The intent is that these answers are surfaced by the chat assistant only when a visitor asks a direct question that warrants them.
 
 This block is still sent to a cloud LLM as part of every chat request. The baseline assumption is that anything fed to a cloud-based LLM should be treated as potentially disclosable, not as a private channel. The "ask-on-direct-question" gating is a behavioral instruction, not a transport boundary.
 
@@ -294,3 +294,13 @@ Before delivery review, assess the local candidate for https://resume.sam-rogers
 - [src/components/DecisionBriefSidebar.tsx](src/components/DecisionBriefSidebar.tsx): Interview Decision Brief copy workflow for recruiter and hiring-manager handoff.
 - [src/components/FitAssessment.tsx](src/components/FitAssessment.tsx): job-description assessment workflow.
 - [src/components/JDReviewPanel.tsx](src/components/JDReviewPanel.tsx): local business-context review before fit analysis.
+
+### Recruiter assessment checks
+
+Chat and structured fit assessment share `api/recruiter-guidance.ts`: evaluate responsibilities against evidence, distinguish unknowns from gaps, and leave willingness and employment terms to Sam. The guidance preserves documented production-engineering and management-scale limits. It does not aim to make every fit verdict positive.
+
+`npm test` verifies that both endpoint requests carry the guidance, that outdated company-shutdown and availability promises are absent, and that the historical ATD statement stays past tense. These deterministic checks inspect assembled prompts; they do not prove model compliance.
+
+`npm run eval:recruiter` exercises synthetic recruiter scenarios against an explicitly selected running API through `EVAL_BASE_URL`. It makes model-backed requests and consumes that endpoint's quota. The cases cover hands-on contribution, real infrastructure requirements, and company/availability questions. The output checks are limited heuristics, not hiring predictions or comprehensive semantic evaluation. An unavailable endpoint is inconclusive rather than a successful skipped run. Do not interpret these evals as evidence that changing the site increases interview conversion.
+
+Real applications, employer presets, recruiter observations, and conversion outcomes remain outside this public repository. The public scenarios are fictional and are available for reviewers to inspect and reproduce.

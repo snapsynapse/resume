@@ -49,6 +49,39 @@ describe("API validation", () => {
     resetCompanyPresetCache();
   });
 
+  it("passes role-specific evidence and commitment boundaries to both model endpoints", async () => {
+    anthropicMocks.stream.mockReturnValue((async function* () {})());
+    const chat = await handleChatRequest(new Request("https://example.test/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ messages: [{ role: "user", content: "Could Sam contribute as an individual contributor?" }] }),
+    }));
+    await chat.text();
+    const chatPrompt = anthropicMocks.stream.mock.calls[0][0].system[0].text as string;
+    anthropicMocks.create.mockResolvedValue({ content: [{ type: "tool_use", name: "record_fit_assessment", input: {
+      verdict: "moderate", title: "Discuss the scope", summary: "Relevant evidence.",
+      matches: [], gaps: [], whatTransfers: "Adoption work.", recommendation: "Discuss with Sam.",
+    } }] });
+    await handleAnalyzeFitRequest(new Request("https://example.test/api/analyze-fit", {
+      method: "POST",
+      body: JSON.stringify({ jobDescription: "Individual contributor supporting tool adoption, workshops, and measurement. No team management or production infrastructure ownership required." }),
+    }));
+    const fitPrompt = anthropicMocks.create.mock.calls[0][0].system[0].text as string;
+    for (const prompt of [chatPrompt, fitPrompt]) {
+      expect(prompt).toContain("Assess responsibilities and required evidence, not title prestige");
+      expect(prompt).toContain("Both companies remain operational");
+      expect(prompt).toContain("Willingness, start date, exclusivity");
+      expect(prompt).toContain("Missing evidence is unknown");
+      expect(prompt).not.toContain("pretending the window isn't closing");
+      expect(prompt).not.toContain("Identify 1–3 honest gaps");
+    }
+    expect(chatPrompt).not.toMatch(/Sam facilitates the ATD|Currently facilitating ATD/);
+    expect(chatPrompt).not.toContain("The businesses themselves go dormant");
+    expect(chatPrompt).not.toContain("all else fades away");
+    expect(chatPrompt).not.toContain("he goes where the work is needed");
+    expect(chatPrompt).toContain("Two officially");
+    expect(fitPrompt).toContain("Use an empty array when none is established");
+  });
+
   it("rejects non-POST chat requests", async () => {
     const res = await handleChatRequest(
       new Request("https://sam-rogers.com/api/chat", { method: "GET" }),

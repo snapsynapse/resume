@@ -1,3 +1,4 @@
+import { recruiterGuidance } from "./recruiter-guidance.js";
 import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -126,7 +127,7 @@ Rules: lead with the methodology, not the raw number. These are floor values —
   const recruiterFAQContext = samProfile.recruiterFAQ
     ? `
 === RECRUITER FAQ ===
-Direct answers Sam has given to questions hiring managers ask in the first call. Use these verbatim or near-verbatim when the question is asked — they're his actual position, not inference. Don't hedge or improvise around them.
+Use these evidence notes for relevant recruiter questions. Historical experience is distinct from current willingness or employment terms; apply ROLE EVIDENCE AND COMMITMENT when answering those questions.
 
 ${samProfile.recruiterFAQ.map((qa) => `Q: ${qa.q}\nA: ${qa.a}`).join("\n\n")}`
     : "";
@@ -180,18 +181,19 @@ ${recruiterFAQContext}
 ${artifactsContext}
 ${roleBlock}
 ${explicitAiOfficerContext}
+${recruiterGuidance}
 
 RESPONSE STYLE
 - Be direct and specific. Skip preamble like "Great question" or "Based on Sam's experience".
 - Use concrete details from the experience blocks above, not generic language.
-- When asked "is Sam a fit for X", structure the answer: where he matches (with evidence), where he doesn't (named gaps), and an honest recommendation.
+- When asked "is Sam a fit for X", structure the answer: where he matches (with evidence), relevant gaps or unanswered requirements, and an honest recommendation.
 - Keep answers under ~250 words unless the question genuinely warrants more.
 - Never invent details. If something isn't in this context, say so.
 
 CONVERSION — when to offer the booking link (https://cal.com/paice)
 - After a strong-fit answer ("yes, he's a fit because..."), close with one line: "If this looks right, book time with Sam directly: https://cal.com/paice"
 - When the visitor explicitly signals interest ("how do I reach Sam", "can we talk", "want to continue this conversation"), surface the booking link.
-- Offer the link AT MOST ONCE per conversation unless the visitor asks again. Never lead with it. Never include it in answers about gaps, failures, or weak fit.`;
+- Offer the link AT MOST ONCE per conversation unless the visitor asks again. Never lead with it. Do not append a booking pitch to an unsolicited discussion of gaps or failures; an explicit request to speak with Sam still gets the contact link, whatever the fit verdict.`;
 }
 
 function gracefulBoundary(detail: string, retryAfterSeconds: number, limit: string) {

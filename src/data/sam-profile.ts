@@ -217,11 +217,11 @@ export const samProfile = {
   recruiterFAQ: [
     {
       q: "If hired, what happens to PAICE? Or Snap Synapse?",
-      a: "The open protocols stay maintained — those serve the mission regardless of where Sam is employed. The businesses themselves go dormant. Sam has done this before: Snap Synapse went into stasis for years while he was W2 at Convatec. His goal is to serve the aggregated-intelligence mission inside the time window we have. Whatever helps do that best is what he's doing; all else fades away.",
+      a: "PAICE.work and Snap Synapse remain operational. Sam is considering employment alongside investor, customer, and client opportunities. Any role-specific arrangement for time, responsibilities, conflicts, or company operations would need to be discussed and agreed directly; the assistant cannot promise a shutdown or acceptance of an offer.",
     },
     {
       q: "Is Sam open to fully on-site? Would he relocate?",
-      a: "Yes. The SF Bay Area is home. Remote is his preference — he's been remote for 20 years and is most productive that way — but he goes where the work is needed and the mission calls.",
+      a: "Remote is preferred and SF Bay Area hybrid is available. Fully on-site work or relocation depends on the particular role and requires direct confirmation from Sam.",
     },
     {
       q: "Where is Sam based?",
@@ -229,11 +229,11 @@ export const samProfile = {
     },
     {
       q: "What city or ZIP exactly? What is the precise address?",
-      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. SF Bay Area is accurate for the role question. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/paice.",
+      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. Hybrid availability is a work arrangement, not a statement of current residence. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/paice.",
     },
     {
       q: "When could he start?",
-      a: "Two to three weeks. Time to give notice to current clients and wind down existing projects.",
+      a: "Sam must confirm a current start date and arrangements for existing client commitments directly. The assistant cannot promise a start date or that current projects will be wound down.",
     },
     {
       q: "How many direct reports has he had?",
@@ -241,15 +241,15 @@ export const samProfile = {
     },
     {
       q: "What level / comp band is he targeting?",
-      a: "For W-2 roles, strongest fit is head-of-function, senior lead, or builder/operator scope where learning systems, content and curriculum production, certification, AI-enabled education, measurement, and cross-functional execution are core to the work. Specific compensation numbers are a human-level conversation, not something this tool should anchor — ranges in writing tend to mislead in both directions. The right band sits where head-of-function, senior lead, and 0-to-1 education-system roles live at frontier-AI and AI-forward companies. Recruiters: take the number conversation to a direct call with Sam at sam@sam-rogers.com.",
+      a: "For W-2 roles, strongest fit is head-of-function, senior lead, or builder/operator scope where learning systems, content and curriculum production, certification, AI-enabled education, measurement, and cross-functional execution are core to the work. Specific compensation numbers are a human-level conversation, not something this tool should anchor — ranges in writing tend to mislead in both directions. These describe areas of strength, not a minimum title or a commitment to accept or decline a particular role. Evaluate the actual responsibilities, including hands-on IC work, and confirm terms with Sam. Recruiters: take the number conversation to a direct call with Sam at sam@sam-rogers.com.",
     },
     {
       q: "Isn't Sam a CEO? Why is he looking at IC or Lead roles?",
-      a: "Founder/CEO of PAICE.work PBC describes the operating shape, not a large-org executive scope. PAICE is a solo-operator portfolio Sam stood up himself — strategy, content, sales, development, coding, partner relationships — with no direct reports and no scaled org under him. The actual day-to-day pattern is hands-on 0-to-1 builder work: defining operating models, shipping the first version, holding the seams between functions, and turning quality standards into repeatable systems. That maps well to head-of-function, senior lead, and builder/operator roles; it does not map to mature-org roles where the main job is maintaining a large established department. Snap Synapse precedent matters here: it went dormant for years while Sam was W-2 at Convatec running a Global Learning Technology function. Same play available now if the role is the right home for the work.",
+      a: "Founder/CEO of PAICE.work PBC describes the operating shape, not a large-org executive scope. PAICE is a solo-operator portfolio Sam stood up himself — strategy, content, sales, development, coding, partner relationships — with no direct reports and no scaled org under him. The actual day-to-day pattern is hands-on 0-to-1 builder work: defining operating models, shipping the first version, holding the seams between functions, and turning quality standards into repeatable systems. That is relevant to hands-on IC, lead, and function-building work. If a role requires large formal reporting organizations, distinguish that requirement from delivery coordination and discuss the documented scale. Snap Synapse precedent matters here: it went dormant for years while Sam was W-2 at Convatec running a Global Learning Technology function. Both companies remain operational today; any future arrangement requires a direct conversation with Sam.",
     },
     {
       q: "Capital One? Earlier career? What was Sam doing before Snap Synapse?",
-      a: "E-learning Developer & Lead LMS Administrator at Capital One, June 2001 to June 2007 (6 years, 1 month), Novato CA, on-site. Administered and scaled internal and external learning systems for 5,000+ employees and 120,000+ partners against security and compliance requirements; built reusable content templates and migrated ILT to online delivery to cut development time and improve consistency; coordinated with IT on security, access, and release management to minimize disruption and support audits. Surface this role only when the visitor asks directly about Capital One, earlier career, pre-Snap-Synapse history, or LMS-administration depth. Do not volunteer it in general fit answers — it is too early-career for the current head-of-function / senior lead positioning.",
+      a: "E-learning Developer & Lead LMS Administrator at Capital One, June 2001 to June 2007 (6 years, 1 month), Novato CA, on-site. Administered and scaled internal and external learning systems for 5,000+ employees and 120,000+ partners against security and compliance requirements; built reusable content templates and migrated ILT to online delivery to cut development time and improve consistency; coordinated with IT on security, access, and release management to minimize disruption and support audits. Surface this role only when the visitor asks directly about Capital One, earlier career, pre-Snap-Synapse history, or LMS-administration depth. Use it when its learning-systems scale is relevant to the question; the dates make clear that it is earlier-career evidence.",
     },
     {
       q: "Education?",
@@ -516,7 +516,7 @@ export const samProfile = {
         url: "https://sam-rogers.com/applying-ai-in-ld",
         lane: "ai-education",
         pitch:
-          "Sam facilitates the ATD certificate program of the same name. Frames AI in L&D as supercharged performance consulting, not tool tours.",
+          "Sam facilitated the ATD certificate program of the same name. Frames AI in L&D as supercharged performance consulting, not tool tours.",
       },
       {
         title: "How Do You Measure Whether Someone Is Actually Good at Working With AI?",
@@ -593,14 +593,14 @@ CORE INSTRUCTIONS
 - When assessing fit, give a genuine assessment including where he might NOT be the right choice.
 - Don't oversell. Confidence comes from substance, not superlatives.
 
-WHAT SAM EXPLICITLY DOESN'T WANT
+EVIDENCE LIMITS
 - Don't pretend he is an engineer at the production-infrastructure level. He treats AI-assisted development as a force multiplier with judgment on the seams, not as a substitute for senior engineering ownership.
 - Don't claim he has institutional fundraising track record. He is running founder-led sales through warm network and learning the venture path on the job.
-- Don't claim he is "open to anything." He is open to head-of-function, senior lead, and builder/operator roles where the work is making AI education, content quality, curriculum systems, and learning measurement into core infrastructure. He is not open to roles that require pretending the window isn't closing.
+- Do not infer willingness from a title. Evaluate the work against the evidence; confirm interest, availability, compensation, and any arrangement for current company responsibilities with Sam.
 
 HOW TO HANDLE COMMON QUESTIONS
 - "Is he a fit for X?" → Match the role to his actual track record. Name the gaps.
-- "What's PAICE?" → Three commercial products funding eleven open contributions, all serving the open-measurement thesis.
+- "What's PAICE?" → Three commercially offered products alongside eleven open contributions, all serving the open-measurement thesis.
 - "Why is he applying to a lab or AI company?" → Alignment is human-systems work at the operational layer. He wants to build the muscle memory inside institutions whose work is shaping what the rest of the field measures.
 - "Tell me about a failure" → Share one of the two documented stories with the actual situation, what most people would have done, and the lesson Sam now acts on.
 
@@ -641,7 +641,7 @@ export const demoResponses = {
 
 For content operations, AI education systems, certification, or measurement-infrastructure roles, the case is direct: he has shipped cross-format curriculum and media production, AI-enabled learning at scale, and open assessment infrastructure that turns quality standards into repeatable workflows. The PAICE portfolio is the bet he's making against captured measurement layers; the resume is the track record that says he can build it.
 
-Gap to probe: he is not the person who will write your production infrastructure. He treats AI-assisted development as a force multiplier with judgment on the seams. If you need a senior engineer who owns infrastructure end-to-end, that is the staffing he is explicitly looking for in his own portfolio.`,
+If the role requires dedicated end-to-end production-infrastructure ownership, that experience is not established by this record. Integration, administration, and AI-assisted workflow implementation are separately supported.`,
 
   paice: `PAICE is three commercial products designed to fund eleven open contributions, all serving one thesis: that the trust infrastructure for human-AI collaboration has to be built in the open, by someone willing to do it sustainably, before the window closes.
 
@@ -649,7 +649,7 @@ PAICE.work is the flagship, an adaptive behavioral simulator scoring how someone
 
 These three roll up to AI Posture: one open governance framework that synthesizes signals across people, infrastructure, and regulation. Released as a free public protocol because the alternative — every cloud provider shipping a flattering rubric — is the scenario the portfolio exists to prevent.
 
-Currently pre-revenue, pre-seed, with Snap Synapse covering operating costs until the seed round closes. PBC by structure, not as marketing.`,
+Commercial packaging is implemented; significant paying customers, realized product revenue, and a closed institutional funding round are not established. PBC by structure, not as marketing.`,
 
   aiEducation: `Sam sees AI education as a human-systems problem at the operational layer. Model capability, safety research, and platform features are the engineering. The harder layer is what happens at 11am on a Tuesday inside a 200-person team when someone has to decide whether to trust a model's answer enough to send it to a client. That is where capability either becomes practice or fails to — and that is the layer Sam has spent 25 years working at.
 
@@ -657,13 +657,13 @@ He has spent the last year leading a public benefit corporation that ships open 
 
 For an AI education systems role, the most relevant proof is YouTube Certified for certification, video, assessment, and LMS scale; National 4-H Council for university-partner and vendor production orchestration; Convatec for content simplification, measurement, OHI, and AI adoption; PAICE for adaptive behavioral simulation and AI-assisted quality workflows; and Signals & Subtractions for visible editorial cadence.
 
-His own framing: "I would rather build the muscle memory inside the organization whose work shapes what everyone else measures than keep measuring it from outside."`,
+For an employed role, the relevant contribution is building that capability inside the organization. The particular scope and arrangements for continuing business responsibilities are a conversation with Sam.`,
 
   contentOps: `Sam's strongest content-operations case is that he builds the operating system behind education at scale: portfolio health, operating rhythm, governance, discoverability, reuse, handoffs, and quality control.
 
 The proof is concrete. PAICE is a 12-plus project content-and-systems operating system run by a single operator, with daily publishing, reusable standards, AI-assisted scoring workflows, and portfolio governance across PAICE.work, Siteline, Every AI Law, and AI Posture. YouTube Certified scaled a content-and-credential portfolio from about 1,000 partners per year to about 10,000 in year one. National 4-H Council required a shared production system across dozens of university partners. Convatec streamlined content offerings by 90% while increasing utilization and delivery speed.
 
-For a content and systems operations role inside customer education, the match is strongest around operating rhythm, content lifecycle, cross-functional translation, AI-enabled automation, and quality control. Gap to probe: he is not a deep production platform engineer. He is the operator who defines the system, holds the handoffs, designs the quality bar, and knows where specialist engineering support should own the substrate.`,
+For a content and systems operations role inside customer education, the match is strongest around operating rhythm, content lifecycle, cross-functional translation, AI-enabled automation, and quality control. His direct evidence is in defining systems, coordinating delivery, and designing quality controls. Dedicated production-platform engineering is a separate requirement to assess only if this role includes it.`,
 
   aiTransformation: `Sam's AI-transformation case is strongest for a zero-to-one mandate, where the job is to build the operating model, governance, shared model controls, adoption system, and scorecard together.
 
@@ -707,7 +707,7 @@ const _legacyFitAssessmentsReference = {
       {
         requirement: "AI-enabled learning at scale",
         evidence:
-          "Launched an AI-based training platform across four countries; 80%+ adoption in 30 days from a 200-person Portugal cohort. Currently facilitating ATD's three-day certificate program on applying AI in L&D for skeptical practitioners. Author of the SNAP methodology and Signals & Subtractions field notes on AI adoption.",
+          "Launched an AI-based training platform across four countries; 80%+ adoption in 30 days from a 200-person Portugal cohort. Facilitated ATD's three-day certificate program on applying AI in L&D for skeptical practitioners. Author of the SNAP methodology and Signals & Subtractions field notes on AI adoption.",
       },
       {
         requirement: "Certification program ownership end-to-end",
@@ -731,7 +731,7 @@ const _legacyFitAssessmentsReference = {
   },
   weak: {
     verdict: "weak" as const,
-    title: "Honest Assessment — Probably Not Your Person",
+    title: "Limited Direct Match",
     summary:
       "I want to be direct with you. Here's why this might not be the right fit:",
     mismatches: [
@@ -754,6 +754,6 @@ const _legacyFitAssessmentsReference = {
     whatTransfers:
       "Standards-authoring and measurement-framework design transfer to most roles where AI is shaping how people work. So does pipeline orchestration across stakeholders who don't agree on whose constraint binds.",
     recommendation:
-      "You probably want someone whose career has been in your specific function. If you have a role that touches L&D, certification, AI measurement, or open standards, I would be very interested. For this specific position, I don't think I'm your person.",
+      "You probably want someone whose career has been in your specific function. If you have a role that touches L&D, certification, AI measurement, or open standards, I would be very interested. For this specific position, the direct match is limited; discuss whether the transferable experience addresses the actual requirements.",
   },
 };
