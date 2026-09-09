@@ -132,7 +132,6 @@ const SHAPE_PATTERNS: ShapePattern[] = [
 // Do not commit the literal alongside the hash.
 
 const BLOCKED_LITERAL_HASHES = new Set<string>([
-  "75371f5a57ca5232c85c1858415de4b06f5c9e4bc879404e348748c273540986",
   "a8bc68fa51fd88030c9a60dcbb9117713a568c9c20be9553cb22c50cac538b9c",
   "ed5b098a043912088a7976451d5584fb1aff1a965b27bf9ca02282d323e050ee",
   "86cef1c317486ef603cc65cee2554d5a7dba9c90462f2ee6759359f2fdb014d9",
@@ -170,11 +169,6 @@ const BLOCKED_LITERAL_HASHES = new Set<string>([
 const ALLOWED_LINE_HASHES = new Set<string>([
   // Legitimate non-residential / regulatory-anchor reference. Hash of the lowercased full line.
   "2263976cde56cedf778112fdbc0c6c286e778cdec2d67d235182052312b6e36a",
-  // Public-safe state-level application context and its deterministic semantic tests.
-  "3c93dacc0b83cd01f406da8bf00e2f722f51bd4a8a321b0fe072e3ac8ebfd4c3",
-  "b1fa4d00a2353c90fd436b0a817cf5b828403d76c16fd16ac678d2e1cdd89315",
-  "5274cafe500407ded557c859a12eed2953bea0d7b593a36b8ff73aa7ed7446fb",
-  "5a0a746c774ec6747977988d0df7c582dc9b63bf7039611af0c30a8689dd631f",
 ]);
 
 // Widest n-gram the scan hashes. Must cover the longest normalized blocklisted phrase

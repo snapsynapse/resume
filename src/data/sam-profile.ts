@@ -32,7 +32,7 @@ export const samProfile = {
       detail: "AI training platform across 4 countries",
     },
   ],
-  location: "SF Bay Area · hybrid available",
+  location: "Remote preferred · SF Bay Area hybrid available",
   status:
     "Focused on roles where content operations, AI education, workflow quality, and measurement become durable operating systems.",
 
@@ -225,7 +225,7 @@ export const samProfile = {
     },
     {
       q: "Where is Sam based?",
-      a: "SF Bay Area. Hybrid available.",
+      a: "Remote preferred. SF Bay Area hybrid available.",
     },
     {
       q: "What city or ZIP exactly? What is the precise address?",
