@@ -123,9 +123,13 @@ const SHAPE_PATTERNS: ShapePattern[] = [
 //   - state-as-residence
 //   - specific ZIP
 //   - specific personal phone (digits-only)
+//   - pursued employer label (from the private role-context presets)
+//   - applied-for role title (from the private role-context presets)
 //
-// To extend the blocklist: compute `sha256(literal.toLowerCase())` and append. Do not commit
-// the literal alongside the hash.
+// To extend the blocklist: compute `sha256(normalize(literal))` and append, where normalize is
+// the same lowercase word-tokenize-and-space-join used by the scan (see `normalizeLiteral`).
+// For the original residential/contact entries that is identical to `literal.toLowerCase()`.
+// Do not commit the literal alongside the hash.
 
 const BLOCKED_LITERAL_HASHES = new Set<string>([
   "75371f5a57ca5232c85c1858415de4b06f5c9e4bc879404e348748c273540986",
@@ -135,6 +139,29 @@ const BLOCKED_LITERAL_HASHES = new Set<string>([
   "a0aadfc140df8f339fd255908bfd371e9ec82f9434b707e7cdb04270c5b65b85",
   "40dceebf439dee723639ea6aed8fa07672db1de06e60f60ca9d3921f0fe0971a",
   "8ff313d9066446d481967d713492a5ac5e3de4d587d2efc7a07432e425406691",
+  // Pursued employer labels and applied-for role titles; see README target routing.
+  // Application presets live in a private JSON outside the repository. These digests are the
+  // normalized (lowercased, punctuation-stripped, single-spaced) label and sourceRole of each
+  // entry, so CI fails reveal-resistantly if a tracked file names one. A company legitimately
+  // named on public surfaces as an AI usage provider is excluded, as is any title too short to
+  // be distinctive. Regenerate from the private file when an application is added or closed.
+  "22972aaf01800caeb35da2fbf5f395509c084a818cbb65663ea40c6758e18fa4",
+  "c9629fc422c960bf417f34c5fddcf81252644b67245d64b04d4fb8c95ad713b1",
+  "ea340acba45df9023ecdf1cd1e7500fbc3204073544e916a427bd55be541f9d8",
+  "608adad96dd502b1c3e6c47e460e489fabd0c75e6446eed1ec83a7f5d6f5ab6a",
+  "22cfdf386b9da44a9a9df04c246bf0d325efba71c88ad9c8a637d411241a6e67",
+  "a89821a6490f81fe97a562e94b5c11078169ce602b2419dcb21500a461271749",
+  "ab7d0a36ecbe10c286f92a49bffb57ed6bf5bc6c3a3e15967f3ea8d028316969",
+  "daddae77e3a98292051d234f126bd236744208480231b8c957ae71285d95f356",
+  "b769a6983b42d565e79bb4f3f534623453f301d39784e57804a649a67ea05327",
+  "21ad7a8f5c2c423652634ac34b3f43e81aaacd639e957bc85d85c470a74e18e1",
+  "478ae12b08623f00c71da4cc4a4d4d2f9f07a9e9b7d71a6e8701cbf4b6cbf939",
+  "31a3cfc66f8259ed15963e1830c36a8d22b4022185c29a8f2117ceb8fda9c383",
+  "2bc2bb8352a3f3bf984773b38b210606276761b0ecc4b3cce46e97d54ba4614b",
+  "6171b6243aaf7ac82744791b84f89eb393dc40a203bf740047a7564eff072471",
+  "a1f7f0fab9e505ecb7297977e87d5726a8682d53f54ace4af87e7916d515e92b",
+  "68727090903ace2cd81d13f8fd48900f5fcc94d607b5efc366411da90da77bb1",
+  "c4adc0f0440a6c653eaa5add9a984c035c0dc369be12adaf2e09801ccfd7950f",
 ]);
 
 // Allowlist of hashes that match by design (contexts where the literal is legitimate, e.g. a
@@ -150,7 +177,9 @@ const ALLOWED_LINE_HASHES = new Set<string>([
   "5a0a746c774ec6747977988d0df7c582dc9b63bf7039611af0c30a8689dd631f",
 ]);
 
-const MAX_NGRAM = 4;
+// Widest n-gram the scan hashes. Must cover the longest normalized blocklisted phrase
+// (applied-for role titles run to seven words).
+const MAX_NGRAM = 8;
 
 function sha256(s: string): string {
   return createHash("sha256").update(s).digest("hex");
@@ -159,6 +188,13 @@ function sha256(s: string): string {
 function tokenizeLine(line: string): string[] {
   // Word tokens of letters/digits/apostrophes. Lowercased.
   return (line.toLowerCase().match(/[a-z0-9'']+/g) ?? []) as string[];
+}
+
+// The form a blocklisted literal is hashed in: the same tokenization the scan applies to
+// file content, joined by single spaces. Maintainers compute new digests locally as
+// sha256(normalizeLiteral(value)); never call it on a protected value inside a committed test.
+function normalizeLiteral(literal: string): string {
+  return tokenizeLine(literal).join(" ");
 }
 
 function ngrams(tokens: string[], n: number): string[] {
@@ -236,6 +272,34 @@ const filesForLiteralScan = allCollectedFiles;
 
 // --- Tests ---
 
+// One line against the blocklist: allowlisted lines pass, otherwise every token, n-gram up to
+// MAX_NGRAM, and phone-shaped digit run is hashed and compared. Shared by the scan and its
+// positive control so the two cannot drift apart.
+function lineHitsBlocklist(line: string): boolean {
+  if (ALLOWED_LINE_HASHES.has(sha256(line.toLowerCase()))) return false;
+  const tokens = tokenizeLine(line);
+  const candidates = new Set<string>();
+  for (let n = 1; n <= MAX_NGRAM; n++) {
+    for (const ng of ngrams(tokens, n)) candidates.add(ng);
+  }
+  for (const tok of tokens) candidates.add(tok);
+  for (const phoneCandidate of digitRuns(line)) candidates.add(phoneCandidate);
+  for (const phoneCandidate of digitRunsFromContiguous(line)) candidates.add(phoneCandidate);
+  for (const candidate of candidates) {
+    if (BLOCKED_LITERAL_HASHES.has(sha256(candidate))) return true;
+  }
+  return false;
+}
+
+// Positive-control sentinels. Built by reversing a nonsense string at runtime so the phrase
+// itself never appears as adjacent tokens in this file (which the scan also reads). One is a
+// single token, one is seven tokens: proving MAX_NGRAM still covers a full role title.
+const reverse = (value: string) => value.split("").reverse().join("");
+const SENTINEL_SINGLE = reverse("lenitnesnacsiip");
+const SENTINEL_TITLE = reverse("neves xis evif ruof eerht owt lenitnes");
+BLOCKED_LITERAL_HASHES.add(sha256(SENTINEL_SINGLE));
+BLOCKED_LITERAL_HASHES.add(sha256(normalizeLiteral(SENTINEL_TITLE)));
+
 describe("PII / compensation exposure scan", () => {
   it("collects a non-empty file set so the scan cannot silently pass", () => {
     expect(shippedFiles.length).toBeGreaterThan(10);
@@ -275,21 +339,7 @@ describe("PII / compensation exposure scan", () => {
       const content = readFileSync(file, "utf8");
       const lines = content.split("\n");
       lines.forEach((line, idx) => {
-        if (ALLOWED_LINE_HASHES.has(sha256(line.toLowerCase()))) return;
-        const tokens = tokenizeLine(line);
-        const candidates = new Set<string>();
-        for (let n = 1; n <= MAX_NGRAM; n++) {
-          for (const ng of ngrams(tokens, n)) candidates.add(ng);
-        }
-        for (const tok of tokens) candidates.add(tok);
-        for (const phoneCandidate of digitRuns(line)) candidates.add(phoneCandidate);
-        for (const phoneCandidate of digitRunsFromContiguous(line)) candidates.add(phoneCandidate);
-        for (const candidate of candidates) {
-          if (BLOCKED_LITERAL_HASHES.has(sha256(candidate))) {
-            violations.push({ file: relative(root, file), line: idx + 1 });
-            break;
-          }
-        }
+        if (lineHitsBlocklist(line)) violations.push({ file: relative(root, file), line: idx + 1 });
       });
     }
     if (violations.length > 0) {
@@ -306,6 +356,15 @@ describe("PII / compensation exposure scan", () => {
     }
   });
 
+  // Positive control for the hash scan itself: a line carrying a blocklisted single token or a
+  // blocklisted seven-word phrase must be flagged, and an ordinary line must not. Guards
+  // against the scanner going inert (tokenizer, n-gram ceiling, or digest normalization drift).
+  it("flags blocklisted tokens and multi-word phrases and passes ordinary lines", () => {
+    expect(lineHitsBlocklist(`  sourceRole: "${SENTINEL_SINGLE}",`)).toBe(true);
+    expect(lineHitsBlocklist(`  sourceRole: "${SENTINEL_TITLE.replace(/ /g, ", ")}",`)).toBe(true);
+    expect(lineHitsBlocklist("  sourceRole: \"Learning Systems Program Lead\",")).toBe(false);
+  });
+
   // Positive controls — allowlisted identifiers must appear so the scan is wired to real
   // content. Failing this test means the file set is wrong, not that allowlisted strings are
   // missing from any specific file.
@@ -314,5 +373,14 @@ describe("PII / compensation exposure scan", () => {
     expect(haystack).toMatch(/Sam Rogers/);
     expect(haystack).toMatch(/sam@sam-rogers\.com/);
     expect(haystack).toMatch(/SF Bay Area/);
+  });
+
+  // Negative control on the normalizer: the candidate's own public name and region must not
+  // hash into the blocklist, so a blocklist regeneration that accidentally included a public
+  // value would fail here rather than silently rejecting every public surface.
+  it("does not blocklist public identity literals", () => {
+    for (const literal of ["Sam Rogers", "SF Bay Area", "OpenAI"]) {
+      expect(BLOCKED_LITERAL_HASHES.has(sha256(normalizeLiteral(literal)))).toBe(false);
+    }
   });
 });

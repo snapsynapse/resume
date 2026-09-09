@@ -4,12 +4,12 @@ Assistant Guide: resume
 identifier: assistant-guide
 profile: human-verifiable-assistant-guide
 profile-version: 0.4.0
-guide-version: 2026.9.8
+guide-version: 2026.9.9
 applies-to: https://resume.sam-rogers.com/
 canonical-url: https://resume.sam-rogers.com/.well-known/assistant-guide.txt
 repository-url: https://github.com/snapsynapse/resume
 source-path: public/.well-known/assistant-guide.txt
-last-reviewed: 2026-09-08
+last-reviewed: 2026-09-09
 status: active
 recommended-verifier: https://guidecheck.org/verify
 conformance-target: GuideCheck Level 3
@@ -69,8 +69,9 @@ Prefer concrete evidence. Compare requirements with documented experience, name 
 when public evidence is unavailable. Use canonical URLs and normalize old project domains when
 the public materials identify replacements. Default positioning is employer-neutral:
 content operations, AI education systems, customer education, certification, assessment,
-workflow quality, and learning measurement. Target/company parameters may select role context;
-retired application labels are not current defaults.
+workflow quality, and learning measurement. Target/company URL parameters are reader-facing
+positioning selectors, not tracking identifiers; do not treat, store, or report them as such.
+Retired application labels are not current defaults.
 
 AI usage record
 Sam's multi-provider AI token-usage record is at https://sam-rogers.com/ai-usage/, a separate

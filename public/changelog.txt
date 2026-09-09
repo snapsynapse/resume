@@ -1,5 +1,15 @@
 # Sam Rogers Resume Changelog
 
+2026-09-09
+- Extended target/company role-context routing so every application context is a data addition rather than a site rewrite. Each entry carries the source role, requisition metadata, a public-safe location answer, application-specific prompt context, and the evidence boundaries that keep the answer honest.
+- The hero role line now leads with the applied-for title when an application context is active, so a reviewer arriving from a posting sees the role they are hiring for first, with the durable target titles following.
+- Employer application presets left the public repository. They live in a private JSON loaded server-side from an environment variable; the repository carries the mechanism, the durable targets, a validator, and a fake fixture. The list of employers behind tailored links is no longer in source, history, or tests.
+- Tailored links now read ?company=<key>&target=<target> (for and role are accepted aliases). A new read-only /api/role-context endpoint returns only the public-safe part of an entry (label, hero titles, suggested questions, source role, location context); the prompt delta never leaves the server, and an unknown key returns the same target-only context a typo would.
+- Context is chosen only by the link the reader clicked. Referrer-based employer detection was removed.
+- A visible hero notice names the tailored view and links to the neutral version in one click. The parameters are positioning selectors, not identifiers: not logged, not persisted, and stripped from the analytics page URL before any event leaves the browser.
+- Default public artifacts (index.html, llms.txt, llms-full.txt, agents.json, resume.txt) still name no pursued employer and no applied-for role title. That regression check now runs against the fake fixture, and a reveal-resistant hash scan fails CI if any tracked file names a real one.
+- The assistant guide now states that URL context parameters are reader-facing positioning selectors, not tracking identifiers. Guide version 2026.9.9.
+
 2026-09-08
 - Repaired the assistant guide's native GuideCheck envelope, compact verification instruction, metadata, action schema, and acceptance boundaries while preserving profile 0.4.0 and the Level 3 claim. The guide now uses the SemVer calendar identity 2026.9.8; last-reviewed remains the dated freshness field.
 - Added an evidence-based Siteline gate to the deployment procedure. Local candidate diagnostics, persisted API results, deployed-byte verification, and live acceptance remain separate evidence states.
@@ -28,7 +38,7 @@
 - Renamed product and agent-facing model-provider language to cloud LLM / model provider terminology while keeping Anthropic named where the current implementation boundary matters.
 - Added target/company role-context routing so tailored links can compose an optional positioning target with optional employer context, e.g. `?target=content-ops&company=openai`.
 - Moved the default public resume positioning to an employer-neutral content-operations and AI-education systems wedge, while keeping Anthropic and OpenAI application context in explicit presets.
-- Added the OpenAI Customer Education, Content and Systems Operations Lead preset and updated chat, hero, fit-calibration, public text artifacts, and decision-brief copy around content portfolio health, operating rhythm, workflow quality, and AI-enabled quality control.
+- Added the OpenAI content-operations application preset and updated chat, hero, fit-calibration, public text artifacts, and decision-brief copy around content portfolio health, operating rhythm, workflow quality, and AI-enabled quality control.
 - Added Harnessie as role-relevant AI workflow quality-control evidence while leaving public contact policy unchanged.
 
 2026-07-02

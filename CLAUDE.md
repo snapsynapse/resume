@@ -21,19 +21,22 @@ Source for Sam Rogers' AI-enabled resume site (live at https://resume.sam-rogers
 
 - `src/components/` — UI components (chat modal, fit assessment, Interview Decision Brief sidebar, JD review panel, etc.)
 - `src/pages/` — route-level pages
-- `src/lib/` — shared logic, including `role-context.ts` (target/company routing) and `jd-review.ts` (local sensitive-term scanner)
+- `src/lib/` — shared logic, including `role-context.ts` (target presets, `company`/`target` parsing, private preset schema parser), `role-context-client.ts` (browser fetch of `/api/role-context`), and `jd-review.ts` (local sensitive-term scanner)
+- `src/test/fixtures/role-context-presets.json` — FAKE employer presets (two invented companies) used to test the routing mechanism end to end; the real file lives outside the repo
 - `src/data/sam-profile.ts` — single source of truth for profile content, consumed by the app, static crawl pages, AI prompts, and machine-readable files
 - `src/data/ai-usage-snapshot.ts` — GENERATED floor figures for the AI usage dashboard; edit via `npm run refresh:ai-usage`, never by hand. Hand-maintained public files (`llms.txt`, `agents.json`, `assistant-guide.txt`, `llms-full.txt`) deliberately carry no token figures so they cannot go stale
 - `src/test/` — test suite, including `pii-scan.test.ts` (reveal-resistant PII/compensation scan)
-- `api/` — Vercel serverless functions (`chat.ts`, `analyze-fit.ts`, `limits.ts`, `boundaries.ts`, `config.ts`, `explicit-role-context.ts`, `vercel-adapter.ts`)
-- `scripts/` — build-time and eval tooling: `generate-static-html.mjs` (static crawl pages), `validate-metadata.mjs`, `eval-prompts.mjs` (live prompt-boundary evals), `smoke-api.mjs` (live API liveness checks), `fetch-ai-usage.mjs` (regenerates `src/data/ai-usage-snapshot.ts` and the index.html no-JS figures from the published dashboard; run by `refresh-ai-usage.yml` weekly, never at runtime)
+- `api/` — Vercel serverless functions (`chat.ts`, `analyze-fit.ts`, `limits.ts`, `role-context.ts` (public-safe context lookup), `role-context-store.ts` (server-only loader for the private presets), `boundaries.ts`, `config.ts`, `explicit-role-context.ts`, `vercel-adapter.ts`)
+- `scripts/` — build-time and eval tooling: `generate-static-html.mjs` (static crawl pages), `validate-metadata.mjs`, `eval-prompts.mjs` (live prompt-boundary evals; employer-specific cases come from `EVAL_ROLE_CONTEXT_CASES`, never the file), `smoke-api.mjs` (live API liveness checks), `role-context-presets.mjs` (`validate` and `env` subcommands for the private presets JSON; self-contained, imports nothing from `src/`), `fetch-ai-usage.mjs` (regenerates `src/data/ai-usage-snapshot.ts` and the index.html no-JS figures from the published dashboard; run by `refresh-ai-usage.yml` weekly, never at runtime)
 - `public/` — machine-readable artifacts: `llms.txt`, `llms-full.txt`, `agents.json`, `api-manifest.json`, `resume.txt`, `changelog.txt`, `sitemap.xml`, `.well-known/assistant-guide.txt`, `.well-known/security.txt`
 - Root docs: `README.md` (architecture/design decisions), `INTENT.md` (audience strategy), `ROADMAP.md` (delivered vs. open work), `SECURITY.md` (threat model, PII eval design), `EVIDENCE.md` (claim ledger)
 
 ## Conventions
 
 - New target roles should be data additions in `role-context.ts` and `sam-profile.ts`, not site rewrites. See INTENT.md's "Target Preset Checklist."
-- Default public positioning stays employer-neutral; tailored context comes via `?target=...&company=...` URL params.
+- Default public positioning stays employer-neutral; tailored context comes via `?company=<key>&target=<target>` URL params (`for` and `role` are accepted aliases). Context is chosen only by the link; there is no referrer detection.
+- Never commit employer presets. Application entries (employer label, applied-for title, req id, posting URL, prompt delta) live in a private JSON outside the repo, loaded server-side from `ROLE_CONTEXT_PRESETS` (raw JSON) or `ROLE_CONTEXT_PRESETS_FILE` (path). Never `VITE_`-prefix them. The repo carries only the fake fixture. Do not name a pursued employer or applied-for title in any tracked file, including tests, evals, docs, and changelog entries; `pii-scan.test.ts` carries hashes of them and will fail CI.
+- Context parameters are reader-facing positioning selectors, not identifiers: never log them, never send them to analytics, never persist them.
 - The private `recruiterFAQ` block in `sam-profile.ts` is sent to the cloud LLM on every chat request but never appears on public static surfaces — treat it as "acceptable if disclosed," not as a secured channel.
 - Anything added to the codebase that touches PII, compensation, or disclosure boundaries needs a corresponding check in `src/test/pii-scan.test.ts` and should not leak protected values into source or CI output.
 - Public-surface tests guard against drift in positioning language, provider-neutral phrasing, and repo-vetting artifact discoverability — update these alongside any copy change.
@@ -54,9 +57,11 @@ npm audit --audit-level=high
 npm run eval:prompts     # live prompt-boundary evals; needs EVAL_BASE_URL + ANTHROPIC_API_KEY
 npm run smoke:api        # live API liveness/shape checks; needs EVAL_BASE_URL
 npm run refresh:ai-usage # regenerate the AI usage snapshot from the live dashboard (network)
+npm run presets:validate -- PRESETS_PATH  # schema-check the private presets JSON; never echoes values
+npm run presets:env -- PRESETS_PATH       # minified JSON on stdout for `vercel env add ROLE_CONTEXT_PRESETS`
 ```
 
-Required env: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` (defaults to `claude-opus-4-8` locally, should be explicit in production). Optional: Upstash Redis vars for rate limiting, `VITE_POSTHOG_*` for analytics.
+Required env: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` (defaults to `claude-opus-4-8` locally, should be explicit in production). Optional: Upstash Redis vars for rate limiting, `VITE_POSTHOG_*` for analytics, `ROLE_CONTEXT_PRESETS` or `ROLE_CONTEXT_PRESETS_FILE` for employer presets (unset means neutral site).
 
 CI (`.github/workflows/ci.yml`): on push/PR to `main` — `npm ci`, `npm audit --audit-level=high`, lint, typecheck, test, build.
 

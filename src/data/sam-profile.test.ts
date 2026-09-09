@@ -34,7 +34,6 @@ describe("samProfile role positioning", () => {
   it("keeps employer-specific context out of the default system prompt", () => {
     expect(samProfile.systemPrompt).toMatch(/turn AI capability into human capability/i);
     expect(samProfile.systemPrompt).not.toMatch(/Head of Content & Curriculum, Education/i);
-    expect(samProfile.systemPrompt).not.toMatch(/Customer Education, Content and Systems Operations Lead/i);
   });
 
   it("carries the AI usage dashboard as dated floor values, not a live figure", () => {

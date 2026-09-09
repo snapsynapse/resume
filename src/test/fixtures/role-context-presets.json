@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "companies": {
+    "examplecorp": {
+      "label": "ExampleCorp",
+      "applications": {
+        "content-ops": {
+          "sourceRole": "Learning Systems Program Lead",
+          "reqId": "EX-1001",
+          "sourceUrl": "https://example.com/careers/EX-1001",
+          "locationContext": "Remote, US",
+          "promptDelta": "For ExampleCorp's Learning Systems Program Lead role, map Sam through the content-and-systems operations spine: portfolio health, operating rhythm, scalable handoffs, and AI-enabled quality control.",
+          "suggestedQuestions": [
+            "Is Sam a fit for ExampleCorp's Learning Systems Program Lead role?",
+            "How has Sam owned content-portfolio health and operating rhythm?"
+          ]
+        }
+      }
+    },
+    "northwind": {
+      "label": "Northwind Traders",
+      "applications": {
+        "ai-education": {
+          "sourceRole": "Director of Enablement Platforms",
+          "heroTitle": "Enablement Platforms Director",
+          "reqId": "NW-2002",
+          "promptDelta": "For Northwind Traders' Director of Enablement Platforms role, the work is platform ownership rather than curriculum authorship.",
+          "suggestedQuestions": [
+            "Is Sam a fit for Northwind Traders' Director of Enablement Platforms role?",
+            "What is Sam's actual LMS platform administration depth?"
+          ]
+        }
+      }
+    }
+  }
+}

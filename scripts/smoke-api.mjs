@@ -37,6 +37,31 @@ const fitGet = await getStatus("/api/analyze-fit");
 if (fitGet === 405) pass("GET /api/analyze-fit rejects with 405");
 else fail("GET /api/analyze-fit rejects with 405", `got ${fitGet}`);
 
+// GET /api/role-context: liveness, neutral fallback, and the two invariants that matter
+// publicly. A missing selection resolves to null; an unknown company key behaves exactly like
+// a typo (target-only context) and no response ever carries promptContext.
+try {
+  const empty = await fetch(`${baseUrl}/api/role-context`);
+  const emptyBody = await empty.text();
+  if (empty.status !== 200 || emptyBody.trim() !== "null") {
+    fail("GET /api/role-context with no selection returns 200 null", `HTTP ${empty.status}: ${emptyBody.slice(0, 120)}`);
+  } else pass("GET /api/role-context with no selection returns 200 null");
+
+  const unknown = await fetch(`${baseUrl}/api/role-context?company=notareal&target=content-ops`);
+  const unknownBody = await unknown.json();
+  if (unknown.status !== 200 || unknownBody?.targetLabel !== "Content Operations") {
+    fail("GET /api/role-context with unknown company falls back to target-only context", `HTTP ${unknown.status}`);
+  } else if (unknownBody.companyLabel !== undefined || "promptContext" in unknownBody) {
+    fail("GET /api/role-context never returns employer context for an unknown key or a prompt delta");
+  } else pass("GET /api/role-context unknown key equals target-only, no promptContext");
+
+  const post = await fetch(`${baseUrl}/api/role-context`, { method: "POST" });
+  if (post.status === 405) pass("POST /api/role-context rejects with 405");
+  else fail("POST /api/role-context rejects with 405", `got ${post.status}`);
+} catch (error) {
+  fail("GET /api/role-context reachable", error.message);
+}
+
 // POST /api/chat returns a non-empty assistant answer.
 try {
   const res = await fetch(`${baseUrl}/api/chat`, {

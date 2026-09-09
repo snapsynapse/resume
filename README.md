@@ -67,13 +67,52 @@ This separation is a governance decision: public metadata should not solicit rol
 ### Evidence figures refresh on a schedule, never at runtime
 The self-metered AI usage figures come from `src/data/ai-usage-snapshot.ts`, a generated module that `scripts/fetch-ai-usage.mjs` derives from the published dashboard at https://sam-rogers.com/ai-usage/. A weekly workflow regenerates it, runs the full CI gate, and commits only when the figures changed. The site never fetches the dashboard at runtime, and hand-maintained public text files carry no token figures at all, so nothing a reviewer reads can be stale in a way git history cannot explain. Methodology write-up: https://sam-rogers.com/counting-what-i-delegated-to-ai
 ### Target and company routing
-The default public resume is employer-neutral. Tailored application context is selected through two optional URL fields:
+The default public resume is employer-neutral. A tailored application link selects positioning through two optional URL fields:
 ```txt
-?target=content-ops&company=openai
+?company=examplecorp&target=content-ops
 ```
-The Instructure Director context uses `?target=ai-transformation&company=instructure`. The durable target is employer-neutral; the application entry adds the exact role, evidence boundaries, and public-safe `Remote from Utah` answer. Referrers select company context only; a job family is never inferred from a referrer and requires an explicit `target`.
-`target` owns the positioning wedge: content operations, AI education, certification systems, or another durable job family. `company` owns only employer-specific context: label, referrer patterns, source role metadata, and application-specific prompt deltas. Either field may be used alone, but the durable strategy should live under `target`, not under a company name.
-The implementation lives in [src/lib/role-context.ts](src/lib/role-context.ts). Adding a new application should usually mean adding or reusing a target preset and, when needed, adding a company application entry. It should not require rewriting the homepage, public text artifacts, system prompt, chat questions, and tests by hand.
+`target` owns the positioning wedge and lives in this repository (`ai-education`, `content-ops`, `ai-transformation` in [src/lib/role-context.ts](src/lib/role-context.ts)). `company` names the employer the link was written for. `for` is accepted as an alias of `company` (it reads naturally in a shared link), and `role` as an alias of `target`, so older shared links keep resolving. Context is chosen only by the link the reader clicked; referrer-based detection has been removed, and a job family is never inferred from a `company` key alone.
+
+Statement of intent: context parameters select positioning for the reader. They are not identifiers. They are not logged by this app, not sent to analytics (the PostHog client strips the query string from `$current_url` before any event leaves the browser), and not persisted anywhere. When a tailored view is active, the hero shows the notice "Tailored view for {label} reviewers. Nothing about this link is stored or tracked." with a "View the neutral version" link, so the neutral resume is always one click away.
+
+What the repository carries versus what it does not:
+- The mechanism is public: the parser, the target presets, the `/api/role-context` endpoint, the hero notice, the schema, the validator, and the tests.
+- The list of employers Sam has applied to is not. Application entries (employer label, applied-for title, requisition id, posting URL, location answer, prompt delta, suggested questions) live in a private JSON that is never committed. The repository holds only a fake fixture at [src/test/fixtures/role-context-presets.json](src/test/fixtures/role-context-presets.json) with two invented companies so the mechanism is tested end to end.
+
+`GET /api/role-context?company=<key>&target=<target>` returns the public-safe subset of an application entry: label, hero titles, suggested questions, source role, and location context. The prompt delta never leaves the server; it is applied only inside `/api/chat`. An unknown `company` key returns exactly what a typo returns: target-only context with HTTP 200. So the mechanism is visible while the set of real keys is not enumerable from the endpoint.
+
+The private store is loaded server-side from one of two environment variables, never `VITE_`-prefixed, and never read at build time:
+- `ROLE_CONTEXT_PRESETS`: the raw JSON string. Production uses this.
+- `ROLE_CONTEXT_PRESETS_FILE`: a path to the JSON, for local development. `private/` is gitignored for that purpose.
+When neither is set or the value is empty, the site is simply neutral. A malformed value throws locally and, in production, logs once and serves the neutral site.
+
+Schema version 1 for the private JSON, with keys matching `^[a-z0-9-]{1,40}$`:
+```txt
+{ "version": 1, "companies": { "<key>": { "label", "applications": { "<targetKey>": { "sourceRole", "heroTitle"?, "reqId"?, "sourceUrl"?, "locationContext"?, "promptDelta", "suggestedQuestions"[] } } } } }
+```
+`scripts/role-context-presets.mjs` validates and packages that file without importing anything from `src/`. Validation errors name the JSON path of the problem and never echo a value, so a malformed private file cannot leak into a terminal or CI log.
+
+Replace: PRESETS_PATH -> the absolute path of the private presets JSON on this machine
+
+Customize
+```sh
+npm run presets:validate -- PRESETS_PATH
+```
+The value of `ROLE_CONTEXT_PRESETS` is the JSON itself, minified to one line, not a path. To set it, copy that line to the clipboard (it never appears on screen), then paste it into the Vercel dashboard under Project Settings, Environment Variables, key `ROLE_CONTEXT_PRESETS`, environment Production only.
+
+Replace: PRESETS_PATH -> the absolute path of the private presets JSON on this machine
+
+Customize
+```sh
+node scripts/role-context-presets.mjs env PRESETS_PATH | pbcopy
+```
+To update it later, rerun the same command, edit the variable in the dashboard, and paste over the old value. With the Vercel CLI installed the same stdout can be piped into `vercel env add ROLE_CONTEXT_PRESETS production` instead of the dashboard.
+
+A new production deployment picks up the new value; running functions keep the value they started with, so redeploy after changing it.
+
+Adding a new application therefore means editing the private JSON, validating it, and pushing the environment variable. Only a new durable `target` is a repository change. See INTENT.md's "Target Preset Checklist" and [docs/ROLE_CONTEXT_INTAKE.md](docs/ROLE_CONTEXT_INTAKE.md).
+
+Two tests hold the line. `src/test/public-surfaces.test.ts` asserts that `src/lib/role-context.ts` exports no company preset content and derives neutral-surface checks from the fake fixture. `src/test/pii-scan.test.ts` carries SHA-256 digests of pursued employer labels and applied-for role titles, so CI fails reveal-resistantly if any tracked file names one; see SECURITY.md.
 ## What Was Used And Why
 - Vite: fast static frontend build with predictable output.
 - React: interactive resume surfaces, fit workflow, AI chat, and copy-ready sidebar.
@@ -91,7 +130,7 @@ The stack is intentionally ordinary. The point is not to hide behind an exotic a
 The app has four main surfaces:
 - Human resume: React-rendered homepage with hero, evidence, work history, fit assessment, booking/contact path, and AI chat.
 - Interview Decision Brief: desktop/tablet sidebar with recruiter and hiring-manager copy blocks, locally remembered state, and fit-result-aware updates.
-- API layer: `/api/chat` and `/api/analyze-fit`, both using the configured cloud LLM provider, rate limits, no-store responses, prompt boundaries, and `/api/limits` discovery.
+- API layer: `/api/chat` and `/api/analyze-fit`, both using the configured cloud LLM provider, rate limits, no-store responses, prompt boundaries, and `/api/limits` discovery. `/api/role-context` is a read-only lookup that returns the public-safe part of a tailored application context.
 - Machine-readable artifacts: static crawl pages and public text/JSON resources for agents, LLMs, search systems, and scanners.
 Profile content is centralized in `src/data/sam-profile.ts` so the interactive app, static crawl pages, AI prompts, and machine-readable files stay aligned.
 ## Trust And Agent Interaction Standards
@@ -214,6 +253,12 @@ UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 ```
 Without Upstash, the API routes run locally but skip rate limiting. In production, missing Upstash configuration fails closed with HTTP 503 so public endpoints do not run without cost controls.
+Optional employer application presets (server-side only, never `VITE_`-prefixed):
+```sh
+ROLE_CONTEXT_PRESETS=
+ROLE_CONTEXT_PRESETS_FILE=
+```
+Leave both empty for a neutral site. See "Target and company routing" for the schema, the validator, and the Vercel CLI commands.
 Optional cookieless analytics:
 ```sh
 VITE_POSTHOG_KEY=
@@ -233,6 +278,8 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm audit --audit-level=high`: dependency advisory check enforced in CI
 - `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`
 - `npm run smoke:api`: live liveness and response-shape checks for `/api/chat` and `/api/analyze-fit`; set `EVAL_BASE_URL` as above. Both skip cleanly when no endpoint is reachable.
+- `npm run presets:validate -- PRESETS_PATH`: schema-check the private role-context presets JSON at that path; errors name the JSON path, never the value
+- `npm run presets:env -- PRESETS_PATH`: print that file as minified JSON on stdout for `vercel env add`
 The `.github/workflows/eval-live.yml` workflow runs `smoke:api` and `eval:prompts` automatically against each successful Vercel production deployment, via the `deployment_status` event the Vercel GitHub integration emits. Preview deployments are skipped because Vercel Deployment Protection answers their requests with 401, leaving the API unreachable without a bypass secret.
 Local note: `npm run dev` starts Vite and serves the frontend only. Use `vercel dev` or a deployed URL for `/api/chat`, `/api/analyze-fit`, `npm run smoke:api`, and `npm run eval:prompts`.
 ## Deployment

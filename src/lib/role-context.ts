@@ -1,5 +1,14 @@
 export type TargetKey = "ai-education" | "content-ops" | "ai-transformation";
-export type CompanyKey = "openai" | "instructure";
+
+// Company keys are a validated shape, not an enum. The set of live keys is private
+// server-side data (see api/role-context-store.ts) and never ships to the client.
+export type CompanyKey = string;
+
+export const COMPANY_KEY_PATTERN = /^[a-z0-9-]{1,40}$/;
+
+export function isCompanyKeyShape(value: unknown): value is string {
+  return typeof value === "string" && COMPANY_KEY_PATTERN.test(value);
+}
 
 export interface RoleSelection {
   target?: TargetKey;
@@ -13,11 +22,13 @@ interface TargetPreset {
   status: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey: "aiEducation" | "openaiContentOps" | "aiTransformation";
+  demoResponseKey: "aiEducation" | "contentOps" | "aiTransformation";
 }
 
-interface CompanyApplicationPreset {
+export interface CompanyApplicationPreset {
   sourceRole: string;
+  // Optional shorter hero line when the posting title is too long to lead a rotation.
+  heroTitle?: string;
   reqId?: string;
   sourceUrl?: string;
   locationContext?: string;
@@ -25,13 +36,13 @@ interface CompanyApplicationPreset {
   suggestedQuestions: string[];
 }
 
-interface CompanyPreset {
-  key: CompanyKey;
+export interface CompanyPreset {
+  key: string;
   label: string;
-  referrerPatterns: string[];
-  companyOnlyPrompt: string;
   applications: Partial<Record<TargetKey, CompanyApplicationPreset>>;
 }
+
+export type CompanyPresetMap = Record<string, CompanyPreset>;
 
 export interface ActiveRoleContext {
   selection: RoleSelection;
@@ -44,7 +55,15 @@ export interface ActiveRoleContext {
   status?: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey?: "aiEducation" | "openaiContentOps" | "aiTransformation";
+  demoResponseKey?: "aiEducation" | "contentOps" | "aiTransformation";
+}
+
+// The client-facing view of a role context. promptContext never leaves the server.
+export type PublicRoleContext = Omit<ActiveRoleContext, "promptContext">;
+
+export function toPublicRoleContext(ctx: ActiveRoleContext): PublicRoleContext {
+  const { promptContext: _promptContext, ...publicContext } = ctx;
+  return publicContext;
 }
 
 export const targetPresets: Record<TargetKey, TargetPreset> = {
@@ -90,7 +109,7 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       "Where has Sam translated cross-functional needs into operating systems?",
       "How does Sam use AI for workflow automation and quality control?",
     ],
-    demoResponseKey: "openaiContentOps",
+    demoResponseKey: "contentOps",
   },
   "ai-transformation": {
     key: "ai-transformation",
@@ -116,80 +135,23 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
   },
 };
 
-export const companyPresets: Record<CompanyKey, CompanyPreset> = {
-  openai: {
-    key: "openai",
-    label: "OpenAI",
-    referrerPatterns: [
-      "openai.com",
-      "jobs.ashbyhq.com/openai",
-    ],
-    companyOnlyPrompt:
-      "The visitor appears to be evaluating Sam in an OpenAI context. Do not assume a specific role unless target context is also present or the visitor names it.",
-    applications: {
-      "content-ops": {
-        sourceRole: "Customer Education, Content and Systems Operations Lead",
-        reqId: "2250b09d-f6fb-4ebc-9d27-dfd34d2ccbec",
-        sourceUrl: "https://jobs.ashbyhq.com/openai/2250b09d-f6fb-4ebc-9d27-dfd34d2ccbec",
-        promptDelta:
-          "For OpenAI's Customer Education, Content and Systems Operations Lead role, map Sam through the content-and-systems operations spine: own content-portfolio health across lifecycle, governance, discoverability, reuse, and gaps; run the operating rhythm; design scalable processes and handoffs; translate cross-functional education needs into system requirements; use AI deeply for automation, quality control, and operating leverage; and identify risks, duplicated effort, and unclear ownership before they escalate.",
-        suggestedQuestions: [
-          "Is Sam a fit for OpenAI's Customer Education, Content and Systems Operations Lead role?",
-          "How has Sam owned content-portfolio health and operating rhythm?",
-          "Where has Sam translated cross-functional needs into systems requirements?",
-          "How does Sam use AI for automation and quality control without losing judgment?",
-        ],
-      },
-    },
-  },
-  instructure: {
-    key: "instructure",
-    label: "Instructure",
-    referrerPatterns: ["instructure.com", "jobs.ashbyhq.com/instructure"],
-    companyOnlyPrompt:
-      "The visitor appears to be evaluating Sam in an Instructure context. Instructure has materially different openings, so do not assume a specific role unless target context is also present or the visitor names it.",
-    applications: {
-      "ai-transformation": {
-        sourceRole: "Director, AI Center of Excellence",
-        reqId: "4001e25a-4523-4d4c-9c53-11597d03cfd5",
-        sourceUrl:
-          "https://jobs.ashbyhq.com/instructure/4001e25a-4523-4d4c-9c53-11597d03cfd5/",
-        locationContext: "Remote from Utah",
-        promptDelta:
-          "For Instructure's Director, AI Center of Excellence role, treat the mandate as a founding AI Center of Excellence build rather than mature-department maintenance. Lead with Convatec's four-country rollout, 80 percent adoption in 30 days, 48-to-74 OHI gain, 90 percent portfolio reduction, and 40 percent faster delivery; then connect PAICE governance artifacts and current model-catalog, routing, fallback, privacy, budget, approval, and verification controls. Sam personally selected and hired two Convatec direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews; formal line-management scale is two, while broader project, vendor, partner, and advisory leadership must remain separately labeled. The candidacy is credible but not conventionally obvious from title history. Preserve these boundaries explicitly: no prior enterprise AI CoE ownership, no enterprise DLP ownership, no dedicated end-to-end production-infrastructure engineering claim, and no computer-science-equivalent degree claim.",
-        suggestedQuestions: [
-          "Is Sam a fit to stand up Instructure's AI Center of Excellence?",
-          "What evidence supports Sam's production AI and model-registry experience?",
-          "Has Sam hired, coached, and formally evaluated a team?",
-          "Where is the fit transferable rather than identical?",
-          "What should the first interview probe?",
-        ],
-      },
-    },
-  },
-};
+const TARGET_KEYS: readonly TargetKey[] = ["ai-education", "content-ops", "ai-transformation"];
 
-function isTargetKey(value: string | null): value is TargetKey {
-  return value === "ai-education"
-    || value === "content-ops"
-    || value === "ai-transformation";
+function isTargetKey(value: unknown): value is TargetKey {
+  return typeof value === "string" && (TARGET_KEYS as readonly string[]).includes(value);
 }
 
-function isCompanyKey(value: string | null): value is CompanyKey {
-  return value === "openai" || value === "instructure";
-}
-
-export function parseRoleSelection(
-  search: string,
-  referrer = "",
-): RoleSelection {
+// Reads a selection from a query string. `company` is the canonical company parameter and
+// `for` is an accepted alias (`?for=<key>` reads naturally in a shared link); `target` is
+// canonical and `role` is its alias. Existing links keep working.
+export function parseRoleSelection(search: string): RoleSelection {
   const params = new URLSearchParams(search);
   const targetParam = params.get("target") ?? params.get("role");
-  const companyParam = params.get("company");
+  const companyParam = params.get("company") ?? params.get("for");
 
   const selection: RoleSelection = {};
   if (isTargetKey(targetParam)) selection.target = targetParam;
-  if (isCompanyKey(companyParam)) selection.company = companyParam;
+  if (isCompanyKeyShape(companyParam)) selection.company = companyParam;
 
   // Backward compatibility for old shared links. The employer application behind this alias
   // is closed; the link now lands on the durable target only.
@@ -197,40 +159,61 @@ export function parseRoleSelection(
     selection.target = "ai-education";
   }
 
-  if (!selection.company && referrer) {
-    const matchedCompany = Object.values(companyPresets).find((company) =>
-      company.referrerPatterns.some((pattern) => referrer.includes(pattern)),
-    );
-    // Referrers select company-only context. A job family requires an explicit target.
-    if (matchedCompany) selection.company = matchedCompany.key;
-  }
-
   return selection;
 }
 
 export function detectRoleSelection(): RoleSelection {
   if (typeof window === "undefined") return {};
-  const referrer = (typeof document !== "undefined" && document.referrer) || "";
-  return parseRoleSelection(window.location.search, referrer);
+  return parseRoleSelection(window.location.search);
 }
 
+function companyOnlyPrompt(label: string): string {
+  return `The visitor appears to be evaluating Sam in a ${label} context. Do not assume a specific role unless target context is also present or the visitor names it.`;
+}
+
+function lookupCompany(
+  key: string | undefined,
+  companies: CompanyPresetMap | undefined,
+): CompanyPreset | undefined {
+  if (!key || !companies) return undefined;
+  // Own-property check only: a prototype key such as "__proto__" or "constructor"
+  // must resolve to "no such company", never to a degenerate object.
+  if (!isCompanyKeyShape(key) || !Object.hasOwn(companies, key)) return undefined;
+  return companies[key];
+}
+
+// Without a map (the client) or with an unknown key, the result is target-only and
+// indistinguishable from a mistyped key. No error, no flag.
 export function composeRoleContext(
   selection: RoleSelection,
+  companies?: CompanyPresetMap,
 ): ActiveRoleContext | null {
-  const target = selection.target ? targetPresets[selection.target] : undefined;
-  const company = selection.company ? companyPresets[selection.company] : undefined;
+  const target = selection.target && isTargetKey(selection.target)
+    ? targetPresets[selection.target]
+    : undefined;
+  const company = lookupCompany(selection.company, companies);
   const application = target && company ? company.applications[target.key] : undefined;
 
   if (!target && !company) return null;
 
   const promptParts = [
     target?.promptContext,
-    company && !application ? company.companyOnlyPrompt : undefined,
+    company && !application ? companyOnlyPrompt(company.label) : undefined,
     application?.locationContext
       ? `For public location questions in this application context, answer: ${application.locationContext}. Do not disclose a street address, ZIP code, precise residential city, or phone number.`
       : undefined,
     application?.promptDelta,
   ].filter(Boolean);
+
+  // With an application active, the applied-for title leads the hero rotation so a reviewer
+  // arriving from that posting sees their own role first; the durable target titles follow.
+  // Default and static public surfaces keep using the employer-neutral profile titles.
+  const appliedTitle = application ? application.heroTitle ?? application.sourceRole : undefined;
+  const heroTitles = target
+    ? appliedTitle
+      ? [appliedTitle, ...target.heroTitles.filter((title) => title !== appliedTitle)]
+      : target.heroTitles
+    : undefined;
 
   const label =
     company && application
@@ -246,7 +229,7 @@ export function composeRoleContext(
     companyLabel: company?.label,
     sourceRole: application?.sourceRole,
     locationContext: application?.locationContext,
-    heroTitles: target?.heroTitles,
+    heroTitles,
     status: target?.status,
     promptContext: promptParts.join("\n\n"),
     suggestedQuestions:
@@ -258,4 +241,161 @@ export function composeRoleContext(
       ],
     demoResponseKey: target?.demoResponseKey,
   };
+}
+
+// --- Private preset JSON (schema version 1) ---------------------------------------
+//
+// {
+//   "version": 1,
+//   "companies": {
+//     "<key>": {
+//       "label": string,
+//       "applications": {
+//         "<targetKey>": {
+//           "sourceRole": string,
+//           "heroTitle"?: string,
+//           "reqId"?: string,
+//           "sourceUrl"?: string,
+//           "locationContext"?: string,
+//           "promptDelta": string,
+//           "suggestedQuestions": string[]
+//         }
+//       }
+//     }
+//   }
+// }
+//
+// Validation errors name the offending path but never echo a value, so a malformed
+// private file cannot leak its contents into logs.
+
+const PRESET_SCHEMA_VERSION = 1;
+
+class PresetSchemaError extends Error {
+  constructor(path: string, problem: string) {
+    super(`Invalid role-context presets at ${path}: ${problem}`);
+    this.name = "PresetSchemaError";
+  }
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function requireString(obj: Record<string, unknown>, field: string, path: string): string {
+  const value = obj[field];
+  if (typeof value !== "string" || value.length === 0) {
+    throw new PresetSchemaError(`${path}.${field}`, "expected a non-empty string");
+  }
+  return value;
+}
+
+function optionalString(
+  obj: Record<string, unknown>,
+  field: string,
+  path: string,
+): string | undefined {
+  if (!Object.hasOwn(obj, field) || obj[field] === undefined) return undefined;
+  const value = obj[field];
+  if (typeof value !== "string") {
+    throw new PresetSchemaError(`${path}.${field}`, "expected a string when present");
+  }
+  return value;
+}
+
+function requireStringArray(obj: Record<string, unknown>, field: string, path: string): string[] {
+  const value = obj[field];
+  if (!Array.isArray(value) || !value.every((item) => typeof item === "string")) {
+    throw new PresetSchemaError(`${path}.${field}`, "expected an array of strings");
+  }
+  return [...value];
+}
+
+const APPLICATION_FIELDS = new Set([
+  "sourceRole",
+  "heroTitle",
+  "reqId",
+  "sourceUrl",
+  "locationContext",
+  "promptDelta",
+  "suggestedQuestions",
+]);
+
+function parseApplication(raw: unknown, path: string): CompanyApplicationPreset {
+  if (!isPlainObject(raw)) throw new PresetSchemaError(path, "expected an object");
+  for (const field of Object.keys(raw)) {
+    if (!APPLICATION_FIELDS.has(field)) {
+      throw new PresetSchemaError(`${path}.${field}`, "unknown field");
+    }
+  }
+  const application: CompanyApplicationPreset = {
+    sourceRole: requireString(raw, "sourceRole", path),
+    promptDelta: requireString(raw, "promptDelta", path),
+    suggestedQuestions: requireStringArray(raw, "suggestedQuestions", path),
+  };
+  const heroTitle = optionalString(raw, "heroTitle", path);
+  const reqId = optionalString(raw, "reqId", path);
+  const sourceUrl = optionalString(raw, "sourceUrl", path);
+  const locationContext = optionalString(raw, "locationContext", path);
+  if (heroTitle !== undefined) application.heroTitle = heroTitle;
+  if (reqId !== undefined) application.reqId = reqId;
+  if (sourceUrl !== undefined) application.sourceUrl = sourceUrl;
+  if (locationContext !== undefined) application.locationContext = locationContext;
+  return application;
+}
+
+function parseCompany(key: string, raw: unknown, path: string): CompanyPreset {
+  if (!isPlainObject(raw)) throw new PresetSchemaError(path, "expected an object");
+  for (const field of Object.keys(raw)) {
+    if (field !== "label" && field !== "applications") {
+      throw new PresetSchemaError(`${path}.${field}`, "unknown field");
+    }
+  }
+  const label = requireString(raw, "label", path);
+  const rawApplications = raw.applications;
+  if (!isPlainObject(rawApplications)) {
+    throw new PresetSchemaError(`${path}.applications`, "expected an object");
+  }
+  const applications: Partial<Record<TargetKey, CompanyApplicationPreset>> = {};
+  for (const targetKey of Object.keys(rawApplications)) {
+    if (!isTargetKey(targetKey)) {
+      throw new PresetSchemaError(
+        `${path}.applications`,
+        `application key is not a known target (expected one of ${TARGET_KEYS.join(", ")})`,
+      );
+    }
+    applications[targetKey] = parseApplication(
+      rawApplications[targetKey],
+      `${path}.applications.${targetKey}`,
+    );
+  }
+  return { key, label, applications };
+}
+
+export function parseCompanyPresetMap(raw: unknown): CompanyPresetMap {
+  if (!isPlainObject(raw)) throw new PresetSchemaError("$", "expected an object");
+  for (const field of Object.keys(raw)) {
+    if (field !== "version" && field !== "companies") {
+      throw new PresetSchemaError(`$.${field}`, "unknown field");
+    }
+  }
+  if (raw.version !== PRESET_SCHEMA_VERSION) {
+    throw new PresetSchemaError("$.version", `expected ${PRESET_SCHEMA_VERSION}`);
+  }
+  const companies = raw.companies;
+  if (!isPlainObject(companies)) {
+    throw new PresetSchemaError("$.companies", "expected an object");
+  }
+
+  // Null prototype so the map itself can never resolve inherited keys.
+  const map: CompanyPresetMap = Object.create(null);
+  for (const key of Object.keys(companies)) {
+    if (!isCompanyKeyShape(key)) {
+      throw new PresetSchemaError(
+        "$.companies",
+        `company key does not match ${COMPANY_KEY_PATTERN.source}`,
+      );
+    }
+    map[key] = parseCompany(key, companies[key], `$.companies.${key}`);
+  }
+  return map;
 }

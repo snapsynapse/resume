@@ -315,6 +315,22 @@ for (const file of urlPolicyFiles) {
   }
 }
 
+// Client bundle boundary. The private role-context store is server-only; if any of its
+// identifiers, or a fixture-only company name, reaches dist/assets the boundary has broken.
+const { readdir } = await import("node:fs/promises");
+const bundleForbidden = ["ROLE_CONTEXT_PRESETS", "loadCompanyPresets", "examplecorp", "Northwind"];
+if (existsSync("dist/assets")) {
+  for (const asset of await readdir("dist/assets")) {
+    if (!asset.endsWith(".js")) continue;
+    const content = await text(`dist/assets/${asset}`);
+    for (const needle of bundleForbidden) {
+      if (content.includes(needle)) fail(`dist/assets/${asset}: client bundle contains server-only identifier "${needle}"`);
+    }
+  }
+} else {
+  fail("dist/assets missing: run vite build before validate-metadata");
+}
+
 if (failures.length > 0) {
   console.error(failures.map((failure) => `- ${failure}`).join("\n"));
   process.exit(1);

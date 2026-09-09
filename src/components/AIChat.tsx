@@ -3,12 +3,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X, Send, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { demoResponses } from "@/data/sam-profile";
-import {
-  composeRoleContext,
-  detectRoleSelection,
-  type ActiveRoleContext,
-  type RoleSelection,
-} from "@/lib/role-context";
+import { useRoleContext, type PublicRoleContext } from "@/lib/role-context-client";
 import { track } from "@/lib/analytics";
 import { lengthBucket } from "@/lib/jd-review";
 
@@ -57,7 +52,7 @@ const defaultSuggestedQuestions = [
 ];
 
 // Fallback router used when /api/chat is unavailable (local `vite` dev without `vercel dev`, or upstream failure).
-const fallbackResponse = (question: string, roleContext: ActiveRoleContext | null): string => {
+const fallbackResponse = (question: string, roleContext: PublicRoleContext | null): string => {
   if (roleContext?.demoResponseKey && roleContext.demoResponseKey in demoResponses) {
     return demoResponses[roleContext.demoResponseKey];
   }
@@ -66,7 +61,7 @@ const fallbackResponse = (question: string, roleContext: ActiveRoleContext | nul
     return demoResponses.aiEducation;
   }
   if (q.includes("openai") || q.includes("content ops") || q.includes("content operations")) {
-    return demoResponses.openaiContentOps;
+    return demoResponses.contentOps;
   }
   if (q.includes("paice") || q.includes("portfolio") || q.includes("pbc")) {
     return demoResponses.paice;
@@ -83,16 +78,11 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [streamingText, setStreamingText] = useState("");
-  const [roleSelection, setRoleSelection] = useState<RoleSelection>({});
-  const [roleContext, setRoleContext] = useState<ActiveRoleContext | null>(null);
+  // Selection comes from the URL only; the public context comes from the server when an
+  // employer key is present and from the bundled target presets otherwise.
+  const { selection: roleSelection, roleContext } = useRoleContext();
   const [chatMode, setChatMode] = useState<ChatMode>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const selection = detectRoleSelection();
-    setRoleSelection(selection);
-    setRoleContext(composeRoleContext(selection));
-  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

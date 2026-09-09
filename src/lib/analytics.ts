@@ -1,4 +1,4 @@
-import type { PostHog } from "posthog-js";
+import type { PostHog, Properties } from "posthog-js";
 
 type AnalyticsEvent =
   | "ai_chat_opened"
@@ -57,6 +57,39 @@ const warnIfMisconfigured = () => {
   );
 };
 
+// PostHog stamps the page URL and referrer onto every event. Tailored links carry
+// `?for=` and `?target=` params that identify which employer preset a reader used, and
+// those must never leave the browser. Strip query string and hash from every URL-shaped
+// property before it is queued, so only the path survives.
+const URL_PROPERTY_KEYS = [
+  "$current_url",
+  "$referrer",
+  "$initial_current_url",
+  "$initial_referrer",
+  "$pathname",
+] as const;
+
+export const stripUrlParams = (value: unknown): unknown => {
+  if (typeof value !== "string" || value === "" || value === "$direct") return value;
+  const cut = value.search(/[?#]/);
+  return cut === -1 ? value : value.slice(0, cut);
+};
+
+export const sanitizeAnalyticsProperties = (properties: Properties): Properties => {
+  const sanitized: Properties = { ...properties };
+  for (const key of URL_PROPERTY_KEYS) {
+    if (key in sanitized) sanitized[key] = stripUrlParams(sanitized[key]);
+  }
+  // `$set` / `$set_once` carry the initial URL and referrer on person properties.
+  for (const bucket of ["$set", "$set_once"] as const) {
+    const nested = sanitized[bucket];
+    if (nested && typeof nested === "object" && !Array.isArray(nested)) {
+      sanitized[bucket] = sanitizeAnalyticsProperties(nested as Properties);
+    }
+  }
+  return sanitized;
+};
+
 export const initAnalytics = () => {
   warnIfMisconfigured();
   if (!enabled || clientPromise) return;
@@ -72,6 +105,7 @@ export const initAnalytics = () => {
       cookieless_mode: "always",
       person_profiles: "identified_only",
       respect_dnt: true,
+      sanitize_properties: sanitizeAnalyticsProperties,
       debug: analyticsDebugEnabled(),
     });
     client = posthog;

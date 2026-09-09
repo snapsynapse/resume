@@ -15,6 +15,8 @@
     "refresh:ai-usage": "node scripts/fetch-ai-usage.mjs",
     "eval:ats-artifact": "node scripts/eval-ats-artifact.mjs",
     "eval:prompts": "node scripts/eval-prompts.mjs",
+    "presets:validate": "node scripts/role-context-presets.mjs validate",
+    "presets:env": "node scripts/role-context-presets.mjs env",
     "smoke:api": "node scripts/smoke-api.mjs",
     "test:watch": "vitest"
   },

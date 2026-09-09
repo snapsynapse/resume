@@ -32,6 +32,16 @@
       "intended_client": "agents, scanners, and reviewers"
     },
     {
+      "path": "/api/role-context",
+      "method": "GET",
+      "purpose": "Return the public-safe part of a tailored application context for a for and target query pair (label, hero titles, suggested questions, source role, location context). Prompt context never leaves the server. An unknown key returns the same target-only context as a typo, so the endpoint does not enumerate employers. The parameters are reader-facing positioning selectors, not identifiers; nothing is logged or stored.",
+      "authentication": "none",
+      "rate_limit": {
+        "enabled": "none"
+      },
+      "intended_client": "interactive resume UI"
+    },
+    {
       "path": "/api/chat",
       "method": "POST",
       "purpose": "Answer user questions about Sam Rogers' resume, evidence, gaps, portfolio, and role fit.",

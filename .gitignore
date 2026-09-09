@@ -30,6 +30,10 @@ dist-ssr
 # Local handoff notes
 handoffs/
 
+# Local scratch for the private role-context preset JSON (employer application
+# entries). The source of truth lives outside the repo; never commit presets.
+private/
+
 # Claude Code per-machine settings (launch.json is shared, settings.local.json is not)
 .claude/settings.local.json
 

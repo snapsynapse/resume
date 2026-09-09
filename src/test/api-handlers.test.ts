@@ -1,10 +1,18 @@
 // @vitest-environment node
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { fileURLToPath } from "node:url";
 import { handleChatRequest } from "../../api/chat";
 import { handleAnalyzeFitRequest } from "../../api/analyze-fit";
 import limitsHandler, { handleLimitsRequest } from "../../api/limits";
+import { handleRoleContextRequest } from "../../api/role-context";
+import { resetCompanyPresetCache } from "../../api/role-context-store";
 import { withVercelAdapter } from "../../api/vercel-adapter";
+
+// Two fake employers; no real employer name appears in this suite.
+const PRESET_FIXTURE = fileURLToPath(
+  new URL("./fixtures/role-context-presets.json", import.meta.url),
+);
 
 const anthropicMocks = vi.hoisted(() => ({
   stream: vi.fn(),
@@ -30,11 +38,15 @@ vi.mock("@anthropic-ai/sdk", () => {
 describe("API validation", () => {
   beforeEach(() => {
     vi.stubEnv("ANTHROPIC_API_KEY", "test-key");
+    vi.stubEnv("ROLE_CONTEXT_PRESETS", "");
+    vi.stubEnv("ROLE_CONTEXT_PRESETS_FILE", PRESET_FIXTURE);
+    resetCompanyPresetCache();
   });
 
   afterEach(() => {
     vi.clearAllMocks();
     vi.unstubAllEnvs();
+    resetCompanyPresetCache();
   });
 
   it("rejects non-POST chat requests", async () => {
@@ -170,7 +182,7 @@ describe("API validation", () => {
     expect(systemText).not.toContain("VISITOR CONTEXT");
   });
 
-  it("composes the Instructure AI transformation boundaries into the server prompt", async () => {
+  it("composes a private application preset into the server prompt", async () => {
     anthropicMocks.stream.mockReturnValue(
       (async function* () {
         yield { type: "content_block_delta", delta: { type: "text_delta", text: "ok" } };
@@ -182,7 +194,7 @@ describe("API validation", () => {
         method: "POST",
         body: JSON.stringify({
           messages: [{ role: "user", content: "Where is Sam based for this role?" }],
-          roleSelection: { target: "ai-transformation", company: "instructure" },
+          roleSelection: { target: "content-ops", company: "examplecorp" },
         }),
       }),
     );
@@ -191,12 +203,61 @@ describe("API validation", () => {
     await res.text();
     const call = anthropicMocks.stream.mock.calls[0][0];
     const systemText = call.system[0].text as string;
-    expect(systemText).toMatch(/Instructure - Director, AI Center of Excellence/);
-    expect(systemText).toMatch(/Remote from U[a-z]+/);
-    expect(systemText).toMatch(/formal line-management scale is two/i);
-    expect(systemText).toMatch(/no prior enterprise AI CoE ownership/i);
-    expect(systemText).toMatch(/no enterprise DLP ownership/i);
+    expect(systemText).toMatch(/ExampleCorp - Learning Systems Program Lead/);
+    expect(systemText).toMatch(/Remote, US/);
+    expect(systemText).toMatch(/content-and-systems operations spine/i);
     expect(systemText).toMatch(/Do not disclose a street address, ZIP code.*phone number/i);
+  });
+
+  it("drops a company key that is not in the private preset map", async () => {
+    anthropicMocks.stream.mockReturnValue(
+      (async function* () {
+        yield { type: "content_block_delta", delta: { type: "text_delta", text: "ok" } };
+      })(),
+    );
+
+    const res = await handleChatRequest(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "Is Sam a fit?" }],
+          roleSelection: { target: "content-ops", company: "notareal" },
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    await res.text();
+    const call = anthropicMocks.stream.mock.calls[0][0];
+    const systemText = call.system[0].text as string;
+    expect(systemText).toMatch(/evaluating Sam in this context: Content Operations\./);
+    expect(systemText).not.toMatch(/notareal|ExampleCorp|Northwind/);
+  });
+
+  it("serves neutral chat context when no presets are configured", async () => {
+    vi.stubEnv("ROLE_CONTEXT_PRESETS_FILE", "");
+    resetCompanyPresetCache();
+    anthropicMocks.stream.mockReturnValue(
+      (async function* () {
+        yield { type: "content_block_delta", delta: { type: "text_delta", text: "ok" } };
+      })(),
+    );
+
+    const res = await handleChatRequest(
+      new Request("https://sam-rogers.com/api/chat", {
+        method: "POST",
+        body: JSON.stringify({
+          messages: [{ role: "user", content: "Is Sam a fit?" }],
+          roleSelection: { target: "content-ops", company: "examplecorp" },
+        }),
+      }),
+    );
+
+    expect(res.status).toBe(200);
+    await res.text();
+    const systemText = anthropicMocks.stream.mock.calls[0][0].system[0].text as string;
+    expect(systemText).toMatch(/evaluating Sam in this context: Content Operations\./);
+    expect(systemText).not.toMatch(/ExampleCorp/);
   });
 
   it("rejects chat messages over 8000 characters", async () => {
@@ -557,6 +618,140 @@ describe("API validation", () => {
     expect(writes.join("")).toBe("first");
     // Client already gone: we do not call end() on the abandoned socket.
     expect(res.end).not.toHaveBeenCalled();
+  });
+});
+
+describe("/api/role-context", () => {
+  beforeEach(() => {
+    vi.stubEnv("ROLE_CONTEXT_PRESETS", "");
+    vi.stubEnv("ROLE_CONTEXT_PRESETS_FILE", PRESET_FIXTURE);
+    resetCompanyPresetCache();
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    resetCompanyPresetCache();
+  });
+
+  function get(query: string) {
+    return handleRoleContextRequest(
+      new Request(`https://sam-rogers.com/api/role-context${query}`, { method: "GET" }),
+    );
+  }
+
+  it("returns the public context for a known company and target without promptContext", async () => {
+    const res = await get("?for=examplecorp&target=content-ops");
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get("Cache-Control")).toBe("no-store");
+    expect(res.headers.get("Content-Type")).toBe("application/json");
+    const body = await res.json();
+    expect(body).toMatchObject({
+      label: "ExampleCorp - Learning Systems Program Lead",
+      companyLabel: "ExampleCorp",
+      targetLabel: "Content Operations",
+      sourceRole: "Learning Systems Program Lead",
+      locationContext: "Remote, US",
+      selection: { target: "content-ops", company: "examplecorp" },
+    });
+    expect(body.heroTitles[0]).toBe("Learning Systems Program Lead");
+    expect(body.heroTitles.length).toBeGreaterThan(1);
+    expect(body.suggestedQuestions.length).toBeGreaterThan(0);
+    expect(body).not.toHaveProperty("promptContext");
+    expect(JSON.stringify(body)).not.toMatch(/operations spine|Do not disclose/);
+  });
+
+  it("uses the heroTitle override and accepts the company alias", async () => {
+    const res = await get("?company=northwind&target=ai-education");
+    const body = await res.json();
+
+    expect(body.companyLabel).toBe("Northwind Traders");
+    expect(body.sourceRole).toBe("Director of Enablement Platforms");
+    expect(body.heroTitles[0]).toBe("Enablement Platforms Director");
+    expect(body).not.toHaveProperty("promptContext");
+  });
+
+  it("returns company-only context without a target", async () => {
+    const body = await (await get("?for=examplecorp")).json();
+
+    expect(body.label).toBe("ExampleCorp");
+    expect(body.targetLabel).toBeUndefined();
+    expect(body.heroTitles).toBeUndefined();
+    expect(body).not.toHaveProperty("promptContext");
+  });
+
+  it("returns an identical body for an unknown company and for no company", async () => {
+    const unknown = await (await get("?for=notareal&target=content-ops")).json();
+    const none = await (await get("?target=content-ops")).json();
+
+    // The selection echo is the one field that may differ; everything else must match
+    // so the endpoint cannot be used to probe which employer keys exist.
+    delete unknown.selection;
+    delete none.selection;
+    expect(unknown).toEqual(none);
+    expect(unknown.companyLabel).toBeUndefined();
+    expect(unknown.label).toBe("Content Operations");
+  });
+
+  it("returns null for an unknown company with no target, same as an empty query", async () => {
+    await expect((await get("?for=notareal")).json()).resolves.toBeNull();
+    await expect((await get("?for=__proto__")).json()).resolves.toBeNull();
+    await expect((await get("")).json()).resolves.toBeNull();
+  });
+
+  it("returns 405 for non-GET requests", async () => {
+    const res = await handleRoleContextRequest(
+      new Request("https://sam-rogers.com/api/role-context?for=examplecorp", {
+        method: "POST",
+        body: "{}",
+      }),
+    );
+
+    expect(res.status).toBe(405);
+    expect(res.headers.get("Allow")).toBe("GET");
+    await expect(res.json()).resolves.toMatchObject({
+      error: "method_not_allowed",
+      detail: expect.any(String),
+      why: expect.any(String),
+    });
+  });
+
+  it("prefers the inline JSON env var over the file path", async () => {
+    vi.stubEnv(
+      "ROLE_CONTEXT_PRESETS",
+      JSON.stringify({
+        version: 1,
+        companies: { inlineco: { label: "Inline Co", applications: {} } },
+      }),
+    );
+    resetCompanyPresetCache();
+
+    const inline = await (await get("?for=inlineco")).json();
+    expect(inline.label).toBe("Inline Co");
+    await expect((await get("?for=examplecorp")).json()).resolves.toBeNull();
+  });
+
+  it("throws on malformed presets outside production", async () => {
+    vi.stubEnv("ROLE_CONTEXT_PRESETS", JSON.stringify({ version: 1, companies: { BAD: {} } }));
+    resetCompanyPresetCache();
+
+    await expect(get("?for=examplecorp")).rejects.toThrow(/Invalid role-context presets/);
+  });
+
+  it("logs once and serves neutral context on malformed presets in production", async () => {
+    vi.stubEnv("VERCEL_ENV", "production");
+    vi.stubEnv("ROLE_CONTEXT_PRESETS", "{not json");
+    resetCompanyPresetCache();
+    const error = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const first = await (await get("?for=examplecorp&target=content-ops")).json();
+    const second = await (await get("?for=examplecorp&target=content-ops")).json();
+
+    expect(first.label).toBe("Content Operations");
+    expect(first.companyLabel).toBeUndefined();
+    expect(second).toEqual(first);
+    expect(error).toHaveBeenCalledTimes(1);
+    error.mockRestore();
   });
 });
 

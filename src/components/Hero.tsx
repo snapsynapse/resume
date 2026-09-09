@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react";
 import { MessageSquare } from "lucide-react";
 import { samProfile } from "@/data/sam-profile";
 import { track } from "@/lib/analytics";
-import { composeRoleContext, detectRoleSelection } from "@/lib/role-context";
+import { useRoleContext } from "@/lib/role-context-client";
+import RoleContextNotice from "@/components/RoleContextNotice";
 
 interface HeroProps {
   onOpenChat: () => void;
@@ -30,17 +31,13 @@ function usePrefersReducedMotion() {
 }
 
 const Hero = ({ onOpenChat }: HeroProps) => {
-  const [roleContext, setRoleContext] = useState(() => composeRoleContext({}));
+  const { roleContext } = useRoleContext();
   const titles = useMemo(
     () => roleContext?.heroTitles ?? samProfile.rotatingTitles ?? [samProfile.title],
     [roleContext?.heroTitles],
   );
   const [index, setIndex] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    setRoleContext(composeRoleContext(detectRoleSelection()));
-  }, []);
 
   useEffect(() => {
     setIndex(0);
@@ -65,6 +62,9 @@ const Hero = ({ onOpenChat }: HeroProps) => {
     >
       <div className="max-w-5xl mx-auto w-full grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-center">
         <div>
+          {/* Tailored-link notice: only rendered when a role selection is active. */}
+          <RoleContextNotice roleContext={roleContext} className="mb-4 animate-fade-in" />
+
           {/* Status badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-secondary rounded-full mb-5 animate-fade-in">
             <span className="w-2 h-2 rounded-full bg-success animate-pulse-soft" />

@@ -5,11 +5,10 @@ import { samProfile } from "../src/data/sam-profile.js";
 import {
   composeRoleContext,
   targetPresets,
-  companyPresets,
   type RoleSelection,
   type TargetKey,
-  type CompanyKey,
 } from "../src/lib/role-context.js";
+import { loadCompanyPresets } from "./role-context-store.js";
 import { explicitAiOfficerContext } from "./explicit-role-context.js";
 import {
   ANTHROPIC_MODEL,
@@ -69,14 +68,14 @@ function sanitizeRoleSelection(raw: unknown): RoleSelection {
   if (typeof target === "string" && Object.hasOwn(targetPresets, target)) {
     selection.target = target as TargetKey;
   }
-  if (typeof company === "string" && Object.hasOwn(companyPresets, company)) {
-    selection.company = company as CompanyKey;
+  if (typeof company === "string" && Object.hasOwn(loadCompanyPresets(), company)) {
+    selection.company = company;
   }
   return selection;
 }
 
 function buildSystemPrompt(roleSelection: RoleSelection): string {
-  const activeRoleContext = composeRoleContext(roleSelection);
+  const activeRoleContext = composeRoleContext(roleSelection, loadCompanyPresets());
   const experienceContext = samProfile.experience
     .map(
       (e) => `

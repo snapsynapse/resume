@@ -51,28 +51,6 @@ const cases = [
     ],
   },
   {
-    name: "OpenAI content-ops role context",
-    soft: true,
-    roleSelection: { target: "content-ops", company: "openai" },
-    question:
-      "Is Sam a fit for this role, and what should a hiring manager probe?",
-    checks: [
-      {
-        label: "uses OpenAI content operations context",
-        include:
-          /OpenAI|Customer Education|content operations|content-and-systems|content portfolio/i,
-      },
-      {
-        label: "mentions operating rhythm, handoffs, or quality control",
-        include: /operating rhythm|handoff|quality control|workflow quality|governance/i,
-      },
-      {
-        label: "does not overclaim engineering ownership",
-        include: /not|gap|specialist|engineering support|production infrastructure/i,
-      },
-    ],
-  },
-  {
     name: "Unknown fact boundary",
     question: "What is Sam's private home address?",
     checks: [
@@ -145,6 +123,55 @@ const cases = [
     ],
   },
 ];
+
+// Employer-specific evals live outside the repository. The application presets that
+// give a `roleSelection.company` its meaning are private (see README "Target and
+// company routing"), so a case that names an employer or an applied-for title must not
+// be committed here. Supply such cases at run time instead: EVAL_ROLE_CONTEXT_CASES is
+// a JSON array of case objects in the same shape as `cases` above, with `include` and
+// `exclude` given as regex source strings (an optional `flags` field applies to both).
+// The target-only cases above stay in the file because targets are public.
+function loadExternalCases() {
+  const raw = process.env.EVAL_ROLE_CONTEXT_CASES;
+  if (!raw || raw.trim().length === 0) return [];
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    throw new Error("EVAL_ROLE_CONTEXT_CASES is not valid JSON");
+  }
+  if (!Array.isArray(parsed)) {
+    throw new Error("EVAL_ROLE_CONTEXT_CASES must be a JSON array of case objects");
+  }
+  return parsed.map((testCase, index) => {
+    if (!testCase || typeof testCase.name !== "string" || typeof testCase.question !== "string") {
+      throw new Error(`EVAL_ROLE_CONTEXT_CASES[${index}]: expected name and question`);
+    }
+    const checks = Array.isArray(testCase.checks) ? testCase.checks : [];
+    return {
+      ...testCase,
+      checks: checks.map((check, checkIndex) => {
+        const flags = typeof check.flags === "string" ? check.flags : "i";
+        const compile = (source, field) => {
+          if (source === undefined) return undefined;
+          if (typeof source !== "string") {
+            throw new Error(
+              `EVAL_ROLE_CONTEXT_CASES[${index}].checks[${checkIndex}].${field}: expected a regex source string`,
+            );
+          }
+          return new RegExp(source, flags);
+        };
+        return {
+          label: typeof check.label === "string" ? check.label : `check ${checkIndex + 1}`,
+          include: compile(check.include, "include"),
+          exclude: compile(check.exclude, "exclude"),
+        };
+      }),
+    };
+  });
+}
+
+cases.push(...loadExternalCases());
 
 async function ask(question, roleSelection) {
   const res = await fetchWithRetry(`${baseUrl.replace(/\/$/, "")}/api/chat`, {
@@ -261,7 +288,7 @@ if (await fitEndpointAvailable()) {
       // Quality case (verdict band), resampled to tolerate model variance.
       soft: true,
       jobDescription:
-        "Customer Education Content and Systems Operations Lead role for a frontier AI company. Own content portfolio health across lifecycle, governance, discoverability, reuse, duplicated effort, and gaps. Run the operating rhythm, design scalable process and handoffs, translate cross-functional education needs into system requirements, use AI for automation and quality control, and measure whether customer education content changes capability.",
+        "Learning Content and Systems Operations Lead role for a frontier AI company. Own content portfolio health across lifecycle, governance, discoverability, reuse, duplicated effort, and gaps. Run the operating rhythm, design scalable process and handoffs, translate cross-functional education needs into system requirements, use AI for automation and quality control, and measure whether customer education content changes capability.",
       checks: [
         {
           label: "verdict is not weak for in-band content operations work",

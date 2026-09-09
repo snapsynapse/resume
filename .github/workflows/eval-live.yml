@@ -23,6 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EVAL_BASE_URL: ${{ vars.EVAL_BASE_URL || 'https://resume.sam-rogers.com' }}
+      # Employer-specific prompt-boundary cases live outside the repo (README "Target and
+      # company routing"). Absent secret means only the public target-level cases run.
+      EVAL_ROLE_CONTEXT_CASES: ${{ secrets.EVAL_ROLE_CONTEXT_CASES }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

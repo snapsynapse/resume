@@ -37,6 +37,34 @@ const defaultPublicPositioningFiles = [
   "public/resume.txt",
 ];
 
+// Employer context is a routed, per-application surface. Nothing a crawler, LLM, or agent
+// reads by default should enumerate the pursuits behind it. The real application presets
+// live in a private JSON outside the repository (README "Target and company routing"); the
+// repository carries only this fake fixture with two invented companies. Deriving the banned
+// strings from the fixture proves the neutral-surface mechanism end to end with test data.
+// The real employer names are guarded by the hash-based scan in pii-scan.test.ts.
+interface FixtureApplication {
+  sourceRole: string;
+}
+interface FixtureCompany {
+  label: string;
+  applications: Record<string, FixtureApplication>;
+}
+const fixturePresets = JSON.parse(
+  readFileSync(join(root, "src/test/fixtures/role-context-presets.json"), "utf8"),
+) as { version: number; companies: Record<string, FixtureCompany> };
+
+const applicationSourceRoles = Object.values(fixturePresets.companies).flatMap((company) =>
+  Object.values(company.applications).map((application) => application.sourceRole),
+);
+
+// Companies nameable on neutral surfaces for a reason unrelated to an application: the
+// self-metered AI usage record names its providers.
+const providerMentionAllowlist = new Set(["OpenAI"]);
+const applicationCompanyLabels = Object.values(fixturePresets.companies)
+  .map((company) => company.label)
+  .filter((label) => !providerMentionAllowlist.has(label));
+
 const analyticsSourceFiles = [
   "src/components/AIChat.tsx",
   "src/components/FitAssessment.tsx",
@@ -106,9 +134,11 @@ const guideContractMutations: Array<[string, (guide: string) => string]> = [
   ["missing metadata close", (guide) => guide.replace("[/assistant-guide-metadata]", "")],
   ["empty duplicate metadata field", (guide) => guide.replace("profile-version: 0.4.0", "profile-version: 0.4.0\nprofile-version:")],
   ["malformed duplicate metadata field", (guide) => guide.replace("profile-version: 0.4.0", "profile-version: 0.4.0\nprofile-version = 0.4.0")],
-  ["trailing metadata whitespace", (guide) => guide.replace("guide-version: 2026.9.8", "guide-version: 2026.9.8 ")],
-  ["leading-zero guide version", (guide) => guide.replace("guide-version: 2026.9.8", "guide-version: 2026.09.08")],
-  ["invalid review date", (guide) => guide.replace("last-reviewed: 2026-09-08", "last-reviewed: banana")],
+  // Matched by shape, not by the current value: the guide's calendar version and review date
+  // move with the changelog, and a stale literal here would silently stop mutating the guide.
+  ["trailing metadata whitespace", (guide) => guide.replace(/^guide-version: (.+)$/m, "guide-version: $1 ")],
+  ["leading-zero guide version", (guide) => guide.replace(/^guide-version: .+$/m, "guide-version: 2026.09.08")],
+  ["invalid review date", (guide) => guide.replace(/^last-reviewed: .+$/m, "last-reviewed: banana")],
   ["missing compact approval", (guide) => guide.replace("approve proceeding under the reported level", "proceed")],
   ["missing action command", (guide) => guide.replace(/^command: .+$/m, "")],
   ["missing action egress", (guide) => guide.replace(/^egress: .+$/m, "")],
@@ -144,7 +174,38 @@ describe("public resume surfaces", () => {
   it.each(defaultPublicPositioningFiles)("keeps default public artifacts employer-neutral in %s", (file) => {
     const content = readFileSync(join(root, file), "utf8");
 
-    expect(content).not.toMatch(/Anthropic.*Head of Content|OpenAI.*Customer Education|Instructure.*Director, AI Center of Excellence/i);
+    expect(content).not.toMatch(/Anthropic.*Head of Content|OpenAI.*Customer Education/i);
+  });
+
+  it("keeps employer application content out of the public role-context module", () => {
+    // Structural guard: the presets left the repository for a private JSON loaded at the
+    // server edge. The public module may parse that shape and carry the durable targets, but
+    // it must not export a company map or embed an application object literal again.
+    const source = readFileSync(join(root, "src/lib/role-context.ts"), "utf8");
+
+    expect(source).not.toMatch(/export\s+(?:const|let|var|function)\s+companyPresets\b/);
+    expect(source).not.toMatch(/companyPresets\s*[:=]/);
+    // An `applications:` object literal that carries a `promptDelta` value is content, not
+    // schema. Comments and type declarations describe the shape without string values.
+    expect(source).not.toMatch(/applications\s*:\s*\{[\s\S]{0,2000}?promptDelta\s*:\s*["'`]/);
+    expect(fixturePresets.version).toBe(1);
+    expect(Object.keys(fixturePresets.companies).length).toBeGreaterThan(0);
+  });
+
+  it.each(defaultPublicPositioningFiles)("keeps applied-for role titles off %s", (file) => {
+    const content = readFileSync(join(root, file), "utf8");
+
+    for (const sourceRole of applicationSourceRoles) {
+      expect(content).not.toContain(sourceRole);
+    }
+  });
+
+  it.each(defaultPublicPositioningFiles)("keeps pursued employers unnamed on %s", (file) => {
+    const content = readFileSync(join(root, file), "utf8");
+
+    for (const label of applicationCompanyLabels) {
+      expect(content).not.toMatch(new RegExp(`\\b${label}\\b`));
+    }
   });
 
   it.each(downstreamArtifactFiles)("documents the two-page-resume funnel in %s", (file) => {

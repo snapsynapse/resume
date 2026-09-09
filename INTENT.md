@@ -14,7 +14,8 @@ The Interview Decision Brief opens by default on desktop because observed use fa
 
 - Primary outcome: convince a recruiter to shortlist Sam for a hiring-manager conversation. The intended 30-second conclusion is that the title history is nonstandard but the evidence is specific enough that rejecting before that conversation would be a mistake. Novelty is never a success criterion.
 - Durable-target admission: a new `target` is admitted only when it names a recurring operating pattern materially different from existing lanes, has at least three independently supportable proof points, and is likely to recur across employers. Company-specific variation belongs in an application entry.
-- Role-specific context requires an explicit `target` link. Referrers may select company-only context and must never infer a job family.
+- Role-specific context requires an explicit `target` link. Context is selected only by the link the reader clicked; nothing is inferred from a referrer, and a `company` key alone never infers a job family.
+- Employer application entries never live in this repository. They live in a private JSON loaded server-side; the repository carries the mechanism, the durable targets, and a fake fixture. A public-surface test and a hash-based scan enforce this.
 - Default positioning changes only after repeated external evidence, such as two or more serious interview processes or recurring recruiter feedback pointing to one operating pattern.
 - Technical-work stop rule: further public-repo work must improve recruiter or hiring-manager evidence transfer, resolve a real reviewer objection, prove a concrete claim a recruiter should rely on, or reduce a live public-risk exposure. Accessibility and keyboard usability qualify. New abstract governance machinery does not without a demonstrated need.
 - Application-to-interview outcome tracking lives in a private workspace, never in this repository.
@@ -54,11 +55,13 @@ Provider neutrality is not concealment. It is an architecture and positioning ch
 
 ## Maintenance Rule
 
-New target roles should usually be data additions, not site rewrites. Use role-context presets and public-surface tests to keep default positioning employer-neutral while allowing tailored application links such as:
+New target roles should usually be data additions, not site rewrites. Use target presets and public-surface tests to keep default positioning employer-neutral while allowing tailored application links such as:
 
 ```txt
-?target=content-ops&company=openai
+?company=examplecorp&target=content-ops
 ```
+
+The `company` key names the employer the link was written for; its application entry lives in the private presets JSON, not in this repository. Context parameters select positioning for the reader. They are not identifiers, not logged, not sent to analytics, and not persisted, and the neutral view is one click away from the hero notice.
 
 If changing a claim, update the smallest durable source that owns it and keep `EVIDENCE.md`, public text artifacts, tests, and generated metadata aligned.
 
@@ -66,9 +69,10 @@ If changing a claim, update the smallest durable source that owns it and keep `E
 
 When adding a new application context:
 
-- Reuse an existing `target` if the durable job family is already represented.
+- Reuse an existing `target` if the durable job family is already represented. Only a new `target` is a repository change (`src/lib/role-context.ts` and `src/data/sam-profile.ts`).
 - Add a new `target` only when the positioning wedge should survive beyond one employer.
-- Add `company` metadata only for employer label, referrer matching, source role title, and employer-specific prompt deltas.
+- Write the application entry (label, applied-for title, requisition id, posting URL, public-safe location answer, prompt delta, suggested questions) to the private presets JSON outside the repository, keyed by a `for` value matching `^[a-z0-9-]{1,40}$`.
+- Validate it with `npm run presets:validate -- PRESETS_PATH`, then push it to Vercel with the commands in README "Target and company routing". Never commit it, never paste it into a tracked file, and never put it in a `VITE_` variable.
 - Keep the default public resume employer-neutral unless Sam explicitly changes the active positioning.
-- Update or add public-surface tests before manually editing generated text artifacts.
+- Update or add public-surface tests before manually editing generated text artifacts. Employer-specific prompt evals live outside the repository too, supplied to `scripts/eval-prompts.mjs` through `EVAL_ROLE_CONTEXT_CASES`.
 - Evidence interview: before adding a target that changes claims, gaps, disclosure, or location, run `docs/ROLE_CONTEXT_INTAKE.md` privately.

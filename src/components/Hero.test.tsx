@@ -1,15 +1,31 @@
 import { act, cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Hero from "./Hero";
 
 vi.mock("@/lib/analytics", () => ({ track: vi.fn() }));
-vi.mock("@/lib/role-context", () => ({
-  composeRoleContext: () => ({
-    heroTitles: ["First Title", "Second Title", "Third Title"],
-    status: "Open to roles",
-  }),
-  detectRoleSelection: () => ({}),
+
+const roleContextMock = vi.hoisted(() => ({
+  useRoleContext: vi.fn(),
+  neutralHref: () => "/",
 }));
+
+vi.mock("@/lib/role-context-client", () => roleContextMock);
+
+const baseRoleContext = {
+  selection: { target: "content-ops" as const },
+  label: "Content Operations",
+  targetLabel: "Content Operations",
+  heroTitles: ["First Title", "Second Title", "Third Title"],
+  status: "Open to roles",
+  suggestedQuestions: [],
+};
+
+function setRoleContext(roleContext: Partial<typeof baseRoleContext> | null) {
+  roleContextMock.useRoleContext.mockReturnValue({
+    selection: roleContext ? { target: "content-ops" } : {},
+    roleContext: roleContext ? { ...baseRoleContext, ...roleContext } : null,
+  });
+}
 
 function setReducedMotion(matches: boolean) {
   window.matchMedia = ((query: string) => ({
@@ -26,6 +42,10 @@ function setReducedMotion(matches: boolean) {
 
 describe("Hero rotating title", () => {
   const originalMatchMedia = window.matchMedia;
+
+  beforeEach(() => {
+    setRoleContext({});
+  });
 
   afterEach(() => {
     cleanup();
@@ -90,5 +110,26 @@ describe("Hero rotating title", () => {
     expect(screen.getByText("10x reach")).toBeInTheDocument();
     expect(screen.getByText("90% simpler · 40% faster")).toBeInTheDocument();
     expect(screen.getByText("80% adoption in 30 days")).toBeInTheDocument();
+  });
+
+  it("shows the tailored-link notice when a role selection is active", () => {
+    setReducedMotion(true);
+    setRoleContext({ companyLabel: "ExampleCorp", label: "ExampleCorp - Content Operations" });
+    render(<Hero onOpenChat={() => {}} />);
+
+    const notice = screen.getByRole("complementary", { name: "Page context" });
+    expect(notice).toHaveTextContent(
+      "Tailored view for ExampleCorp reviewers. Nothing about this link is stored or tracked.",
+    );
+    expect(screen.getByRole("link", { name: "View the neutral version" })).toHaveAttribute("href", "/");
+  });
+
+  it("omits the notice and uses profile titles when no selection is active", () => {
+    setReducedMotion(true);
+    setRoleContext(null);
+    render(<Hero onOpenChat={() => {}} />);
+
+    expect(screen.queryByRole("complementary", { name: "Page context" })).not.toBeInTheDocument();
+    expect(screen.queryByText("First Title")).not.toBeInTheDocument();
   });
 });

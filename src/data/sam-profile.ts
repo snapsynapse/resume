@@ -659,11 +659,11 @@ For an AI education systems role, the most relevant proof is YouTube Certified f
 
 His own framing: "I would rather build the muscle memory inside the organization whose work shapes what everyone else measures than keep measuring it from outside."`,
 
-  openaiContentOps: `Sam's strongest OpenAI content-operations case is that he builds the operating system behind education at scale: portfolio health, operating rhythm, governance, discoverability, reuse, handoffs, and quality control.
+  contentOps: `Sam's strongest content-operations case is that he builds the operating system behind education at scale: portfolio health, operating rhythm, governance, discoverability, reuse, handoffs, and quality control.
 
 The proof is concrete. PAICE is a 12-plus project content-and-systems operating system run by a single operator, with daily publishing, reusable standards, AI-assisted scoring workflows, and portfolio governance across PAICE.work, Siteline, Every AI Law, and AI Posture. YouTube Certified scaled a content-and-credential portfolio from about 1,000 partners per year to about 10,000 in year one. National 4-H Council required a shared production system across dozens of university partners. Convatec streamlined content offerings by 90% while increasing utilization and delivery speed.
 
-For OpenAI's Customer Education, Content and Systems Operations Lead role, the match is strongest around operating rhythm, content lifecycle, cross-functional translation, AI-enabled automation, and quality control. Gap to probe: he is not a deep production platform engineer. He is the operator who defines the system, holds the handoffs, designs the quality bar, and knows where specialist engineering support should own the substrate.`,
+For a content and systems operations role inside customer education, the match is strongest around operating rhythm, content lifecycle, cross-functional translation, AI-enabled automation, and quality control. Gap to probe: he is not a deep production platform engineer. He is the operator who defines the system, holds the handoffs, designs the quality bar, and knows where specialist engineering support should own the substrate.`,
 
   aiTransformation: `Sam's AI-transformation case is strongest for a zero-to-one mandate, where the job is to build the operating model, governance, shared model controls, adoption system, and scorecard together.
 

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import AIChat from "./AIChat";
 
 const analyticsMock = vi.hoisted(() => ({
@@ -8,7 +8,34 @@ const analyticsMock = vi.hoisted(() => ({
 
 vi.mock("@/lib/analytics", () => analyticsMock);
 
+// Role context is resolved by the shared hook (URL selection plus a server fetch for the
+// public subset). Mock it here so these tests never depend on real employer presets.
+const roleContextMock = vi.hoisted(() => ({
+  useRoleContext: vi.fn(),
+  neutralHref: () => "/",
+}));
+
+vi.mock("@/lib/role-context-client", () => roleContextMock);
+
+const exampleSelection = { target: "content-ops" as const, company: "examplecorp" };
+const exampleRoleContext = {
+  selection: exampleSelection,
+  label: "ExampleCorp - Content Systems Lead",
+  targetLabel: "Content Operations",
+  companyLabel: "ExampleCorp",
+  sourceRole: "Content Systems Lead",
+  suggestedQuestions: [
+    "Is Sam a fit for ExampleCorp's Content Systems Lead role?",
+    "Where is the fit transferable rather than identical?",
+  ],
+  demoResponseKey: "contentOps" as const,
+};
+
 describe("AIChat", () => {
+  beforeEach(() => {
+    roleContextMock.useRoleContext.mockReturnValue({ selection: {}, roleContext: null });
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
     vi.restoreAllMocks();
@@ -23,13 +50,47 @@ describe("AIChat", () => {
     expect(screen.getByRole("button", { name: /content operations or AI education systems role/i })).toBeInTheDocument();
   });
 
-  it("renders target and company specific questions", () => {
-    window.history.pushState({}, "", "/?target=content-ops&company=openai");
+  it("renders the server-resolved label and suggested questions for a tailored link", () => {
+    roleContextMock.useRoleContext.mockReturnValue({
+      selection: exampleSelection,
+      roleContext: exampleRoleContext,
+    });
 
     render(<AIChat isOpen onClose={() => {}} />);
 
-    expect(screen.getByText(/Here about OpenAI - Customer Education/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /OpenAI's Customer Education/i })).toBeInTheDocument();
+    expect(screen.getByText(/Here about ExampleCorp - Content Systems Lead/i)).toBeInTheDocument();
+    expect(screen.getByText("Tuned for: ExampleCorp - Content Systems Lead")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /ExampleCorp's Content Systems Lead/i })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: /content operations or AI education systems role/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("sends the URL selection as roleSelection in the /api/chat body", async () => {
+    roleContextMock.useRoleContext.mockReturnValue({
+      selection: exampleSelection,
+      roleContext: exampleRoleContext,
+    });
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response("ok", { status: 200, headers: { "Content-Type": "text/plain" } }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(<AIChat isOpen onClose={() => {}} />);
+    fireEvent.click(screen.getByRole("button", { name: /ExampleCorp's Content Systems Lead/i }));
+    await screen.findAllByText("ok");
+
+    const [url, requestInit] = fetchMock.mock.calls[0];
+    expect(url).toBe("/api/chat");
+    const sentBody = JSON.parse((requestInit as RequestInit).body as string);
+    expect(sentBody.roleSelection).toEqual({ target: "content-ops", company: "examplecorp" });
+    expect(sentBody.messages).toEqual([
+      { role: "user", content: "Is Sam a fit for ExampleCorp's Content Systems Lead role?" },
+    ]);
+    expect(analyticsMock.track).toHaveBeenCalledWith(
+      "ai_chat_message_sent",
+      expect.objectContaining({ roleContext: "ExampleCorp - Content Systems Lead" }),
+    );
   });
 
   it("labels sample responses when the live endpoint fails", async () => {

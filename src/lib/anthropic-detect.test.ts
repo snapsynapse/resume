@@ -2,23 +2,13 @@ import { afterEach, describe, expect, it } from "vitest";
 import { detectRoleContext } from "./anthropic-detect";
 import { composeRoleContext, detectRoleSelection, parseRoleSelection } from "./role-context";
 
-const openAiRole = "OpenAI - Customer Education, Content and Systems Operations Lead";
-
 function setSearch(search: string) {
   window.history.pushState({}, "", `/${search}`);
-}
-
-function setReferrer(referrer: string) {
-  Object.defineProperty(document, "referrer", {
-    configurable: true,
-    value: referrer,
-  });
 }
 
 describe("detectRoleContext", () => {
   afterEach(() => {
     setSearch("");
-    setReferrer("");
   });
 
   it("keeps role=anthropic as a compatibility alias that lands on the durable target only", () => {
@@ -27,14 +17,15 @@ describe("detectRoleContext", () => {
     expect(detectRoleContext()).toBe("AI Education Systems");
   });
 
-  it("uses target and company together for OpenAI content operations", () => {
-    setSearch("?target=content-ops&company=openai");
+  it("reads target and company from the URL, and resolves target only without a company map", () => {
+    setSearch("?target=content-ops&for=examplecorp");
 
     expect(detectRoleSelection()).toEqual({
       target: "content-ops",
-      company: "openai",
+      company: "examplecorp",
     });
-    expect(detectRoleContext()).toBe(openAiRole);
+    // The client holds no employer presets, so the label is the durable target's.
+    expect(detectRoleContext()).toBe("Content Operations");
   });
 
   it("allows target-only positioning", () => {
@@ -43,19 +34,25 @@ describe("detectRoleContext", () => {
     );
   });
 
-  it("allows company-only light context", () => {
-    expect(composeRoleContext(parseRoleSelection("?company=openai"))?.label).toBe("OpenAI");
-  });
-
-  it("ignores referrers for employers with no open application", () => {
-    setReferrer("https://job-boards.greenhouse.io/anthropic/jobs/123");
+  it("resolves to nothing for a company-only link without a company map", () => {
+    setSearch("?for=examplecorp");
 
     expect(detectRoleContext()).toBeNull();
   });
 
-  it("uses OpenAI referrers as company-only context", () => {
-    setReferrer("https://jobs.ashbyhq.com/openai/2250b09d-f6fb-4ebc-9d27-dfd34d2ccbec");
+  it("ignores the referrer entirely", () => {
+    Object.defineProperty(document, "referrer", {
+      configurable: true,
+      value: "https://jobs.example.com/examplecorp/123",
+    });
 
-    expect(detectRoleContext()).toBe("OpenAI");
+    expect(detectRoleSelection()).toEqual({});
+    expect(detectRoleContext()).toBeNull();
+
+    Object.defineProperty(document, "referrer", { configurable: true, value: "" });
+  });
+
+  it("returns null on the neutral default route", () => {
+    expect(detectRoleContext()).toBeNull();
   });
 });
