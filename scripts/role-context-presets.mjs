@@ -45,7 +45,7 @@ import { pathToFileURL } from "node:url";
 
 const SCHEMA_VERSION = 1;
 const KEY_PATTERN = /^[a-z0-9-]{1,40}$/;
-const TARGET_KEYS = new Set(["ai-education", "content-ops", "ai-transformation"]);
+const TARGET_KEYS = new Set(["ai-education", "content-ops", "ai-transformation", "ai-enablement", "ai-ecosystems"]);
 const REQUIRED_APPLICATION_STRINGS = ["sourceRole", "promptDelta"];
 const OPTIONAL_APPLICATION_STRINGS = ["heroTitle", "reqId", "sourceUrl", "locationContext"];
 const KNOWN_APPLICATION_FIELDS = new Set([

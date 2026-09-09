@@ -1,4 +1,4 @@
-export type TargetKey = "ai-education" | "content-ops" | "ai-transformation";
+export type TargetKey = "ai-education" | "content-ops" | "ai-transformation" | "ai-enablement" | "ai-ecosystems";
 
 // Company keys are a validated shape, not an enum. The set of live keys is private
 // server-side data (see api/role-context-store.ts) and never ships to the client.
@@ -22,7 +22,7 @@ interface TargetPreset {
   status: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey: "aiEducation" | "contentOps" | "aiTransformation";
+  demoResponseKey: "aiEducation" | "contentOps" | "aiTransformation" | "aiEnablement" | "aiEcosystems";
 }
 
 export interface CompanyApplicationPreset {
@@ -55,7 +55,7 @@ export interface ActiveRoleContext {
   status?: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey?: "aiEducation" | "contentOps" | "aiTransformation";
+  demoResponseKey?: "aiEducation" | "contentOps" | "aiTransformation" | "aiEnablement" | "aiEcosystems";
 }
 
 // The client-facing view of a role context. promptContext never leaves the server.
@@ -133,9 +133,53 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
     ],
     demoResponseKey: "aiTransformation",
   },
+  "ai-enablement": {
+    key: "ai-enablement",
+    label: "AI Enablement",
+    heroTitles: [
+      "AI Enablement & Center of Excellence Operator",
+      "AI Adoption & Champions Program Leader",
+      "Shared Skills Library & Enablement Systems Lead",
+      "AI Capability Building Lead",
+    ],
+    status:
+      "Focused on company-wide AI enablement roles: a center of excellence built through influence, a champions network, layered training, a shared skills library, and adoption reported in the numbers executives already use.",
+    promptContext:
+      "Use the AI enablement lens when the visitor asks fit questions. The unit of work is an internal enablement function that lands AI capability in every team: pilot selection, a champions bench recruited and coached in each market, training that lifts each layer, a shared library of reusable skills with provenance and distribution, a defensible tooling portfolio, and adoption measured by use in real workflows rather than course completion. Lead with Convatec: an AI-enabled platform taken to 80 percent or better sustained adoption in 30 days from a 200-person pilot, scaled to four countries through regional champions, with the McKinsey OHI Innovation and Learning score moved from 48 to 74, a 90 percent catalog reduction, and 40 percent faster delivery, reported against KPIs the executive team already tracked. Then the skills-library evidence: a 70-bundle shared skill library behind a validation gate with verified content hashes, contract tests, and CI, exposed identically to multiple AI harnesses and evaluated across models; Skill Provenance for version identity, staleness detection, and integrity verification; Agentlink for one configuration synced across every AI tool a team uses; AI Tool Watch as the vendor-evaluation reference. Training and facilitation evidence: a decade of workshops for the major US training associations and a weekly public livestream, episode, and newsletter on working with AI, plus a Prosci change-practitioner certification. Preserve these boundaries: the Convatec network was a champions network rather than a standing AI Center of Excellence, formal line management is two direct reports, Sam has not implemented against ISO 42001, NIST AI RMF, or SOC 2 and has studied only public material, building with LLMs dates from 2023, and the skill library's live native loading on every harness is not claimed as verified in production.",
+    suggestedQuestions: [
+      "Is Sam a fit to run a company-wide AI enablement function?",
+      "How did Sam get to 80 percent adoption, and how was it measured?",
+      "How would Sam build and govern a shared skills library?",
+      "How does Sam report enablement impact to an executive team?",
+      "Where is the fit transferable rather than identical?",
+    ],
+    demoResponseKey: "aiEnablement",
+  },
+  "ai-ecosystems": {
+    key: "ai-ecosystems",
+    label: "AI Ecosystems",
+    heroTitles: [
+      "AI Ecosystems & Technical Partnerships Builder",
+      "MCP, Skills & Agent Surfaces Practitioner",
+      "Developer Ecosystem & Integration Programs Lead",
+      "Open Tooling & Partner Certification Lead",
+    ],
+    status:
+      "Focused on roles that partner with the agent ecosystem: MCP servers, agent skills and plugins, harness integrations, developer relations, and partner certification programs.",
+    promptContext:
+      "Use the AI ecosystems lens when the visitor asks fit questions. This reader is checking whether Sam has actually shipped on the surfaces the role partners with, so surface the artifacts as products, in this order: Harnessie, an open multi-agent orchestration harness with independent verification gates, sandboxing, budgets, and audit controls, published to PyPI with its own documentation site; a 70-bundle shared skill library behind a validation gate with verified content hashes, contract tests, and CI, exposed identically to multiple AI harnesses and evaluated across models; Skill Provenance, a GitHub Action giving agent skills version identity, staleness detection, and integrity verification; Agentlink, which syncs one configuration across every AI coding tool a team uses and is carried upstream as an open pull request to the origin project; Graceful Boundaries, a specification for how agents degrade when a capability is unavailable, adopted by Harnessie; MCP servers run in production against a private knowledge base and maintained across Claude, Codex, and local models; and AI Tool Watch plus a weekly public read on what is changing in the agent ecosystem. Seniority anchor: built and led the first YouTube Certified online training program at Google, a partner certification program for a global audience, then twenty years of partner-facing program work. Suppress learning-platform and LMS vocabulary entirely for this target; it is the wrong adjacency. Preserve these boundaries: Sam has never held a partnerships or developer-relations title, so the case rests on the shipped work and the partner-program history; Harnessie is shipped and documented but has no external user base to point at, so claim the engineering and never adoption or traction; Graceful Boundaries adoption by Harnessie is cross-portfolio and is not an outside company adopting it; Agentlink's upstream contribution is an open pull request, not a merged one unless the visitor can see otherwise; public AI tooling dates from 2025 and building with LLMs from 2023.",
+    suggestedQuestions: [
+      "Has Sam actually shipped an MCP server, skill, or plugin, and where can it be inspected?",
+      "How does Sam keep a skill working identically across different AI harnesses?",
+      "What partner or certification programs has Sam built?",
+      "How does Sam track what is changing in the agent ecosystem?",
+      "Sam has no partnerships title. Why is he credible here?",
+    ],
+    demoResponseKey: "aiEcosystems",
+  },
 };
 
-const TARGET_KEYS: readonly TargetKey[] = ["ai-education", "content-ops", "ai-transformation"];
+const TARGET_KEYS: readonly TargetKey[] = ["ai-education", "content-ops", "ai-transformation", "ai-enablement", "ai-ecosystems"];
 
 function isTargetKey(value: unknown): value is TargetKey {
   return typeof value === "string" && (TARGET_KEYS as readonly string[]).includes(value);
