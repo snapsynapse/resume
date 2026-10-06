@@ -333,6 +333,8 @@ describe("public resume surfaces", () => {
     expect(evidence).toMatch(/recovered record/i);
     expect(evidence).toMatch(/labeled unknown/i);
     expect(evidence).toMatch(/provenance/i);
+    // Source counts belong to the generated snapshot, so weekly refreshes cannot stale this ledger.
+    expect(evidence).not.toMatch(/across \d+ providers and tools/i);
 
     // Agent-facing surfaces must tell an agent not to treat the number as live.
     for (const file of ["public/llms-full.txt", "public/.well-known/assistant-guide.txt", "public/agents.json"]) {

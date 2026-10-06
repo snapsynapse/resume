@@ -3,14 +3,14 @@
 // Refreshed on a schedule by .github/workflows/refresh-ai-usage.yml; never fetched at runtime.
 export const aiUsageSnapshot = {
   url: "https://sam-rogers.com/ai-usage/",
-  asOf: "2026-09-13",
+  asOf: "2026-10-05",
   firstDate: "2023-05-26",
-  totalTokensRaw: 1118390003,
-  totalTokens: "1,118,390,003",
-  totalTokensShort: "1110M+",
-  exactTokens: "1099.0M",
+  totalTokensRaw: 1345331800,
+  totalTokens: "1,345,331,800",
+  totalTokensShort: "1340M+",
+  exactTokens: "1325.9M",
   estimatedTokens: "19.4M",
-  percentExact: 98,
-  sourceCount: 13,
-  sourceLabels: ["ChatGPT","Anthropic API","Claude chat","Claude Code","Claude Cowork","Claude Design","Codex","Gemma (local)","Kilo","OpenAI API","Perplexity API","Qwen (local)","Snapdev"],
+  percentExact: 99,
+  sourceCount: 14,
+  sourceLabels: ["ChatGPT","Anthropic API","Claude chat","Claude Code","Claude Cowork","Claude Design","Codex","Gemma (local)","Kilo","OpenAI API","Perplexity API","Qwen (local)","Snapdev","TypeSafe API"],
 } as const;
