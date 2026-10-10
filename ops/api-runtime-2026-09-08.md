@@ -13,3 +13,11 @@ The root TypeScript configuration now rewrites relative TypeScript extensions in
 The actual Vercel CLI 59.11.7 build was also reproduced in a disposable checkout with TypeScript 5.8.3. Before the fix, native Node 24 could not load the emitted function. After the fix, both compiled handlers returned 405, the compiler diagnostics cleared, and the static-site build passed. This checks the deployment packaging path separately from the lightweight CI regression.
 
 Production acceptance requires the exact deployed commit, GET method rejection, successful chat and fit-analysis POST smoke checks, and the existing prompt-boundary evaluation. A ready deployment or passing frontend build alone is insufficient. The [Live API eval workflow](https://github.com/snapsynapse/resume/actions/workflows/eval-live.yml) records deployment-triggered results; select the run matching the intended commit.
+
+## Delivery record
+
+2026-09-08 guide delivery pushed (06da448, repair 062e750); post-deploy Siteline reconcile: not run, no receipt
+
+## Delivery record
+
+2026-09-08 guide delivery pushed (06da448, repair 062e750); post-deploy Siteline reconcile: not run, no receipt
