@@ -13,7 +13,7 @@ The active site is functional. Items below are not promises of enterprise comple
 ## Recently Delivered
 - **CI eval gate** — `ci.yml` runs lint, typecheck, unit tests, `npm audit --audit-level=high`, and build. Build also runs metadata validation.
 - **Live API smoke test** — `scripts/smoke-api.mjs` (`npm run smoke:api`) checks `/api/chat` and `/api/analyze-fit` liveness and response shape against production deployments. It skips cleanly when no endpoint is reachable, so it cannot run against local Vite alone.
-- **Live prompt-boundary evals** — `scripts/eval-prompts.mjs` (`npm run eval:prompts`) runs prompt-boundary and fit-assessment evals against production deployments through `eval-live.yml`.
+- **Live prompt-boundary evals**: `scripts/eval-prompts.mjs` (`npm run eval:prompts`) provides prompt-boundary and fit-assessment checks. Model-backed verification is currently held; `eval-live.yml` remains disabled manually. Neither live evals nor `smoke:api` should run until Sam explicitly releases that hold.
 - **Target/company routing** — tailored links now use two optional fields, for example `?company=examplecorp&target=content-ops` (`for` and `role` are accepted aliases). Durable positioning lives under `target`; employer context is selected by the `company` key. An application entry also leads the hero role rotation with the applied-for title, while default public artifacts stay employer-neutral under a fixture-derived regression check.
 - **Private application presets** — employer application entries left the repository. They live in a private JSON loaded server-side from `ROLE_CONTEXT_PRESETS` or `ROLE_CONTEXT_PRESETS_FILE`, validated and packaged by `scripts/role-context-presets.mjs`. `/api/role-context` serves only the public-safe subset; the prompt delta never leaves the server; an unknown key returns target-only context. The hero shows a visible notice with a one-click neutral view, PostHog strips the query string from `$current_url`, and a hash-based scan fails CI if a tracked file names a pursued employer or applied-for title.
 - **Employer-neutral default positioning** — default public surfaces no longer foreground a single employer application. Employer context is available only through an explicit tailored link.
@@ -30,6 +30,9 @@ The active site is functional. Items below are not promises of enterprise comple
 - **Closed-application cleanup** — the Anthropic application context was removed once the req left the board, per the operating contract. Old shared `role=anthropic` links still resolve to the durable `ai-education` target.
 - **Local API eval note** — `README.md` now clarifies that Vite serves the frontend only; `vercel dev` or a deployed URL is required for `/api/chat`, `/api/analyze-fit`, `smoke:api`, and `eval:prompts`.
 
+## Keyboard Acceptance
+- **Keyboard copy smoke check**: six deterministic keyboard tests cover Tab/Shift-Tab, Enter/Space copying, mobile focus containment, and return focus after Escape or close-button activation. The brief returns focus to the stable navigation menu button when the invoking menu item unmounts. Broader browser/accessibility acceptance remains separate from this deterministic coverage.
+
 ## Measurement And Ops
 - **Post-deploy Siteline self-eval** — rerun an agent-readiness scan after deployment and use remaining failures as the next worklist. This keeps machine-readable surfaces aligned with the human resume.
 - **Automated accessibility eval** — add axe or equivalent once Playwright/Puppeteer is installed. Cover homepage, Interview Decision Brief sidebar, chat modal, mobile menu, and fit form.
@@ -39,7 +42,6 @@ The active site is functional. Items below are not promises of enterprise comple
 - **Visible target-only Operating fit block** — a compact target-selected block (one fit statement, three proof points, one caveat) rendered below the hero evidence. Deferred until application or interview evidence confirms it is the highest-value recruiter intervention. Governed by the stop rule in `INTENT.md`. Acceptance when built: absent on the default route, present only for an explicit valid `target`, exactly three proof points and one caveat, never shown for company-only context, copy owned by the target preset rather than component conditionals, keyboard and screen-reader semantics, and mobile long-copy containment.
 
 ## Low-Hanging Fruit
-- **Keyboard copy smoke check** — add a focused test for tab order and copy button reachability in the Interview Decision Brief before investing in broader visual regression.
 - **Role-context fixture helper** — add a tiny test helper for target/company URL setup so future application presets do not duplicate `window.history.pushState` boilerplate across component tests.
 
 ## Distribution Boundary

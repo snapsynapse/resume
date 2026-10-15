@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import type { FitResult } from "./FitAssessment";
 import { samProfile } from "@/data/sam-profile";
-import { OPEN_INTERVIEW_BRIEF_EVENT } from "./Header";
+import { OPEN_INTERVIEW_BRIEF_EVENT, type OpenInterviewBriefEventDetail } from "./Header";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { detectRoleSelection, targetPresets } from "@/lib/role-context";
@@ -496,6 +496,7 @@ const DecisionBriefSidebar = ({
     () => new Set(),
   );
   const [mobileOpen, setMobileOpen] = useState(false);
+  const mobileReturnFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     getLocalStorage()?.setItem(COLLAPSED_KEY, String(collapsed));
@@ -513,7 +514,13 @@ const DecisionBriefSidebar = ({
 
   // Header (mobile menu) broadcasts a request to open the brief as an overlay.
   useEffect(() => {
-    const open = () => setMobileOpen(true);
+    const open = (event: Event) => {
+      const detail = (event as CustomEvent<OpenInterviewBriefEventDetail | undefined>).detail;
+      mobileReturnFocusRef.current = detail?.returnFocusTo instanceof HTMLElement
+        ? detail.returnFocusTo
+        : null;
+      setMobileOpen(true);
+    };
     window.addEventListener(OPEN_INTERVIEW_BRIEF_EVENT, open);
     return () => window.removeEventListener(OPEN_INTERVIEW_BRIEF_EVENT, open);
   }, []);
@@ -637,6 +644,14 @@ const DecisionBriefSidebar = ({
           <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-background/80 backdrop-blur-xs animate-fade-in lg:hidden" />
           <DialogPrimitive.Content
             aria-describedby={undefined}
+            onCloseAutoFocus={(event) => {
+              const returnFocusTo = mobileReturnFocusRef.current;
+              mobileReturnFocusRef.current = null;
+              if (returnFocusTo?.isConnected) {
+                event.preventDefault();
+                returnFocusTo.focus();
+              }
+            }}
             className="fixed inset-x-0 bottom-0 z-[70] flex h-[85vh] flex-col overflow-hidden rounded-t-2xl border-t border-border bg-card shadow-2xl animate-slide-up focus:outline-hidden lg:hidden"
           >
             <DialogPrimitive.Title className="sr-only">

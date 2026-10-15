@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,10 @@ import { track } from "@/lib/analytics";
 // window event so Header and the sidebar stay decoupled (no shared parent state).
 export const OPEN_INTERVIEW_BRIEF_EVENT = "resume:open-interview-brief";
 
+export interface OpenInterviewBriefEventDetail {
+  returnFocusTo: HTMLElement | null;
+}
+
 interface HeaderProps {
   onOpenChat?: () => void;
 }
@@ -15,6 +19,7 @@ interface HeaderProps {
 const Header = ({ onOpenChat }: HeaderProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +78,9 @@ const Header = ({ onOpenChat }: HeaderProps) => {
     setMobileMenuOpen(false);
     track("nav_section_clicked", { section: "interview-brief" });
     if (typeof window !== "undefined") {
-      window.dispatchEvent(new CustomEvent(OPEN_INTERVIEW_BRIEF_EVENT));
+      window.dispatchEvent(new CustomEvent<OpenInterviewBriefEventDetail>(OPEN_INTERVIEW_BRIEF_EVENT, {
+        detail: { returnFocusTo: mobileMenuButtonRef.current },
+      }));
     }
   };
 
@@ -130,6 +137,7 @@ const Header = ({ onOpenChat }: HeaderProps) => {
 
         {/* Mobile menu button */}
         <button
+          ref={mobileMenuButtonRef}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           aria-expanded={mobileMenuOpen}
