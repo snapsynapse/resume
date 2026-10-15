@@ -211,15 +211,15 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-fade-in" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs animate-fade-in" />
         <DialogPrimitive.Content
-          className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl h-[80vh] bg-card border border-border rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-dialog-slide-up focus:outline-none"
+          className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl h-[80vh] bg-card border border-border rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-dialog-slide-up focus:outline-hidden"
           aria-describedby={undefined}
         >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center text-accent-foreground font-serif font-bold">
+            <div className="w-10 h-10 rounded-full bg-linear-to-br from-accent to-primary flex items-center justify-center text-accent-foreground font-serif font-bold">
               S
             </div>
             <div>
@@ -341,7 +341,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
               placeholder="Ask a follow-up question..."
               disabled={isStreaming || isWaiting}
               aria-label="Ask a follow-up question"
-              className="flex-1 bg-secondary rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-none transition-colors disabled:opacity-50"
+              className="flex-1 bg-secondary rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-hidden transition-colors disabled:opacity-50"
             />
             <button
               type="submit"

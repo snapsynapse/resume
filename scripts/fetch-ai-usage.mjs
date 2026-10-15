@@ -32,6 +32,7 @@ const SOURCE_LABELS = {
   gemma_local: "Gemma (local)",
   kilo: "Kilo",
   snapdev: "Snapdev",
+  typesafe_api: "TypeSafe API",
 };
 
 async function fetchText(url) {

@@ -8,7 +8,7 @@ The two-page resume is the application input. It points here for the evidence, r
 
 - Scaled YouTube certification reach from about 1,000 partners per year to about 10,000 in year one.
 - Streamlined Convatec content offerings by 90 percent while improving delivery speed by 40 percent.
-- Reached more than 80 percent adoption in 30 days for an AI-based training platform deployed across four countries.
+- Reached more than 80 percent adoption in 30 days in a 200-person Portugal pilot of Axonify, followed by rollout to four countries. This used the vendor interface's AI/ML controls in 2021, rather than LLMs.
 - Built the site itself as a bounded AI product with role-fit analysis, copy-ready hiring briefs, prompt and PII evals, minimal telemetry, and machine-readable evidence.
 - Documents and publishes his own governed multi-model AI development practice, including cross-vendor verification and self-instrumentation: https://sam-rogers.com/facilitator-in-the-machine
 
@@ -117,7 +117,7 @@ Two tests hold the line. `src/test/public-surfaces.test.ts` asserts that `src/li
 - Vite: fast static frontend build with predictable output.
 - React: interactive resume surfaces, fit workflow, AI chat, and copy-ready sidebar.
 - TypeScript: typed data contracts for profile content, fit results, API handlers, and tests.
-- Tailwind CSS: local design system with constrained, inspectable styling.
+- Tailwind CSS 4 through PostCSS: local design system with constrained, inspectable styling. Framework browser minimums are Safari 16.4, Chrome 111, and Firefox 128; see the [upgrade guide](https://tailwindcss.com/docs/upgrade-guide). Local browser checks in this preparation covered Comet, not every supported browser.
 - Radix Dialog: accessible modal foundation for the AI chat surface.
 - Vercel Functions: small server-side API endpoints for chat and fit analysis.
 - Cloud LLM provider API: LLM responses for resume questions and structured job-description fit analysis. The current implementation uses Anthropic Messages API.

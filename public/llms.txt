@@ -48,7 +48,7 @@ Learning and Development, Instructional Design, Curriculum Development, Content 
 
 ## Strong evidence
 
-- Configured and administered Axonify's interface-exposed AI/ML controls and deployed the platform across 4 countries at Convatec (200-person Portugal cohort, 80%+ adoption in 30 days). Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.
+- Configured and administered Axonify's interface-exposed AI/ML controls in 2021. A 200-person Portugal pilot exceeded 80% adoption in 30 days, followed by a four-country rollout at Convatec. This was not an LLM rollout. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.
 - Personally selected and hired two Convatec direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews. Formal line-management scale is two.
 - Built the YouTube Certified Online Training Program at Google, replacing a classroom certification model (~1,000 partners/year) with a scalable online program (~10,000 in year one). 10x scaling at lower marginal cost across video, assessment, curriculum, and LMS delivery.
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.

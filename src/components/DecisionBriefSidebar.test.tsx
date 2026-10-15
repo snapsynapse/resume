@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import DecisionBriefSidebar from "./DecisionBriefSidebar";
 import type { FitResult } from "./FitAssessment";
 import { aiUsageSnapshot } from "@/data/ai-usage-snapshot";
@@ -61,9 +61,63 @@ function mockClipboard() {
 }
 
 describe("DecisionBriefSidebar", () => {
+  beforeEach(() => {
+    window.history.replaceState({}, "", "/");
+  });
+
   afterEach(() => {
     vi.clearAllMocks();
     localStorageMock.clear();
+    window.history.replaceState({}, "", "/");
+  });
+
+  it.each([
+    ["ai-education", /AI education systems/i, /YouTube/i],
+    ["content-ops", /content operations/i, /4-H/i],
+    ["ai-transformation", /AI transformation/i, /Convatec/i],
+    ["ai-enablement", /AI enablement/i, /champions/i],
+    ["ai-ecosystems", /AI ecosystems/i, /Harnessie/i],
+  ])("aligns initial visible and copied recruiter evidence with %s", async (target, lane, proof) => {
+    window.history.replaceState({}, "", `/?target=${target}`);
+    const writeText = mockClipboard();
+    render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
+
+    for (const [id, label] of [
+      ["summary", "Copy recruiter summary"],
+      ["shortlist-rationale", "Copy shortlist rationale"],
+    ]) {
+      const region = document.getElementById(`decision-brief-content-${id}`);
+      expect(region).toHaveTextContent(lane);
+      expect(region).toHaveTextContent(proof);
+      fireEvent.click(screen.getByRole("button", { name: label }));
+      await waitFor(() => expect(writeText).toHaveBeenLastCalledWith(expect.stringMatching(lane)));
+      expect(writeText).toHaveBeenLastCalledWith(expect.stringMatching(proof));
+    }
+    expect(analyticsMock.track).toHaveBeenLastCalledWith("decision_brief_copied", {
+      block: "shortlist-rationale", mode: "recruiter", fitVerdict: undefined,
+    });
+  });
+
+  it.each(["", "?company=examplecorp", "?target=invalid&company=examplecorp"])(
+    "keeps the default brief without a valid explicit target: %s",
+    (search) => {
+      window.history.replaceState({}, "", `/${search}`);
+      render(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
+      expect(document.getElementById("decision-brief-content-summary")).toHaveTextContent(
+        "Strongest for content operations, AI education systems, customer education",
+      );
+    },
+  );
+
+  it("prioritizes fit results and restores the target brief when they clear", () => {
+    window.history.replaceState({}, "", "/?role=ai-enablement&company=examplecorp");
+    const { rerender } = render(<DecisionBriefSidebar fitResult={fitResult} hasJobDescription />);
+    expect(screen.getByText("Shortlist Recommendation")).toBeInTheDocument();
+    expect(screen.queryByText("Recruiter Summary")).not.toBeInTheDocument();
+    rerender(<DecisionBriefSidebar fitResult={null} hasJobDescription={false} />);
+    expect(document.getElementById("decision-brief-content-summary")).toHaveTextContent(/AI enablement/i);
+    fireEvent.click(screen.getByRole("button", { name: "Hiring Manager" }));
+    expect(screen.getByText("Best Use Case")).toBeInTheDocument();
   });
 
   it("renders expanded recruiter copy blocks by default on desktop and tablet surfaces", () => {
@@ -90,7 +144,7 @@ describe("DecisionBriefSidebar", () => {
 
     const region = document.getElementById("decision-brief-content-summary");
     expect(region).toHaveClass("max-h-[40rem]");
-    expect(region?.querySelector(".bg-gradient-to-b")).not.toBeInTheDocument();
+    expect(region?.querySelector(".bg-linear-to-b")).not.toBeInTheDocument();
   });
 
   it("offers a copy-ready self-metered AI usage block with a scale hook and an interview probe", async () => {
@@ -123,7 +177,7 @@ describe("DecisionBriefSidebar", () => {
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(region).toHaveClass("max-h-10");
-    expect(region?.querySelector(".bg-gradient-to-b")).toBeInTheDocument();
+    expect(region?.querySelector(".bg-linear-to-b")).toBeInTheDocument();
 
     // Collapsing one block must not fold the others (multi-open, not accordion).
     expect(

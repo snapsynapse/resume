@@ -89,7 +89,7 @@
       "name": "AI usage dashboard",
       "url": "https://sam-rogers.com/ai-usage/",
       "type": "evidence-artifact",
-      "description": "Sam's published multi-provider AI token-usage record with its recovery methodology, across 13 providers and tools since 2023. Cost-governance, observability, and provenance evidence. Headline figures are floor values with an explicit as-of date, carried on this site's static pages from a scheduled snapshot, and must not be presented as live; gaps are labeled unknown rather than counted as zero. Methodology write-up: https://sam-rogers.com/counting-what-i-delegated-to-ai"
+      "description": "Sam's published multi-provider AI token-usage record with its recovery methodology, across providers and tools since 2023. Cost-governance, observability, and provenance evidence. Headline figures are floor values with an explicit as-of date, carried on this site's static pages from a scheduled snapshot, and must not be presented as live; gaps are labeled unknown rather than counted as zero. Methodology write-up: https://sam-rogers.com/counting-what-i-delegated-to-ai"
     },
     {
       "name": "Artifact roadmap",

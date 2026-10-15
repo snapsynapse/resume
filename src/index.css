@@ -1,6 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" source(none);
+@config "../tailwind.config.ts";
+@source "./**/*.{ts,tsx}";
+
+/* Preserve v3 preflight behavior while using the maintained v4 build pipeline. */
+@layer base {
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #9ca3af;
+  }
+}
 
 /* Brand: aligned to sam-rogers.com light-mode palette.
  * Indigo primary (#1460bd), teal accent (#087E96), light greys, Inter + Source Serif 4.

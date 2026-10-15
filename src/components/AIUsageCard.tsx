@@ -14,7 +14,7 @@ const AIUsageCard = () => {
   const stats = [
     { value: usage.totalTokensShort, label: "tokens metered" },
     { value: String(usage.sourceCount), label: "providers and tools" },
-    { value: "Since 2023", label: "continuous record" },
+    { value: "Since 2023", label: "recovered history" },
   ];
 
   return (

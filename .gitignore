@@ -30,6 +30,9 @@ dist-ssr
 # Local handoff notes
 handoffs/
 
+# Local architecture documentation
+.omm/
+
 # Local scratch for the private role-context preset JSON (employer application
 # entries). The source of truth lives outside the repo; never commit presets.
 private/

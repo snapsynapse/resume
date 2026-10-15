@@ -242,7 +242,7 @@ const FitAssessment = ({
               maxLength={MAX_JD_LENGTH}
               aria-label="Job description"
               aria-describedby="jd-privacy-note"
-              className="w-full bg-secondary rounded-xl p-4 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-none transition-colors disabled:opacity-50 resize-y font-mono leading-relaxed"
+              className="w-full bg-secondary rounded-xl p-4 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-hidden transition-colors disabled:opacity-50 resize-y font-mono leading-relaxed"
             />
             <span id="jd-privacy-note" className="sr-only">
               Job descriptions are sent to the configured cloud LLM provider for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data.

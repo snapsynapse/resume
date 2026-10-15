@@ -272,7 +272,7 @@ const JDReviewPanel = ({ originalText, onConfirm, onOpened }: JDReviewPanelProps
             value={workingText}
             onChange={(e) => handleManualEdit(e.target.value)}
             rows={8}
-            className="w-full resize-y rounded-xl border border-border bg-secondary p-3 font-mono text-xs leading-relaxed text-foreground focus:border-accent focus:outline-none"
+            className="w-full resize-y rounded-xl border border-border bg-secondary p-3 font-mono text-xs leading-relaxed text-foreground focus:border-accent focus:outline-hidden"
           />
 
           <fieldset className="mt-4">

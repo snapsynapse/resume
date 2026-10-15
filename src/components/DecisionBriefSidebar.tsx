@@ -15,6 +15,7 @@ import { samProfile } from "@/data/sam-profile";
 import { OPEN_INTERVIEW_BRIEF_EVENT } from "./Header";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { detectRoleSelection, targetPresets } from "@/lib/role-context";
 
 type BriefMode = "recruiter" | "hiring-manager";
 
@@ -64,7 +65,7 @@ const evidenceBullets = [
   "Built YouTube Certified Online Training Program across certification, video, assessment, and LMS delivery; scaled from about 1,000 partners/year to about 10,000 in year one.",
   "Managed National 4-H Council learning and content-production work across dozens of university partners, SMEs, designers, developers, media vendors, and delivery stakeholders.",
   "Owned Convatec content portfolio health: streamlined content offerings by 90% while increasing utilization and improving delivery speed by 40%.",
-  "Launched AI-based training platform across 4 countries with 80%+ adoption in 30 days from a 200-person Portugal cohort.",
+  "Launched a 200-person Axonify AI/ML pilot in Portugal with more than 80% adoption in 30 days, followed by a four-country rollout.",
   "Built PAICE as a 12-plus project content-and-systems operating system across adaptive assessment, governance, regulation, and agent-readiness surfaces.",
   "Shipped Harnessie as repeatable AI workflow quality control with verification gates and a tamper-evident audit trail.",
   "Publishes Signals & Subtractions and related field notes with a consistent editorial cadence on AI adoption and L&D transformation.",
@@ -365,7 +366,7 @@ const BriefBody = ({
             className={cn(
               "rounded-md px-2 py-1.5 text-xs font-medium transition-colors",
               mode === item
-                ? "bg-card text-foreground shadow-sm"
+                ? "bg-card text-foreground shadow-xs"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -412,7 +413,7 @@ const BriefBody = ({
                 onClick={() => onToggleBlock(block.id)}
                 aria-expanded={expanded}
                 aria-controls={contentId}
-                className="min-w-0 flex-1 rounded text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+                className="min-w-0 flex-1 rounded text-left focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent/30"
               >
                 <span className="flex items-center gap-1.5">
                   <ChevronDown
@@ -439,7 +440,7 @@ const BriefBody = ({
                 type="button"
                 onClick={() => onCopyBlock(block)}
                 aria-label={block.copyLabel}
-                className="inline-flex shrink-0 cursor-copy items-center gap-1.5 rounded-lg border border-border bg-secondary px-2 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/30"
+                className="inline-flex shrink-0 cursor-copy items-center gap-1.5 rounded-lg border border-border bg-secondary px-2 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-accent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-accent/30"
               >
                 {copiedBlock === block.id ? (
                   <Check className="h-3.5 w-3.5" aria-hidden="true" />
@@ -469,7 +470,7 @@ const BriefBody = ({
               {!expanded && (
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-background/0 to-background"
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-linear-to-b from-background/0 to-background"
                 />
               )}
             </div>
@@ -484,6 +485,9 @@ const DecisionBriefSidebar = ({
   fitResult,
   hasJobDescription,
 }: DecisionBriefSidebarProps) => {
+  // Durable target copy is available immediately, without fetching private employer data.
+  const [selection] = useState(detectRoleSelection);
+  const target = selection.target ? targetPresets[selection.target] : undefined;
   const [collapsed, setCollapsed] = useState(readInitialCollapsed);
   const [mode, setMode] = useState<BriefMode>(readInitialMode);
   const [copiedBlock, setCopiedBlock] = useState<BriefBlock | null>(null);
@@ -516,8 +520,17 @@ const DecisionBriefSidebar = ({
 
   const blocks = useMemo(() => {
     if (fitResult) return buildFitBlocks(fitResult, mode);
-    return mode === "recruiter" ? recruiterBlocks : hiringManagerBlocks;
-  }, [fitResult, mode]);
+    if (mode === "hiring-manager") return hiringManagerBlocks;
+    if (!target) return recruiterBlocks;
+    return recruiterBlocks.map((block) => {
+      const content = block.id === "summary"
+        ? target.recruiterBrief.summary
+        : block.id === "shortlist-rationale"
+          ? target.recruiterBrief.shortlistRationale
+          : undefined;
+      return content ? { ...block, content, display: [content] } : block;
+    });
+  }, [fitResult, mode, target]);
 
   // When the block list changes (mode switch, fit result), start expanded again.
   useEffect(() => {
@@ -573,7 +586,7 @@ const DecisionBriefSidebar = ({
       <aside
         aria-label="Interview Decision Brief"
         className={cn(
-          "sticky hidden shrink-0 border-r border-border bg-card/95 shadow-sm backdrop-blur lg:block",
+          "sticky hidden shrink-0 border-r border-border bg-card/95 shadow-xs backdrop-blur-sm lg:block",
           collapsed
             ? "top-16 mt-16 h-[calc(100vh-4rem)] w-14"
             : "top-0 z-[60] h-screen w-[23rem] xl:w-[25rem]",
@@ -621,10 +634,10 @@ const DecisionBriefSidebar = ({
         onOpenChange={(open) => setMobileOpen(open)}
       >
         <DialogPrimitive.Portal>
-          <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-background/80 backdrop-blur-sm animate-fade-in lg:hidden" />
+          <DialogPrimitive.Overlay className="fixed inset-0 z-[70] bg-background/80 backdrop-blur-xs animate-fade-in lg:hidden" />
           <DialogPrimitive.Content
             aria-describedby={undefined}
-            className="fixed inset-x-0 bottom-0 z-[70] flex h-[85vh] flex-col overflow-hidden rounded-t-2xl border-t border-border bg-card shadow-2xl animate-slide-up focus:outline-none lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-[70] flex h-[85vh] flex-col overflow-hidden rounded-t-2xl border-t border-border bg-card shadow-2xl animate-slide-up focus:outline-hidden lg:hidden"
           >
             <DialogPrimitive.Title className="sr-only">
               Interview Decision Brief

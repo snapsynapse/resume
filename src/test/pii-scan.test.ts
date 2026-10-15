@@ -140,7 +140,7 @@ const BLOCKED_LITERAL_HASHES = new Set<string>([
   "8ff313d9066446d481967d713492a5ac5e3de4d587d2efc7a07432e425406691",
   // Pursued employer labels and applied-for role titles; see README target routing.
   // Application presets live in a private JSON outside the repository. These digests are the
-  // normalized (lowercased, punctuation-stripped, single-spaced) label and sourceRole of each
+  // normalized (lowercased, punctuation-stripped, single-spaced) label, sourceRole, and optional heroTitle of each
   // entry, so CI fails reveal-resistantly if a tracked file names one. A company legitimately
   // named on public surfaces as an AI usage provider is excluded, as is any title too short to
   // be distinctive. Regenerate from the private file when an application is added or closed.
@@ -161,6 +161,20 @@ const BLOCKED_LITERAL_HASHES = new Set<string>([
   "a1f7f0fab9e505ecb7297977e87d5726a8682d53f54ace4af87e7916d515e92b",
   "68727090903ace2cd81d13f8fd48900f5fcc94d607b5efc366411da90da77bb1",
   "c4adc0f0440a6c653eaa5add9a984c035c0dc369be12adaf2e09801ccfd7950f",
+  "00c15d8c74cca397d8f38bfbd4ae2b780325b8555305a74f6221959e3b2a8e24",
+  "099d99207621c661aae69e18b2f25bf98852117210cbd40d961561d2c39f6f54",
+  "101958dadd6e2fb541d15585dddbf9f4d3873ebb6f8d93ff17da748a99304c35",
+  "42406423ef420fbc619bd059041efaa2ec74b1e79131f55b28f0462cea50bf17",
+  "50393f9087cbe207bb9602e8667ad60f229847cb616c9528b95d1a9f09bd9a20",
+  "5212212020c4726af05261ca465b47da98b9604d7e24a26365491bc9f3914b30",
+  "689c4596c22952c35396f35e6f533928dcdde4f2cccd9585a88be0bb09e19086",
+  "7e854ee3abc2d3c4c03729e1293f484055cb0e4f9c1cfbd3abc34d67e3587c73",
+  "8e12938d3bebcd4067d59b91a59a3a1d5857c91283743ac9b36b047c56242a72",
+  "a5790b06f63b7c1646f0de34b44fc108377a02fb07aa60b83aaff44deed06398",
+  "b08ecb838237ea331e31e019db512cffa1590f9f2054fc478fbe0268279c0c3e",
+  "b9ab2ce785f2d841508afa8fcf3a5bc30f1e41911a85346af450218d57a4a899",
+  "7af4eb5ac8227ab185361db6217c9a769036ca6560adea24bec701205b274c4a",
+  "81ed819781a4af6bfb7644c5ad89cd7a346914ccae204a9e5a20a6adf2806c01",
 ]);
 
 // Allowlist of hashes that match by design (contexts where the literal is legitimate, e.g. a
@@ -169,11 +183,15 @@ const BLOCKED_LITERAL_HASHES = new Set<string>([
 const ALLOWED_LINE_HASHES = new Set<string>([
   // Legitimate non-residential / regulatory-anchor reference. Hash of the lowercased full line.
   "2263976cde56cedf778112fdbc0c6c286e778cdec2d67d235182052312b6e36a",
+  // Reviewed historical target label and negative fixtures; exact lines only.
+  "8ad9eb35cc11e43ffaeaa4b316475583ac2c1d5e4a86050e5953c912b9c8adfd",
+  "8bc75d716d996d768a45ba687c5ad11ef69d06a739e3e86ec7983beac6223ce4",
+  "8997da75fbf0592006aa0bb0b736e83ea568e8dd12f3179acae930cbbfc17384",
 ]);
 
 // Widest n-gram the scan hashes. Must cover the longest normalized blocklisted phrase
-// (applied-for role titles run to seven words).
-const MAX_NGRAM = 8;
+// including the current private application titles.
+const MAX_NGRAM = 9;
 
 function sha256(s: string): string {
   return createHash("sha256").update(s).digest("hex");

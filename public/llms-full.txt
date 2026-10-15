@@ -80,7 +80,7 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 ### Convatec - Global Learning Technology and Analytics Manager, 2020-2022
 
 - Personally selected and hired two direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.
-- Configured Axonify from the ground up and administered all AI/ML-enabled controls exposed through its vendor interface; launched it across four countries with more than 80 percent adoption in 30 days from a 200-person Portugal cohort.
+- Configured Axonify from the ground up in 2021 and administered its interface-exposed AI/ML controls. A 200-person Portugal pilot exceeded 80 percent adoption in 30 days, followed by rollout to four countries. This was not an LLM rollout.
 - Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history: designated accountability, structured controls, evidence the auditor can verify.
 - Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months by treating it as a perception, infrastructure, and leadership-narrative problem before a curriculum problem.
 - Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
@@ -111,8 +111,7 @@ Agent handling: these are floor values. Cite the as-of date with any figure, nev
 - University partner and vendor orchestration
 - L&D systems at scale
 - AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)
-- AI accountability and governance posture across SOC 2 / ISO 42001 / NIST AI RMF contexts
-- AI-enabled learning and capability deployment at scale (Convatec: 4 countries, 80% adoption in 30 days)
+- AI-enabled learning and capability deployment (Convatec: 200-person Portugal pilot exceeded 80% adoption in 30 days; later four-country rollout)
 - Certification program design
 - Developer education and technical enablement
 - Manager and leader development
@@ -127,6 +126,7 @@ Agent handling: these are floor values. Cite the as-of date with any figure, nev
 
 ## Moderate areas
 
+- Public-material familiarity with SOC 2, ISO 42001, and NIST AI RMF; no implementations against these frameworks
 - Multi-model evaluation design
 - Formal people management at scale
 - Enterprise knowledge-management platform ownership

@@ -20,6 +20,7 @@ interface TargetPreset {
   label: string;
   heroTitles: string[];
   status: string;
+  recruiterBrief: { summary: string; shortlistRationale: string };
   promptContext: string;
   suggestedQuestions: string[];
   demoResponseKey: "aiEducation" | "contentOps" | "aiTransformation" | "aiEnablement" | "aiEcosystems";
@@ -70,6 +71,10 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
   "ai-education": {
     key: "ai-education",
     label: "AI Education Systems",
+    recruiterBrief: {
+      summary: "Sam Rogers builds AI education systems spanning curriculum, certification, assessment, and measurement. YouTube Certified grew from about 1,000 partners per year to about 10,000 in year one; National 4-H work coordinated university partners and vendors; Convatec combined content simplification with measured adoption.",
+      shortlistRationale: "Shortlist Sam for AI education systems that need scalable delivery and evidence of learning. Probe the YouTube certification build, National 4-H production orchestration, and Convatec measurement. His evidence is program and system leadership, not ML research or deep production-infrastructure ownership.",
+    },
     heroTitles: [
       "AI Education Systems Lead",
       "Head of Content & Curriculum",
@@ -92,6 +97,10 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
   "content-ops": {
     key: "content-ops",
     label: "Content Operations",
+    recruiterBrief: {
+      summary: "Sam Rogers builds content operations across portfolio health, production, quality, and measurement. National 4-H work coordinated university partners and vendors; Convatec content offerings were streamlined 90% while delivery speed improved 40%; YouTube certification scaled 10x.",
+      shortlistRationale: "Shortlist Sam for content operations that need a repeatable operating rhythm across functions. Probe National 4-H partner and vendor orchestration, Convatec simplification, and Harnessie workflow verification. Formal line-management scale is two direct reports; broader delivery leadership is separate evidence.",
+    },
     heroTitles: [
       "Content & Systems Operations Lead",
       "AI-Enabled Content Operations Lead",
@@ -114,6 +123,10 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
   "ai-transformation": {
     key: "ai-transformation",
     label: "AI Transformation",
+    recruiterBrief: {
+      summary: "Sam Rogers approaches AI transformation through operating models, adoption, governance design, and measurement. Convatec paired a measured platform pilot with a four-country rollout; PAICE supplies inspectable governance frameworks; Harnessie demonstrates workflow verification controls.",
+      shortlistRationale: "Consider Sam for a bounded AI transformation function combining hands-on building and organizational adoption. Probe Convatec outcomes, PAICE control design, and Harnessie verification. Prior enterprise AI Center of Excellence ownership and implementations against SOC 2, ISO 42001, or NIST AI RMF are not claimed.",
+    },
     heroTitles: [
       "AI Transformation & Center of Excellence Leader",
       "AI Center of Excellence Builder",
@@ -136,6 +149,10 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
   "ai-enablement": {
     key: "ai-enablement",
     label: "AI Enablement",
+    recruiterBrief: {
+      summary: "Sam Rogers builds AI enablement through champions, layered training, reusable skills, and measured adoption. At Convatec, a 200-person Portugal pilot reached more than 80% adoption in 30 days, followed by rollout to four countries through regional champions. Current work includes a shared skills library and workflow verification.",
+      shortlistRationale: "Shortlist Sam for AI enablement that turns pilots into repeatable team capability. Probe the Convatec champions network, adoption measurement, and shared-library controls. The network was not a standing AI Center of Excellence, and formal line management is two direct reports.",
+    },
     heroTitles: [
       "AI Enablement & Center of Excellence Operator",
       "AI Adoption & Champions Program Leader",
@@ -158,6 +175,10 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
   "ai-ecosystems": {
     key: "ai-ecosystems",
     label: "AI Ecosystems",
+    recruiterBrief: {
+      summary: "Sam Rogers brings shipped tooling and partner-program experience to AI ecosystems work. Inspect Harnessie for multi-agent workflow verification, Skill Provenance for skill identity and integrity, and the YouTube partner certification program for program-building evidence.",
+      shortlistRationale: "Consider Sam for AI ecosystems roles that connect technical artifacts with partner capability. Probe Harnessie, Skill Provenance, and the YouTube partner program. He has not held a partnerships or developer-relations title, and external Harnessie adoption is not established.",
+    },
     heroTitles: [
       "AI Ecosystems & Technical Partnerships Builder",
       "MCP, Skills & Agent Surfaces Practitioner",

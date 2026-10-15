@@ -29,7 +29,7 @@ export const samProfile = {
     },
     {
       metric: "80% adoption in 30 days",
-      detail: "AI training platform across 4 countries",
+      detail: "200-person Portugal pilot; later four-country rollout",
     },
   ],
   location: "Remote preferred · SF Bay Area hybrid available",
@@ -103,7 +103,7 @@ export const samProfile = {
         "Personally selected and hired two direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.",
         "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers, paired with a compensation-structure rollout.",
         "Raised Innovation and Learning Organizational Health Index (OHI) score from 48 to 74 in 18 months, exceeding business target.",
-        "Configured Axonify from the ground up and administered all AI/ML-enabled controls exposed through its vendor interface; launched it for global shared services across 4 countries with 80%+ adoption in 30 days from a 200-person Portugal cohort.",
+        "Configured Axonify from the ground up in 2021 and administered its interface-exposed AI/ML controls. A 200-person Portugal pilot reached more than 80% adoption in 30 days, followed by rollout to global shared services across four countries. This was not an LLM rollout.",
         "Streamlined content offerings by 90% while increasing utilization; improved delivery speed by 40%. Architected and led international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
       ],
       aiContext: {
@@ -112,7 +112,7 @@ export const samProfile = {
         approach:
           "Two parallel moves. On AI deployment: launch the AI-based training platform with shared-services first because they had the highest-density adoption surface, instrument it for measurable behavior change, and treat workforce readiness as the gating constraint rather than the model's capability. On OHI: most people in a Global Learning Technology role read a low OHI score and conclude they need to ship more learning content. A 48 score does not mean people are under-trained. It means the organization does not experience itself as a place where learning happens — a perception, infrastructure, and leadership-narrative problem before it is a curriculum problem.",
         technicalWork:
-          "AI-based training platform deployed across four countries with 80%+ adoption in 30 days from a 200-person Portugal cohort — the kind of result regulated employers can verify in their own data. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
+          "Axonify AI/ML platform: more than 80% adoption in 30 days in a 200-person Portugal pilot, followed by rollout to four countries — the kind of result regulated employers can verify in their own data. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
         lessonsLearned:
           "OHI scores are leading indicators of cultural change, not lagging indicators of training volume. AI adoption at scale lives in the same place: the gating constraint is workforce readiness and governance infrastructure, not model capability. The L&D function that does not understand the difference cannot move the score, and the AI program that does not understand the difference cannot move adoption.",
       },
@@ -131,9 +131,8 @@ export const samProfile = {
       "Certification program design",
       "Developer education and technical enablement",
       "Manager and leader development",
-      "AI-enabled learning experience design (deployed AI training platform across 4 countries, 80% adoption in 30 days at Convatec)",
+      "AI-enabled learning experience design (Convatec: 200-person Portugal pilot exceeded 80% adoption in 30 days; later four-country rollout)",
       "AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)",
-      "AI accountability and governance posture across SOC 2 / ISO 42001 / NIST AI RMF contexts",
       "Open standards authorship and public protocol design",
       "Agentic tooling infrastructure (local LLMs, multi-model orchestration)",
       "End-to-end video production (pre-prod → studio direction → post → distribution → DRM)",
@@ -143,6 +142,7 @@ export const samProfile = {
       "Performance consulting (not classroom training)",
     ],
     moderate: [
+      "Public-material familiarity with SOC 2, ISO 42001, and NIST AI RMF; no implementations against these frameworks",
       "Multi-model evaluation design",
       "Formal people management at scale",
       "Enterprise knowledge-management platform ownership",
@@ -667,7 +667,7 @@ For a content and systems operations role inside customer education, the match i
 
   aiTransformation: `Sam's AI-transformation case is strongest for a zero-to-one mandate, where the job is to build the operating model, governance, shared model controls, adoption system, and scorecard together.
 
-The evidence is direct but not identical. At Convatec, he delivered 80%+ AI-platform adoption in 30 days across a four-country rollout, raised the Innovation and Learning OHI score from 48 to 74, reduced the content portfolio by 90%, and improved delivery speed by 40%. He personally selected and hired two direct reports, set goals, coached and planned their development, and conducted formal reviews. PAICE2, Harnessie, and paice-near-integration provide inspectable current evidence for model catalogs, routing, fallbacks, privacy boundaries, budgets, approvals, verification, and attestation.
+The evidence is direct but not identical. At Convatec, a 200-person Portugal pilot of Axonify reached more than 80% adoption in 30 days, followed by a four-country rollout. This was vendor-interface AI/ML administration in 2021, not an LLM rollout. He raised the Innovation and Learning OHI score from 48 to 74, reduced the content portfolio by 90%, and improved delivery speed by 40%. He personally selected and hired two direct reports, set goals, coached and planned their development, and conducted formal reviews. PAICE2, Harnessie, and paice-near-integration provide inspectable current evidence for model catalogs, routing, fallbacks, privacy boundaries, budgets, approvals, verification, and attestation.
 
 The boundaries matter. Sam has not previously owned an enterprise AI Center of Excellence or enterprise DLP function, his formal line-management scale is two, and he is not claiming dedicated end-to-end production-infrastructure engineering ownership. The candidacy is credible for founding transformation leadership, but it is not conventionally obvious from title history.`,
 
@@ -707,7 +707,7 @@ const _legacyFitAssessmentsReference = {
       {
         requirement: "AI-enabled learning at scale",
         evidence:
-          "Launched an AI-based training platform across four countries; 80%+ adoption in 30 days from a 200-person Portugal cohort. Facilitated ATD's three-day certificate program on applying AI in L&D for skeptical practitioners. Author of the SNAP methodology and Signals & Subtractions field notes on AI adoption.",
+          "Launched an Axonify AI/ML platform pilot for 200 people in Portugal, exceeding 80% adoption in 30 days, then rolled out to four countries. Facilitated ATD's three-day certificate program on applying AI in L&D for skeptical practitioners. Author of the SNAP methodology and Signals & Subtractions field notes on AI adoption.",
       },
       {
         requirement: "Certification program ownership end-to-end",

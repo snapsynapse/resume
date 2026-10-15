@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { aiUsageSnapshot } from "@/data/ai-usage-snapshot";
+import { samProfile } from "@/data/sam-profile";
 import { validateAssistantGuideContract } from "../../scripts/lib/assistant-guide.mjs";
 
 const root = process.cwd();
@@ -146,6 +147,31 @@ const guideContractMutations: Array<[string, (guide: string) => string]> = [
 ];
 
 describe("public resume surfaces", () => {
+  it("separates governance design from familiarity with standards", () => {
+    expect(samProfile.skills.strong.join(" ")).not.toMatch(/SOC 2|ISO 42001|NIST AI RMF/);
+    expect(samProfile.skills.strong.join(" ")).toMatch(/governance program design/);
+    expect(samProfile.skills.moderate.join(" ")).toMatch(/public-material familiarity.*no implementations/i);
+    for (const file of ["public/resume.txt", "public/llms-full.txt"]) {
+      const text = readFileSync(join(root, file), "utf8");
+      const strengths = text.split("## Strengths")[1].split("## Moderate areas")[0];
+      expect(strengths).not.toMatch(/SOC 2|ISO 42001|NIST AI RMF/);
+      expect(text).toMatch(/public-material familiarity.*no implementations/i);
+    }
+  });
+
+  it("scopes adoption to the Portugal pilot and distinguishes the later rollout", () => {
+    expect(samProfile.heroEvidence[2].detail).toMatch(/200-person Portugal pilot.*later four-country rollout/);
+    for (const file of ["README.md", "EVIDENCE.md", "public/resume.txt", "public/llms-full.txt", "public/llms.txt"]) {
+      const text = readFileSync(join(root, file), "utf8");
+      expect(text).toMatch(/200-person Portugal pilot/);
+      expect(text).toMatch(/followed by (?:a four-country rollout|rollout to four countries)/i);
+      expect(text).toMatch(/not an LLM rollout|rather than LLMs/);
+    }
+    const card = readFileSync(join(root, "src/components/AIUsageCard.tsx"), "utf8");
+    expect(card).not.toMatch(/continuous record/);
+    expect(card).toMatch(/recovered history/);
+  });
+
   it.each(publicSurfaceFiles)("does not expose outdated AI-officer solicitation in %s", (file) => {
     const content = readFileSync(join(root, file), "utf8");
     for (const pattern of outdatedSolicitationPatterns) {
@@ -333,6 +359,8 @@ describe("public resume surfaces", () => {
     expect(evidence).toMatch(/recovered record/i);
     expect(evidence).toMatch(/labeled unknown/i);
     expect(evidence).toMatch(/provenance/i);
+    expect(evidence).not.toMatch(/across \d+ providers and tools/i);
+    expect(readFileSync(join(root, "public/agents.json"), "utf8")).not.toMatch(/across \d+ providers and tools/i);
 
     // Agent-facing surfaces must tell an agent not to treat the number as live.
     for (const file of ["public/llms-full.txt", "public/.well-known/assistant-guide.txt", "public/agents.json"]) {
