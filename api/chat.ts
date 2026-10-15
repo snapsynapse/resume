@@ -317,10 +317,7 @@ export async function handleChatRequest(req: Request): Promise<Response> {
   const limited = await enforceRateLimits(req);
   if (limited) return limited;
 
-  let body: {
-    messages?: ChatMessage[];
-    roleSelection?: unknown;
-  };
+  let body: unknown;
   try {
     body = await req.json();
   } catch {
@@ -332,7 +329,15 @@ export async function handleChatRequest(req: Request): Promise<Response> {
     });
   }
 
-  const messages = body.messages;
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return boundaryResponse({
+      status: 400,
+      error: "invalid_request_body",
+      detail: "The request body must be a JSON object.",
+      why: "/api/chat requires an object with a messages array.",
+    });
+  }
+  const { messages, roleSelection } = body as Record<string, unknown>;
   if (!Array.isArray(messages) || messages.length === 0) {
     return boundaryResponse({
       status: 400,
@@ -354,7 +359,7 @@ export async function handleChatRequest(req: Request): Promise<Response> {
   const invalid = validateChatMessages(messages);
   if (invalid) return invalid;
 
-  const systemPrompt = buildSystemPrompt(sanitizeRoleSelection(body.roleSelection));
+  const systemPrompt = buildSystemPrompt(sanitizeRoleSelection(roleSelection));
 
   try {
     const client = getAnthropicClient();
@@ -372,22 +377,35 @@ export async function handleChatRequest(req: Request): Promise<Response> {
     });
 
     const encoder = new TextEncoder();
-    const readable = new ReadableStream({
-      async start(controller) {
+    const iterator = stream[Symbol.asyncIterator]();
+    let cancelled = false;
+    const readable = new ReadableStream<Uint8Array>({
+      async pull(controller) {
         try {
-          for await (const event of stream) {
+          while (true) {
+            const { value: event, done } = await iterator.next();
+            if (cancelled) return;
+            if (done) {
+              controller.close();
+              return;
+            }
             if (
               event.type === "content_block_delta" &&
               event.delta.type === "text_delta"
             ) {
               controller.enqueue(encoder.encode(event.delta.text));
+              return;
             }
           }
-          controller.close();
         } catch (err) {
+          if (cancelled) return;
           console.error("Stream error:", err);
           controller.error(err);
         }
+      },
+      cancel() {
+        cancelled = true;
+        stream.abort();
       },
     });
 

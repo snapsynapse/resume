@@ -44,6 +44,9 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 - Global headers include CSP, `frame-ancestors 'none'`, `Referrer-Policy`, and a restrictive `Permissions-Policy`.
 - PostHog uses the no-external SDK entrypoint; CSP permits ingestion and remote configuration hosts but does not allow PostHog-hosted script injection.
 - PostHog analytics, when configured, is cookieless, explicit-event-only, and must not include user-supplied text.
+- Custom analytics properties are allowlisted centrally; contextual labels and employer selections are omitted before capture.
+- Both POST handlers require a non-null object before field access. Fit results are validated against a shared runtime shape before API success and client rendering.
+- Chat cancellation propagates from browser unmount through response disconnection to the provider stream. Normal POST completion does not cancel a healthy response.
 - PII and compensation exposure is mechanically gated by [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts), which scans committed repository content for personal phone shapes, SSN shapes, DOB shapes, dollar-amount figures, compensation-range notations, and a hash-based blocklist of candidate-specific residential and contact literals, pursued employer labels, and applied-for role titles.
 - Employer application presets are server-side only (`ROLE_CONTEXT_PRESETS` or `ROLE_CONTEXT_PRESETS_FILE`, never `VITE_`-prefixed) and never committed. The repository carries only a fake fixture.
 
@@ -68,7 +71,7 @@ Design:
 
 - Generic shape patterns cover US-format phone numbers, SSN-shaped strings, DOB-shaped strings, dollar figures, and compensation ranges.
 - Candidate-specific residential and contact values are stored only as an unordered set of SHA-256 digests of normalized values.
-- Scan-time tokenization checks one-to-four-word n-grams and normalized 10-digit phone windows against the digest set.
+- Scan-time tokenization checks one-to-nine-word n-grams and normalized 10-digit phone windows against the digest set.
 - Violation output reports only file, line, and pattern category. It never echoes a matched substring.
 - Allowlisted exceptions are stored as full-line digests so the allowlist does not disclose the protected context.
 - Public name, email, and region assertions act as positive controls so an empty scan cannot pass silently.
@@ -91,7 +94,7 @@ Current boundaries:
 
 Future hardening:
 
-- Run `npm run eval:prompts` in CI against a staging deployment with the configured provider key.
+- Resume live prompt verification only after explicit authorization releases the model-backed verification hold. The automatic `eval-live.yml` workflow was disabled manually during the 2026-10-14 delivery and remains held.
 - Add regression cases for claims inflation, false credential requests, and malicious job descriptions.
 - Add structured refusal fields to fit assessment output for clearly abusive or irrelevant inputs.
 - Add request-level abuse monitoring that records counts and outcomes without storing submitted text.
@@ -100,10 +103,12 @@ Future hardening:
 
 - The live UI intentionally avoids carrying unused component-library surface area.
 - Dependency audit is enforced in CI with `npm audit --audit-level=high`.
+- The scheduled usage-refresh workflow enforces the dependency audit before its publishing step, alongside the other deterministic checks.
+- `npm run typecheck` explicitly checks every referenced application, API, and tooling project. Offline fixture tests prove deliberate type errors fail the gate.
 - Static crawl pages are generated at build time from `src/data/sam-profile.ts`.
 - Metadata validation checks sitemap entries, JSON files, security headers, no-JS fallback content, canonical URLs, and URL policy.
 - Metadata validation checks the assistant guide for presence, ASCII-only content, an 8 KiB size ceiling, required GuideCheck sections, and action blocks.
 
 ## CSP note
 
-The current CSP allows inline scripts/styles because Vite, the static no-JS fallback, and generated static pages still depend on inline JSON-LD and inline route styles. A stricter future version should replace this with nonces or hashes for JSON-LD and generated CSS. The current policy still blocks framing, object embeds, external scripts, and broad browser permissions.
+The current CSP permits same-origin scripts and explicit hashes for inline JSON-LD; it does not permit script `unsafe-inline`. Styles still permit `unsafe-inline` for inline route styles and runtime component styling. Replacing that style allowance would require a separate compatibility review. The policy blocks framing, object embeds, unlisted external scripts, and broad browser permissions.

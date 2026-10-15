@@ -1,4 +1,4 @@
-import type { PostHog, Properties } from "posthog-js";
+import type { PostHog, Properties } from "posthog-js/dist/module.no-external";
 
 type AnalyticsEvent =
   | "ai_chat_opened"
@@ -19,7 +19,12 @@ type AnalyticsEvent =
   | "experience_context_toggled"
   | "ai_usage_dashboard_clicked";
 
-type AnalyticsProperties = Record<string, string | number | boolean | null | undefined>;
+const EVENT_PROPERTY_KEYS = [
+  "source", "lengthBucket", "mode", "status", "verdict", "flagCount", "edited",
+  "block", "fitVerdict", "section", "expanded", "link",
+] as const;
+const allowedEventProperties = new Set<string>(EVENT_PROPERTY_KEYS);
+type AnalyticsProperties = Partial<Record<(typeof EVENT_PROPERTY_KEYS)[number], string | number | boolean | null>>;
 type TrackOptions = {
   immediate?: boolean;
 };
@@ -76,7 +81,12 @@ export const stripUrlParams = (value: unknown): unknown => {
 };
 
 export const sanitizeAnalyticsProperties = (properties: Properties): Properties => {
-  const sanitized: Properties = { ...properties };
+  // Custom application properties are allowlisted. In particular, context labels,
+  // employer selectors, and submitted text cannot ride alongside coarse metadata.
+  // PostHog's own $ properties retain the URL sanitization below.
+  const sanitized: Properties = Object.fromEntries(Object.entries(properties).filter(
+    ([name]) => name.startsWith("$") || allowedEventProperties.has(name),
+  ));
   for (const key of URL_PROPERTY_KEYS) {
     if (key in sanitized) sanitized[key] = stripUrlParams(sanitized[key]);
   }
@@ -123,11 +133,12 @@ export const track = (
   const captureOptions = options.immediate
     ? { send_instantly: true, transport: "sendBeacon" as const }
     : undefined;
+  const safeProperties = sanitizeAnalyticsProperties(properties ?? {});
 
   if (client) {
-    client.capture(event, properties, captureOptions);
+    client.capture(event, safeProperties, captureOptions);
     return;
   }
   initAnalytics();
-  clientPromise?.then((posthog) => posthog?.capture(event, properties, captureOptions));
+  clientPromise?.then((posthog) => posthog?.capture(event, safeProperties, captureOptions));
 };

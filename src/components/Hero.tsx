@@ -127,7 +127,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
               alt="Sam Rogers"
               width={512}
               height={512}
-              fetchpriority="high"
+              fetchPriority="high"
               decoding="async"
               className="w-32 h-32 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full object-cover border-4 border-card shadow-lg"
             />

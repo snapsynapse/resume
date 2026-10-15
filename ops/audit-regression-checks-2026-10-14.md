@@ -1,5 +1,7 @@
 # Audit regression checks and mitigation plan, 2026-10-14
 Scope: repository-local checks for the findings in [the code audit](code-audit-2026-10-14.md), based on production source `1a29d8ccf6da2efe935d4238fcb317a33512494f`. Sam authorized adding checks and committing locally, then recommending mitigations. Application behavior fixes, push, deployment, and model-backed verification are outside this tranche. Biography additions remain parked.
+
+This document preserves the checks-only baseline. Sam subsequently authorized the recommended local repairs; their green checkpoint and remaining delivery boundary are recorded in [the mitigation report](audit-mitigations-2026-10-14.md).
 ## Added coverage
 The ordinary Vitest suite now includes 29 additional tests. One existing chat assertion that expected disclosure has been replaced with a privacy assertion. No failing test uses skip, todo, expected-failure mode, or a suppression to make the suite green.
 | Finding | Check | Expected current state |

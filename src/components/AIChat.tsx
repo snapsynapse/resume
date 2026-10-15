@@ -83,17 +83,22 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
   const { selection: roleSelection, roleContext } = useRoleContext();
   const [chatMode, setChatMode] = useState<ChatMode>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const requestController = useRef<AbortController | null>(null);
+
+  useEffect(() => () => requestController.current?.abort(), []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingText]);
 
-  const streamFromApi = async (history: Message[]): Promise<string> => {
+  const streamFromApi = async (history: Message[], signal: AbortSignal): Promise<string> => {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: history, roleSelection }),
+      signal,
     });
+    if (signal.aborted) throw new DOMException("Request cancelled", "AbortError");
 
     // Rate-limit / error path: server returns JSON with structured error body, not a stream.
     // This shape (detail + limit/graceful_boundary) is the Graceful Boundaries response
@@ -120,22 +125,27 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     setIsStreaming(true);
     setStreamingText("");
 
-    while (true) {
-      let done: boolean | undefined;
-      let value: Uint8Array | undefined;
-      try {
-        ({ done, value } = await reader.read());
-      } catch (err) {
-        throw new PartialStreamError(full, err instanceof Error ? err.message : "stream_read_failed");
+    try {
+      while (true) {
+        let done: boolean | undefined;
+        let value: Uint8Array | undefined;
+        try {
+          ({ done, value } = await reader.read());
+        } catch (err) {
+          throw new PartialStreamError(full, err instanceof Error ? err.message : "stream_read_failed");
+        }
+        if (done) {
+          // Flush any buffered bytes from a multi-byte char split across chunks.
+          full += decoder.decode();
+          break;
+        }
+        const chunk = decoder.decode(value, { stream: true });
+        full += chunk;
+        if (signal.aborted) return full;
+        setStreamingText(full);
       }
-      if (done) {
-        // Flush any buffered bytes from a multi-byte char split across chunks.
-        full += decoder.decode();
-        break;
-      }
-      const chunk = decoder.decode(value, { stream: true });
-      full += chunk;
-      setStreamingText(full);
+    } finally {
+      reader.releaseLock();
     }
 
     return full;
@@ -146,7 +156,6 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     const source = messages.length === 0 ? "initial" : "follow_up";
     track("ai_chat_message_sent", {
       source,
-      roleContext: roleContext?.label ?? "none",
       lengthBucket: lengthBucket(question.length),
     });
     const nextHistory: Message[] = [
@@ -156,9 +165,12 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     setMessages(nextHistory);
     setInput("");
     setIsWaiting(true);
+    const controller = new AbortController();
+    requestController.current = controller;
 
     try {
-      const response = await streamFromApi(trimHistoryForRequest(nextHistory));
+      const response = await streamFromApi(trimHistoryForRequest(nextHistory), controller.signal);
+      if (controller.signal.aborted) return;
       setChatMode("live");
       track("ai_chat_response_received", {
         mode: "live",
@@ -167,6 +179,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
       });
       setMessages((prev) => [...prev, { role: "assistant", content: response }]);
     } catch (err) {
+      if (controller.signal.aborted) return;
       console.warn("API call failed, using fallback:", err);
       const partialText = err instanceof PartialStreamError ? err.partialText.trim() : "";
       if (partialText) {
@@ -200,11 +213,14 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
         ]);
       }
     } finally {
+      if (requestController.current === controller) requestController.current = null;
       // Always clear the loading indicators on every terminal path (success, rate
       // limit, or error) so the input never stays disabled after one failed turn.
-      setIsWaiting(false);
-      setIsStreaming(false);
-      setStreamingText("");
+      if (!controller.signal.aborted) {
+        setIsWaiting(false);
+        setIsStreaming(false);
+        setStreamingText("");
+      }
     }
   };
 

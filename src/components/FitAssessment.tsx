@@ -3,20 +3,11 @@ import { FileText, Check, AlertTriangle, Loader2, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 import { lengthBucket, scanJD } from "@/lib/jd-review";
+import { isFitResult, type FitResult } from "@/lib/fit-result";
+
+export type { FitResult } from "@/lib/fit-result";
 
 const JDReviewPanel = lazy(() => import("./JDReviewPanel"));
-
-type Verdict = "strong" | "moderate" | "weak";
-
-export interface FitResult {
-  verdict: Verdict;
-  title: string;
-  summary: string;
-  matches: { requirement: string; evidence: string }[];
-  gaps: { area: string; note: string }[];
-  whatTransfers: string;
-  recommendation: string;
-}
 
 interface FitAssessmentProps {
   onResult?: (result: FitResult | null) => void;
@@ -187,7 +178,12 @@ const FitAssessment = ({
         return;
       }
 
-      const data: FitResult = await res.json();
+      const data: unknown = await res.json();
+      if (!isFitResult(data)) {
+        setError("The assessment response was invalid. Try again or email Sam for a manual review.");
+        track("fit_assessment_failed", { status: "invalid_response" });
+        return;
+      }
       setResult(data);
       onResult?.(data);
       track("fit_assessment_completed", { verdict: data.verdict });

@@ -31,7 +31,7 @@ const ExperienceCard = ({
 }: ExperienceCardProps) => {
   const [expanded, setExpanded] = useState(false);
   const handleToggle = () => {
-    track("experience_context_toggled", { company, expanded: !expanded });
+    track("experience_context_toggled", { expanded: !expanded });
     setExpanded(!expanded);
   };
 

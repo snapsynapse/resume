@@ -62,4 +62,16 @@ describe("analytics URL sanitizer", () => {
     expect(sanitized.lengthBucket).toBe("0-499");
     expect(JSON.stringify(sanitized)).not.toMatch(/examplecorp|Example Application Role/i);
   });
+
+  it("drops unknown fields and nested application context without changing allowed metadata", () => {
+    const sanitized = sanitizeAnalyticsProperties({
+      source: "initial", flagCount: 2, edited: true,
+      arbitraryText: "A submitted question",
+      $set_once: { companyLabel: "ExampleCorp", $initial_current_url: "https://example.test/?company=examplecorp" },
+    });
+    expect(sanitized).toEqual({
+      source: "initial", flagCount: 2, edited: true,
+      $set_once: { $initial_current_url: "https://example.test/" },
+    });
+  });
 });

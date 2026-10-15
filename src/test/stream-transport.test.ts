@@ -10,7 +10,7 @@ function deferred() {
   return { promise, resolve };
 }
 
-async function serve(stream: ReadableStream<Uint8Array>) {
+async function serve(stream: ReadableStream<Uint8Array>, parsedBody = false) {
   const responseClosed = deferred();
   const handler = withVercelAdapter(async () => new Response(stream, {
     headers: { "Content-Type": "text/plain" },
@@ -23,6 +23,10 @@ async function serve(stream: ReadableStream<Uint8Array>) {
       status(code: number) { res.statusCode = code; return response; },
       send(body?: Buffer | string) { res.end(body); },
     });
+    if (parsedBody) {
+      Object.assign(req, { body: {} });
+      req.resume();
+    }
     void handler(req, response);
   });
   await new Promise<void>((resolve, reject) => {
@@ -39,7 +43,10 @@ async function serve(stream: ReadableStream<Uint8Array>) {
   };
 }
 
-it("continues a healthy response after the POST request has completed", async () => {
+it.each([
+  { mode: "raw body", parsedBody: false },
+  { mode: "pre-parsed body", parsedBody: true },
+])("continues a healthy response after the POST completes with $mode", async ({ parsedBody }) => {
   const later = deferred();
   const server = await serve(new ReadableStream({
     async start(controller) {
@@ -48,7 +55,7 @@ it("continues a healthy response after the POST request has completed", async ()
       controller.enqueue(new TextEncoder().encode("second"));
       controller.close();
     },
-  }));
+  }), parsedBody);
   try {
     const response = await fetch(server.url, { method: "POST", body: "{}", signal: AbortSignal.timeout(2000) });
     const reader = response.body!.getReader();

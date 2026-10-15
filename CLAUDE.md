@@ -65,12 +65,11 @@ Required env: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` (defaults to `claude-opus-4
 
 CI (`.github/workflows/ci.yml`): on push/PR to `main` — `npm ci`, `npm audit --audit-level=high`, lint, typecheck, test, build.
 
-Live eval workflow (`.github/workflows/eval-live.yml`): triggered by Vercel's `deployment_status` event on successful Production deploys only (preview deploys are gated by Vercel auth) — runs `smoke:api` and `eval:prompts` against the live production domain.
+Live eval workflow (`.github/workflows/eval-live.yml`): configured for successful Production `deployment_status` events, but disabled manually during the 2026-10-14 delivery. Model-backed verification remains held. Run only deterministic checks until Sam explicitly releases that hold; any future deployment must account for the disabled workflow.
 
-## Current State (as of 2026-07-12)
+## Operating checkpoint (2026-10-14)
 
-- Branch `main`, clean working tree, in sync with `origin/main`.
-- Most recent commits (2026-07-09 to 2026-07-11) fix a prompt-injection eval false positive around a disclosed-token detection window — active, recently-touched codebase.
-- No open TODO/FIXME markers found in source or docs.
-- ROADMAP.md is maintained as a living delivered-vs-open ledger — check it before assuming something is unbuilt; several "planned" items get closed out inline (target/company routing, provider-neutral language, etc. are already marked delivered).
-- Open items on ROADMAP.md worth knowing about: automated accessibility eval (axe, once Playwright/Puppeteer is added), visual regression snapshots, keyboard-copy smoke test for the Interview Decision Brief, typed config for the JD scanner's phrase lists, optional PII detection in pasted job descriptions, per-IP daily rate cap.
+- Production delivery is recorded separately from the subsequent local audit repairs in `ops/audit-mitigations-2026-10-14.md`. Inspect Git and the ignored delivery receipt before asserting current synchronization or deployment state.
+- The audit repair tranche is authorized for local commits only. Push and deployment require a new request. Biography additions remain parked; model-backed verification remains held.
+- `npm run eval:audit` is offline and included in the full test suite. Its checks cover telemetry filtering, referenced-project typechecking, fit-result and request validation, streaming cancellation, and the scheduled-refresh dependency gate.
+- Read ROADMAP.md for product proposals and `handoffs/` for unresolved session decisions. A deterministic pass does not establish live model quality or submitted-PDF acceptance.

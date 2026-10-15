@@ -1,6 +1,7 @@
 import { act, cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Hero from "./Hero";
+import type { PublicRoleContext } from "@/lib/role-context-client";
 
 vi.mock("@/lib/analytics", () => ({ track: vi.fn() }));
 
@@ -11,7 +12,7 @@ const roleContextMock = vi.hoisted(() => ({
 
 vi.mock("@/lib/role-context-client", () => roleContextMock);
 
-const baseRoleContext = {
+const baseRoleContext: PublicRoleContext = {
   selection: { target: "content-ops" as const },
   label: "Content Operations",
   targetLabel: "Content Operations",
@@ -20,7 +21,7 @@ const baseRoleContext = {
   suggestedQuestions: [],
 };
 
-function setRoleContext(roleContext: Partial<typeof baseRoleContext> | null) {
+function setRoleContext(roleContext: Partial<PublicRoleContext> | null) {
   roleContextMock.useRoleContext.mockReturnValue({
     selection: roleContext ? { target: "content-ops" } : {},
     roleContext: roleContext ? { ...baseRoleContext, ...roleContext } : null,

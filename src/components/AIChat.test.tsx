@@ -193,6 +193,7 @@ describe("AIChat", () => {
       json: async () => ({}),
       body: {
         getReader: () => ({
+          releaseLock: vi.fn(),
           read: async () => {
             reads += 1;
             if (reads === 1) {

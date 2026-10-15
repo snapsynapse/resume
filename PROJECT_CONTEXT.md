@@ -24,4 +24,6 @@ Documentation is deliberately dense, precise, and non-promotional — favors bou
 
 ## Current status
 
-Active and healthy. `main` branch clean and in sync with origin as of 2026-07-12. Most recent work (2026-07-09 to 2026-07-11) tightened a prompt-injection eval false positive. CI (lint/typecheck/test/build/audit) runs on every push/PR to `main`; a second workflow runs live API smoke tests and prompt-boundary evals against production after each successful Vercel deploy. See ROADMAP.md for the maintained ledger of delivered vs. open work — check it before assuming a feature is missing.
+The 2026-10-14 production delivery and subsequent local audit repairs have separate acceptance boundaries. See `ops/audit-mitigations-2026-10-14.md` for the repairs and deterministic evidence; inspect Git and the ignored delivery receipt for current local versus production identity. CI runs lint, real multi-project typecheck, tests, build, and dependency audit on push/PR to `main`. The scheduled usage refresh also enforces the dependency audit before publishing.
+
+The automatic live-eval workflow was disabled manually during delivery. Model-backed verification remains held, biography additions remain parked, and the audit repair tranche is local-only. A future push or deployment requires a new request; live prompt/API evaluation additionally requires explicit release of the model hold. See ROADMAP.md and the unresolved handoff queue before expanding the scope.

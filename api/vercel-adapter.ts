@@ -6,6 +6,7 @@ interface VercelRequestLike extends AsyncIterable<Buffer | string> {
   headers?: Record<string, HeaderValue>;
   body?: unknown;
   on?(event: string, listener: (...args: unknown[]) => void): void;
+  off?(event: string, listener: (...args: unknown[]) => void): void;
 }
 
 interface VercelResponseLike {
@@ -14,6 +15,10 @@ interface VercelResponseLike {
   send(body?: Buffer | string): void;
   write?(chunk: Buffer | Uint8Array | string): boolean;
   end?(chunk?: Buffer | Uint8Array | string): void;
+  on?(event: string, listener: (...args: unknown[]) => void): void;
+  off?(event: string, listener: (...args: unknown[]) => void): void;
+  writableEnded?: boolean;
+  destroyed?: boolean;
 }
 
 type WebHandler = (req: Request) => Promise<Response>;
@@ -86,25 +91,31 @@ async function streamWebResponse(
 
   const reader = (response.body as ReadableStream<Uint8Array>).getReader();
   let aborted = false;
-  // If the client hangs up, cancel the upstream reader so we stop pulling (and
-  // paying for) tokens for an abandoned tab.
+  let finished = false;
+  // Request completion is independent of the response consumer's lifetime.
+  // Cancel on response disconnection, not a normal IncomingMessage close.
   const onClose = () => {
-    if (aborted) return;
+    if (aborted || finished || res.writableEnded) return;
     aborted = true;
     reader.cancel().catch(() => {});
   };
-  req.on?.("close", onClose);
+  res.on?.("close", onClose);
   req.on?.("aborted", onClose);
+  if (res.destroyed) onClose();
 
   try {
     while (!aborted) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done || aborted) break;
       if (value) res.write!(Buffer.from(value));
     }
   } catch {
     // Upstream failed mid-stream; nothing safe to append. Close the response below.
   } finally {
+    finished = true;
+    res.off?.("close", onClose);
+    req.off?.("aborted", onClose);
+    reader.releaseLock();
     if (!aborted) res.end!();
   }
 }

@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { samProfile } from "../src/data/sam-profile.js";
+import { isFitResult } from "../src/lib/fit-result.js";
 import { explicitAiOfficerContext } from "./explicit-role-context.js";
 import {
   ANTHROPIC_MODEL,
@@ -222,7 +223,7 @@ export async function handleAnalyzeFitRequest(req: Request): Promise<Response> {
   const limited = await enforceRateLimit(req);
   if (limited) return limited;
 
-  let body: { jobDescription?: string };
+  let body: unknown;
   try {
     body = await req.json();
   } catch {
@@ -234,7 +235,15 @@ export async function handleAnalyzeFitRequest(req: Request): Promise<Response> {
     });
   }
 
-  const jd = body.jobDescription;
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return boundaryResponse({
+      status: 400,
+      error: "invalid_request_body",
+      detail: "The request body must be a JSON object.",
+      why: "/api/analyze-fit requires an object with a jobDescription string.",
+    });
+  }
+  const jd = (body as Record<string, unknown>).jobDescription;
   if (typeof jd !== "string" || jd.trim().length < 50) {
     return boundaryResponse({
       status: 400,
@@ -291,7 +300,7 @@ export async function handleAnalyzeFitRequest(req: Request): Promise<Response> {
         why: "The app cannot safely render a structured fit assessment from malformed model output.",
       });
     }
-    if (!parsed || typeof parsed !== "object") {
+    if (!isFitResult(parsed)) {
       return boundaryResponse({
         status: 502,
         error: "model_returned_invalid_json",

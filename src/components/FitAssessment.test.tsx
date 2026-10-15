@@ -45,7 +45,9 @@ describe("FitAssessment", () => {
     await waitFor(() => expect(screen.queryByText("Analyzing...")).not.toBeInTheDocument());
     expect(screen.queryByText("Unexpected render failure")).not.toBeInTheDocument();
     expect(screen.getByLabelText("Job description")).toBeInTheDocument();
-    expect(onResult).not.toHaveBeenCalled();
+    // Clearing a previous brief at submission is valid; malformed data must
+    // never populate it afterward.
+    expect(onResult).toHaveBeenCalledExactlyOnceWith(null);
     expect(analyticsMock.track).toHaveBeenCalledWith("fit_assessment_failed", expect.any(Object));
   });
 

@@ -610,8 +610,7 @@ describe("API validation", () => {
                 controller.enqueue(encoder.encode("first"));
                 return;
               }
-              // Simulate the client hanging up while more tokens were pending.
-              handlers.close?.();
+              // Leave later tokens pending until the response consumer disconnects.
             },
             cancel() {
               cancelled = true;
@@ -626,8 +625,12 @@ describe("API validation", () => {
       status: vi.fn().mockReturnThis(),
       setHeader: vi.fn(),
       send: vi.fn(),
+      on: vi.fn((event: string, cb: () => void) => { handlers[event] = cb; }),
+      off: vi.fn((event: string) => { delete handlers[event]; }),
       write: vi.fn((chunk: Buffer) => {
         writes.push(Buffer.from(chunk).toString());
+        // Disconnect after the first delivered chunk, independent of prefetch timing.
+        handlers.close?.();
         return true;
       }),
       end: vi.fn(),
@@ -639,6 +642,7 @@ describe("API validation", () => {
       on: vi.fn((event: string, cb: () => void) => {
         handlers[event] = cb;
       }),
+      off: vi.fn((event: string) => { delete handlers[event]; }),
       // eslint-disable-next-line require-yield
       async *[Symbol.asyncIterator]() {
         return;
@@ -651,6 +655,8 @@ describe("API validation", () => {
     expect(writes.join("")).toBe("first");
     // Client already gone: we do not call end() on the abandoned socket.
     expect(res.end).not.toHaveBeenCalled();
+    expect(res.off).toHaveBeenCalledWith("close", expect.any(Function));
+    expect(req.off).toHaveBeenCalledWith("aborted", expect.any(Function));
   });
 });
 
