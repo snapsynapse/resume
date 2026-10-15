@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { Component, type ReactNode } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import FitAssessment from "./FitAssessment";
 
@@ -7,6 +8,12 @@ const analyticsMock = vi.hoisted(() => ({
 }));
 
 vi.mock("@/lib/analytics", () => analyticsMock);
+
+class ResponseBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() { return this.state.failed ? <p>Unexpected render failure</p> : this.props.children; }
+}
 
 describe("FitAssessment", () => {
   afterEach(() => {
@@ -22,6 +29,24 @@ describe("FitAssessment", () => {
     });
 
     expect(screen.getByRole("button", { name: /analyze fit/i })).toBeDisabled();
+  });
+
+  it("rejects malformed successful response data without breaking the page or publishing a brief", async () => {
+    const onResult = vi.fn();
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}", {
+      status: 200, headers: { "Content-Type": "application/json" },
+    }));
+    render(<ResponseBoundary><FitAssessment onResult={onResult} /></ResponseBoundary>);
+    fireEvent.change(screen.getByLabelText("Job description"), {
+      target: { value: "A public role delivering curriculum, education programs and measurement for customers." },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /analyze fit/i }));
+    await waitFor(() => expect(screen.queryByText("Analyzing...")).not.toBeInTheDocument());
+    expect(screen.queryByText("Unexpected render failure")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Job description")).toBeInTheDocument();
+    expect(onResult).not.toHaveBeenCalled();
+    expect(analyticsMock.track).toHaveBeenCalledWith("fit_assessment_failed", expect.any(Object));
   });
 
   it("renders structured fit results", async () => {

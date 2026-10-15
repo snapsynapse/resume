@@ -87,10 +87,24 @@ describe("AIChat", () => {
     expect(sentBody.messages).toEqual([
       { role: "user", content: "Is Sam a fit for ExampleCorp's Content Systems Lead role?" },
     ]);
-    expect(analyticsMock.track).toHaveBeenCalledWith(
-      "ai_chat_message_sent",
-      expect.objectContaining({ roleContext: "ExampleCorp - Content Systems Lead" }),
-    );
+    const event = analyticsMock.track.mock.calls.find(([name]) => name === "ai_chat_message_sent");
+    expect(event).toBeDefined();
+    const metadata = JSON.stringify(event?.[1]);
+    for (const value of [exampleSelection.company, exampleRoleContext.companyLabel, exampleRoleContext.sourceRole]) {
+      expect(metadata.toLowerCase()).not.toContain(value.toLowerCase());
+    }
+  });
+
+  it("aborts an in-flight request when the chat unmounts", async () => {
+    const fetchMock = vi.fn().mockImplementation(() => new Promise<Response>(() => {}));
+    vi.stubGlobal("fetch", fetchMock);
+    const { unmount } = render(<AIChat isOpen onClose={() => {}} />);
+    fireEvent.click(screen.getByRole("button", { name: /What's PAICE/i }));
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    const request = fetchMock.mock.calls[0][1] as RequestInit;
+    unmount();
+    expect(request.signal).toBeInstanceOf(AbortSignal);
+    expect(request.signal?.aborted).toBe(true);
   });
 
   it("labels sample responses when the live endpoint fails", async () => {

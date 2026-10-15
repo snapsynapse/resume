@@ -42,6 +42,7 @@ jobs:
       - name: Run the CI gate on the refreshed snapshot
         if: steps.diff.outputs.changed == 'true'
         run: |
+          npm audit --audit-level=high
           npm run lint
           npm run typecheck
           npm run test

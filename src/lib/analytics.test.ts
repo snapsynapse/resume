@@ -49,4 +49,17 @@ describe("analytics URL sanitizer", () => {
     sanitizeAnalyticsProperties(input);
     expect(input.$current_url).toBe("https://resume.example.com/?for=examplecorp");
   });
+
+  it("removes custom employer and application context while retaining coarse metadata", () => {
+    const sanitized = sanitizeAnalyticsProperties({
+      source: "initial",
+      lengthBucket: "0-499",
+      roleContext: "ExampleCorp - Example Application Role",
+      company: "examplecorp",
+      sourceRole: "Example Application Role",
+    });
+    expect(sanitized.source).toBe("initial");
+    expect(sanitized.lengthBucket).toBe("0-499");
+    expect(JSON.stringify(sanitized)).not.toMatch(/examplecorp|Example Application Role/i);
+  });
 });
