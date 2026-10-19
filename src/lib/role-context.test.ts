@@ -163,17 +163,13 @@ describe("role-context routing", () => {
     expect(context?.promptContext).not.toMatch(/ExampleCorp|Northwind|Remote, US/i);
   });
 
-  it("leads the hero rotation with the applied-for title when an application is active", () => {
+  it("shows only the applied-for title when an application is active", () => {
     const applied = composeRoleContext(
       parseRoleSelection("?target=content-ops&for=examplecorp"),
       companies,
     );
-    expect(applied?.heroTitles?.[0]).toBe("Learning Systems Program Lead");
-    expect(applied?.heroTitles).toEqual(
-      expect.arrayContaining(targetPresets["content-ops"].heroTitles),
-    );
-    // The applied-for title is not duplicated when it already sits in the rotation.
-    expect(applied?.heroTitles?.filter((t) => t === "Learning Systems Program Lead")).toHaveLength(1);
+    // A single title: the hero holds it still instead of rotating durable target titles.
+    expect(applied?.heroTitles).toEqual(["Learning Systems Program Lead"]);
   });
 
   it("keeps the durable hero rotation employer-neutral without an application", () => {

@@ -86,6 +86,20 @@ describe("Hero rotating title", () => {
     expect(screen.getByText("Second Title")).toBeInTheDocument();
   });
 
+  it("holds the applied-for title still when an application link supplies one title", () => {
+    setReducedMotion(false);
+    vi.useFakeTimers();
+    setRoleContext({ heroTitles: ["Applied Role Title"], sourceRole: "Applied Role Title" });
+    render(<Hero onOpenChat={() => {}} />);
+
+    act(() => {
+      vi.advanceTimersByTime(9000);
+    });
+
+    expect(screen.getAllByText("Applied Role Title").length).toBeGreaterThan(0);
+    expect(screen.queryByText("First Title")).not.toBeInTheDocument();
+  });
+
   it("holds on the primary title when prefers-reduced-motion is set", () => {
     setReducedMotion(true);
     vi.useFakeTimers();

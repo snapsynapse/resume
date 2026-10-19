@@ -270,15 +270,12 @@ export function composeRoleContext(
     application?.promptDelta,
   ].filter(Boolean);
 
-  // With an application active, the applied-for title leads the hero rotation so a reviewer
-  // arriving from that posting sees their own role first; the durable target titles follow.
-  // Default and static public surfaces keep using the employer-neutral profile titles.
+  // With an application active, the hero shows only the applied-for title, held still, so a
+  // reviewer arriving from that posting sees the role they are hiring for and nothing else.
+  // A target-only link rotates that target's durable titles. Default and static public
+  // surfaces keep using the employer-neutral profile titles.
   const appliedTitle = application ? application.heroTitle ?? application.sourceRole : undefined;
-  const heroTitles = target
-    ? appliedTitle
-      ? [appliedTitle, ...target.heroTitles.filter((title) => title !== appliedTitle)]
-      : target.heroTitles
-    : undefined;
+  const heroTitles = target ? (appliedTitle ? [appliedTitle] : target.heroTitles) : undefined;
 
   const label =
     company && application

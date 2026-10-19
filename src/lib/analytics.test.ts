@@ -29,7 +29,7 @@ describe("analytics URL sanitizer", () => {
     });
 
     expect(result.$current_url).toBe("https://resume.example.com/");
-    expect(result.$referrer).toBe("https://jobs.example.com/listing");
+    expect(result.$referrer).toBe("https://jobs.example.com");
     expect(result.$pathname).toBe("/");
     expect(result.source).toBe("hero");
     expect(result.$set).toEqual({
@@ -38,10 +38,24 @@ describe("analytics URL sanitizer", () => {
     });
     expect(result.$set_once).toEqual({
       $initial_current_url: "https://resume.example.com/",
-      $initial_referrer: "https://jobs.example.com/",
+      $initial_referrer: "https://jobs.example.com",
     });
     expect(JSON.stringify(result)).not.toContain("examplecorp");
     expect(JSON.stringify(result)).not.toContain("for=");
+  });
+
+  it("reduces referrers to their origin so a job-board path cannot name the employer", () => {
+    const result = sanitizeAnalyticsProperties({
+      $referrer: "https://boards.example.com/examplecorp/jobs/123?gh_src=abc",
+      $initial_referrer: "https://ats.example.com/examplecorp/apply#form",
+      $current_url: "https://resume.example.com/?company=examplecorp&target=content-ops",
+      tailored: true,
+    });
+    expect(result.$referrer).toBe("https://boards.example.com");
+    expect(result.$initial_referrer).toBe("https://ats.example.com");
+    expect(result.$current_url).toBe("https://resume.example.com/");
+    expect(result.tailored).toBe(true);
+    expect(JSON.stringify(result)).not.toContain("examplecorp");
   });
 
   it("does not mutate the input object", () => {

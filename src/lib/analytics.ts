@@ -17,11 +17,12 @@ type AnalyticsEvent =
   | "footer_link_clicked"
   | "nav_section_clicked"
   | "experience_context_toggled"
-  | "ai_usage_dashboard_clicked";
+  | "ai_usage_dashboard_clicked"
+  | "page_viewed";
 
 const EVENT_PROPERTY_KEYS = [
   "source", "lengthBucket", "mode", "status", "verdict", "flagCount", "edited",
-  "block", "fitVerdict", "section", "expanded", "link",
+  "block", "fitVerdict", "section", "expanded", "link", "tailored",
 ] as const;
 const allowedEventProperties = new Set<string>(EVENT_PROPERTY_KEYS);
 type AnalyticsProperties = Partial<Record<(typeof EVENT_PROPERTY_KEYS)[number], string | number | boolean | null>>;
@@ -80,6 +81,19 @@ export const stripUrlParams = (value: unknown): unknown => {
   return cut === -1 ? value : value.slice(0, cut);
 };
 
+// Referrers keep only their origin. A job-board or ATS path often names the employer
+// (for example a board slug before the job id), so the path cannot leave the browser.
+const REFERRER_KEYS = new Set<string>(["$referrer", "$initial_referrer"]);
+
+export const referrerOrigin = (value: unknown): unknown => {
+  if (typeof value !== "string" || value === "" || value === "$direct") return value;
+  try {
+    return new URL(value).origin;
+  } catch {
+    return stripUrlParams(value);
+  }
+};
+
 export const sanitizeAnalyticsProperties = (properties: Properties): Properties => {
   // Custom application properties are allowlisted. In particular, context labels,
   // employer selectors, and submitted text cannot ride alongside coarse metadata.
@@ -88,7 +102,9 @@ export const sanitizeAnalyticsProperties = (properties: Properties): Properties 
     ([name]) => name.startsWith("$") || allowedEventProperties.has(name),
   ));
   for (const key of URL_PROPERTY_KEYS) {
-    if (key in sanitized) sanitized[key] = stripUrlParams(sanitized[key]);
+    if (key in sanitized) {
+      sanitized[key] = REFERRER_KEYS.has(key) ? referrerOrigin(sanitized[key]) : stripUrlParams(sanitized[key]);
+    }
   }
   // `$set` / `$set_once` carry the initial URL and referrer on person properties.
   for (const bucket of ["$set", "$set_once"] as const) {

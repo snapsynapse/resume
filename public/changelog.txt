@@ -6,6 +6,8 @@
 - Added a fourth hero evidence point for current practice: a governed multi-model development method (cross-vendor author and verifier separation, agent permission tiers, mechanical acceptance checks), sourced to the published Facilitator in the Machine write-up.
 - Added confirmed training-delivery evidence: technical-training clients (Silicon Valley Bank, ADP, AAA, StrongLoop, Robert Half / Protiviti), executive and board audiences, train-the-trainer conference work, workshop audience scale, the YouTube digital rights management and Analytics tracks, and learning-analytics practice. Each has an EVIDENCE.md entry with its limits.
 - Replaced the square social preview image with a 1200x630 card carrying name, role line, and URL, and declared its dimensions and alt text.
+- Application links now show only the applied-for title in the hero, held still, instead of leading a rotation of durable target titles. Target-only links and the default page still rotate.
+- Added a cookieless page_viewed event, one per route, with a single tailored yes/no flag. It never records which company or target a link named. Referrers sent with any event are now reduced to their origin, because a job-board path can name the employer.
 
 2026-09-09
 - Extended target/company role-context routing so every application context is a data addition rather than a site rewrite. Each entry carries the source role, requisition metadata, a public-safe location answer, application-specific prompt context, and the evidence boundaries that keep the answer honest.

@@ -177,16 +177,18 @@ For fit assessment:
 - The result updates both the fit panel and Interview Decision Brief sidebar.
 - Editing the JD after analysis clears the tailored sidebar state so stale fit guidance is not reused.
 ## Privacy And Telemetry
-PostHog is used only for minimal monitoring of whether visitors use the interactive resume surfaces. The intent is lightweight interaction telemetry, not behavioral surveillance.
+PostHog is used only for minimal monitoring of whether visitors open the resume and use its interactive surfaces. The intent is lightweight interaction telemetry, not behavioral surveillance.
 The implementation must remain cookieless and should not require a cookie banner or additional tracking disclosure. Keep these constraints:
 - `cookieless_mode: "always"`
 - `autocapture: false`
-- pageview and pageleave capture disabled
+- PostHog's automatic pageview and pageleave capture disabled; a single explicit `page_viewed` event per route replaces it
 - session recording disabled
 - no `identify()` calls
 - no user text, job-description text, chat content, email addresses, names, or other user-supplied content in event properties
 - `respect_dnt: true`
-Current explicit events cover chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, experience-context toggles, and Interview Decision Brief copy actions.
+`page_viewed` carries one custom property, `tailored` (true when the URL held a recognized company or target selector), plus PostHog's path-only URL properties. It never carries the company key, the target key, or the applied-for title, so it shows whether tailored links are being opened, not which employer opened one. Referrers are reduced to their origin, because a job-board or ATS path often names the employer.
+
+Current explicit events cover page views, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, experience-context toggles, and Interview Decision Brief copy actions.
 Chat and fit-assessment text-size events use character-length buckets, not exact lengths. Job-description review events carry only a flag count, a character-length bucket, and an edited boolean. Interview Decision Brief copy events carry only metadata such as block id, mode, and fit verdict. They never include copied text, scanned text, flagged terms, placeholders, JD content, or any company, client, employee, or project names.
 ## Security And Compliance Posture
 This is a public resume site, not an enterprise system. The security posture is therefore scoped to public web endpoints, user-submitted text risk, model-boundary risk, and claim integrity.

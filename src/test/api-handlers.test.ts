@@ -693,8 +693,7 @@ describe("/api/role-context", () => {
       locationContext: "Remote, US",
       selection: { target: "content-ops", company: "examplecorp" },
     });
-    expect(body.heroTitles[0]).toBe("Learning Systems Program Lead");
-    expect(body.heroTitles.length).toBeGreaterThan(1);
+    expect(body.heroTitles).toEqual(["Learning Systems Program Lead"]);
     expect(body.suggestedQuestions.length).toBeGreaterThan(0);
     expect(body).not.toHaveProperty("promptContext");
     expect(JSON.stringify(body)).not.toMatch(/operations spine|Do not disclose/);
