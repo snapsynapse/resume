@@ -35,7 +35,7 @@ For the full repo-level audience strategy, see [INTENT.md](INTENT.md).
 The homepage is the primary interactive evidence experience for this downstream artifact. It is visual and optimized for human triage after the two-page resume introduces the candidacy. It also includes no-JS fallback content and generated static crawl pages so LLMs, search crawlers, link unfurlers, and agentic tools can still read core facts without executing React.
 This is intentional. Recruiters and hiring teams should not need special tooling, but automated systems should also receive bounded, accurate context rather than scraped fragments.
 ### Copy workflow before novelty
-The Interview Decision Brief sidebar exists because recruiters often need to copy short blocks into ATS notes, Slack threads, hiring-manager summaries, and interview packets. It is pinned on desktop and tablet where copy-paste workflows are realistic, hidden on mobile, expanded by default, and remembered locally.
+The Interview Decision Brief sidebar exists because recruiters often need to copy short blocks into ATS notes, Slack threads, hiring-manager summaries, and interview packets. It is pinned at desktop widths (1024px and up) where copy-paste workflows are realistic, opens as a bottom-sheet dialog from the header menu on smaller screens, is expanded by default, and is remembered locally.
 The sidebar does not include contact or booking actions. Its job is evidence transfer, not conversion. It gives recruiters and hiring managers reusable language while preserving the main resume as the source of context.
 ### Honest fit before persuasion
 The fit assessment is deliberately framed as an assessment, not a sales funnel. It can return strong, moderate, or weak fit, names gaps, and distinguishes transferable evidence from missing experience.
@@ -46,7 +46,7 @@ The chat system prompt includes a `recruiterFAQ` block in `src/data/sam-profile.
 This block is still sent to a cloud LLM as part of every chat request. The baseline assumption is that anything fed to a cloud-based LLM should be treated as potentially disclosable, not as a private channel. The "ask-on-direct-question" gating is a behavioral instruction, not a transport boundary.
 
 The rule for what belongs in the private FAQ is therefore not "is it currently hidden from the homepage" but "would it be acceptable if it were disclosed." Concrete examples already in the file:
-- Regions appear ("SF Bay Area and Salt Lake City, on-site available"). Residential address, ZIP, and precise city do not appear. Precise-address questions route to a direct call, framed as privacy hygiene rather than evasion. This avoids asserting a precise location on a public LLM surface where false precision would be worse than honest deferral.
+- Regions appear ("On-site available in the SF Bay Area and Salt Lake City"; the public location line says Silicon Slopes). Residential address, ZIP, and precise city do not appear. Precise-address questions route to a direct call, framed as privacy hygiene rather than evasion. This avoids asserting a precise location on a public LLM surface where false precision would be worse than honest deferral.
 - Personal phone does not appear. Disclosure cost is higher and the resume already exposes a personal email contact.
 - A qualitative target band (head-of-function, senior lead, builder/operator, and in-band role types for analyzer calibration) appears. Specific compensation numbers do not, because financial detail belongs on a human-to-human call rather than in a system prompt.
 - altMBA, Capital One, and similar career-shape items appear with explicit "disclose only on direct ask" instructions. Disclosure cost is low, but proactively surfacing them weakens the head-of-function, senior lead, and builder/operator positioning, so the gating is editorial, not protective.
@@ -73,13 +73,13 @@ The default public resume is employer-neutral. A tailored application link selec
 ```
 `target` owns the positioning wedge and lives in this repository (`ai-education`, `content-ops`, `ai-transformation`, `ai-enablement`, `ai-ecosystems` in [src/lib/role-context.ts](src/lib/role-context.ts)). `company` names the employer the link was written for. `for` is accepted as an alias of `company` (it reads naturally in a shared link), and `role` as an alias of `target`, so older shared links keep resolving. Context is chosen only by the link the reader clicked; referrer-based detection has been removed, and a job family is never inferred from a `company` key alone.
 
-Statement of intent: context parameters select positioning for the reader. They are not identifiers. They are not logged by this app, not sent to analytics (the PostHog client strips the query string from `$current_url` before any event leaves the browser), and not persisted anywhere. When a tailored view is active, the hero shows the notice "Tailored view for {label} reviewers. Nothing about this link is stored or tracked." with a "View the neutral version" link, so the neutral resume is always one click away.
+Statement of intent: context parameters select positioning for the reader. They are not identifiers. They are not logged by this app and not persisted anywhere. Their values are not sent to analytics: the PostHog client strips the query string from `$current_url` before any event leaves the browser, and the only related signal is the `tailored` boolean on `page_viewed`. When a tailored view is active, the hero shows the notice "Tailored view for {label} reviewers. The company and role this link names are never stored or sent to analytics." with a "View the neutral version" link, so the neutral resume is always one click away.
 
 What the repository carries versus what it does not:
 - The mechanism is public: the parser, the target presets, the `/api/role-context` endpoint, the hero notice, the schema, the validator, and the tests.
-- The list of employers Sam has applied to is not. Application entries (employer label, applied-for title, requisition id, posting URL, location answer, prompt delta, suggested questions) live in a private JSON that is never committed. The repository holds only a fake fixture at [src/test/fixtures/role-context-presets.json](src/test/fixtures/role-context-presets.json) with two invented companies so the mechanism is tested end to end.
+- The list of employers Sam has applied to is not. Application entries (employer label, applied-for title, optional shorter hero title, requisition id, posting URL, location answer, prompt delta, suggested questions) live in a private JSON that is never committed. The repository holds only a fake fixture at [src/test/fixtures/role-context-presets.json](src/test/fixtures/role-context-presets.json) with two invented companies so the mechanism is tested end to end.
 
-`GET /api/role-context?company=<key>&target=<target>` returns the public-safe subset of an application entry: label, hero titles, suggested questions, source role, and location context. The prompt delta never leaves the server; it is applied only inside `/api/chat`. An unknown `company` key returns exactly what a typo returns: target-only context with HTTP 200. So the mechanism is visible while the set of real keys is not enumerable from the endpoint.
+`GET /api/role-context?company=<key>&target=<target>` returns the public-safe role context: the parsed selection, label, target and company labels, hero titles (only the applied-for title when an application matches), status, suggested questions, source role, and location context. The prompt delta, requisition id, and posting URL never reach the browser; the prompt delta is applied only inside `/api/chat`, where it is sent to the cloud LLM. An unknown `company` key returns exactly what a typo returns: target-only context with HTTP 200. So the mechanism is visible while the set of real keys is not enumerable from the endpoint.
 
 The private store is loaded server-side from one of two environment variables, never `VITE_`-prefixed, and never read at build time:
 - `ROLE_CONTEXT_PRESETS`: the raw JSON string. Production uses this.
@@ -106,13 +106,13 @@ Customize
 ```sh
 node scripts/role-context-presets.mjs env PRESETS_PATH | pbcopy
 ```
-To update it later, rerun the same command, edit the variable in the dashboard, and paste over the old value. With the Vercel CLI installed the same stdout can be piped into `vercel env add ROLE_CONTEXT_PRESETS production` instead of the dashboard.
+To update it later, rerun the same command, edit the variable in the dashboard, and paste over the old value. Do not pipe the output into `vercel env add`: a piped large value was truncated once. For a CLI update, send a complete JSON file body with `vercel api` (PATCH, `--input`); CLAUDE.md records the procedure.
 
 A new production deployment picks up the new value; running functions keep the value they started with, so redeploy after changing it.
 
 Adding a new application therefore means editing the private JSON, validating it, and pushing the environment variable. Only a new durable `target` is a repository change. See INTENT.md's "Target Preset Checklist" and [docs/ROLE_CONTEXT_INTAKE.md](docs/ROLE_CONTEXT_INTAKE.md).
 
-Two tests hold the line. `src/test/public-surfaces.test.ts` asserts that `src/lib/role-context.ts` exports no company preset content and derives neutral-surface checks from the fake fixture. `src/test/pii-scan.test.ts` carries SHA-256 digests of pursued employer labels and applied-for role titles, so CI fails reveal-resistantly if any tracked file names one; see SECURITY.md.
+Two tests hold the line. `src/test/public-surfaces.test.ts` asserts that `src/lib/role-context.ts` exports no company preset content and derives neutral-surface checks from the fake fixture. `src/test/pii-scan.test.ts` carries SHA-256 digests of pursued employer labels and applied-for role titles, so CI fails reveal-resistantly if any scanned file names one. The scan covers source, public artifacts, scripts, workflows, and the project docs; see `SCAN_ROOTS` in that file and SECURITY.md.
 ## What Was Used And Why
 - Vite: fast static frontend build with predictable output.
 - React: interactive resume surfaces, fit workflow, AI chat, and copy-ready sidebar.
@@ -124,12 +124,12 @@ Two tests hold the line. `src/test/public-surfaces.test.ts` asserts that `src/li
 - Upstash Redis: optional public-endpoint rate limiting with production fail-closed behavior.
 - PostHog: optional cookieless interaction analytics with autocapture disabled.
 - Vitest and Testing Library: unit, integration, public-surface, API-handler, and prompt-boundary test coverage.
-- Lovable: initial scaffold. The first commits in `git log` are the Lovable/gpt-engineer bot; the 52 commits since are the substantive build, including the API layer, prompt boundaries, evals, and every governance surface described in this README.
+- Lovable: initial scaffold. The first commits in `git log` are the Lovable/gpt-engineer bot; every commit since is the substantive build, including the API layer, prompt boundaries, evals, and every governance surface described in this README.
 The stack is intentionally ordinary. The point is not to hide behind an exotic architecture. The point is to make the AI-enabled parts easy to inspect, constrain, test, and replace.
 ## Architecture
 The app has four main surfaces:
 - Human resume: React-rendered homepage with hero, evidence, work history, fit assessment, booking/contact path, and AI chat.
-- Interview Decision Brief: desktop/tablet sidebar with recruiter and hiring-manager copy blocks, locally remembered state, and fit-result-aware updates.
+- Interview Decision Brief: desktop sidebar (bottom-sheet dialog on smaller screens) with recruiter and hiring-manager copy blocks, locally remembered state, and fit-result-aware updates.
 - API layer: `/api/chat` and `/api/analyze-fit`, both using the configured cloud LLM provider, rate limits, no-store responses, prompt boundaries, and `/api/limits` discovery. `/api/role-context` is a read-only lookup that returns the public-safe part of a tailored application context.
 - Machine-readable artifacts: static crawl pages and public text/JSON resources for agents, LLMs, search systems, and scanners.
 Profile content is centralized in `src/data/sam-profile.ts` so the interactive app, static crawl pages, AI prompts, and machine-readable files stay aligned.
@@ -142,6 +142,7 @@ Graceful Boundaries is implemented across the public API surface:
 - `/api/chat`
 - `/api/analyze-fit`
 - `/api/limits`
+- `/api/role-context`
 Non-success API responses include `error`, `detail`, and `why`. HTTP 429 responses also include `limit` and `retryAfterSeconds`. `/api/limits` provides machine-readable discovery for enforced limits and production fail-closed behavior.
 GuideCheck is implemented through `/.well-known/assistant-guide.txt`. The guide is ASCII-only, compact, and written for human verification before agent execution. It defines scope, trust boundaries, approval gates, prohibited behavior, evidence rules, sensitive job-description handling, API usage, and explicit action blocks for candidate-fit review workflows.
 ## Validated Lighthouse Baseline
@@ -186,16 +187,16 @@ The implementation must remain cookieless and should not require a cookie banner
 - no `identify()` calls
 - no user text, job-description text, chat content, email addresses, names, or other user-supplied content in event properties
 - `respect_dnt: true`
-`page_viewed` carries one custom property, `tailored` (true when the URL held a recognized company or target selector), plus PostHog's path-only URL properties. It never carries the company key, the target key, or the applied-for title, so it shows whether tailored links are being opened, not which employer opened one. Referrers are reduced to their origin, because a job-board or ATS path often names the employer.
+`page_viewed` carries one custom property, `tailored` (true when the URL held a recognized target or a well-formed company selector), plus PostHog's path-only URL properties. It never carries the company key, the target key, or the applied-for title, so it shows whether tailored links are being opened, not which employer opened one. Referrers are reduced to their origin, because a job-board or ATS path often names the employer.
 
-Current explicit events cover page views, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, experience-context toggles, and Interview Decision Brief copy actions.
+Current explicit events cover page views, chat opens, chat message send/response outcomes, fit-assessment starts/completions/failures, job-description review panel opened/skipped/completed, booking clicks, email clicks, footer link clicks, section navigation clicks, experience-context toggles, AI usage dashboard clicks, and Interview Decision Brief copy actions.
 Chat and fit-assessment text-size events use character-length buckets, not exact lengths. Job-description review events carry only a flag count, a character-length bucket, and an edited boolean. Interview Decision Brief copy events carry only metadata such as block id, mode, and fit verdict. They never include copied text, scanned text, flagged terms, placeholders, JD content, or any company, client, employee, or project names.
 ## Security And Compliance Posture
 This is a public resume site, not an enterprise system. The security posture is therefore scoped to public web endpoints, user-submitted text risk, model-boundary risk, and claim integrity.
 Controls include:
 - CSP, `nosniff`, referrer policy, permissions policy, and frame-ancestor restrictions in `vercel.json`.
 - `Cache-Control: no-store` on API responses.
-- API rate limiting with burst and sustained windows.
+- API rate limiting: burst and sustained windows on chat, a sustained window on fit analysis.
 - Production fail-closed behavior when rate limiting is not configured.
 - Structured fit-analysis schema with bounded verdict values.
 - Prompt-boundary tests for private information, false credentials, sensitive job material, production-infrastructure overclaiming, role-positioning drift, and JD prompt injection.
@@ -281,11 +282,16 @@ To debug a configured build in-browser, append `?analytics_debug=1` and watch th
 - `npm run eval:prompts`: live prompt-boundary checks for configured deployments; set `EVAL_BASE_URL` to a Vercel/dev URL with `ANTHROPIC_API_KEY`
 - `npm run smoke:api`: live liveness and response-shape checks for `/api/chat` and `/api/analyze-fit`; set `EVAL_BASE_URL` as above. Both skip cleanly when no endpoint is reachable.
 - `npm run presets:validate -- PRESETS_PATH`: schema-check the private role-context presets JSON at that path; errors name the JSON path, never the value
-- `npm run presets:env -- PRESETS_PATH`: print that file as minified JSON on stdout for `vercel env add`
-The `.github/workflows/eval-live.yml` workflow runs `smoke:api` and `eval:prompts` automatically against each successful Vercel production deployment, via the `deployment_status` event the Vercel GitHub integration emits. Preview deployments are skipped because Vercel Deployment Protection answers their requests with 401, leaving the API unreachable without a bypass secret.
+- `npm run presets:env -- PRESETS_PATH`: print that file as minified JSON on stdout, for the dashboard or a `vercel api` file body
+- `npm run eval:audit`: offline audit-regression checks (also part of the full test suite)
+- `npm run eval:recruiter`: live recruiter-scenario evals; model-backed and currently held
+- `npm run refresh:ai-usage`: regenerate the AI usage snapshot from the published dashboard (network; run weekly by a workflow)
+The `.github/workflows/eval-live.yml` workflow is configured to run `smoke:api` and `eval:prompts` against each successful Vercel production deployment. It has been disabled manually since the 2026-10-14 delivery while model-backed verification is held. When enabled, it triggers on the `deployment_status` event the Vercel GitHub integration emits. Preview deployments are skipped because Vercel Deployment Protection answers their requests with 401, leaving the API unreachable without a bypass secret.
 Local note: `npm run dev` starts Vite and serves the frontend only. Use `vercel dev` or a deployed URL for `/api/chat`, `/api/analyze-fit`, `npm run smoke:api`, and `npm run eval:prompts`.
 ## Deployment
 This repo is configured for Vercel. `vercel.json` rewrites API routes to `/api/:path*`; generated static route files serve the public crawl pages, and unknown paths retain Vercel's real 404 response instead of falling back to the SPA entrypoint. Security headers are declared there so reviewers can inspect the deployed posture from source.
+
+A push to `main` deploys Production through the Vercel Git integration before CI runs. Releases therefore go through a `release/*` pull request; once CI passes, `main` is fast-forwarded to the same commit.
 
 Before delivery review, assess the local candidate for https://resume.sam-rogers.com/ with Siteline. Retain the timestamp, scanner and rubric versions, grade, score, findings, and commit; for a persisted API result, also retain its result ID and confirmed storage location. Reconcile each finding against source and intended behavior; do not add irrelevant surfaces merely to improve a grade. A local candidate-engine diagnostic is not a persisted Siteline API result or live acceptance. After an authorized deployment, verify the deployed bytes and scan the live canonical site before recording acceptance.
 ## Review Pointers

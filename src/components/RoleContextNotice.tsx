@@ -19,7 +19,7 @@ const RoleContextNotice = ({ roleContext, className }: RoleContextNoticeProps) =
       className={["text-sm text-muted-foreground", className].filter(Boolean).join(" ")}
     >
       <p>
-        Tailored view for {audience} reviewers. Nothing about this link is stored or tracked.{" "}
+        Tailored view for {audience} reviewers. The company and role this link names are never stored or sent to analytics.{" "}
         <a
           href={neutralHref()}
           className="underline underline-offset-4 decoration-border hover:text-foreground hover:decoration-foreground transition-colors"

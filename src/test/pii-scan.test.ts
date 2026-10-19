@@ -35,6 +35,10 @@ const SCAN_ROOTS = [
   "EVIDENCE.md",
   "ROADMAP.md",
   "INTENT.md",
+  "CLAUDE.md",
+  "PROJECT_CONTEXT.md",
+  "docs",
+  "ops",
   ".github",
 ];
 

@@ -24,7 +24,7 @@ This is repository-scoped policy for the `https://resume.sam-rogers.com/` Google
 
 ## Structured data
 
-Every canonical page requires a `ProfilePage` node whose `mainEntity` identifies `https://resume.sam-rogers.com/#sam-rogers`. `scripts/validate-metadata.mjs` checks the generated pages and fails if the global Vercel SPA rewrite would turn unknown routes into HTTP 200 responses.
+Every canonical page should carry a `ProfilePage` node whose `mainEntity` identifies `https://resume.sam-rogers.com/#sam-rogers`. `scripts/validate-metadata.mjs` checks that any `ProfilePage` node it finds identifies that entity (it does not yet fail when a page has none), and fails if the global Vercel SPA rewrite would turn unknown routes into HTTP 200 responses.
 
 ## Validation lanes
 

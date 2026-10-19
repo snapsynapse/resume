@@ -75,15 +75,19 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
 - Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.
 - Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.
+- Created initial technical training programs for StrongLoop supporting developer platform adoption.
 - Delivered technical training for clients including Silicon Valley Bank, ADP, AAA, StrongLoop, and Robert Half / Protiviti, much of it compliance-driven work in financial settings, using virtual instructor-led delivery and virtual lab environments. Trained and briefed executives at AAA and ADP.
 - Most conference work for ATD, Training Magazine, the eLearning Guild, and similar associations has been train-the-trainer. Facilitates workshops for audiences of hundreds, and thousands on occasion.
 - Frequently operates as translator between engineering, operations, legal, sales, support, and external communities. In Sam's words: "I dive in the deep end of the pool with the technical folks, and translate to everyone else."
+- End-to-end video production at scale: pre-production through studio direction (including directing SMEs on camera at Google HQ), post-production, distribution, and digital rights management. Produced and co-hosted a daily livestream show for years.
+- Published frameworks: SNAP Methodology, Engineering Trust series, Signals & Subtractions (weekly field notes on AI adoption and L&D transformation).
+- Operates a governed multi-model development practice: cross-vendor author/verifier separation, server-boundary permission tiers for agents, and mechanical acceptance checks stated before work (https://sam-rogers.com/facilitator-in-the-machine).
 
 ### Convatec - Global Learning Technology and Analytics Manager, 2020-2022
 
 - Personally selected and hired two direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.
 - Configured Axonify from the ground up in 2021 and administered its interface-exposed AI/ML controls. A 200-person Portugal pilot exceeded 80 percent adoption in 30 days, followed by rollout to four countries. This was not an LLM rollout.
-- Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history: designated accountability, structured controls, evidence the auditor can verify.
+- Architected and led the international DMS-to-LMS integration that produced the 2022 compliance audit, the cleanest in company history: designated accountability, structured controls, evidence the auditor can verify.
 - Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months by treating it as a perception, infrastructure, and leadership-narrative problem before a curriculum problem.
 - Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
 - Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers, paired with a compensation-structure rollout.
@@ -96,7 +100,7 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 
 Sam meters his own AI usage across every provider and tool he works with and publishes the record with its methodology at https://sam-rogers.com/ai-usage/.
 
-The record covers 13 providers and tools since 2023: Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, and Snapdev. Headline figures are floor values with an explicit as-of date. They are carried on this site's static pages from a scheduled snapshot committed to the public repository, so the figure a reviewer sees and the date it was true are always paired and traceable in git history.
+The record covers multiple providers and tools since 2023, including Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, Snapdev, and TypeSafe API. Headline figures are floor values with an explicit as-of date. They are carried on this site's static pages from a scheduled snapshot committed to the public repository, so the figure a reviewer sees and the date it was true are always paired and traceable in git history.
 
 Method matters more than the total. The dashboard is published as a recovered record, not a complete history: missing accounts, devices, and logs are labeled unknown rather than counted as zero, and provenance is evidence-labeled conservatively. The companion write-up at https://sam-rogers.com/counting-what-i-delegated-to-ai documents the recovery errors that were caught (double counting, unknown-versus-empty, day-boundary duplicates) and how. Read it as cost-governance, observability, and provenance discipline demonstrated on Sam's own operation, not as a productivity or output-quality claim.
 

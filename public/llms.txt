@@ -48,7 +48,7 @@ Learning and Development, Instructional Design, Curriculum Development, Content 
 
 ## Strong evidence
 
-- Configured and administered Axonify's interface-exposed AI/ML controls in 2021. A 200-person Portugal pilot exceeded 80% adoption in 30 days, followed by a four-country rollout at Convatec. This was not an LLM rollout. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.
+- Configured and administered Axonify's interface-exposed AI/ML controls in 2021. A 200-person Portugal pilot exceeded 80% adoption in 30 days, followed by a four-country rollout at Convatec. This was not an LLM rollout. Architected and led the international DMS-to-LMS integration that produced the 2022 compliance audit, the cleanest in company history.
 - Personally selected and hired two Convatec direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews. Formal line-management scale is two.
 - Built the YouTube Certified Online Training Program at Google, replacing a classroom certification model (~1,000 partners/year) with a scalable online program (~10,000 in year one). 10x scaling at lower marginal cost across video, assessment, curriculum, and LMS delivery.
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
@@ -56,9 +56,11 @@ Learning and Development, Instructional Design, Curriculum Development, Content 
 - Streamlined Convatec content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
 - Built PAICE.work, AI Posture, Siteline, Every AI Law, and related open standards for human-AI collaboration, regulation, and agent-readiness.
 - Shipped Harnessie as repeatable AI workflow quality control with verification gates and a tamper-evident audit trail.
+- Operates a governed multi-model development practice: cross-vendor author/verifier separation, server-boundary permission tiers for agents, and mechanical acceptance checks stated before work. Method write-up: https://sam-rogers.com/facilitator-in-the-machine
+- Delivered technical training for clients including Silicon Valley Bank, ADP, AAA, StrongLoop, and Robert Half / Protiviti; most conference work for ATD, Training Magazine, and the eLearning Guild has been train-the-trainer, with workshops for audiences of hundreds and sometimes thousands. Trained and briefed senior leadership and board members at Convatec.
 - Co-authored the public 2023 Chat Souffle LLM learning workflow, contributing workflow logic, raw-data reporting and analysis, and evidence-led refinement without repository access or direct code commits.
 - Productized agent-readiness consulting into Siteline while preserving higher-judgment advisory work for institutional assessment paths. PAICE commercial packaging is implemented, but significant paying customers and realized product revenue are not established.
-- Meters and publishes his own multi-provider AI token usage at https://sam-rogers.com/ai-usage/ across 13 providers and tools since 2023. Published as a recovered record rather than a complete history, with unknown sources labeled rather than counted as zero. Cost-governance, observability, and provenance evidence. Headline figures are floor values with an explicit as-of date, refreshed from a scheduled snapshot and shown on this site's static pages; do not present them as live. Methodology write-up: https://sam-rogers.com/counting-what-i-delegated-to-ai
+- Meters and publishes his own multi-provider AI token usage at https://sam-rogers.com/ai-usage/ across multiple providers and tools since 2023. Published as a recovered record rather than a complete history, with unknown sources labeled rather than counted as zero. Cost-governance, observability, and provenance evidence. Headline figures are floor values with an explicit as-of date, refreshed from a scheduled snapshot and shown on this site's static pages; do not present them as live. Methodology write-up: https://sam-rogers.com/counting-what-i-delegated-to-ai
 
 ## Portfolio surfaces
 

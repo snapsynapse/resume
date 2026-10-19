@@ -7,7 +7,7 @@ const limits = {
   conformance: {
     standard: "Graceful Boundaries",
     level: 2,
-    scope: "Public resume API endpoints.",
+    scope: "Rate-limited public resume API endpoints. /api/role-context is a read-only GET lookup without a rate limit.",
   },
   endpoints: [
     {

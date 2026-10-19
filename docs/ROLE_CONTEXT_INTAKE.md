@@ -26,8 +26,8 @@ Only these bounded outputs may move into public sources:
 
 The interview produces two kinds of output, and they have different homes:
 
-- Durable target material (a new `target`, a changed public claim, a named gap) is a repository change: `src/lib/role-context.ts`, `src/data/sam-profile.ts`, `EVIDENCE.md`, and the public-surface tests.
-- The application entry itself (employer label, applied-for title, requisition id, posting URL, public-safe location answer, prompt delta, suggested questions) is written to the private presets JSON outside the repository, keyed by the `for` value the tailored link will carry. Validate it with `npm run presets:validate -- PRESETS_PATH`, then push it to Vercel with the commands in README "Target and company routing". It is never committed, and no tracked file may name the employer or the title; the PII scan carries hashes of both and fails CI if one appears.
+- Durable target material (a new `target`, a changed public claim, a named gap) is a repository change: `src/lib/role-context.ts`, `src/data/sam-profile.ts`, the mirrored `TARGET_KEYS` in `scripts/role-context-presets.mjs`, `EVIDENCE.md`, and the public-surface tests.
+- The application entry itself (employer label, applied-for title, optional shorter `heroTitle` shown alone in the hero, requisition id, posting URL, public-safe location answer, prompt delta, suggested questions) is written to the private presets JSON outside the repository, keyed by the `company` key (`for` alias) the tailored link will carry. Validate it with `npm run presets:validate -- PRESETS_PATH`, then push it to Vercel with the commands in README "Target and company routing". It is never committed, and no tracked file may name the employer or the title; the PII scan carries hashes of both and fails CI if one appears.
 - Employer-specific prompt evals, if any, are supplied to `scripts/eval-prompts.mjs` through the `EVAL_ROLE_CONTEXT_CASES` environment variable rather than added to the file.
 
 ## Interview rules

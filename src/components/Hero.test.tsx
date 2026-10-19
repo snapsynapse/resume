@@ -113,7 +113,7 @@ describe("Hero rotating title", () => {
     expect(screen.queryByText("Third Title")).not.toBeInTheDocument();
   });
 
-  it("shows the stable positioning promise and three compact evidence points", () => {
+  it("shows the stable positioning promise and four compact evidence points", () => {
     setReducedMotion(true);
     render(<Hero onOpenChat={() => {}} />);
 
@@ -135,7 +135,7 @@ describe("Hero rotating title", () => {
 
     const notice = screen.getByRole("complementary", { name: "Page context" });
     expect(notice).toHaveTextContent(
-      "Tailored view for ExampleCorp reviewers. Nothing about this link is stored or tracked.",
+      "Tailored view for ExampleCorp reviewers. The company and role this link names are never stored or sent to analytics.",
     );
     expect(screen.getByRole("link", { name: "View the neutral version" })).toHaveAttribute("href", "/");
   });

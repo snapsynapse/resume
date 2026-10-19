@@ -80,7 +80,6 @@ export const samProfile = {
         "Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.",
         "Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.",
         "Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.",
-        "Retained as a subject matter expert by counsel in matters involving YouTube platform mechanics and training content. Engaged on both plaintiff-side and defense-side mandates across separate cases.",
         "Created initial technical training programs for StrongLoop supporting developer platform adoption.",
         "Delivered technical training for clients including Silicon Valley Bank, ADP, AAA, StrongLoop, and Robert Half / Protiviti, much of it compliance-driven work in financial settings, using virtual instructor-led delivery and virtual lab environments. Trained and briefed executives at AAA and ADP.",
         "Most conference work for ATD, Training Magazine, the eLearning Guild, and similar associations has been train-the-trainer. Facilitates workshops for audiences of hundreds, and thousands on occasion.",
@@ -112,7 +111,7 @@ export const samProfile = {
         "Built learning analytics reports and dashboards in Power BI, Tableau, and Excel. Treats CSAT as a starting signal and pairs it with measures of what changed.",
         "Raised Innovation and Learning Organizational Health Index (OHI) score from 48 to 74 in 18 months, exceeding business target.",
         "Configured Axonify from the ground up in 2021 and administered its interface-exposed AI/ML controls. A 200-person Portugal pilot reached more than 80% adoption in 30 days, followed by rollout to global shared services across four countries. This was not an LLM rollout.",
-        "Streamlined content offerings by 90% while increasing utilization; improved delivery speed by 40%. Architected and led international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
+        "Streamlined content offerings by 90% while increasing utilization; improved delivery speed by 40%. Architected and led international DMS-to-LMS integration that produced the 2022 compliance audit, the cleanest in company history.",
       ],
       aiContext: {
         situation:
@@ -120,7 +119,7 @@ export const samProfile = {
         approach:
           "Two parallel moves. On AI deployment: launch the AI-based training platform with shared-services first because they had the highest-density adoption surface, instrument it for measurable behavior change, and treat workforce readiness as the gating constraint rather than the model's capability. On OHI: most people in a Global Learning Technology role read a low OHI score and conclude they need to ship more learning content. A 48 score does not mean people are under-trained. It means the organization does not experience itself as a place where learning happens — a perception, infrastructure, and leadership-narrative problem before it is a curriculum problem.",
         technicalWork:
-          "Axonify AI/ML platform: more than 80% adoption in 30 days in a 200-person Portugal pilot, followed by rollout to four countries — the kind of result regulated employers can verify in their own data. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed. Architected and led the international DMS-to-LMS integration that produced the cleanest compliance audit in company history.",
+          "Axonify AI/ML platform: more than 80% adoption in 30 days in a 200-person Portugal pilot, followed by rollout to four countries — the kind of result regulated employers can verify in their own data. Streamlined the content catalog by 90% to reduce decision fatigue. Drove delivery speed up 40% so leaders got capability within a planning cycle. Tied KPI frameworks to compliance risk and organizational performance, not learning hours consumed. Architected and led the international DMS-to-LMS integration that produced the 2022 compliance audit, the cleanest in company history.",
         lessonsLearned:
           "OHI scores are leading indicators of cultural change, not lagging indicators of training volume. AI adoption at scale lives in the same place: the gating constraint is workforce readiness and governance infrastructure, not model capability. The L&D function that does not understand the difference cannot move the score, and the AI program that does not understand the difference cannot move adoption.",
       },
@@ -180,7 +179,7 @@ export const samProfile = {
     totalTokensShort: aiUsageSnapshot.totalTokensShort,
     sourceCount: aiUsageSnapshot.sourceCount,
     sources:
-      "Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, and Snapdev",
+      "Anthropic (API, chat, Claude Code, Cowork, Design), OpenAI (ChatGPT, API, Codex), Perplexity API, local models (Qwen, Gemma), Kilo, Snapdev, and TypeSafe API",
     dateRange: `${aiUsageSnapshot.firstDate} through ${aiUsageSnapshot.asOf}`,
     fidelity:
       `${aiUsageSnapshot.exactTokens} tokens exact-metered and ${aiUsageSnapshot.estimatedTokens} estimated, roughly ${aiUsageSnapshot.percentExact} percent exact`,
@@ -213,7 +212,7 @@ export const samProfile = {
   // harmful if it ended up disclosed. The block is gated to "ask-on-direct-question" via prompt
   // instructions, not by transport — treat it as semi-public, not private.
   // Concrete examples of the rule in practice:
-  // - Region appears ("SF Bay Area"). Residential address, ZIP, and precise city do NOT appear —
+  // - Regions appear ("SF Bay Area", "Salt Lake City"; the location line says Silicon Slopes). Residential address, ZIP, and precise city do NOT appear —
   //   precise-address questions route to a direct call, framed as privacy hygiene not evasion.
   // - Personal phone does NOT appear (higher-harm contact channel; email-only on the resume).
   // - Qualitative target band (head-of-function, senior lead, builder/operator role types) appears.
@@ -230,6 +229,10 @@ export const samProfile = {
     {
       q: "Is Sam open to fully on-site? Would he relocate?",
       a: "Remote or hybrid is preferred. Fully on-site work is available in the SF Bay Area and Salt Lake City. Relocation elsewhere depends on the particular role and requires direct confirmation from Sam.",
+    },
+    {
+      q: "Has Sam served as an expert witness?",
+      a: "Yes, in the past. Sam served as a retained expert witness in three litigation matters, two for the party bringing the case and one for the defense, breaking down technical topics in global monetization so legal counsel could build stronger arguments and judges could weigh the testimony. It is not a current service line. Platform names, parties, and case details are not shared. Surface this only when the visitor asks directly about expert witness, litigation, testimony, or explaining technical topics to legal or non-specialist decision makers; never volunteer it.",
     },
     {
       q: "Is Sam open to contract or consulting engagements?",

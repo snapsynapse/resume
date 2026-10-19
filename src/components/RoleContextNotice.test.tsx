@@ -24,7 +24,7 @@ describe("RoleContextNotice", () => {
 
     const aside = screen.getByRole("complementary", { name: "Page context" });
     expect(aside).toHaveTextContent(
-      "Tailored view for ExampleCorp reviewers. Nothing about this link is stored or tracked.",
+      "Tailored view for ExampleCorp reviewers. The company and role this link names are never stored or sent to analytics.",
     );
     const link = screen.getByRole("link", { name: "View the neutral version" });
     expect(link).toHaveAttribute("href", "/");

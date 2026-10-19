@@ -35,7 +35,7 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 - Model selection is explicit through provider configuration. The current Anthropic implementation uses `ANTHROPIC_MODEL`, defaulting to `claude-opus-4-8`.
 - API keys are server-side only and must never use a `VITE_` prefix.
 - Request bodies are bounded by character limits before upstream model calls.
-- Chat history is capped at 20 turns.
+- Chat history is capped at 20 messages per request.
 - Rate limiting uses Upstash Redis when configured.
 - Production fails closed with HTTP 503 if Upstash rate-limit configuration is missing.
 - Non-success API responses follow [Graceful Boundaries](https://gracefulboundaries.dev/) Level 2. They include `error`, `detail`, and `why`; 429 responses also include `limit` and `retryAfterSeconds`; `/api/limits` publishes discovery metadata.
@@ -47,7 +47,7 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 - Custom analytics properties are allowlisted centrally; contextual labels and employer selections are omitted before capture.
 - Both POST handlers require a non-null object before field access. Fit results are validated against a shared runtime shape before API success and client rendering.
 - Chat cancellation propagates from browser unmount through response disconnection to the provider stream. Normal POST completion does not cancel a healthy response.
-- PII and compensation exposure is mechanically gated by [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts), which scans committed repository content for personal phone shapes, SSN shapes, DOB shapes, dollar-amount figures, compensation-range notations, and a hash-based blocklist of candidate-specific residential and contact literals, pursued employer labels, and applied-for role titles.
+- PII and compensation exposure is mechanically gated by [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts), which scans the source, public artifacts, scripts, workflows, and project docs listed in its `SCAN_ROOTS` for personal phone shapes, SSN shapes, DOB shapes, dollar-amount figures, compensation-range notations, and a hash-based blocklist of candidate-specific residential and contact literals, pursued employer labels, and applied-for role titles.
 - Employer application presets are server-side only (`ROLE_CONTEXT_PRESETS` or `ROLE_CONTEXT_PRESETS_FILE`, never `VITE_`-prefixed) and never committed. The repository carries only a fake fixture.
 
 ## Role context data flow
@@ -55,8 +55,8 @@ The scanner ([src/lib/jd-review.ts](src/lib/jd-review.ts)) is deterministic and 
 A tailored link carries `?company=<key>&target=<target>`. What happens to those two values:
 
 - Browser: the client reads them from the URL and calls `GET /api/role-context` with the same two parameters. It stores nothing. PostHog's `sanitize_properties` strips the query string from `$current_url` and `$initial_current_url` before any event leaves the browser, so the parameters never reach analytics. Referrers are reduced to their origin. The `page_viewed` event records only whether a tailored selector was present (`tailored: true/false`), never its value. The hero shows a visible notice naming the tailored view with a one-click neutral version.
-- `/api/role-context`: looks the pair up in the private preset map loaded from the environment and returns only the public-safe subset (label, hero titles, suggested questions, source role, location context). The response is `Cache-Control: no-store`. The app does not log the parameters. An unknown or absent `company` key returns the target-only context with HTTP 200, byte-identical to a typo.
-- `/api/chat`: receives the same selection in the request body, resolves it server-side, and folds the entry's prompt delta into the system prompt. The prompt delta is the only field that never leaves the server. Like all chat content it is sent to the cloud LLM provider, so it must contain only material that would be acceptable if disclosed.
+- `/api/role-context`: looks the pair up in the private preset map loaded from the environment and returns only the public-safe context (selection, label, target and company labels, hero titles, status, suggested questions, source role, location context); with an application match, the hero titles are the applied-for title alone. The response is `Cache-Control: no-store`. The app does not log the parameters. An unknown or absent `company` key returns the target-only context with HTTP 200, byte-identical to a typo.
+- `/api/chat`: receives the same selection in the request body, resolves it server-side, and folds the entry's prompt delta into the system prompt. The prompt delta, requisition id, and posting URL never reach the browser. The prompt delta, like all chat content, is sent to the cloud LLM provider, so it must contain only material that would be acceptable if disclosed.
 - Nothing about the selection is persisted by this app. The parameters are positioning selectors for the reader, not identifiers.
 
 Residual: the `company` key space is enumerable in principle. Guessing a real key reveals that a preset exists for that employer, and its public-safe fields, nothing more. The endpoint returns the same shape and status for real and unknown keys, does not list keys, and holds no prompt text, so the exposure from a correct guess is bounded to what the tailored link's intended reader already sees.
@@ -77,7 +77,7 @@ Design:
 - Public name, email, and region assertions act as positive controls so an empty scan cannot pass silently.
 - The digest order is intentionally non-semantic and can be rotated when entries are added.
 
-Scope: the scan covers committed repository content, including `INTENT.md` and `.github`. User-submitted chat or job-description text is governed by request boundaries and the job-description review scanner, not this repository-content eval.
+Scope: the scan covers the paths in `SCAN_ROOTS`: `api`, `public`, `scripts`, `src`, `docs`, `ops`, `.github`, `index.html`, `vercel.json`, and the top-level project docs (README, SECURITY, EVIDENCE, ROADMAP, INTENT, CLAUDE, PROJECT_CONTEXT). User-submitted chat or job-description text is governed by request boundaries and the job-description review scanner, not this repository-content eval.
 
 Verification: run `npm run test` and inspect [src/test/pii-scan.test.ts](src/test/pii-scan.test.ts). A reviewer can confirm that the test contains only generic shapes and unlabeled digests and that failure paths do not print matched values.
 

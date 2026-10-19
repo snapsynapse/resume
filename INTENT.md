@@ -62,7 +62,7 @@ New target roles should usually be data additions, not site rewrites. Use target
 ?company=examplecorp&target=content-ops
 ```
 
-The `company` key names the employer the link was written for; its application entry lives in the private presets JSON, not in this repository. Context parameters select positioning for the reader. They are not identifiers, not logged, not sent to analytics, and not persisted, and the neutral view is one click away from the hero notice.
+The `company` key names the employer the link was written for; its application entry lives in the private presets JSON, not in this repository. Context parameters select positioning for the reader. They are not identifiers, not logged, and not persisted; their values are never sent to analytics (only a `tailored` boolean on `page_viewed` is), and the neutral view is one click away from the hero notice.
 
 If changing a claim, update the smallest durable source that owns it and keep `EVIDENCE.md`, public text artifacts, tests, and generated metadata aligned.
 
@@ -70,9 +70,9 @@ If changing a claim, update the smallest durable source that owns it and keep `E
 
 When adding a new application context:
 
-- Reuse an existing `target` if the durable job family is already represented. Only a new `target` is a repository change (`src/lib/role-context.ts` and `src/data/sam-profile.ts`).
+- Reuse an existing `target` if the durable job family is already represented. Only a new `target` is a repository change (`src/lib/role-context.ts`, `src/data/sam-profile.ts`, and the mirrored `TARGET_KEYS` in `scripts/role-context-presets.mjs`).
 - Add a new `target` only when the positioning wedge should survive beyond one employer.
-- Write the application entry (label, applied-for title, requisition id, posting URL, public-safe location answer, prompt delta, suggested questions) to the private presets JSON outside the repository, keyed by a `for` value matching `^[a-z0-9-]{1,40}$`.
+- Write the application entry (label, applied-for title, optional shorter `heroTitle` shown alone in the hero, requisition id, posting URL, public-safe location answer, prompt delta, suggested questions) to the private presets JSON outside the repository, keyed by a `company` key (`for` alias) matching `^[a-z0-9-]{1,40}$`.
 - Validate it with `npm run presets:validate -- PRESETS_PATH`, then push it to Vercel with the commands in README "Target and company routing". Never commit it, never paste it into a tracked file, and never put it in a `VITE_` variable.
 - Keep the default public resume employer-neutral unless Sam explicitly changes the active positioning.
 - Update or add public-surface tests before manually editing generated text artifacts. Employer-specific prompt evals live outside the repository too, supplied to `scripts/eval-prompts.mjs` through `EVAL_ROLE_CONTEXT_CASES`.
