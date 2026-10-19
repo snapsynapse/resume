@@ -8,6 +8,7 @@
 - Replaced the square social preview image with a 1200x630 card carrying name, role line, and URL, and declared its dimensions and alt text.
 - Application links now show only the applied-for title in the hero, held still, instead of leading a rotation of durable target titles. Target-only links and the default page still rotate.
 - Added a cookieless page_viewed event, one per route, with a single tailored yes/no flag. It never records which company or target a link named. Referrers sent with any event are now reduced to their origin, because a job-board path can name the employer.
+- Hero evidence points now sit in a two-by-two grid on wider screens instead of four narrow columns.
 
 2026-09-09
 - Extended target/company role-context routing so every application context is a data addition rather than a site rewrite. Each entry carries the source role, requisition metadata, a public-safe location answer, application-specific prompt context, and the evidence boundaries that keep the answer honest.
