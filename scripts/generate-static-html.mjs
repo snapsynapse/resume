@@ -334,6 +334,9 @@ function renderPage(page) {
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="${canonical}" />
     <meta property="og:image" content="${siteUrl}/imgs/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Sam Rogers: AI education, certification, and content systems. resume.sam-rogers.com" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(page.title)}" />
     <meta name="twitter:description" content="${escapeHtml(page.description)}" />

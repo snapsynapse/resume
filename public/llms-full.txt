@@ -68,14 +68,16 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 
 - Built and led the first YouTube Certified Online Training Program at Google.
 - Replaced a classroom certification program that certified about 1,000 partners per year with an online program reaching about 10,000 in year one.
-- Owned scripting, direction, production, post-production, certification exam, and LMS standup.
+- Owned scripting, direction, production, post-production, certification exam, and LMS standup, and developed the program's global digital rights management track and its YouTube Analytics track.
 - The assessment-first sequencing from that 2013 build (design the test, then work backward through curriculum, production, LMS) is the same operating pattern running PAICE.work and AI Posture today.
 - Shipped Harnessie, a brain-agnostic multi-agent harness that builds verification gates, quality control, and a tamper-evident audit trail into repeatable AI workflows.
 - Co-authored the public 2023 Chat Souffle LLM learning workflow; contributed workflow logic, raw-data reporting and analysis, and evidence-led refinement without repository access or direct code commits.
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
 - Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.
 - Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.
-- Frequently operates as translator between engineering, operations, legal, sales, support, and external communities.
+- Delivered technical training for clients including Silicon Valley Bank, ADP, AAA, StrongLoop, and Robert Half / Protiviti, much of it compliance-driven work in financial settings, using virtual instructor-led delivery and virtual lab environments. Trained and briefed executives at AAA and ADP.
+- Most conference work for ATD, Training Magazine, the eLearning Guild, and similar associations has been train-the-trainer. Facilitates workshops for audiences of hundreds, and thousands on occasion.
+- Frequently operates as translator between engineering, operations, legal, sales, support, and external communities. In Sam's words: "I dive in the deep end of the pool with the technical folks, and translate to everyone else."
 
 ### Convatec - Global Learning Technology and Analytics Manager, 2020-2022
 
@@ -85,6 +87,8 @@ Open to senior lead or builder/operator roles where content operations, AI educa
 - Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months by treating it as a perception, infrastructure, and leadership-narrative problem before a curriculum problem.
 - Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
 - Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers, paired with a compensation-structure rollout.
+- Personally trained and briefed senior leadership and board members.
+- Built learning analytics reports and dashboards in Power BI, Tableau, and Excel. Treats CSAT as a starting signal and pairs it with measures of what changed.
 
 Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during the engagement, now HR Director, Organizational Effectiveness and Strategy at Princess Cruises): "Snap Synapse helped us work through complex challenges with speed and efficiency. The rigorous approach to assessment and data analysis helped us improve processes, make smart decisions, and generate business impact more quickly and effectively than we ever could have on our own." Source: https://snapsynapse.com/about/testimonials/
 

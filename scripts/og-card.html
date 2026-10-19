@@ -1,0 +1,28 @@
+<!doctype html>
+<!--
+  Source for public/imgs/og.png (1200x630 social preview card). Render from the repo root:
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu \
+    --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 \
+    --screenshot=public/imgs/og.png "file://$PWD/scripts/og-card.html"
+  Fonts match the site: Georgia headings, system sans body. Keep copy employer-neutral.
+-->
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{background:hsl(200 20% 96%);display:flex;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:hsl(220 20% 14%)}
+.photo{width:630px;height:630px;flex:none;background:url(../public/imgs/samrogers.png) center/cover}
+.text{flex:1;padding:64px 56px 56px 56px;display:flex;flex-direction:column;border-left:10px solid #087E96}
+.kicker{font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:#087E96;font-weight:600;margin-bottom:18px}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:68px;line-height:1;font-weight:700;margin-bottom:26px}
+.role{font-size:31px;line-height:1.3;color:hsl(220 14% 28%)}
+.proof{margin-top:auto;font-size:21px;line-height:1.45;color:hsl(220 10% 38%)}
+.url{margin-top:16px;font-size:24px;font-weight:600;color:#087E96}
+</style></head><body>
+<div class="photo"></div>
+<div class="text">
+<div class="kicker">Resume &amp; evidence</div>
+<h1>Sam Rogers</h1>
+<div class="role">AI education, certification, and content systems that turn complex products into measurable capability</div>
+<div class="proof">YouTube certification · Convatec · PAICE.work</div>
+<div class="url">resume.sam-rogers.com</div>
+</div></body></html>
