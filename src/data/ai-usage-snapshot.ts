@@ -3,12 +3,12 @@
 // Refreshed on a schedule by .github/workflows/refresh-ai-usage.yml; never fetched at runtime.
 export const aiUsageSnapshot = {
   url: "https://sam-rogers.com/ai-usage/",
-  asOf: "2026-10-10",
+  asOf: "2026-10-17",
   firstDate: "2023-05-26",
-  totalTokensRaw: 1364320701,
-  totalTokens: "1,364,320,701",
-  totalTokensShort: "1360M+",
-  exactTokens: "1344.9M",
+  totalTokensRaw: 1402815903,
+  totalTokens: "1,402,815,903",
+  totalTokensShort: "1400M+",
+  exactTokens: "1383.4M",
   estimatedTokens: "19.4M",
   percentExact: 99,
   sourceCount: 14,
