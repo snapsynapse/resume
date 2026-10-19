@@ -1,5 +1,10 @@
 # Sam Rogers Resume Changelog
 
+2026-10-18
+- Updated availability: remote or hybrid preferred, with on-site work available in the SF Bay Area and Salt Lake City. Both are regions, not statements of residence; precise-address questions still route to a direct conversation.
+- The assistant now answers that contract engagements are an option alongside full-time roles, with scope and rate left to a direct conversation.
+- Added a fourth hero evidence point for current practice: a governed multi-model development method (cross-vendor author and verifier separation, agent permission tiers, mechanical acceptance checks), sourced to the published Facilitator in the Machine write-up.
+
 2026-09-09
 - Extended target/company role-context routing so every application context is a data addition rather than a site rewrite. Each entry carries the source role, requisition metadata, a public-safe location answer, application-specific prompt context, and the evidence boundaries that keep the answer honest.
 - The hero role line now leads with the applied-for title when an application context is active, so a reviewer arriving from a posting sees the role they are hiring for first, with the durable target titles following.

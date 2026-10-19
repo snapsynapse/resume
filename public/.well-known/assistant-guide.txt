@@ -9,7 +9,7 @@ applies-to: https://resume.sam-rogers.com/
 canonical-url: https://resume.sam-rogers.com/.well-known/assistant-guide.txt
 repository-url: https://github.com/snapsynapse/resume
 source-path: public/.well-known/assistant-guide.txt
-last-reviewed: 2026-09-09
+last-reviewed: 2026-10-18
 status: active
 recommended-verifier: https://guidecheck.org/verify
 conformance-target: GuideCheck Level 3

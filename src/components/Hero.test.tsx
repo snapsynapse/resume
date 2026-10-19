@@ -107,10 +107,11 @@ describe("Hero rotating title", () => {
       screen.getByText(/turn complex products into measurable human capability/i),
     ).toBeInTheDocument();
     expect(screen.getByRole("list", { name: "Selected evidence" })).toBeInTheDocument();
-    expect(screen.getAllByRole("listitem")).toHaveLength(3);
+    expect(screen.getAllByRole("listitem")).toHaveLength(4);
     expect(screen.getByText("10x reach")).toBeInTheDocument();
     expect(screen.getByText("90% simpler · 40% faster")).toBeInTheDocument();
     expect(screen.getByText("80% adoption in 30 days")).toBeInTheDocument();
+    expect(screen.getByText("Governed multi-model practice")).toBeInTheDocument();
   });
 
   it("shows the tailored-link notice when a role selection is active", () => {

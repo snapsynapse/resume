@@ -54,7 +54,7 @@ describe("samProfile role positioning", () => {
   });
 
   it("keeps visible evidence and capability boundaries aligned to target roles", () => {
-    expect(samProfile.heroEvidence).toHaveLength(3);
+    expect(samProfile.heroEvidence).toHaveLength(4);
     expect(samProfile.skills.strong).toContain(
       "Open standards authorship and public protocol design",
     );

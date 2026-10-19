@@ -94,7 +94,7 @@ const Hero = ({ onOpenChat }: HeroProps) => {
           {/* Compact proof points keep the common artifact grounded across role contexts. */}
           <ul
             aria-label="Selected evidence"
-            className="mb-6 grid max-w-3xl gap-2 text-sm text-foreground sm:grid-cols-3 animate-slide-up stagger-2"
+            className="mb-6 grid max-w-3xl gap-2 text-sm text-foreground sm:grid-cols-2 lg:grid-cols-4 animate-slide-up stagger-2"
           >
             {samProfile.heroEvidence.map((item) => (
               <li key={item.metric} className="border-l-2 border-accent/60 pl-3">

@@ -31,8 +31,12 @@ export const samProfile = {
       metric: "80% adoption in 30 days",
       detail: "200-person Portugal pilot; later four-country rollout",
     },
+    {
+      metric: "Governed multi-model practice",
+      detail: "Cross-vendor author/verifier separation, agent permission tiers, mechanical acceptance checks",
+    },
   ],
-  location: "Remote preferred · SF Bay Area hybrid available",
+  location: "Remote or hybrid preferred · Onsite available in SF Bay Area and Silicon Slopes",
   status:
     "Focused on roles where content operations, AI education, workflow quality, and measurement become durable operating systems.",
 
@@ -221,15 +225,19 @@ export const samProfile = {
     },
     {
       q: "Is Sam open to fully on-site? Would he relocate?",
-      a: "Remote is preferred and SF Bay Area hybrid is available. Fully on-site work or relocation depends on the particular role and requires direct confirmation from Sam.",
+      a: "Remote or hybrid is preferred. Fully on-site work is available in the SF Bay Area and Salt Lake City. Relocation elsewhere depends on the particular role and requires direct confirmation from Sam.",
+    },
+    {
+      q: "Is Sam open to contract or consulting engagements?",
+      a: "Yes. Contract engagements are an option alongside full-time roles, under the same remote, hybrid, and on-site availability. Scope, term, and rate are a direct conversation with Sam at sam@sam-rogers.com or https://cal.com/paice; the assistant cannot quote rates or commit to an engagement.",
     },
     {
       q: "Where is Sam based?",
-      a: "Remote preferred. SF Bay Area hybrid available.",
+      a: "Remote or hybrid preferred. On-site available in the SF Bay Area and Salt Lake City.",
     },
     {
       q: "What city or ZIP exactly? What is the precise address?",
-      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. Hybrid availability is a work arrangement, not a statement of current residence. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/paice.",
+      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. Hybrid and on-site availability are work arrangements, not statements of current residence. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/paice.",
     },
     {
       q: "When could he start?",
@@ -472,7 +480,7 @@ export const samProfile = {
     nowPage: {
       url: "https://sam-rogers.com/now",
       note:
-        "Monthly update on what Sam is focused on. As of September 2026 it states he is open to select full-time roles (SF hybrid or remote) alongside consulting, and points to this resume.",
+        "Monthly update on what Sam is focused on. As of September 2026 it states he is open to select full-time roles (SF hybrid or remote) alongside consulting, and points to this resume. Current availability is broader than that note: on-site work is available in the SF Bay Area and Salt Lake City, and contract engagements are an option.",
     },
 
     archives: {

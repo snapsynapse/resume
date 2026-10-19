@@ -134,7 +134,6 @@ const SHAPE_PATTERNS: ShapePattern[] = [
 const BLOCKED_LITERAL_HASHES = new Set<string>([
   "a8bc68fa51fd88030c9a60dcbb9117713a568c9c20be9553cb22c50cac538b9c",
   "ed5b098a043912088a7976451d5584fb1aff1a965b27bf9ca02282d323e050ee",
-  "86cef1c317486ef603cc65cee2554d5a7dba9c90462f2ee6759359f2fdb014d9",
   "a0aadfc140df8f339fd255908bfd371e9ec82f9434b707e7cdb04270c5b65b85",
   "40dceebf439dee723639ea6aed8fa07672db1de06e60f60ca9d3921f0fe0971a",
   "8ff313d9066446d481967d713492a5ac5e3de4d587d2efc7a07432e425406691",
@@ -385,13 +384,14 @@ describe("PII / compensation exposure scan", () => {
     expect(haystack).toMatch(/Sam Rogers/);
     expect(haystack).toMatch(/sam@sam-rogers\.com/);
     expect(haystack).toMatch(/SF Bay Area/);
+    expect(haystack).toMatch(/Salt Lake City/);
   });
 
   // Negative control on the normalizer: the candidate's own public name and region must not
   // hash into the blocklist, so a blocklist regeneration that accidentally included a public
   // value would fail here rather than silently rejecting every public surface.
   it("does not blocklist public identity literals", () => {
-    for (const literal of ["Sam Rogers", "SF Bay Area", "OpenAI"]) {
+    for (const literal of ["Sam Rogers", "SF Bay Area", "Salt Lake City", "OpenAI"]) {
       expect(BLOCKED_LITERAL_HASHES.has(sha256(normalizeLiteral(literal)))).toBe(false);
     }
   });
