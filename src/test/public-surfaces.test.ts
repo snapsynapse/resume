@@ -117,7 +117,9 @@ const outdatedSolicitationPatterns = [
   /available for one/i,
   /regulated mid-market/i,
   /retainer/i,
-  /snapsynapse\/25min/i,
+  // cal.com/snapsynapse/25min was the fractional CAIO scoping route until 2026-05-30. Since
+  // 2026-10-21 it is the general intake link, so it is no longer an outdated solicitation.
+  /cal\.com\/paice/i,
 ];
 
 const outdatedAnthropicRolePatterns = [

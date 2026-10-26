@@ -52,7 +52,7 @@ const Footer = () => {
               <Mail className="w-5 h-5" />
             </a>
             <a
-              href="https://cal.com/paice"
+              href="https://cal.com/snapsynapse/25min"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Book a meeting"

@@ -50,28 +50,6 @@ export const samProfile = {
 
   experience: [
     {
-      company: "PAICE.work PBC",
-      role: "Founder",
-      period: "2025–Present",
-      highlights: [
-        "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale, with free individual access and institutional commercial packaging. Significant paying-customer or realized product-revenue traction is not established.",
-        "Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.",
-        "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
-        "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
-        "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration, including PAICE2 model cascades, operational monitoring, confidential routing, and administrative controls.",
-      ],
-      aiContext: {
-        situation:
-          "Snap Synapse ran an Agent-Readiness Audit consulting service. Demand was real but the work scaled linearly with my time. Standard productization paths either kept it high-touch forever or rebuilt it as a self-serve tool that lost the judgment layer that made the consulting valuable.",
-        approach:
-          "Sat with the engagements long enough to find what was repeatable vs what required judgment. The scanning of basic agent-incompatibility — broken structured data, hostile robots directives, JavaScript-only renders — was repeatable. The interpretive layer (what does 30% agent bounce mean for *your* business) was not.",
-        technicalWork:
-          "Siteline ships the repeatable layer as a free scan tier with institutional assessment packaging. That commercial packaging describes the offer, not realized sales or significant product traction. The consulting service still exists for engagements where judgment is the actual work. Two layers, two questions: scanner says 'here is the floor'; consulting says 'here is what the floor means for you.'",
-        lessonsLearned:
-          "The productization question is not 'should I productize.' It is 'where in the offering does the judgment live, and can the productized version stay honest about not having access to it.' Tools that overclaim kill the consulting that birthed them.",
-      },
-    },
-    {
       company: "Snap Synapse LLC",
       role: "Principal Consultant",
       period: "2004-2020, 2023-Present",
@@ -98,6 +76,28 @@ export const samProfile = {
           "Led the build from scripts through post-production through certification exam through LMS. Held the seams between content people, assessment people, and LMS people — the place where each function usually disagrees about whose constraint binds. As Sam puts it: 'I didn't just take the test; I made the test.'",
         lessonsLearned:
           "Certification programs fail at the seams between functions, not at the work each function does. The job of the lead is to make the seams legible, not to do anyone else's job better than they would. The same assessment-first, work-backward sequencing runs PAICE.work and AI Posture now — the 2013 build is not a stale credential, it is the first version of the playbook still in use.",
+      },
+    },
+    {
+      company: "PAICE.work PBC",
+      role: "Founder",
+      period: "2025–Present",
+      highlights: [
+        "Built PAICE.work: adaptive behavioral simulator scoring human-AI collaboration across five dimensions on a 0–1000 scale, with free individual access and institutional commercial packaging. Significant paying-customer or realized product-revenue traction is not established.",
+        "Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.",
+        "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
+        "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
+        "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration, including PAICE2 model cascades, operational monitoring, confidential routing, and administrative controls.",
+      ],
+      aiContext: {
+        situation:
+          "Snap Synapse ran an Agent-Readiness Audit consulting service. Demand was real but the work scaled linearly with my time. Standard productization paths either kept it high-touch forever or rebuilt it as a self-serve tool that lost the judgment layer that made the consulting valuable.",
+        approach:
+          "Sat with the engagements long enough to find what was repeatable vs what required judgment. The scanning of basic agent-incompatibility — broken structured data, hostile robots directives, JavaScript-only renders — was repeatable. The interpretive layer (what does 30% agent bounce mean for *your* business) was not.",
+        technicalWork:
+          "Siteline ships the repeatable layer as a free scan tier with institutional assessment packaging. That commercial packaging describes the offer, not realized sales or significant product traction. The consulting service still exists for engagements where judgment is the actual work. Two layers, two questions: scanner says 'here is the floor'; consulting says 'here is what the floor means for you.'",
+        lessonsLearned:
+          "The productization question is not 'should I productize.' It is 'where in the offering does the judgment live, and can the productized version stay honest about not having access to it.' Tools that overclaim kill the consulting that birthed them.",
       },
     },
     {
@@ -236,7 +236,7 @@ export const samProfile = {
     },
     {
       q: "Is Sam open to contract or consulting engagements?",
-      a: "Yes. Contract engagements are an option alongside full-time roles, under the same remote, hybrid, and on-site availability. Scope, term, and rate are a direct conversation with Sam at sam@sam-rogers.com or https://cal.com/paice; the assistant cannot quote rates or commit to an engagement.",
+      a: "Yes. Contract engagements are an option alongside full-time roles, under the same remote, hybrid, and on-site availability. Scope, term, and rate are a direct conversation with Sam at sam@sam-rogers.com or https://cal.com/snapsynapse/25min; the assistant cannot quote rates or commit to an engagement.",
     },
     {
       q: "Where is Sam based?",
@@ -244,7 +244,7 @@ export const samProfile = {
     },
     {
       q: "What city or ZIP exactly? What is the precise address?",
-      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. Hybrid and on-site availability are work arrangements, not statements of current residence. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/paice.",
+      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. Hybrid and on-site availability are work arrangements, not statements of current residence. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/snapsynapse/25min.",
     },
     {
       q: "When could he start?",
@@ -339,7 +339,7 @@ export const samProfile = {
         title: "Snap Synapse services",
         url: "https://snapsynapse.com/services/",
         pitch:
-          "Productized consulting offerings via Snap Synapse LLC (independent consulting vehicle of more than two decades): Strategy Session, Custom Team Workshop, Build Sprint, L&D Ecosystem Engagement, and Siteline agent-readiness audit. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
+          "Snap Synapse LLC (independent consulting vehicle of more than two decades) offers AI adoption for teams as a 90-minute Session, a Day, a Month (two days a week), or a quoted Project; details at https://snapsynapse.com/services/. Mention when the inquiry is about engagement structure, pricing, or availability for consulting work.",
       },
       {
         title: "Harnessie",

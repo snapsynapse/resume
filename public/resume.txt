@@ -1,6 +1,6 @@
 # Sam Rogers
 
-25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. Currently building AI-enabled assessment and enablement infrastructure at PAICE.work PBC, with Snap Synapse LLC as the independent consulting practice of more than two decades behind the work. Focused on content operations, AI education systems, certification, assessment, workflow quality, and human-AI collaboration measurement.
+25 years building curriculum, certification, media, content operations, and learning systems that move capability into practice. Principal Consultant at Snap Synapse LLC, the independent practice of more than two decades behind the work, now focused on AI adoption and enablement: planning it, building it, and measuring it in workflow use. Founded PAICE.work PBC in 2025 to build measurement infrastructure for human-AI collaboration. Focused on content operations, AI education systems, certification, assessment, workflow quality, and human-AI collaboration measurement.
 
 Canonical resume: https://resume.sam-rogers.com/
 Personal site: https://sam-rogers.com/
@@ -9,7 +9,7 @@ Snap Synapse services: https://snapsynapse.com/services/
 Snap Synapse tools: https://snapsynapse.com/tools/
 GitHub: https://github.com/snapsynapse
 Email: sam@sam-rogers.com
-General booking: https://cal.com/paice
+General booking: https://cal.com/snapsynapse/25min
 
 ## Positioning
 
@@ -49,7 +49,8 @@ Principal Consultant, 2004-2020, 2023-Present
 - Delivered technical training for clients including Silicon Valley Bank, ADP, AAA, StrongLoop, and Robert Half / Protiviti, much of it compliance-driven work in financial settings, using virtual instructor-led delivery and virtual lab environments. Trained and briefed executives at AAA and ADP.
 - Most conference work for ATD, Training Magazine, the eLearning Guild, and similar associations has been train-the-trainer. Facilitates workshops for audiences of hundreds, and thousands on occasion.
 - Operates as a translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives. In Sam's words: "I dive in the deep end of the pool with the technical folks, and translate to everyone else."
-- Pivoted toward AI governance, AI product, and civic-infrastructure operators in mid-2025; productized consulting offerings including Strategy Session, Workshop, Build Sprint, L&D Ecosystem Engagement, and agent-readiness assessment work.
+- Pivoted toward AI governance, AI product, and civic-infrastructure operators in mid-2025.
+- Refocused the practice on AI adoption for teams in 2026, offered as a 90-minute session, a day, two days a week by the month, or a quoted project.
 
 ### Convatec
 

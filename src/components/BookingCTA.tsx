@@ -13,7 +13,7 @@ const BookingCTA = () => {
         </p>
 
         <a
-          href="https://cal.com/paice"
+          href="https://cal.com/snapsynapse/25min"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => track("booking_cta_clicked", { source: "contact_section" }, { immediate: true })}

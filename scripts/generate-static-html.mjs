@@ -127,7 +127,7 @@ const pages = [
         list: [
           "Use the interactive form on the homepage at https://resume.sam-rogers.com/#fit-assessment.",
           "Email Sam Rogers at sam@sam-rogers.com for confidential or high-context role discussions.",
-          "Book a meeting at https://cal.com/paice when there is a plausible fit.",
+          "Book a meeting at https://cal.com/snapsynapse/25min when there is a plausible fit.",
         ],
       },
     ],
@@ -168,7 +168,7 @@ const pages = [
         heading: "Direct handoff paths",
         paragraphs: [
           "Email Sam Rogers at sam@sam-rogers.com for hiring, advisory, or collaboration inquiries.",
-          "Book a meeting with Sam Rogers at https://cal.com/paice.",
+          "Book a meeting with Sam Rogers at https://cal.com/snapsynapse/25min.",
         ],
       },
       {
@@ -286,7 +286,7 @@ function routeStructuredData(page, canonical) {
       "@id": `${canonical}#contact`,
       name: "Sam Rogers contact",
       email: "sam@sam-rogers.com",
-      url: "https://cal.com/paice",
+      url: "https://cal.com/snapsynapse/25min",
       contactType: "recruiting, advisory, and collaboration inquiries",
       availableLanguage: "en",
     });
@@ -524,7 +524,7 @@ function renderPage(page) {
     </main>
     <footer>
       <address>
-        Email <a href="mailto:sam@sam-rogers.com">sam@sam-rogers.com</a> or book a meeting at <a href="https://cal.com/paice">https://cal.com/paice</a>.
+        Email <a href="mailto:sam@sam-rogers.com">sam@sam-rogers.com</a> or book a meeting at <a href="https://cal.com/snapsynapse/25min">https://cal.com/snapsynapse/25min</a>.
       </address>
     </footer>
   </body>

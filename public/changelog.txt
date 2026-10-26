@@ -1,5 +1,12 @@
 # Sam Rogers Resume Changelog
 
+2026-10-25
+- The resume summary now leads with Snap Synapse LLC and AI adoption and enablement work, with PAICE.work PBC as one declared line.
+- The homepage and experience page now list Snap Synapse LLC first, then PAICE.work PBC.
+- Replaced the retired Snap Synapse offers with the current ones: a 90-minute Session, a Day, a Month at two days a week, or a quoted Project.
+- The booking link everywhere, including the assistant's suggested link, is now the general Snap Synapse intake at https://cal.com/snapsynapse/25min.
+- Added two confirmed Convatec claims to the evidence ledger: a distributed support model that cut learning support requests by 40 percent in 6 months, and HRIS partnership on Workday integration and data harmonization.
+
 2026-10-18
 - Updated availability: remote or hybrid preferred, with on-site work available in the SF Bay Area and Salt Lake City. Both are regions, not statements of residence; precise-address questions still route to a direct conversation.
 - The assistant now answers more availability questions directly, with terms left to a direct conversation.

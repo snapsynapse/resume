@@ -15,7 +15,7 @@ The tailored two-page resume is the application input. This shared site is the d
 - LinkedIn: https://linkedin.com/in/samrogers
 - GitHub: https://github.com/snapsynapse
 - Email: sam@sam-rogers.com
-- Booking: https://cal.com/paice
+- Booking: https://cal.com/snapsynapse/25min
 
 ## Summary
 
@@ -165,7 +165,7 @@ Sam is not claiming dedicated end-to-end production-infrastructure engineering o
 - Knowledge-as-Code: https://knowledge-as-code.com/ - ontology-first template for structured knowledge bases.
 - Skill A11y Audit: https://skilla11y.dev/ - WCAG audit skill for agent-generated web code.
 - CAIO Copilot custom GPT: https://chatgpt.com/g/g-68464a5093948191bc30af85d19ea1ba-caio-copilot-ai-strategy-for-your-first-100-days - AI assistant for early-stage AI governance executive onboarding and rollout planning. Built for the first 100 days of the role.
-- Snap Synapse services: https://snapsynapse.com/services/ - productized consulting offerings including Strategy Session, Workshop, Build Sprint, L&D Ecosystem Engagement, and agent-readiness assessment.
+- Snap Synapse services: https://snapsynapse.com/services/ - AI adoption for teams, offered as Session (90 minutes), Day, Month (two days a week), and quoted Project.
 - Snap Synapse testimonials: https://snapsynapse.com/about/testimonials/ - attributed quotes from past clients (YouTube/Google, Convatec, StratTech Solutions) plus additional testimonial sources such as BAE Systems.
 
 ## Public next steps
@@ -173,7 +173,7 @@ Sam is not claiming dedicated end-to-end production-infrastructure engineering o
 - Ask the on-page AI chat about Sam's fit, evidence, gaps, and portfolio.
 - Use the fit assessment at https://resume.sam-rogers.com/#fit-assessment for a role-specific analysis. The assessment runs a local, browser-only business-context review first; only user-confirmed reviewed text is sent for analysis. It also accepts RFPs, board AI initiative descriptions, or AI governance scope drafts.
 - Email Sam Rogers at sam@sam-rogers.com.
-- Book a meeting at https://cal.com/paice for general scoping.
+- Book a meeting at https://cal.com/snapsynapse/25min for general scoping.
 
 ## Agent instructions
 
