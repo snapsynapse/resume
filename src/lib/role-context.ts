@@ -76,10 +76,10 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       shortlistRationale: "Shortlist Sam for AI education systems that need scalable delivery and evidence of learning. Probe the YouTube certification build, National 4-H production orchestration, and Convatec measurement. His evidence is program and system leadership, not ML research or deep production-infrastructure ownership.",
     },
     heroTitles: [
-      "AI Education Systems Lead",
+      "Director of AI Education",
       "Head of Content & Curriculum",
-      "Curriculum Production Systems Lead",
-      "Certification & Learning Measurement Lead",
+      "Senior Manager, Curriculum Production",
+      "Certification & Learning Measurement Manager",
       "Applied AI Education Lead",
     ],
     status:
@@ -102,11 +102,11 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       shortlistRationale: "Shortlist Sam for content operations that need a repeatable operating rhythm across functions. Probe National 4-H partner and vendor orchestration, Convatec simplification, and Harnessie workflow verification. Formal line-management scale is two direct reports; broader delivery leadership is separate evidence.",
     },
     heroTitles: [
-      "Content & Systems Operations Lead",
-      "AI-Enabled Content Operations Lead",
-      "Customer Education Systems Lead",
+      "Director, Content Operations",
+      "Senior Manager, Content & Systems Operations",
+      "Customer Education Operations Manager",
+      "Learning Operations Program Manager",
       "Content Portfolio Governance Lead",
-      "Learning Operations Systems Lead",
     ],
     status:
       "Focused on roles that turn AI capability into human capability through content operations, education systems, workflow quality, and measurement.",
@@ -128,9 +128,9 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       shortlistRationale: "Consider Sam for a bounded AI transformation function combining hands-on building and organizational adoption. Probe Convatec outcomes, PAICE control design, and Harnessie verification. Prior enterprise AI Center of Excellence ownership and implementations against SOC 2, ISO 42001, or NIST AI RMF are not claimed.",
     },
     heroTitles: [
-      "AI Transformation & Center of Excellence Leader",
-      "AI Center of Excellence Builder",
-      "AI Governance & Adoption Leader",
+      "Director, AI Transformation",
+      "Head of AI Governance & Adoption",
+      "AI Center of Excellence Lead",
       "Zero-to-One AI Transformation Operator",
     ],
     status:
@@ -154,9 +154,9 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       shortlistRationale: "Shortlist Sam for AI enablement that turns pilots into repeatable team capability. Probe the Convatec champions network, adoption measurement, and shared-library controls. The network was not a standing AI Center of Excellence, and formal line management is two direct reports.",
     },
     heroTitles: [
-      "AI Enablement & Center of Excellence Operator",
-      "AI Adoption & Champions Program Leader",
-      "Shared Skills Library & Enablement Systems Lead",
+      "Head of AI Enablement",
+      "Senior Manager, Enablement Systems",
+      "AI Adoption & Champions Program Manager",
       "AI Capability Building Lead",
     ],
     status:
@@ -180,10 +180,10 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
       shortlistRationale: "Consider Sam for AI ecosystems roles that connect technical artifacts with partner capability. Probe Harnessie, Skill Provenance, and the YouTube partner program. He has not held a partnerships or developer-relations title, and external Harnessie adoption is not established.",
     },
     heroTitles: [
-      "AI Ecosystems & Technical Partnerships Builder",
+      "Director, AI Ecosystems & Partnerships",
+      "Developer Ecosystem Program Manager",
+      "Partner Certification & Enablement Manager",
       "MCP, Skills & Agent Surfaces Practitioner",
-      "Developer Ecosystem & Integration Programs Lead",
-      "Open Tooling & Partner Certification Lead",
     ],
     status:
       "Focused on roles that partner with the agent ecosystem: MCP servers, agent skills and plugins, harness integrations, developer relations, and partner certification programs.",

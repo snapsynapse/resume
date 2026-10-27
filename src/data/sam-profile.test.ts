@@ -8,10 +8,10 @@ describe("samProfile role positioning", () => {
     expect(samProfile.rotatingTitles[0]).toBe("AI-Enabled Content Systems Operator");
     expect(samProfile.rotatingTitles).toEqual([
       "AI-Enabled Content Systems Operator",
-      "Content & Systems Operations Lead",
-      "AI Education Systems Lead",
-      "Customer Education Systems Lead",
-      "Certification & Assessment Systems Lead",
+      "Director, AI Education & Enablement",
+      "Head of Content & Curriculum Operations",
+      "Senior Manager, Customer Education",
+      "Certification & Assessment Program Manager",
     ]);
     expect(samProfile.status).not.toMatch(/Anthropic|OpenAI/i);
   });
