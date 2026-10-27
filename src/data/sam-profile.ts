@@ -11,10 +11,10 @@ export const samProfile = {
   // First item renders pre-hydration, so put the strongest standalone target there.
   rotatingTitles: [
     "AI-Enabled Content Systems Operator",
-    "Content & Systems Operations Lead",
-    "AI Education Systems Lead",
-    "Customer Education Systems Lead",
-    "Certification & Assessment Systems Lead",
+    "Director, AI Education & Enablement",
+    "Head of Content & Curriculum Operations",
+    "Senior Manager, Customer Education",
+    "Certification & Assessment Program Manager",
   ],
   subtitle:
     "I build AI-enabled education, certification, assessment, and content systems that turn complex products into measurable human capability.",

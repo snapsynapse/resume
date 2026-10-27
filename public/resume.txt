@@ -19,7 +19,7 @@ Sam serves the Aggregated Intelligence thesis: human and AI capabilities can com
 
 - AI-enabled content systems
 - Content and systems operations
-- AI Education Systems Lead
+- AI education systems
 - Customer education systems
 - Certification and assessment systems
 

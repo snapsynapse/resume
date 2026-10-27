@@ -189,6 +189,8 @@ const BLOCKED_LITERAL_HASHES = new Set<string>([
   "d4ef0c1431e0c1d35909a8e83d10903023a7d85fe83d148355165f9e5778a808",
   "fe32241fed65e4d85f6fe00ea5c7edb9b288ef35872d31a9b277543a005b63b6",
   "4536faf305f8553013fff3859219b8bdc0683bdbeeb00159618153e228248dee",
+  "ec0e436990118cccf8dd923d5a0c931f1e6c33226edca199090d481508399491",
+  "d7618e0f953bf494f39f5870f0dbd7f3ce312d24254009bf19df71323ac46fbf",
 ]);
 
 // Allowlist of hashes that match by design (contexts where the literal is legitimate, e.g. a
