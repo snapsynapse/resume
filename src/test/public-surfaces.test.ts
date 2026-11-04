@@ -405,4 +405,27 @@ describe("public resume surfaces", () => {
     expect(evidence).toMatch(/significant paying customers.*not established/i);
     expect(profile).not.toMatch(/revenue sits on top/i);
   });
+
+  it("keeps learning-platform, vendor, and client claims inside their confirmed boundaries", () => {
+    const profile = readFileSync(join(root, "src/data/sam-profile.ts"), "utf8");
+    const roleContext = readFileSync(join(root, "src/lib/role-context.ts"), "utf8");
+    const evidence = readFileSync(join(root, "EVIDENCE.md"), "utf8");
+
+    for (const text of [profile, roleContext, evidence]) {
+      // The client set is "owned or advised on"; Saba is held off public surfaces.
+      expect(text).not.toMatch(/\bSaba\b/);
+      // The Bob Pike work was with Bob Pike directly, not his former company.
+      expect(text).not.toMatch(/Bob Pike Group/);
+      // Convatec management duration is just under three years.
+      expect(text).not.toMatch(/(?<!nearly )three years of manag|managed them for (?:three|3\+?) years/i);
+    }
+    expect(profile).toMatch(/Owned or advised on the learning-platform strategy/);
+    expect(profile).toMatch(/both technical specialists, and managed them for nearly three years/);
+    expect(profile).toMatch(/Unpaid relationships, not clients/);
+    expect(profile).toMatch(/not administration or implementation of those systems/);
+    expect(profile).toMatch(/Both were proposals, not built systems/);
+    expect(profile).toMatch(/with no contracted advisory role/);
+    expect(profile).not.toMatch(/partner-facing program work for twenty years/);
+    expect(evidence).toMatch(/never clients/);
+  });
 });

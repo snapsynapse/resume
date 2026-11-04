@@ -399,4 +399,19 @@ describe("parseCompanyPresetMap", () => {
       expect(message.toLowerCase()).not.toContain(secret.toLowerCase());
     }
   });
+
+  it("keeps learning-platform vocabulary out of the AI ecosystems target", () => {
+    const ecosystems = targetPresets["ai-ecosystems"];
+    const text = [ecosystems.status, ecosystems.recruiterBrief.summary, ecosystems.recruiterBrief.shortlistRationale, ...ecosystems.heroTitles, ...ecosystems.suggestedQuestions].join(" ");
+    expect(text).not.toMatch(/\bLMS\b|learning-platform|learning platform|Litmos|Cornerstone|Moodle/i);
+    expect(ecosystems.promptContext).toMatch(/Suppress learning-platform and LMS vocabulary entirely/);
+  });
+
+  it("routes the learning-platforms target with its own brief and demo response", () => {
+    expect(parseRoleSelection("?target=learning-platforms")).toEqual({ target: "learning-platforms" });
+    const preset = targetPresets["learning-platforms"];
+    expect(preset.demoResponseKey).toBe("learningPlatforms");
+    expect(preset.promptContext).toMatch(/owned or advised on/);
+    expect(preset.promptContext).toMatch(/never clients/);
+  });
 });

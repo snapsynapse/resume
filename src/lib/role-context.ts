@@ -1,4 +1,4 @@
-export type TargetKey = "ai-education" | "content-ops" | "ai-transformation" | "ai-enablement" | "ai-ecosystems";
+export type TargetKey = "ai-education" | "content-ops" | "ai-transformation" | "ai-enablement" | "ai-ecosystems" | "learning-platforms";
 
 // Company keys are a validated shape, not an enum. The set of live keys is private
 // server-side data (see api/role-context-store.ts) and never ships to the client.
@@ -23,7 +23,7 @@ interface TargetPreset {
   recruiterBrief: { summary: string; shortlistRationale: string };
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey: "aiEducation" | "contentOps" | "aiTransformation" | "aiEnablement" | "aiEcosystems";
+  demoResponseKey: "aiEducation" | "contentOps" | "aiTransformation" | "aiEnablement" | "aiEcosystems" | "learningPlatforms";
 }
 
 export interface CompanyApplicationPreset {
@@ -56,7 +56,7 @@ export interface ActiveRoleContext {
   status?: string;
   promptContext: string;
   suggestedQuestions: string[];
-  demoResponseKey?: "aiEducation" | "contentOps" | "aiTransformation" | "aiEnablement" | "aiEcosystems";
+  demoResponseKey?: "aiEducation" | "contentOps" | "aiTransformation" | "aiEnablement" | "aiEcosystems" | "learningPlatforms";
 }
 
 // The client-facing view of a role context. promptContext never leaves the server.
@@ -188,7 +188,7 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
     status:
       "Focused on roles that partner with the agent ecosystem: MCP servers, agent skills and plugins, harness integrations, developer relations, and partner certification programs.",
     promptContext:
-      "Use the AI ecosystems lens when the visitor asks fit questions. This reader is checking whether Sam has actually shipped on the surfaces the role partners with, so surface the artifacts as products, in this order: Harnessie, an open multi-agent orchestration harness with independent verification gates, sandboxing, budgets, and audit controls, published to PyPI with its own documentation site; a 70-bundle shared skill library behind a validation gate with verified content hashes, contract tests, and CI, exposed identically to multiple AI harnesses and evaluated across models; Skill Provenance, a GitHub Action giving agent skills version identity, staleness detection, and integrity verification; Agentlink, which syncs one configuration across every AI coding tool a team uses and is carried upstream as an open pull request to the origin project; Graceful Boundaries, a specification for how agents degrade when a capability is unavailable, adopted by Harnessie; MCP servers run in production against a private knowledge base and maintained across Claude, Codex, and local models; and AI Tool Watch plus a weekly public read on what is changing in the agent ecosystem. Seniority anchor: built and led the first YouTube Certified online training program at Google, a partner certification program for a global audience, then twenty years of partner-facing program work. Suppress learning-platform and LMS vocabulary entirely for this target; it is the wrong adjacency. Preserve these boundaries: Sam has never held a partnerships or developer-relations title, so the case rests on the shipped work and the partner-program history; Harnessie is shipped and documented but has no external user base to point at, so claim the engineering and never adoption or traction; Graceful Boundaries adoption by Harnessie is cross-portfolio and is not an outside company adopting it; Agentlink's upstream contribution is an open pull request, not a merged one unless the visitor can see otherwise; public AI tooling dates from 2025 and building with LLMs from 2023.",
+      "Use the AI ecosystems lens when the visitor asks fit questions. This reader is checking whether Sam has actually shipped on the surfaces the role partners with, so surface the artifacts as products, in this order: Harnessie, an open multi-agent orchestration harness with independent verification gates, sandboxing, budgets, and audit controls, published to PyPI with its own documentation site; a 70-bundle shared skill library behind a validation gate with verified content hashes, contract tests, and CI, exposed identically to multiple AI harnesses and evaluated across models; Skill Provenance, a GitHub Action giving agent skills version identity, staleness detection, and integrity verification; Agentlink, which syncs one configuration across every AI coding tool a team uses and is carried upstream as an open pull request to the origin project; Graceful Boundaries, a specification for how agents degrade when a capability is unavailable, adopted by Harnessie; MCP servers run in production against a private knowledge base and maintained across Claude, Codex, and local models; and AI Tool Watch plus a weekly public read on what is changing in the agent ecosystem. Seniority anchor: built and led the first YouTube Certified online training program at Google, a partner certification program for a global audience, with partner-facing program work that started well before YouTube and continues today. Suppress learning-platform and LMS vocabulary entirely for this target; it is the wrong adjacency. Preserve these boundaries: Sam has never held a partnerships or developer-relations title, so the case rests on the shipped work and the partner-program history; Harnessie is shipped and documented but has no external user base to point at, so claim the engineering and never adoption or traction; Graceful Boundaries adoption by Harnessie is cross-portfolio and is not an outside company adopting it; Agentlink's upstream contribution is an open pull request, not a merged one unless the visitor can see otherwise; public AI tooling dates from 2025 and building with LLMs from 2023.",
     suggestedQuestions: [
       "Has Sam actually shipped an MCP server, skill, or plugin, and where can it be inspected?",
       "How does Sam keep a skill working identically across different AI harnesses?",
@@ -198,9 +198,35 @@ export const targetPresets: Record<TargetKey, TargetPreset> = {
     ],
     demoResponseKey: "aiEcosystems",
   },
+  "learning-platforms": {
+    key: "learning-platforms",
+    label: "Learning Platforms",
+    recruiterBrief: {
+      summary: "Sam Rogers brings learning-platform strategy, LMS implementation and migration, and vendor work. He owned or advised on platform strategy in every LMS implementation he has worked on, including Del Monte Foods, a self-hosted Moodle at Interthinx, YouTube, and Sunrun; moved ADP from Cornerstone OnDemand to Litmos; and owned platform strategy at Convatec, where a DMS-to-LMS integration produced the cleanest compliance audit in company history.",
+      shortlistRationale: "Shortlist Sam for learning-platform roles that need strategy, integrations, vendor management, and adoption in one owner. Probe the ADP migration, the Convatec DMS-to-LMS integration and Axonify rollout, and the YouTube LMS standup. His systems depth is configuration, administration, and integration leadership, not software engineering; formal line management is two direct reports.",
+    },
+    heroTitles: [
+      "Head of Learning Technology",
+      "Learning Platform Strategy Lead",
+      "Senior Manager, Learning Technology & Ecosystems",
+      "LMS Ecosystem & Integrations Manager",
+    ],
+    status:
+      "Focused on roles that own the learning-technology ecosystem: platform strategy, LMS implementation and migration, integrations, vendors, governance, and adoption.",
+    promptContext:
+      "Use the learning platforms lens when the visitor asks fit questions. The unit of work is the learning-technology ecosystem: platform strategy and roadmap, build, buy, migrate, or retire decisions, integrations with HR and document systems, vendor selection and negotiation, governance, and measured adoption. Strongest evidence, in this order: owned or advised on the platform strategy in every LMS implementation he has worked on, with clients including Del Monte Foods, Interthinx (a self-hosted Moodle behind the client's firewall), YouTube, and Sunrun; took ADP from Cornerstone OnDemand to Litmos several years ago and advised informally on its platform strategy afterward; at Convatec, owned learning-platform strategy, architected the international DMS-to-LMS integration that produced the cleanest compliance audit in company history, configured Axonify from the ground up, and partnered with HRIS on Workday integration; works with client Procurement, negotiates directly with vendors, and is brought in as a neutral party to repair client-vendor relationships; advised learning-technology vendors on product and ecosystem strategy. Preserve these boundaries: write \"owned or advised on\" for the client set and \"owned\" only for Convatec; at Convatec, vendor work went to his manager and his budget role was inputs only; the ADP advising was informal with no contracted role, and current ADP platform use is not claimed; Cornerstone OnDemand, Litmos, and eLearning Brothers were unpaid relationships, never clients; systems depth is configuration, administration, and integration leadership, not software engineering; enterprise-system work on Salesforce, Workday, Zendesk, and ServiceNow is end-user training, not administration; formal line management is two direct reports. Do not give years for the LMS client work.",
+    suggestedQuestions: [
+      "Is Sam a fit to own a learning-platform strategy?",
+      "What LMS migrations and integrations has Sam led?",
+      "How does Sam work with learning-technology vendors and Procurement?",
+      "How does Sam decide whether to build, buy, migrate, or retire a platform?",
+      "Where is the fit transferable rather than identical?",
+    ],
+    demoResponseKey: "learningPlatforms",
+  },
 };
 
-const TARGET_KEYS: readonly TargetKey[] = ["ai-education", "content-ops", "ai-transformation", "ai-enablement", "ai-ecosystems"];
+const TARGET_KEYS: readonly TargetKey[] = ["ai-education", "content-ops", "ai-transformation", "ai-enablement", "ai-ecosystems", "learning-platforms"];
 
 function isTargetKey(value: unknown): value is TargetKey {
   return typeof value === "string" && (TARGET_KEYS as readonly string[]).includes(value);

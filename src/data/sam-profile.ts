@@ -60,7 +60,13 @@ export const samProfile = {
         "Built technical enablement, certification, and learning systems for Google/YouTube, National 4-H Council, StrongLoop, Deloitte, Robert Half / Protiviti, and Sunrun.",
         "Created initial technical training programs for StrongLoop supporting developer platform adoption.",
         "Delivered technical training for clients including Silicon Valley Bank, ADP, AAA, StrongLoop, and Robert Half / Protiviti, much of it compliance-driven work in financial settings, using virtual instructor-led delivery and virtual lab environments. Trained and briefed executives at AAA and ADP.",
-        "Most conference work for ATD, Training Magazine, the eLearning Guild, and similar associations has been train-the-trainer. Facilitates workshops for audiences of hundreds, and thousands on occasion.",
+        "Owned or advised on the learning-platform strategy in every LMS implementation he has worked on, with clients including Del Monte Foods, Interthinx (a self-hosted Moodle LMS behind the client's firewall), YouTube, and Sunrun.",
+        "Took ADP from Cornerstone OnDemand to Litmos in an LMS migration several years ago, and informally advised on ADP's overall learning-platform strategy during and after that contract, with no contracted advisory role.",
+        "Serves as a learning-technology advisor to consulting clients: works with client Procurement on contract terms, negotiates directly with vendors, and is often brought in as a neutral third party to repair a broken client-vendor relationship.",
+        "Advised learning-technology vendors on products and ecosystem strategy. Paid work: consultation for Udutu and eTrain Center on gamification, integrations, and ecosystem design, and speaking at Go1 events. Unpaid relationships, not clients: top community contributor to Cornerstone OnDemand (recognized with an award, often in beta and test groups for product launches), a speaker at Litmos events and co-host of a podcast Litmos sponsored, and a speaker at events eLearning Brothers sponsored.",
+        "Built end-user training on enterprise systems: Salesforce for Robert Half, Workday for AAA NCNU, Zendesk for RunBuggy, and ServiceNow for Sunrun. This is training design and delivery, not administration or implementation of those systems.",
+        "Other client work: eLearning development for Deloitte; eLearning development, LMS administration, and learning technology consulting for John Muir Health; troubleshooting and business development for CaptionSync; and articles for JCA Solutions (later acquired by Rustici Software).",
+        "Most conference work for ATD, Training Magazine, the eLearning Guild, and similar associations has been train-the-trainer. Facilitates workshops for audiences of hundreds, and thousands on occasion. Supported Bob Pike's international training delivery, working with Bob Pike directly after he sold his company.",
         "End-to-end video production at scale: pre-production through studio direction (including directing nervous SMEs on camera at Google HQ) through post-production through distribution and digital rights management. Produced and co-hosted a daily livestream show for years.",
         "Frequently operates as translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives. In Sam's words: \"I dive in the deep end of the pool with the technical folks, and translate to everyone else.\"",
         "Published frameworks: SNAP Methodology, Engineering Trust series, Signals & Subtractions (weekly field notes on AI adoption and L&D transformation).",
@@ -105,7 +111,9 @@ export const samProfile = {
       role: "Global Learning Technology & Analytics Manager",
       period: "2020–2022",
       highlights: [
-        "Personally selected and hired two direct reports, set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.",
+        "Personally selected and hired two direct reports, both technical specialists, and managed them for nearly three years: set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.",
+        "Owned learning-platform strategy as a declared responsibility of the role.",
+        "Started as a champion and became co-lead of the Data Stewardship Council, which grew out of a biweekly forum he convened for frustrated stakeholders across the organization. Authored Convatec's first data-first proposal and its first knowledge graph proposal. Both were proposals, not built systems.",
         "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers, paired with a compensation-structure rollout.",
         "Personally trained and briefed senior leadership and board members.",
         "Built learning analytics reports and dashboards in Power BI, Tableau, and Excel. Treats CSAT as a starting signal and pairs it with measures of what changed.",
@@ -134,6 +142,8 @@ export const samProfile = {
       "Cross-format learning design: written, video, interactive, workshops",
       "Adaptive / interactive learning product design",
       "University partner and vendor orchestration",
+      "Learning-platform strategy, LMS implementation, and LMS migration",
+      "Learning-technology vendor negotiation and client-vendor relationship repair",
       "L&D systems at scale",
       "Certification program design",
       "Developer education and technical enablement",
@@ -268,7 +278,7 @@ export const samProfile = {
     },
     {
       q: "Education?",
-      a: "B.A. Communication Studies, Sonoma State University. Plus Prosci Certified Change Practitioner, Strategic Privacy by Design, Data Analytics & Visualization, and administrator certifications on Cornerstone OnDemand, Docebo, Litmos, and Axonify. Also completed Seth Godin's altMBA cohort — mention only when the audience is marketing, brand, executive-leadership, or general-business; omit for technical/engineering/AI-research audiences where it does not strengthen the signal.",
+      a: "B.A. Communication Studies, Sonoma State University. Plus Prosci Certified Change Practitioner, Strategic Privacy by Design, Data Analytics & Visualization, Litmos Black Belt, and Cornerstone Client Community Expert. Hands-on administration experience on Docebo and Axonify, which are not certifications. Also completed Seth Godin's altMBA cohort — mention only when the audience is marketing, brand, executive-leadership, or general-business; omit for technical/engineering/AI-research audiences where it does not strengthen the signal.",
     },
   ],
 
@@ -694,10 +704,15 @@ The boundaries matter. The Convatec network was a champions network, not a stand
 
   aiEcosystems: `Sam's AI-ecosystems case rests on shipped work, not a partnerships title. Harnessie is an open multi-agent orchestration harness with verification gates, sandboxing, budgets, and audit controls, published to PyPI with its own docs. A 70-bundle skill library sits behind a validation gate with verified content hashes, contract tests, and CI, and is exposed identically to multiple AI harnesses and evaluated across models. Skill Provenance ships as a GitHub Action. Agentlink syncs one configuration across every AI coding tool a team uses and is carried upstream as an open pull request. He runs MCP servers in production against a private knowledge base and maintains them across Claude, Codex, and local models, and publishes a weekly read on what changed in the agent ecosystem.
 
-The seniority anchor is partner-program history: he built and led the first YouTube Certified online training program at Google, a certification program for a global partner audience, and has done partner-facing program work for twenty years since.
+The seniority anchor is partner-program history: he built and led the first YouTube Certified online training program at Google, a certification program for a global partner audience. His partner-facing program work started well before YouTube and continues today.
 
 The boundaries matter. Sam has never held a partnerships or developer-relations title. Harnessie has no external user base to point at, so the claim is the engineering, not traction. Graceful Boundaries adoption by Harnessie is within his own portfolio, not an outside company adopting it. Public AI tooling dates from 2025.`,
 
+  learningPlatforms: `Sam's learning-platforms case rests on platform work across many implementations. He owned or advised on the platform strategy in every LMS implementation he has worked on, with clients including Del Monte Foods, Interthinx (a self-hosted Moodle behind the client's firewall), YouTube, and Sunrun. He took ADP from Cornerstone OnDemand to Litmos and advised informally on its platform strategy afterward. At Convatec, platform strategy was his declared responsibility: he architected the international DMS-to-LMS integration that produced the cleanest compliance audit in company history, and configured Axonify from the ground up.
+
+The vendor side is part of the job. He works with client Procurement on contract terms, negotiates directly with vendors, and is often brought in as a neutral party to repair a broken client-vendor relationship. He has also advised learning-technology vendors on product and ecosystem strategy.
+
+The boundaries matter. His systems depth is configuration, administration, and integration leadership, not software engineering. At Convatec, vendor work went to his manager. Formal line management is two direct reports.`,
   failure: `The cleanest documented one: Sam got fired (circa 2013) for refusing to ship a compliance course as pure liability theater. The client wanted a checkbox. Sam pushed back that a course that wouldn't change behavior was an institutional CYA maneuver dressed as L&D, and asked them to either fix the design or own it as a legal artifact rather than call it training. They picked someone else; he held the line and lost the engagement.
 
 The lesson he now acts on: name the five motivations behind any training request — true learning, information acquisition, behavior change, legal defense, propaganda — at scoping, so the disagreement happens before the build, not after.

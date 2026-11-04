@@ -77,6 +77,7 @@ describe("DecisionBriefSidebar", () => {
     ["ai-transformation", /AI transformation/i, /Convatec/i],
     ["ai-enablement", /AI enablement/i, /champions/i],
     ["ai-ecosystems", /AI ecosystems/i, /Harnessie/i],
+    ["learning-platforms", /learning-platform/i, /Convatec/i],
   ])("aligns initial visible and copied recruiter evidence with %s", async (target, lane, proof) => {
     window.history.replaceState({}, "", `/?target=${target}`);
     const writeText = mockClipboard();
