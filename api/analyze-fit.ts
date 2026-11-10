@@ -178,7 +178,7 @@ async function enforceRateLimit(req: Request): Promise<Response | null> {
   if (!success) {
     const retryAfter = Math.max(1, Math.ceil((reset - Date.now()) / 1000));
     return gracefulBoundary(
-      "Fit assessments are capped at 10 per hour. Try again later or email sam@sam-rogers.com with the JD directly.",
+      "Fit assessments are capped at 10 per hour. Try again later or email hire@sam-rogers.com with the JD directly.",
       retryAfter,
       "10 requests per 1 hour for /api/analyze-fit.",
     );

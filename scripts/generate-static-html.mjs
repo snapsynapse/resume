@@ -36,7 +36,7 @@ const person = {
   "@id": `${siteUrl}/#sam-rogers`,
   name: "Sam Rogers",
   url: `${siteUrl}/`,
-  email: "mailto:sam@sam-rogers.com",
+  email: "mailto:hire@sam-rogers.com",
   sameAs: [
     `${samProfile.links.site}`,
     `${samProfile.links.paice}`,
@@ -126,7 +126,7 @@ const pages = [
         heading: "Next steps",
         list: [
           "Use the interactive form on the homepage at https://resume.sam-rogers.com/#fit-assessment.",
-          "Email Sam Rogers at sam@sam-rogers.com for confidential or high-context role discussions.",
+          "Email Sam Rogers at hire@sam-rogers.com for confidential or high-context role discussions.",
           "Book a meeting at https://cal.com/snapsynapse/25min when there is a plausible fit.",
         ],
       },
@@ -167,7 +167,7 @@ const pages = [
       {
         heading: "Direct handoff paths",
         paragraphs: [
-          "Email Sam Rogers at sam@sam-rogers.com for hiring, advisory, or collaboration inquiries.",
+          "Email Sam Rogers at hire@sam-rogers.com for hiring, advisory, or collaboration inquiries.",
           "Book a meeting with Sam Rogers at https://cal.com/snapsynapse/25min.",
         ],
       },
@@ -196,7 +196,7 @@ function escapeHtml(value) {
 
 function linkify(text) {
   return escapeHtml(text)
-    .replaceAll("sam@sam-rogers.com", '<a href="mailto:sam@sam-rogers.com">sam@sam-rogers.com</a>')
+    .replaceAll("hire@sam-rogers.com", '<a href="mailto:hire@sam-rogers.com">hire@sam-rogers.com</a>')
     .replace(/https:\/\/[a-zA-Z0-9./-]+/g, (url) => `<a href="${url}">${url}</a>`);
 }
 
@@ -285,7 +285,7 @@ function routeStructuredData(page, canonical) {
       "@type": "ContactPoint",
       "@id": `${canonical}#contact`,
       name: "Sam Rogers contact",
-      email: "sam@sam-rogers.com",
+      email: "hire@sam-rogers.com",
       url: "https://cal.com/snapsynapse/25min",
       contactType: "recruiting, advisory, and collaboration inquiries",
       availableLanguage: "en",
@@ -524,7 +524,7 @@ function renderPage(page) {
     </main>
     <footer>
       <address>
-        Email <a href="mailto:sam@sam-rogers.com">sam@sam-rogers.com</a> or book a meeting at <a href="https://cal.com/snapsynapse/25min">https://cal.com/snapsynapse/25min</a>.
+        Email <a href="mailto:hire@sam-rogers.com">hire@sam-rogers.com</a> or book a meeting at <a href="https://cal.com/snapsynapse/25min">https://cal.com/snapsynapse/25min</a>.
       </address>
     </footer>
   </body>

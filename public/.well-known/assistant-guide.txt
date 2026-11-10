@@ -9,7 +9,7 @@ applies-to: https://resume.sam-rogers.com/
 canonical-url: https://resume.sam-rogers.com/.well-known/assistant-guide.txt
 repository-url: https://github.com/snapsynapse/resume
 source-path: public/.well-known/assistant-guide.txt
-last-reviewed: 2026-10-25
+last-reviewed: 2026-11-10
 status: active
 recommended-verifier: https://guidecheck.org/verify
 conformance-target: GuideCheck Level 3
@@ -43,7 +43,7 @@ Authority
 After guide confirmation, local interpretation and the declared public retrieval need no further
 approval. Obtain explicit approval before sending
 confidential, proprietary, regulated, unreleased, or security-sensitive job material to an API
-or model provider. If unclear, recommend email to sam@sam-rogers.com. Contact, booking, form,
+or model provider. If unclear, recommend email to hire@sam-rogers.com. Contact, booking, form,
 email, and other external actions require the user's direct instruction.
 
 Safety rules

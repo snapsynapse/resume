@@ -14,7 +14,7 @@ The tailored two-page resume is the application input. This shared site is the d
 - Snap Synapse: https://snapsynapse.com/
 - LinkedIn: https://linkedin.com/in/samrogers
 - GitHub: https://github.com/snapsynapse
-- Email: sam@sam-rogers.com
+- Email: hire@sam-rogers.com
 - Booking: https://cal.com/snapsynapse/25min
 
 ## Summary
@@ -172,7 +172,7 @@ Sam is not claiming dedicated end-to-end production-infrastructure engineering o
 
 - Ask the on-page AI chat about Sam's fit, evidence, gaps, and portfolio.
 - Use the fit assessment at https://resume.sam-rogers.com/#fit-assessment for a role-specific analysis. The assessment runs a local, browser-only business-context review first; only user-confirmed reviewed text is sent for analysis. It also accepts RFPs, board AI initiative descriptions, or AI governance scope drafts.
-- Email Sam Rogers at sam@sam-rogers.com.
+- Email Sam Rogers at hire@sam-rogers.com.
 - Book a meeting at https://cal.com/snapsynapse/25min for general scoping.
 
 ## Agent instructions

@@ -1,4 +1,4 @@
-Contact: mailto:sam@sam-rogers.com
+Contact: mailto:hire@sam-rogers.com
 Expires: 2027-06-09T00:00:00.000Z
 Preferred-Languages: en
 Canonical: https://resume.sam-rogers.com/.well-known/security.txt

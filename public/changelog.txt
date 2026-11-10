@@ -1,5 +1,8 @@
 # Sam Rogers Resume Changelog
 
+2026-11-10
+- The contact email everywhere, including the assistant's suggested address, the security contact, and the machine-readable files, is now hire@sam-rogers.com.
+
 2026-10-25
 - The resume summary now leads with Snap Synapse LLC and AI adoption and enablement work, with PAICE.work PBC as one declared line.
 - The homepage and experience page now list Snap Synapse LLC first, then PAICE.work PBC.

@@ -285,7 +285,7 @@ for (const required of [
   "Sam Rogers",
   "PAICE.work PBC",
   "Snap Synapse LLC",
-  "mailto:sam@sam-rogers.com",
+  "mailto:hire@sam-rogers.com",
   "/about/",
   "/portfolio/",
 ]) {

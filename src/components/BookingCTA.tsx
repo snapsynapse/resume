@@ -27,11 +27,11 @@ const BookingCTA = () => {
         <p className="text-sm text-muted-foreground mt-6">
           Or email{" "}
           <a
-            href="mailto:sam@sam-rogers.com"
+            href="mailto:hire@sam-rogers.com"
             onClick={() => track("email_clicked", { source: "contact_section" }, { immediate: true })}
             className="text-primary hover:underline"
           >
-            sam@sam-rogers.com
+            hire@sam-rogers.com
           </a>
         </p>
       </div>

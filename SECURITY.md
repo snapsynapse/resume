@@ -4,7 +4,7 @@ This repo is a public, inspectable resume application with two unauthenticated A
 
 ## Contact
 
-Report security issues to sam@sam-rogers.com.
+Report security issues to hire@sam-rogers.com.
 
 Please include:
 

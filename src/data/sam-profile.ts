@@ -45,7 +45,7 @@ export const samProfile = {
     paice: "https://paice.foundation/",
     github: "https://github.com/snapsynapse",
     linkedin: "https://linkedin.com/in/samrogers",
-    email: "sam@sam-rogers.com",
+    email: "hire@sam-rogers.com",
   },
 
   experience: [
@@ -246,7 +246,7 @@ export const samProfile = {
     },
     {
       q: "Is Sam open to contract or consulting engagements?",
-      a: "Yes. Contract engagements are an option alongside full-time roles, under the same remote, hybrid, and on-site availability. Scope, term, and rate are a direct conversation with Sam at sam@sam-rogers.com or https://cal.com/snapsynapse/25min; the assistant cannot quote rates or commit to an engagement.",
+      a: "Yes. Contract engagements are an option alongside full-time roles, under the same remote, hybrid, and on-site availability. Scope, term, and rate are a direct conversation with Sam at hire@sam-rogers.com or https://cal.com/snapsynapse/25min; the assistant cannot quote rates or commit to an engagement.",
     },
     {
       q: "Where is Sam based?",
@@ -254,7 +254,7 @@ export const samProfile = {
     },
     {
       q: "What city or ZIP exactly? What is the precise address?",
-      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. Hybrid and on-site availability are work arrangements, not statements of current residence. For commute, on-site, or relocation specifics, sam@sam-rogers.com or https://cal.com/snapsynapse/25min.",
+      a: "Sam doesn't put a residential address on a public LLM surface — privacy hygiene that matches the rest of this site's posture. Hybrid and on-site availability are work arrangements, not statements of current residence. For commute, on-site, or relocation specifics, hire@sam-rogers.com or https://cal.com/snapsynapse/25min.",
     },
     {
       q: "When could he start?",
@@ -266,7 +266,7 @@ export const samProfile = {
     },
     {
       q: "What level / comp band is he targeting?",
-      a: "For W-2 roles, strongest fit is head-of-function, senior lead, or builder/operator scope where learning systems, content and curriculum production, certification, AI-enabled education, measurement, and cross-functional execution are core to the work. Specific compensation numbers are a human-level conversation, not something this tool should anchor — ranges in writing tend to mislead in both directions. These describe areas of strength, not a minimum title or a commitment to accept or decline a particular role. Evaluate the actual responsibilities, including hands-on IC work, and confirm terms with Sam. Recruiters: take the number conversation to a direct call with Sam at sam@sam-rogers.com.",
+      a: "For W-2 roles, strongest fit is head-of-function, senior lead, or builder/operator scope where learning systems, content and curriculum production, certification, AI-enabled education, measurement, and cross-functional execution are core to the work. Specific compensation numbers are a human-level conversation, not something this tool should anchor — ranges in writing tend to mislead in both directions. These describe areas of strength, not a minimum title or a commitment to accept or decline a particular role. Evaluate the actual responsibilities, including hands-on IC work, and confirm terms with Sam. Recruiters: take the number conversation to a direct call with Sam at hire@sam-rogers.com.",
     },
     {
       q: "Isn't Sam a CEO? Why is he looking at IC or Lead roles?",

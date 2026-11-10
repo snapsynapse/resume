@@ -252,7 +252,7 @@ async function enforceRateLimits(req: Request): Promise<Response | null> {
   if (!sustained.success) {
     const retryAfter = Math.max(1, Math.ceil((sustained.reset - Date.now()) / 1000));
     return gracefulBoundary(
-      "You have hit the hourly cap for this conversation. Try again later, or email sam@sam-rogers.com to keep talking.",
+      "You have hit the hourly cap for this conversation. Try again later, or email hire@sam-rogers.com to keep talking.",
       retryAfter,
       "50 requests per 1 hour for /api/chat.",
     );

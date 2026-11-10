@@ -105,7 +105,7 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
         typeof data.detail === "string" &&
         (res.status === 429 || Boolean(data.graceful_boundary) || typeof data.limit === "string");
       if (isGracefulBoundary) {
-        return `${data.detail}\n\n(Rate limit: ${data.limit ?? "public API limit"}. Retry in ~${data.retryAfterSeconds ?? 0}s, or email sam@sam-rogers.com directly.)`;
+        return `${data.detail}\n\n(Rate limit: ${data.limit ?? "public API limit"}. Retry in ~${data.retryAfterSeconds ?? 0}s, or email hire@sam-rogers.com directly.)`;
       }
       throw new Error(data.detail || data.error || `HTTP ${res.status}`);
     }

@@ -399,7 +399,9 @@ describe("PII / compensation exposure scan", () => {
   it("confirms allowlisted name, email, and region appear in shipped content", () => {
     const haystack = shippedFiles.map((file) => readFileSync(file, "utf8")).join("\n");
     expect(haystack).toMatch(/Sam Rogers/);
-    expect(haystack).toMatch(/sam@sam-rogers\.com/);
+    expect(haystack).toMatch(/hire@sam-rogers\.com/);
+    // The previous public address was retired on 2026-11-10; no surface should list it.
+    expect(haystack).not.toMatch(/\bsam@sam-rogers\.com/);
     expect(haystack).toMatch(/SF Bay Area/);
     expect(haystack).toMatch(/Salt Lake City/);
   });

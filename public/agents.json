@@ -8,7 +8,7 @@
   },
   "person": {
     "name": "Sam Rogers",
-    "email": "sam@sam-rogers.com",
+    "email": "hire@sam-rogers.com",
     "canonical_url": "https://resume.sam-rogers.com/",
     "same_as": [
       "https://sam-rogers.com/",
@@ -136,7 +136,7 @@
     },
     {
       "label": "Contact Sam Rogers",
-      "url": "mailto:sam@sam-rogers.com",
+      "url": "mailto:hire@sam-rogers.com",
       "description": "Email for hiring, advisory, AI governance, or collaboration inquiries."
     },
     {

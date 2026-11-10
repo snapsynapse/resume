@@ -188,7 +188,7 @@ const FitAssessment = ({
       onResult?.(data);
       track("fit_assessment_completed", { verdict: data.verdict });
     } catch (err) {
-      setError("Something went wrong. Email sam@sam-rogers.com with the JD and I'll review it manually.");
+      setError("Something went wrong. Email hire@sam-rogers.com with the JD and I'll review it manually.");
       track("fit_assessment_failed", { status: "network" });
       console.error(err);
     } finally {
@@ -224,7 +224,7 @@ const FitAssessment = ({
               Paste the full job description (50-8000 characters)
             </p>
             <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
-              Job descriptions are sent to the configured cloud LLM provider for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data. For sensitive roles, email sam@sam-rogers.com instead.
+              Job descriptions are sent to the configured cloud LLM provider for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data. For sensitive roles, email hire@sam-rogers.com instead.
             </p>
             <textarea
               value={jobDescription}
