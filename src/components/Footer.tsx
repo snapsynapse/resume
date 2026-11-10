@@ -57,7 +57,8 @@ const Footer = () => (
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
         <div>
           <p className="mb-2 font-serif text-2xl text-foreground">{samProfile.name}</p>
-          <p className="text-muted-foreground">{samProfile.title}</p>
+          {/* Footer-only tagline; samProfile.title still drives the hero, JSON-LD, and crawl pages. */}
+          <p className="text-muted-foreground">AI enablement that sticks</p>
         </div>
 
         <ul className="flex items-center gap-4">
