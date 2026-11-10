@@ -35,8 +35,25 @@ const SOURCE_LABELS = {
   typesafe_api: "TypeSafe API",
 };
 
+// Every value below is interpolated into committed TypeScript and HTML, so nothing from
+// the network is trusted: redirects are refused, dates must be ISO calendar dates, and
+// counts must be non-negative safe integers. A failed check exits before any write.
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function assertDate(value, label) {
+  if (typeof value !== "string" || !ISO_DATE.test(value) || Number.isNaN(Date.parse(`${value}T00:00:00Z`))) {
+    throw new Error(`Bad ${label} date: ${JSON.stringify(value)}`);
+  }
+}
+
+function assertCount(value, label) {
+  if (!Number.isSafeInteger(value) || value < 0) {
+    throw new Error(`Bad ${label} count: ${JSON.stringify(value)}`);
+  }
+}
+
 async function fetchText(url) {
-  const res = await fetch(url, { headers: { "user-agent": "resume-ai-usage-refresh" } });
+  const res = await fetch(url, { redirect: "error", headers: { "user-agent": "resume-ai-usage-refresh" } });
   if (!res.ok) throw new Error(`${url} returned ${res.status}`);
   return res.text();
 }
@@ -59,9 +76,11 @@ function summarizeDaily(daily) {
   let minDate = "9999-99-99";
   let maxDate = "0000-00-00";
   for (const day of daily) {
+    assertDate(day?.date, "daily record");
     if (day.date < minDate) minDate = day.date;
     if (day.date > maxDate) maxDate = day.date;
     for (const [id, entry] of Object.entries(day.sources ?? {})) {
+      assertCount(entry?.tokens, `${day.date} ${id}`);
       sources.add(id);
       if (entry.fidelity === "exact") exact += entry.tokens;
       else estimated += entry.tokens;
@@ -107,10 +126,29 @@ const short = (n) => `${Math.floor(n / 1e7) * 10}M+`;
 const millions = (n) => `${(n / 1e6).toFixed(1)}M`;
 
 const s = await loadSummary();
-if (!/^\d{4}-\d{2}-\d{2}$/.test(s.asOf)) throw new Error(`Bad as-of date: ${s.asOf}`);
+assertDate(s.asOf, "as-of");
+assertDate(s.firstDate, "first");
+if (s.firstDate > s.asOf) throw new Error(`First date ${s.firstDate} is after as-of ${s.asOf}; refusing.`);
+assertCount(s.totalTokens, "total");
+assertCount(s.exactTokens, "exact");
+assertCount(s.estimatedTokens, "estimated");
+if (s.exactTokens + s.estimatedTokens !== s.totalTokens) {
+  throw new Error("Exact and estimated counts do not sum to the total; refusing.");
+}
 if (s.totalTokens < 5e8) throw new Error(`Total ${s.totalTokens} is below the last known floor; refusing.`);
+if (!Array.isArray(s.sourceIds) || s.sourceIds.some((id) => typeof id !== "string")) {
+  throw new Error("Source list is not an array of identifiers; refusing.");
+}
 
-const unknown = s.sourceIds.filter((id) => !SOURCE_LABELS[id]);
+// A floor only rises. A lower total than the committed snapshot means a bad source.
+let previous = "";
+try { previous = await readFile(target, "utf8"); } catch { /* first run */ }
+const previousTotal = Number(/totalTokensRaw: (\d+),/.exec(previous)?.[1] ?? 0);
+if (s.totalTokens < previousTotal) {
+  throw new Error(`Total ${s.totalTokens} is below the committed snapshot (${previousTotal}); refusing.`);
+}
+
+const unknown = s.sourceIds.filter((id) => !Object.hasOwn(SOURCE_LABELS, id));
 if (unknown.length) throw new Error(`Unlabeled sources: ${unknown.join(", ")}. Add labels to SOURCE_LABELS.`);
 const pctExact = Math.round((s.exactTokens / s.totalTokens) * 100);
 
@@ -147,8 +185,6 @@ if (nextIndex !== indexHtml) {
   console.log("index.html no-JS fallback figures updated.");
 }
 
-let previous = "";
-try { previous = await readFile(target, "utf8"); } catch { /* first run */ }
 if (previous === body) {
   console.log(`ai-usage snapshot unchanged (as of ${s.asOf}, ${fmt(s.totalTokens)} tokens).`);
 } else {

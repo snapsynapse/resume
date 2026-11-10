@@ -108,6 +108,67 @@ globalThis.fetch = async (url) => {
     },
   );
 
+  function refreshSummary(overrides: Record<string, unknown>) {
+    const rows = dailyRecord();
+    writeFileSync(join(root, "input.json"), JSON.stringify({
+      summary: {
+        as_of: rows.at(-1)?.date,
+        first_date: rows[0]?.date,
+        total_tokens: 601_000_000,
+        exact_tokens: 600_000_000,
+        estimated_tokens: 1_000_000,
+        sources: ["claude_chat", "typesafe_api"],
+        ...overrides,
+      },
+      html: "",
+    }));
+    return spawnSync(process.execPath, ["--import", "./mock-fetch.mjs", "scripts/fetch-ai-usage.mjs"], {
+      cwd: root,
+      encoding: "utf8",
+      timeout: 10_000,
+    });
+  }
+
+  function expectUntouched(result: ReturnType<typeof spawnSync>, message: string) {
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain(message);
+    expect(readFileSync(join(root, "index.html"), "utf8")).toBe(previousIndex);
+    expect(readFileSync(join(root, "src/data/ai-usage-snapshot.ts"), "utf8")).toBe(previousSnapshot);
+  }
+
+  it("refuses a first date that would inject code into the snapshot", () => {
+    expectUntouched(refreshSummary({ first_date: '2026-01-01", evil: "1' }), "Bad first date");
+  });
+
+  it("refuses non-integer counts", () => {
+    expectUntouched(refreshSummary({ exact_tokens: "600000000" }), "Bad exact count");
+  });
+
+  it("refuses counts that do not sum to the total", () => {
+    expectUntouched(refreshSummary({ estimated_tokens: 2_000_000 }), "do not sum to the total");
+  });
+
+  it("refuses a prototype key posing as a source", () => {
+    expectUntouched(refreshSummary({ sources: ["__proto__"] }), "Unlabeled sources: __proto__");
+  });
+
+  it("refuses a non-integer token entry in the daily record", () => {
+    const rows = dailyRecord();
+    (rows[5].sources as Record<string, unknown>).typesafe_api = { tokens: "1e9", fidelity: "exact" };
+    expectUntouched(refresh("embedded daily record", "typesafe_api", rows), "Bad 2026-01-11 typesafe_api count");
+  });
+
+  it("refuses a total below the committed snapshot", () => {
+    const committed = "export const aiUsageSnapshot = {\n  totalTokensRaw: 900000000,\n};\n";
+    writeFileSync(join(root, "src/data/ai-usage-snapshot.ts"), committed);
+    const result = refreshSummary({});
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain("below the committed snapshot (900000000)");
+    expect(readFileSync(join(root, "src/data/ai-usage-snapshot.ts"), "utf8")).toBe(committed);
+    expect(readFileSync(join(root, "index.html"), "utf8")).toBe(previousIndex);
+  });
+
   it("still refuses a truncated daily record before writing either artifact", () => {
     const result = refresh("embedded daily record", "typesafe_api", dailyRecord().slice(0, 99));
     expect(result.error).toBeUndefined();
