@@ -1,79 +1,87 @@
-import { Linkedin, Mail, Globe, Github, Calendar } from "lucide-react";
+import type { ComponentType } from "react";
+import { Calendar, Github, Globe, Linkedin, Mail } from "lucide-react";
 import { samProfile } from "@/data/sam-profile";
 import { track } from "@/lib/analytics";
 
-const Footer = () => {
-  return (
-    <footer className="py-16 px-6 border-t border-border">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div>
-            <p className="text-2xl font-serif text-foreground mb-2">{samProfile.name}</p>
-            <p className="text-muted-foreground">{samProfile.title}</p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <a
-              href={samProfile.links.site}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Personal site"
-              onClick={() => track("footer_link_clicked", { link: "site" }, { immediate: true })}
-              className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            >
-              <Globe className="w-5 h-5" />
-            </a>
-            <a
-              href={samProfile.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              onClick={() => track("footer_link_clicked", { link: "github" }, { immediate: true })}
-              className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
-              href={samProfile.links.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              onClick={() => track("footer_link_clicked", { link: "linkedin" }, { immediate: true })}
-              className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href={`mailto:${samProfile.links.email}`}
-              aria-label="Email"
-              onClick={() => track("email_clicked", { source: "footer" }, { immediate: true })}
-              className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            >
-              <Mail className="w-5 h-5" />
-            </a>
-            <a
-              href="https://cal.com/snapsynapse/25min"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Book a meeting"
-              onClick={() => track("booking_cta_clicked", { source: "footer" }, { immediate: true })}
-              className="p-3 bg-secondary rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-            >
-              <Calendar className="w-5 h-5" />
-            </a>
-          </div>
-        </div>
-
-        <div className="mt-12 pt-8 border-t border-border text-center">
-          <p className="text-sm text-muted-foreground">
-            AI-queryable resume. Ask the questions you'd ask in an interview.
-            <br />
-            <span className="text-text-subtle">The interface is the proof.</span>
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
+type FooterLink = {
+  label: string;
+  href: string;
+  Icon: ComponentType<{ className?: string }>;
+  external: boolean;
+  onClick: () => void;
 };
+
+const immediate = { immediate: true } as const;
+
+const LINKS: readonly FooterLink[] = [
+  {
+    label: "Personal site",
+    href: samProfile.links.site,
+    Icon: Globe,
+    external: true,
+    onClick: () => track("footer_link_clicked", { link: "site" }, immediate),
+  },
+  {
+    label: "GitHub",
+    href: samProfile.links.github,
+    Icon: Github,
+    external: true,
+    onClick: () => track("footer_link_clicked", { link: "github" }, immediate),
+  },
+  {
+    label: "LinkedIn",
+    href: samProfile.links.linkedin,
+    Icon: Linkedin,
+    external: true,
+    onClick: () => track("footer_link_clicked", { link: "linkedin" }, immediate),
+  },
+  {
+    label: "Email",
+    href: `mailto:${samProfile.links.email}`,
+    Icon: Mail,
+    external: false,
+    onClick: () => track("email_clicked", { source: "footer" }, immediate),
+  },
+  {
+    label: "Book a meeting",
+    href: "https://cal.com/snapsynapse/25min",
+    Icon: Calendar,
+    external: true,
+    onClick: () => track("booking_cta_clicked", { source: "footer" }, immediate),
+  },
+];
+
+const Footer = () => (
+  <footer className="border-t border-border px-6 py-16">
+    <div className="mx-auto max-w-4xl">
+      <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
+        <div>
+          <p className="mb-2 font-serif text-2xl text-foreground">{samProfile.name}</p>
+          <p className="text-muted-foreground">{samProfile.title}</p>
+        </div>
+
+        <ul className="flex items-center gap-4">
+          {LINKS.map(({ label, href, Icon, external, onClick }) => (
+            <li key={label}>
+              <a
+                href={href}
+                aria-label={label}
+                onClick={onClick}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="block rounded-xl bg-secondary p-3 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="mt-12 border-t border-border pt-8 text-center text-sm text-muted-foreground">
+        AI-queryable resume. Ask the questions you'd ask in an interview.
+      </p>
+    </div>
+  </footer>
+);
 
 export default Footer;

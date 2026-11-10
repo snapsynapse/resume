@@ -1,119 +1,82 @@
-import { useState } from "react";
-import { ChevronDown, ChevronUp, Sparkles } from "lucide-react";
+import { useId, useState } from "react";
+import { ChevronDown, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
+import type { samProfile } from "@/data/sam-profile";
 
-interface AIContext {
-  situation: string;
-  approach: string;
-  technicalWork: string;
-  lessonsLearned: string;
-}
+// Not every role carries a note, so the union from the data is widened to make it optional.
+type Role = (typeof samProfile.experience)[number] & { note?: string };
 
-interface ExperienceCardProps {
-  company: string;
-  role: string;
-  period: string;
-  highlights: string[];
-  note?: string;
-  aiContext: AIContext;
-  index: number;
-}
+// Order and labels for the per-role context panel. The last entry renders as a quote.
+const CONTEXT_FIELDS: ReadonlyArray<{ key: keyof Role["aiContext"]; label: string; quote?: boolean }> = [
+  { key: "situation", label: "Situation" },
+  { key: "approach", label: "Approach" },
+  { key: "technicalWork", label: "Technical work" },
+  { key: "lessonsLearned", label: "Lesson learned", quote: true },
+];
 
-const ExperienceCard = ({
-  company,
-  role,
-  period,
-  highlights,
-  note,
-  aiContext,
-  index,
-}: ExperienceCardProps) => {
-  const [expanded, setExpanded] = useState(false);
-  const handleToggle = () => {
-    track("experience_context_toggled", { expanded: !expanded });
-    setExpanded(!expanded);
+type ExperienceCardProps = Role & { index: number };
+
+const ExperienceCard = ({ company, role, period, highlights, note, aiContext, index }: ExperienceCardProps) => {
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+
+  const toggle = () => {
+    const next = !open;
+    track("experience_context_toggled", { expanded: next });
+    setOpen(next);
   };
 
   return (
     <article
-      className={cn(
-        "group relative p-6 md:p-8 bg-card border border-border rounded-2xl transition-all duration-300 hover:border-accent/50",
-        "animate-slide-up opacity-0"
-      )}
-      style={{ animationDelay: `${index * 0.1 + 0.2}s`, animationFillMode: "forwards" }}
+      className="animate-slide-up opacity-0 rounded-2xl border border-border bg-card p-6 transition-colors duration-300 hover:border-accent/50 md:p-8"
+      style={{ animationDelay: `${0.2 + index * 0.1}s`, animationFillMode: "forwards" }}
     >
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+      <header className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
-          <h3 className="text-2xl font-serif text-foreground mb-1">{company}</h3>
+          <h3 className="mb-1 font-serif text-2xl text-foreground">{company}</h3>
           <p className="text-primary">{role}</p>
         </div>
-        <span className="text-sm font-mono text-muted-foreground">{period}</span>
-      </div>
+        <span className="font-mono text-sm text-muted-foreground">{period}</span>
+      </header>
 
-      {/* Highlights */}
-      <ul className="space-y-3 mb-6">
-        {highlights.map((highlight, i) => (
-          <li key={i} className="flex items-start gap-3 text-muted-foreground">
-            <span className="text-accent mt-1.5">→</span>
-            <span>{highlight}</span>
+      <ul className="mb-6 space-y-3 text-muted-foreground">
+        {highlights.map((line) => (
+          <li key={line} className="flex items-start gap-3">
+            <span aria-hidden="true" className="mt-1.5 text-accent">→</span>
+            <span>{line}</span>
           </li>
         ))}
       </ul>
 
-      {/* Card note */}
-      {note && (
-        <p className="mb-6 text-sm text-muted-foreground border-l-2 border-accent/40 pl-3 italic">
-          {note}
-        </p>
-      )}
+      {note ? (
+        <p className="mb-6 border-l-2 border-accent/40 pl-3 text-sm italic text-muted-foreground">{note}</p>
+      ) : null}
 
-      {/* AI Context Toggle */}
       <button
-        onClick={handleToggle}
-        className="flex items-center gap-2 text-sm text-accent hover:text-accent/80 transition-colors"
+        type="button"
+        onClick={toggle}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="flex items-center gap-2 text-sm text-accent transition-colors hover:text-accent/80"
       >
-        <Sparkles className="w-4 h-4" />
-        <span>{expanded ? "Hide" : "View"} AI Context</span>
-        {expanded ? (
-          <ChevronUp className="w-4 h-4" />
-        ) : (
-          <ChevronDown className="w-4 h-4" />
-        )}
+        <Sparkles aria-hidden="true" className="h-4 w-4" />
+        {open ? "Hide context" : "Show context"}
+        <ChevronDown aria-hidden="true" className={cn("h-4 w-4 transition-transform", open && "rotate-180")} />
       </button>
 
-      {/* Expanded AI Context */}
-      {expanded && (
-        <div className="mt-4 p-4 bg-secondary rounded-xl border border-border animate-slide-down">
-          <div className="grid gap-4 text-sm">
-            <div>
-              <span className="text-text-subtle font-mono text-xs uppercase tracking-wider">
-                Situation
-              </span>
-              <p className="text-foreground mt-1">{aiContext.situation}</p>
+      {open ? (
+        <dl id={panelId} className="animate-slide-down mt-4 grid gap-4 rounded-xl border border-border bg-secondary p-4 text-sm">
+          {CONTEXT_FIELDS.map(({ key, label, quote }) => (
+            <div key={key}>
+              <dt className="font-mono text-xs uppercase tracking-wider text-text-subtle">{label}</dt>
+              <dd className={cn("mt-1", quote ? "italic text-text-highlight" : "text-foreground")}>
+                {quote ? `“${aiContext[key]}”` : aiContext[key]}
+              </dd>
             </div>
-            <div>
-              <span className="text-text-subtle font-mono text-xs uppercase tracking-wider">
-                Approach
-              </span>
-              <p className="text-foreground mt-1">{aiContext.approach}</p>
-            </div>
-            <div>
-              <span className="text-text-subtle font-mono text-xs uppercase tracking-wider">
-                Technical Work
-              </span>
-              <p className="text-foreground mt-1">{aiContext.technicalWork}</p>
-            </div>
-            <div>
-              <span className="text-text-subtle font-mono text-xs uppercase tracking-wider">
-                Lessons Learned
-              </span>
-              <p className="text-text-highlight mt-1 italic">"{aiContext.lessonsLearned}"</p>
-            </div>
-          </div>
-        </div>
-      )}
+          ))}
+        </dl>
+      ) : null}
     </article>
   );
 };

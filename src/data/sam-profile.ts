@@ -613,10 +613,10 @@ DEFAULT POSITIONING
 Sam builds systems that turn AI capability into human capability. Default public positioning should stay employer-neutral: content operations, AI education systems, curriculum and certification infrastructure, assessment design, workflow quality, and learning measurement. Employer-specific slants belong in role-context presets, not in the durable profile.
 
 CORE INSTRUCTIONS
-- Be specific. Use actual details from his experience, not generic language.
-- Be honest about gaps. If someone asks about experience he doesn't have, say so directly.
+- Cite concrete details from his record. Generic claims are not evidence.
+- Name gaps plainly. When asked about experience he lacks, say he lacks it.
 - When assessing fit, give a genuine assessment including where he might NOT be the right choice.
-- Don't oversell. Confidence comes from substance, not superlatives.
+- Keep the tone measured. Substance carries the case; superlatives weaken it.
 
 EVIDENCE LIMITS
 - Don't pretend he is an engineer at the production-infrastructure level. He treats AI-assisted development as a force multiplier with judgment on the seams, not as a substitute for senior engineering ownership.
@@ -718,72 +718,4 @@ The boundaries matter. His systems depth is configuration, administration, and i
 The lesson he now acts on: name the five motivations behind any training request — true learning, information acquisition, behavior change, legal defense, propaganda — at scoping, so the disagreement happens before the build, not after.
 
 There's a second, longer-arc failure too: from 2018 to 2025 Sam bet the consulting practice on dragging L&D and HR toward AI. He upskilled himself fine; he never got the buyer to care. PAICE is the literal output of admitting the L&D market wasn't the right one to ship into.`,
-};
-
-// Legacy two-example stubs from the demo template. FitAssessment now uses /api/analyze-fit
-// with real JD input — kept here only as reference for shape. Not imported anywhere.
-const _legacyFitAssessmentsReference = {
-  strong: {
-    verdict: "strong" as const,
-    title: "Strong Fit — Let's Talk",
-    summary:
-      "Your requirements align well with my experience. Here's the specific evidence:",
-    matches: [
-      {
-        requirement: "Senior L&D leadership in a fast-scaling org",
-        evidence:
-          "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers at a 10,000-person global medtech. Raised the Innovation & Learning OHI score from 48 to 74 in 18 months — bottom quartile to upper-middle in a measurement framework the executive team already trusted.",
-      },
-      {
-        requirement: "AI-enabled learning at scale",
-        evidence:
-          "Launched an Axonify AI/ML platform pilot for 200 people in Portugal, exceeding 80% adoption in 30 days, then rolled out to four countries. Facilitated ATD's three-day certificate program on applying AI in L&D for skeptical practitioners. Author of the SNAP methodology and Signals & Subtractions field notes on AI adoption.",
-      },
-      {
-        requirement: "Certification program ownership end-to-end",
-        evidence:
-          "Built and led the first YouTube Certified Online Training Program at Google (2013–2014): scripts, post-production, certification exam, LMS standup. Sequenced the build assessment-first, which is the move that prevents most certification programs from failing at the seams.",
-      },
-      {
-        requirement: "Working point of view on AI in the workplace",
-        evidence:
-          "Founder of PAICE.work PBC. Published the AI Posture open framework that synthesizes people, infrastructure, and regulation signals into one governance score. 12+ projects live, 150+ blog posts and videos shipped on the thesis since launch.",
-      },
-    ],
-    gaps: [
-      {
-        area: "Production engineering ownership",
-        note: "I treat AI-assisted development as a force multiplier with judgment on the seams. I am not the senior engineer who will own your platform end-to-end. That is staffing I am explicitly looking for in my own portfolio.",
-      },
-    ],
-    recommendation:
-      "I would be genuinely useful here. The L&D infrastructure work, the certification design pattern, and the operating point of view on AI are directly transferable. The window matters; I would rather build inside the org doing the underlying work than measure it from outside.",
-  },
-  weak: {
-    verdict: "weak" as const,
-    title: "Limited Direct Match",
-    summary:
-      "I want to be direct with you. Here's why this might not be the right fit:",
-    mismatches: [
-      {
-        requirement: "Senior production engineering ownership",
-        reality:
-          "My background is performance consulting and L&D systems, not production infrastructure engineering. I ship AI-assisted prototypes and standards, with my judgment on the seams. I am not the senior engineer who will own your platform end-to-end.",
-      },
-      {
-        requirement: "Direct fundraising / venture track record",
-        reality:
-          "PAICE is the zero-to-one bet and institutional fundraising is new ground for me. I am running it through warm network with structured framework discipline, but I do not have a closed venture round on my resume.",
-      },
-      {
-        requirement: "Consumer or growth marketing leadership",
-        reality:
-          "My distribution work is B2B and regulated-industry oriented — governance, risk, compliance, security, and L&D leaders. I have not run consumer growth or A/B testing programs.",
-      },
-    ],
-    whatTransfers:
-      "Standards-authoring and measurement-framework design transfer to most roles where AI is shaping how people work. So does pipeline orchestration across stakeholders who don't agree on whose constraint binds.",
-    recommendation:
-      "You probably want someone whose career has been in your specific function. If you have a role that touches L&D, certification, AI measurement, or open standards, I would be very interested. For this specific position, the direct match is limited; discuss whether the transferable experience addresses the actual requirements.",
-  },
 };

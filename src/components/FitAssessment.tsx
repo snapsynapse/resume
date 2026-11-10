@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, type ClipboardEvent } from "react";
+import { lazy, Suspense, useState, type ClipboardEvent, type ReactNode } from "react";
 import { FileText, Check, AlertTriangle, Loader2, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
@@ -206,25 +206,23 @@ const FitAssessment = ({
   return (
     <section id="fit-assessment" aria-labelledby="fit-assessment-heading" className="scroll-mt-24 py-24 px-6 bg-secondary/30">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 id="fit-assessment-heading" className="text-4xl md:text-5xl font-serif text-foreground mb-4">
-            Honest Fit Assessment
+        <header className="mb-12 text-center">
+          <h2 id="fit-assessment-heading" className="mb-4 font-serif text-4xl text-foreground md:text-5xl">
+            Fit Assessment
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Paste a job description. Get an honest assessment of whether I'm the right person — including when I'm not.
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            Paste a job description and see where my evidence matches, where it doesn't, and what I'd recommend.
           </p>
-        </div>
+        </header>
 
-        <div className="bg-card border border-border rounded-2xl overflow-hidden">
-          <div className="p-6 border-b border-border">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center">
-                <FileText className="w-4 h-4 text-accent" />
-              </div>
-              <span className="text-muted-foreground text-sm">
-                Paste the full job description (50-8000 characters)
+        <div className="overflow-hidden rounded-2xl border border-border bg-card">
+          <div className="border-b border-border p-6">
+            <p className="mb-4 flex items-center gap-3 text-sm text-muted-foreground">
+              <span aria-hidden="true" className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent/20">
+                <FileText className="h-4 w-4 text-accent" />
               </span>
-            </div>
+              Paste the full job description (50-8000 characters)
+            </p>
             <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
               Job descriptions are sent to the configured cloud LLM provider for analysis and are not intentionally stored by this app. Do not paste confidential, proprietary, regulated, or unreleased role data. For sensitive roles, email sam@sam-rogers.com instead.
             </p>
@@ -326,111 +324,110 @@ const FitAssessment = ({
           </div>
 
           <div className="p-6">
-            {analyzing && !result && (
-              <div className="flex items-center justify-center py-12">
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Reading the JD against 25 years of track record...</span>
-                </div>
-              </div>
-            )}
-
-            {result && !analyzing && (
-              <div className="animate-slide-up">
-                <div className={cn("flex items-center gap-4 mb-6 p-4 rounded-xl border", verdictTone.wrap)}>
-                  <div className={cn("w-12 h-12 rounded-full flex items-center justify-center", verdictTone.icon)}>
-                    {result.verdict === "strong" ? (
-                      <Check className={cn("w-6 h-6", verdictTone.iconColor)} />
-                    ) : result.verdict === "weak" ? (
-                      <AlertTriangle className={cn("w-6 h-6", verdictTone.iconColor)} />
-                    ) : (
-                      <Sparkles className={cn("w-6 h-6", verdictTone.iconColor)} />
-                    )}
-                  </div>
-                  <div>
-                    <h3 className={cn("text-xl font-serif", verdictTone.title)}>{result.title}</h3>
-                    <p className="text-muted-foreground text-sm mt-1">{result.summary}</p>
-                  </div>
-                </div>
-
-                {result.matches.length > 0 && (
-                  <div className="space-y-4 mb-6">
-                    <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                      Where I match
-                    </h3>
-                    {result.matches.map((m, i) => (
-                      <div key={i} className="p-4 bg-secondary rounded-xl border border-border">
-                        <div className="flex items-start gap-3">
-                          <span className="text-success mt-0.5">✓</span>
-                          <div>
-                            <p className="text-foreground font-medium mb-2">{m.requirement}</p>
-                            <p className="text-muted-foreground text-sm leading-relaxed">{m.evidence}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {result.gaps.length > 0 && (
-                  <div className="space-y-4 mb-6">
-                    <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                      Gaps to name
-                    </h3>
-                    {result.gaps.map((g, i) => (
-                      <div key={i} className="p-4 bg-secondary rounded-xl border border-border">
-                        <div className="flex items-start gap-3">
-                          <span className="text-warning mt-0.5">○</span>
-                          <div>
-                            <p className="text-foreground font-medium mb-1">{g.area}</p>
-                            <p className="text-muted-foreground text-sm">{g.note}</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {result.whatTransfers && (
-                  <div className="p-4 bg-secondary rounded-xl border border-border mb-6">
-                    <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                      What does transfer
-                    </h3>
-                    <p className="text-foreground text-sm leading-relaxed">{result.whatTransfers}</p>
-                  </div>
-                )}
-
-                <div className={cn("p-4 rounded-xl border", verdictTone.wrap)}>
-                  <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-2">
-                    My recommendation
-                  </h3>
-                  <p className={cn("leading-relaxed", verdictTone.title)}>{result.recommendation}</p>
-                </div>
-              </div>
-            )}
-
-            {!result && !analyzing && !error && (
-              <p className="text-center text-muted-foreground text-sm py-6">
-                Paste a JD above and click Analyze fit.
+            {analyzing && !result ? (
+              <p className="flex items-center justify-center gap-3 py-12 text-muted-foreground">
+                <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin" />
+                Reading the JD against 25 years of track record...
               </p>
-            )}
+            ) : null}
+
+            {result && !analyzing ? <FitResultView result={result} tone={verdictTone} /> : null}
+
+            {!result && !analyzing && !error ? (
+              <p className="py-6 text-center text-sm text-muted-foreground">Paste a JD above and click Analyze fit.</p>
+            ) : null}
           </div>
         </div>
 
-        <div className="mt-8 text-center">
-          <div className="inline-block p-6 bg-card rounded-2xl border border-border max-w-2xl">
-            <p className="text-muted-foreground leading-relaxed">
-              This tool exists so you can check fit before spending a call on it.
-              <br />
-              <br />
-              <span className="text-foreground font-medium">
-                Honest answers here save both of us an interview loop.
-              </span>
-            </p>
-          </div>
-        </div>
+        <aside className="mx-auto mt-8 max-w-2xl rounded-2xl border border-border bg-card p-6 text-center leading-relaxed text-muted-foreground">
+          <p className="mb-4">This tool exists so you can check fit before spending a call on it.</p>
+          <p className="font-medium text-foreground">Honest answers here save both of us an interview loop.</p>
+        </aside>
       </div>
     </section>
+  );
+};
+
+type VerdictTone = { wrap: string; icon: string; iconColor: string; title: string };
+
+const VERDICT_ICON = { strong: Check, weak: AlertTriangle } as const;
+
+const SectionLabel = ({ children }: { children: ReactNode }) => (
+  <h3 className="mb-2 font-mono text-xs uppercase tracking-wider text-muted-foreground">{children}</h3>
+);
+
+// Matches and gaps share one layout: a marked row with a bold lead line and a supporting line.
+const EvidenceList = ({
+  label,
+  mark,
+  markColor,
+  rows,
+}: {
+  label: string;
+  mark: string;
+  markColor: string;
+  rows: ReadonlyArray<{ lead: string; detail: string }>;
+}) => (
+  <section className="mb-6">
+    <SectionLabel>{label}</SectionLabel>
+    <ul className="space-y-4">
+      {rows.map(({ lead, detail }, i) => (
+        <li key={`${i}-${lead}`} className="flex items-start gap-3 rounded-xl border border-border bg-secondary p-4">
+          <span aria-hidden="true" className={cn("mt-0.5", markColor)}>{mark}</span>
+          <div>
+            <p className="mb-1.5 font-medium text-foreground">{lead}</p>
+            <p className="text-sm leading-relaxed text-muted-foreground">{detail}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+);
+
+const FitResultView = ({ result, tone }: { result: FitResult; tone: VerdictTone }) => {
+  const Icon = result.verdict === "strong" || result.verdict === "weak" ? VERDICT_ICON[result.verdict] : Sparkles;
+  return (
+    <div className="animate-slide-up">
+      <div className={cn("mb-6 flex items-center gap-4 rounded-xl border p-4", tone.wrap)}>
+        <span aria-hidden="true" className={cn("flex h-12 w-12 items-center justify-center rounded-full", tone.icon)}>
+          <Icon className={cn("h-6 w-6", tone.iconColor)} />
+        </span>
+        <div>
+          <h3 className={cn("font-serif text-xl", tone.title)}>{result.title}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">{result.summary}</p>
+        </div>
+      </div>
+
+      {result.matches.length > 0 ? (
+        <EvidenceList
+          label="Where I match"
+          mark="✓"
+          markColor="text-success"
+          rows={result.matches.map((m) => ({ lead: m.requirement, detail: m.evidence }))}
+        />
+      ) : null}
+
+      {result.gaps.length > 0 ? (
+        <EvidenceList
+          label="Gaps to name"
+          mark="○"
+          markColor="text-warning"
+          rows={result.gaps.map((g) => ({ lead: g.area, detail: g.note }))}
+        />
+      ) : null}
+
+      {result.whatTransfers ? (
+        <section className="mb-6 rounded-xl border border-border bg-secondary p-4">
+          <SectionLabel>What does transfer</SectionLabel>
+          <p className="text-sm leading-relaxed text-foreground">{result.whatTransfers}</p>
+        </section>
+      ) : null}
+
+      <section className={cn("rounded-xl border p-4", tone.wrap)}>
+        <SectionLabel>My recommendation</SectionLabel>
+        <p className={cn("leading-relaxed", tone.title)}>{result.recommendation}</p>
+      </section>
+    </div>
   );
 };
 

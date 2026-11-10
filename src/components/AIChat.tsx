@@ -1,21 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X, Send, Sparkles } from "lucide-react";
+import { Send, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { demoResponses } from "@/data/sam-profile";
 import { useRoleContext, type PublicRoleContext } from "@/lib/role-context-client";
 import { track } from "@/lib/analytics";
 import { lengthBucket } from "@/lib/jd-review";
 
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
+type Message = { role: "user" | "assistant"; content: string };
 
-interface AIChatProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+type AIChatProps = { isOpen: boolean; onClose: () => void };
 
 type ChatMode = "live" | "sample" | null;
 
@@ -224,155 +219,187 @@ const AIChat = ({ isOpen, onClose }: AIChatProps) => {
     }
   };
 
+  const busy = isStreaming || isWaiting;
+  const statusLine =
+    chatMode === "sample"
+      ? "Sample mode: live AI unavailable"
+      : roleContext
+        ? `Tuned for: ${roleContext.label}`
+        : "Ready to answer your questions";
+
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs animate-fade-in" />
+        <DialogPrimitive.Overlay className="animate-fade-in fixed inset-0 z-50 bg-background/80 backdrop-blur-xs" />
         <DialogPrimitive.Content
-          className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-2xl h-[80vh] bg-card border border-border rounded-2xl flex flex-col overflow-hidden shadow-2xl animate-dialog-slide-up focus:outline-hidden"
           aria-describedby={undefined}
+          className="animate-dialog-slide-up fixed left-1/2 top-1/2 z-50 flex h-[80vh] w-[calc(100vw-2rem)] max-w-2xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl focus:outline-hidden"
         >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-linear-to-br from-accent to-primary flex items-center justify-center text-accent-foreground font-serif font-bold">
-              S
-            </div>
-            <div>
-              <DialogPrimitive.Title className="text-foreground font-medium">
-                Ask AI About Sam
-              </DialogPrimitive.Title>
-              <p className="text-xs text-muted-foreground flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                {chatMode === "sample"
-                  ? "Sample mode: live AI unavailable"
-                  : roleContext
-                    ? `Tuned for: ${roleContext.label}`
-                    : "Ready to answer your questions"}
-              </p>
-            </div>
-          </div>
-          <DialogPrimitive.Close
-            aria-label="Close chat"
-            className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary"
-          >
-            <X className="w-5 h-5" />
-          </DialogPrimitive.Close>
-        </div>
+          <ChatHeader status={statusLine} />
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {chatMode === "sample" && (
-            <div className="rounded-xl border border-warning/20 bg-warning-muted px-4 py-3 text-sm text-warning">
-              Live AI is unavailable. The answer below is a labeled sample response from local profile data.
-            </div>
-          )}
-
-          {messages.length === 0 && !isStreaming && !isWaiting && (
-            <div className="h-full flex flex-col items-center justify-center text-center px-6">
-              <Sparkles className="w-12 h-12 text-accent mb-4" />
-              <h3 className="text-xl font-serif text-foreground mb-2">
-                {roleContext
-                  ? `Here about ${roleContext.label}?`
-                  : "What would you like to know?"}
-              </h3>
-              <p className="text-muted-foreground text-sm mb-6 max-w-md">
-                {roleContext
-                  ? "Start with one of these — they're the questions most recruiters ask first. Or type your own."
-                  : "Ask specific questions about Sam's experience, skills, or fit for your role. Get honest, detailed answers."}
-              </p>
-              <div className="w-full max-w-md space-y-2">
-                {(roleContext ? roleContext.suggestedQuestions : defaultSuggestedQuestions).map((q, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleSubmit(q)}
-                    className="w-full text-left p-3 bg-secondary rounded-xl text-sm text-foreground hover:bg-muted transition-colors border border-transparent hover:border-accent/30"
-                  >
-                    "{q}"
-                  </button>
-                ))}
+          <div className="flex-1 space-y-4 overflow-y-auto p-4">
+            {chatMode === "sample" ? (
+              <div className="rounded-xl border border-warning/20 bg-warning-muted px-4 py-3 text-sm text-warning">
+                Live AI is unavailable. The answer below is a labeled sample response from local profile data.
               </div>
-            </div>
-          )}
+            ) : null}
 
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={cn(
-                "flex",
-                msg.role === "user" ? "justify-end" : "justify-start"
-              )}
-            >
-              <div
-                className={cn(
-                  "max-w-[85%] rounded-2xl px-4 py-3",
-                  msg.role === "user"
-                    ? "bg-accent text-accent-foreground rounded-br-md"
-                    : "bg-secondary text-foreground rounded-bl-md"
-                )}
-              >
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">{msg.content}</p>
-              </div>
-            </div>
-          ))}
+            {messages.length === 0 && !busy ? (
+              <EmptyState
+                roleLabel={roleContext?.label ?? null}
+                questions={roleContext ? roleContext.suggestedQuestions : defaultSuggestedQuestions}
+                onPick={handleSubmit}
+              />
+            ) : null}
 
-          {isWaiting && (
-            <div className="flex justify-start">
-              <div className="max-w-[85%] bg-secondary text-foreground rounded-2xl rounded-bl-md px-4 py-3">
-                <p className="text-sm text-muted-foreground flex items-center gap-2" role="status">
-                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+            {messages.map((message, i) => (
+              <Bubble key={i} from={message.role}>
+                <p className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</p>
+              </Bubble>
+            ))}
+
+            {isWaiting ? (
+              <Bubble from="assistant">
+                <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
                   Thinking...
                 </p>
-              </div>
-            </div>
-          )}
+              </Bubble>
+            ) : null}
 
-          {isStreaming && (
-            <div className="flex justify-start">
-              <div className="max-w-[85%] bg-secondary text-foreground rounded-2xl rounded-bl-md px-4 py-3">
-                <p className="text-sm whitespace-pre-wrap leading-relaxed" aria-live="polite">
+            {isStreaming ? (
+              <Bubble from="assistant">
+                <p aria-live="polite" className="whitespace-pre-wrap text-sm leading-relaxed">
                   {streamingText}
-                  <span className="inline-block w-2 h-4 bg-accent ml-1 animate-typing-cursor" />
+                  <span className="animate-typing-cursor ml-1 inline-block h-4 w-2 bg-accent" />
                 </p>
-              </div>
-            </div>
-          )}
+              </Bubble>
+            ) : null}
 
-          <div ref={messagesEndRef} />
-        </div>
+            <div ref={messagesEndRef} />
+          </div>
 
-        {/* Input */}
-        <div className="p-4 border-t border-border">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(input);
-            }}
-            className="flex gap-3"
-          >
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask a follow-up question..."
-              disabled={isStreaming || isWaiting}
-              aria-label="Ask a follow-up question"
-              className="flex-1 bg-secondary rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground border border-border focus:border-accent focus:outline-hidden transition-colors disabled:opacity-50"
-            />
-            <button
-              type="submit"
-              disabled={!input.trim() || isStreaming || isWaiting}
-              aria-label="Send question"
-              className="px-4 py-3 bg-accent text-accent-foreground rounded-xl font-medium disabled:opacity-50 hover:opacity-90 transition-opacity"
-            >
-              <Send className="w-5 h-5" />
-            </button>
-          </form>
-        </div>
+          <Composer value={input} onChange={setInput} onSend={() => handleSubmit(input)} busy={busy} />
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );
 };
+
+const ChatHeader = ({ status }: { status: string }) => (
+  <div className="flex items-center justify-between border-b border-border p-4">
+    <div className="flex items-center gap-3">
+      <span
+        aria-hidden="true"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br from-accent to-primary font-serif font-bold text-accent-foreground"
+      >
+        S
+      </span>
+      <div>
+        <DialogPrimitive.Title className="font-medium text-foreground">Ask AI About Sam</DialogPrimitive.Title>
+        <p className="flex items-center gap-1 text-xs text-muted-foreground">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-success" />
+          {status}
+        </p>
+      </div>
+    </div>
+    <DialogPrimitive.Close
+      aria-label="Close chat"
+      className="rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+    >
+      <X className="h-5 w-5" />
+    </DialogPrimitive.Close>
+  </div>
+);
+
+const EmptyState = ({
+  roleLabel,
+  questions,
+  onPick,
+}: {
+  roleLabel: string | null;
+  questions: readonly string[];
+  onPick: (question: string) => void;
+}) => (
+  <div className="flex h-full flex-col items-center justify-center px-6 text-center">
+    <Sparkles aria-hidden="true" className="mb-4 h-12 w-12 text-accent" />
+    <h3 className="mb-2 font-serif text-xl text-foreground">
+      {roleLabel ? `Here about ${roleLabel}?` : "What would you like to know?"}
+    </h3>
+    <p className="mb-6 max-w-md text-sm text-muted-foreground">
+      {roleLabel
+        ? "Start with one of these — they're the questions most recruiters ask first. Or type your own."
+        : "Ask specific questions about Sam's experience, skills, or fit for your role. Get honest, detailed answers."}
+    </p>
+    <ul className="w-full max-w-md space-y-2">
+      {questions.map((question) => (
+        <li key={question}>
+          <button
+            type="button"
+            onClick={() => onPick(question)}
+            className="w-full rounded-xl border border-transparent bg-secondary p-3 text-left text-sm text-foreground transition-colors hover:border-accent/30 hover:bg-muted"
+          >
+            “{question}”
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+// One chat turn. Visitor turns sit right in the accent color; assistant turns sit left.
+const Bubble = ({ from, children }: { from: Message["role"]; children: ReactNode }) => {
+  const mine = from === "user";
+  return (
+    <div className={cn("flex", mine ? "justify-end" : "justify-start")}>
+      <div
+        className={cn(
+          "max-w-[85%] rounded-2xl px-4 py-3",
+          mine ? "rounded-br-md bg-accent text-accent-foreground" : "rounded-bl-md bg-secondary text-foreground",
+        )}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
+
+const Composer = ({
+  value,
+  onChange,
+  onSend,
+  busy,
+}: {
+  value: string;
+  onChange: (next: string) => void;
+  onSend: () => void;
+  busy: boolean;
+}) => (
+  <form
+    className="flex gap-3 border-t border-border p-4"
+    onSubmit={(event) => {
+      event.preventDefault();
+      onSend();
+    }}
+  >
+    <input
+      type="text"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      disabled={busy}
+      aria-label="Ask a follow-up question"
+      placeholder="Ask another question"
+      className="flex-1 rounded-xl border border-border bg-secondary px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted-foreground focus:border-accent focus:outline-hidden disabled:opacity-50"
+    />
+    <button
+      type="submit"
+      disabled={busy || !value.trim()}
+      aria-label="Send question"
+      className="rounded-xl bg-accent px-4 py-3 font-medium text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+    >
+      <Send className="h-5 w-5" />
+    </button>
+  </form>
+);
 
 export default AIChat;
