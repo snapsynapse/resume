@@ -60,7 +60,7 @@ const Experience = () => (
             <h3 className={`mb-4 font-mono text-sm uppercase tracking-wider ${accent}`}>{heading}</h3>
             <p className="mb-4 text-xs text-muted-foreground">{rule}</p>
             <ul className="space-y-2">
-              {samProfile.skills[tier].map((skill) => (
+              {(tier === "strong" ? samProfile.skillsDisplay.strong : samProfile.skills[tier]).map((skill) => (
                 <li key={skill} className="flex items-center gap-2 text-foreground">
                   <span aria-hidden="true" className={accent}>{mark}</span>
                   {skill}

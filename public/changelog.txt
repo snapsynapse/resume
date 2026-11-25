@@ -1,5 +1,11 @@
 # Sam Rogers Resume Changelog
 
+2026-11-24
+- Corrected the Convatec leadership-program line, which had merged two programs. Manager-to-Leader was a 9-month blended program for frontline and mid-level managers that Sam co-designed and supported in delivery. The top-100 leader program, run with the University of Michigan alongside a compensation-structure rollout, was a separate program in which Sam had a support role.
+- Added the PAICE Legal Graph (dated counts), a November 2026 AI in Legal Practice session for a Salt Lake City law firm with its public testing record, the Harnessie walkthrough video, and a recommend-against record for LMS purchases.
+- The expert witness answer now names the subject as global monetization and rights management.
+- The page now shows a 10-item Strong skills list; the assistant still weighs the full list. Agentic tooling and video production moved to Moderate with their limits stated, Moderate and Gaps gained entries that restate existing boundaries, and formal people management is labeled with its actual scale of two direct reports.
+
 2026-11-10
 - The contact email everywhere, including the assistant's suggested address, the security contact, and the machine-readable files, is now hire@sam-rogers.com.
 
