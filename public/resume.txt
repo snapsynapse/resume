@@ -33,6 +33,7 @@ Founder, 2025-Present
 - Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.
 - Designed AI Posture, an open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score.
 - Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard).
+- Built the PAICE Legal Graph, a federation of Every AI Law, AI Incident Law, Obligation First, and PubLedge that connects AI laws, obligations, and incidents, with source receipts and human source acceptance kept separate from automated checks. As of 2026-11-08 it held 1,088 records across 31 sections. It is not legal advice or certified legal coverage.
 - Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration, including PAICE2 model cascades, operational monitoring, confidential routing, and administrative controls.
 - Public products and institutional commercial packaging are implemented; significant paying-customer or realized product-revenue traction is not established.
 
@@ -41,7 +42,9 @@ Founder, 2025-Present
 Principal Consultant, 2004-2020, 2023-Present
 
 - Built and led the first YouTube Certified Online Training Program at Google, replacing a classroom program that certified about 1,000 partners per year with an online program that reached about 10,000 in year one, including the program's global digital rights management and YouTube Analytics tracks. The assessment-first sequencing from that build is the same playbook running PAICE.work and AI Posture today.
-- Shipped Harnessie, a brain-agnostic multi-agent harness that builds verification gates, quality control, and a tamper-evident audit trail into repeatable AI workflows.
+- Shipped Harnessie, a brain-agnostic multi-agent harness that builds verification gates, quality control, and a tamper-evident audit trail into repeatable AI workflows. Walkthrough video: https://youtu.be/lszIRRHjSpI.
+- Presented AI in Legal Practice, a November 2026 lunch-and-learn for the whole office of an established Salt Lake City law firm (attorneys, paralegals, and IT), built around four checks for any AI answer: open it, read it, date it, own it. Every demo run is logged in a public testing record at https://snapsynapse.com/legal-ai/. The host invited a version for the Utah Bar Association. This was a Snap Synapse session, not law-firm employment.
+- Often advises clients not to buy anything new. For each LMS implementation he has done, he advised two other clients to re-implement the system they already had rather than switch, and made the same call at Convatec.
 - Co-authored the public 2023 Chat Souffle LLM learning workflow; contributed workflow logic, raw-data reporting and analysis, and evidence-led refinement without repository access or direct code commits.
 - Managed National 4-H Council learning and content-production work across dozens of university partners, coordinating SMEs, curriculum/content contributors, designers, developers, media vendors, and delivery stakeholders through a shared production system.
 - Built cross-format learning systems across written curriculum, video, certification exams, LMS delivery, workshops, and technical enablement content.
@@ -61,7 +64,8 @@ Global Learning Technology and Analytics Manager, 2020-2022
 - Architected and led international DMS-to-LMS integration that produced the 2022 compliance audit, the cleanest in company history, with structured accountability and evidence a regulated employer could verify.
 - Raised Innovation and Learning Organizational Health Index score from 48 to 74 in 18 months.
 - Streamlined content offerings by 90 percent while increasing utilization and improving delivery speed by 40 percent.
-- Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers.
+- Co-designed and supported delivery of Manager-to-Leader, a 9-month blended leadership program for frontline and mid-level managers. The first cohort's response filled three more cohorts by word of mouth.
+- Supported design and delivery of a separate program for the top 100 leaders, run with the University of Michigan and paired with a compensation-structure rollout. Shaped design decisions by testing approaches and showing in the data which worked.
 - Personally trained and briefed senior leadership and board members.
 - Built learning analytics reports and dashboards in Power BI, Tableau, and Excel. Treats CSAT as a starting signal and pairs it with measures of what changed.
 
@@ -96,8 +100,13 @@ Public testimonial from Rachel Horwitz (Global L&D Director at Convatec during t
 
 - Public-material familiarity with SOC 2, ISO 42001, and NIST AI RMF; no implementations against these frameworks
 - Multi-model evaluation design
-- Formal people management at scale
+- Formal people management (two direct reports; substantial cross-functional orchestration)
 - Enterprise knowledge-management platform ownership
+- Agentic tooling and multi-model orchestration: shipped open tools; no external user base yet
+- End-to-end video production: Google/YouTube certification program and a daily livestream; not current core work
+- LLM-based AI adoption: building with LLMs since 2023; the Convatec rollout was a 2021 vendor AI/ML platform, not an LLM deployment
+- Partner and ecosystem programs: global partner certification at YouTube; no partnerships or developer-relations title
+- End-user training on enterprise systems (Salesforce, Workday, Zendesk, ServiceNow): training design and delivery, not administration
 
 ## Education and certifications
 
@@ -113,4 +122,4 @@ Learning and Development, Instructional Design, Curriculum Development, Content 
 
 ## Gaps to name plainly
 
-Sam is not claiming dedicated end-to-end production-infrastructure engineering ownership or ML research and applied-science ownership. His evidence supports director-level architecture, integration, administration, governance, controls, adoption, and hands-on zero-to-one implementation. He is strongest where the work is standing up or transforming operating systems rather than maintaining a large established department. Formal line-management scale is two; broader project, vendor, partner, and cross-functional leadership is substantial but separately labeled.
+Sam is not claiming dedicated end-to-end production-infrastructure engineering ownership or ML research and applied-science ownership. His evidence supports director-level architecture, integration, administration, governance, controls, adoption, and hands-on zero-to-one implementation. He is strongest where the work is standing up or transforming operating systems rather than maintaining a large established department. Formal line-management scale is two; broader project, vendor, partner, and cross-functional leadership is substantial but separately labeled. Also not claimed: running an established enterprise AI Center of Excellence, enterprise DLP function ownership, hands-on implementation against ISO 42001, NIST AI RMF, or SOC 2, and software engineering on learning platforms beyond configuration, administration, and integration.

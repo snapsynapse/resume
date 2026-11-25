@@ -61,8 +61,23 @@ describe("samProfile role positioning", () => {
     expect(samProfile.skills.strong).toContain(
       "Cross-functional change management and adoption",
     );
-    expect(samProfile.skills.moderate).toContain("Formal people management at scale");
+    expect(samProfile.skills.moderate).toContain(
+      "Formal people management (two direct reports; substantial cross-functional orchestration)",
+    );
+    expect(samProfile.skills.moderate.join(" ")).not.toMatch(/people management at scale/i);
     expect(samProfile.skills.gaps).toContain("ML research or applied-science ownership");
     expect(samProfile.skills.gaps).not.toContain("Institutional fundraising track record");
+  });
+
+  it("shows a shorter Strong list on the page while prompts keep the full list", () => {
+    const display = samProfile.skillsDisplay.strong;
+    expect(display).toHaveLength(10);
+    expect(samProfile.skills.strong.length).toBeGreaterThan(display.length);
+    expect(display).toContain("Open standards authorship and public protocol design");
+    expect(display).toContain("Cross-functional change management and adoption");
+    expect(display.join(" ")).toMatch(/governance program design/);
+    expect(display.join(" ")).not.toMatch(/SOC 2|ISO 42001|NIST AI RMF/);
+    const moderate = new Set(samProfile.skills.moderate.map((s) => s.split(":")[0]));
+    for (const item of samProfile.skills.strong) expect(moderate.has(item)).toBe(false);
   });
 });

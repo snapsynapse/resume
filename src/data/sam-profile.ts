@@ -62,6 +62,7 @@ export const samProfile = {
         "Delivered technical training for clients including Silicon Valley Bank, ADP, AAA, StrongLoop, and Robert Half / Protiviti, much of it compliance-driven work in financial settings, using virtual instructor-led delivery and virtual lab environments. Trained and briefed executives at AAA and ADP.",
         "Owned or advised on the learning-platform strategy in every LMS implementation he has worked on, with clients including Del Monte Foods, Interthinx (a self-hosted Moodle LMS behind the client's firewall), YouTube, and Sunrun.",
         "Took ADP from Cornerstone OnDemand to Litmos in an LMS migration several years ago, and informally advised on ADP's overall learning-platform strategy during and after that contract, with no contracted advisory role.",
+        "Often advises clients not to buy anything new. For each LMS implementation he has done, he advised two other clients to re-implement the system they already had rather than switch, and made the same call at Convatec.",
         "Serves as a learning-technology advisor to consulting clients: works with client Procurement on contract terms, negotiates directly with vendors, and is often brought in as a neutral third party to repair a broken client-vendor relationship.",
         "Advised learning-technology vendors on products and ecosystem strategy. Paid work: consultation for Udutu and eTrain Center on gamification, integrations, and ecosystem design, and speaking at Go1 events. Unpaid relationships, not clients: top community contributor to Cornerstone OnDemand (recognized with an award, often in beta and test groups for product launches), a speaker at Litmos events and co-host of a podcast Litmos sponsored, and a speaker at events eLearning Brothers sponsored.",
         "Built end-user training on enterprise systems: Salesforce for Robert Half, Workday for AAA NCNU, Zendesk for RunBuggy, and ServiceNow for Sunrun. This is training design and delivery, not administration or implementation of those systems.",
@@ -70,7 +71,8 @@ export const samProfile = {
         "End-to-end video production at scale: pre-production through studio direction (including directing nervous SMEs on camera at Google HQ) through post-production through distribution and digital rights management. Produced and co-hosted a daily livestream show for years.",
         "Frequently operates as translator between engineering, operations, legal, sales, support, and external communities during technical platform launches and organizational change initiatives. In Sam's words: \"I dive in the deep end of the pool with the technical folks, and translate to everyone else.\"",
         "Published frameworks: SNAP Methodology, Engineering Trust series, Signals & Subtractions (weekly field notes on AI adoption and L&D transformation).",
-        "Shipped Harnessie, a brain-agnostic multi-agent harness with schema-validated model catalogs, provider and endpoint configuration, routing, fallbacks, budgets, sandboxing, approval gates, ownership controls, verification, and a tamper-evident audit trail.",
+        "Shipped Harnessie, a brain-agnostic multi-agent harness with schema-validated model catalogs, provider and endpoint configuration, routing, fallbacks, budgets, sandboxing, approval gates, ownership controls, verification, and a tamper-evident audit trail. Walkthrough video: https://youtu.be/lszIRRHjSpI.",
+        "Presented AI in Legal Practice, a November 2026 lunch-and-learn for the whole office of an established Salt Lake City law firm (attorneys, paralegals, and IT), built around four checks for any AI answer: open it, read it, date it, own it. Every demo run is logged in a public testing record at https://snapsynapse.com/legal-ai/. The host invited a version for the Utah Bar Association. This was a Snap Synapse session, not law-firm employment.",
         "Co-authored the public 2023 Chat Souffle LLM learning workflow; contributed workflow logic, raw-data reporting and analysis, and evidence-led refinement without repository access or direct code commits.",
       ],
       aiContext: {
@@ -93,6 +95,7 @@ export const samProfile = {
         "Built AI-assisted content, assessment, and scoring workflows that encode quality standards into repeatable systems rather than treating every artifact as one-off craft.",
         "Designed AI Posture: open governance framework synthesizing people, infrastructure, and regulation signals into one maturity score. Released as a free public protocol.",
         "Portfolio of 12+ projects. Featured: Siteline (agent-readiness scanner), Every AI Law (jurisdiction-aware regulation index), and GuideCheck (human-verifiable assistant guide standard). Daily publishing cadence since launch.",
+        "Built the PAICE Legal Graph, a federation of Every AI Law, AI Incident Law, Obligation First, and PubLedge that connects AI laws, obligations, and incidents, with source receipts and human source acceptance kept separate from automated checks. As of 2026-11-08 it held 1,088 records across 31 sections. It is not legal advice or certified legal coverage.",
         "Created agentic tooling infrastructure and workflows using modern developer tools, local LLMs, and multi-model AI orchestration, including PAICE2 model cascades, operational monitoring, confidential routing, and administrative controls.",
       ],
       aiContext: {
@@ -114,7 +117,8 @@ export const samProfile = {
         "Personally selected and hired two direct reports, both technical specialists, and managed them for nearly three years: set goals, provided ongoing coaching and development planning, and conducted formal performance reviews.",
         "Owned learning-platform strategy as a declared responsibility of the role.",
         "Started as a champion and became co-lead of the Data Stewardship Council, which grew out of a biweekly forum he convened for frustrated stakeholders across the organization. Authored Convatec's first data-first proposal and its first knowledge graph proposal. Both were proposals, not built systems.",
-        "Co-designed a 9-month Manager-to-Leader curriculum delivered to the top 100 managers, paired with a compensation-structure rollout.",
+        "Co-designed and supported delivery of Manager-to-Leader, a 9-month blended leadership program for frontline and mid-level managers. The first cohort's response filled three more cohorts by word of mouth.",
+        "Supported design and delivery of a separate program for the top 100 leaders, run with the University of Michigan and paired with a compensation-structure rollout. Shaped design decisions by testing approaches and showing in the data which worked.",
         "Personally trained and briefed senior leadership and board members.",
         "Built learning analytics reports and dashboards in Power BI, Tableau, and Excel. Treats CSAT as a starting signal and pairs it with measures of what changed.",
         "Raised Innovation and Learning Organizational Health Index (OHI) score from 48 to 74 in 18 months, exceeding business target.",
@@ -151,8 +155,6 @@ export const samProfile = {
       "AI-enabled learning experience design (Convatec: 200-person Portugal pilot exceeded 80% adoption in 30 days; later four-country rollout)",
       "AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)",
       "Open standards authorship and public protocol design",
-      "Agentic tooling infrastructure (local LLMs, multi-model orchestration)",
-      "End-to-end video production (pre-prod → studio direction → post → distribution → DRM)",
       "Cross-functional translation (engineering ↔ legal ↔ sales ↔ community)",
       "Cross-functional change management and adoption",
       "Productizing consulting offerings",
@@ -161,12 +163,39 @@ export const samProfile = {
     moderate: [
       "Public-material familiarity with SOC 2, ISO 42001, and NIST AI RMF; no implementations against these frameworks",
       "Multi-model evaluation design",
-      "Formal people management at scale",
+      "Formal people management (two direct reports; substantial cross-functional orchestration)",
       "Enterprise knowledge-management platform ownership",
+      "Agentic tooling and multi-model orchestration: shipped open tools; no external user base yet",
+      "End-to-end video production: Google/YouTube certification program and a daily livestream; not current core work",
+      "LLM-based AI adoption: building with LLMs since 2023; the Convatec rollout was a 2021 vendor AI/ML platform, not an LLM deployment",
+      "Partner and ecosystem programs: global partner certification at YouTube; no partnerships or developer-relations title",
+      "End-user training on enterprise systems (Salesforce, Workday, Zendesk, ServiceNow): training design and delivery, not administration",
     ],
     gaps: [
       "Deep engineering ownership of production infrastructure",
       "ML research or applied-science ownership",
+      "Running an established enterprise AI Center of Excellence",
+      "Enterprise DLP function ownership",
+      "Hands-on implementation against ISO 42001, NIST AI RMF, or SOC 2",
+      "Software engineering on learning platforms beyond configuration, administration, and integration",
+    ],
+  },
+
+  // Recruiter-facing Strong list shown on the page. Shorter than skills.strong by design:
+  // the chat and fit-analysis prompts keep the full skills.strong list, so trimming the
+  // display does not change how the model weighs evidence. Decided 2026-11-24.
+  skillsDisplay: {
+    strong: [
+      "Content and curriculum production systems across formats, with editorial and learning-quality standards",
+      "AI-assisted content workflows",
+      "AI-enabled learning experience design (Convatec: 200-person Portugal pilot exceeded 80% adoption in 30 days; later four-country rollout)",
+      "Cross-functional change management and adoption",
+      "Certification program design",
+      "Learning-platform strategy, LMS implementation and migration, and vendor negotiation",
+      "L&D systems at scale, including manager and leader development",
+      "AI governance program design (PAICE methodology, AI Posture framework, EveryAILaw regulation index)",
+      "Open standards authorship and public protocol design",
+      "Developer education and technical enablement",
     ],
   },
 
@@ -242,7 +271,7 @@ export const samProfile = {
     },
     {
       q: "Has Sam served as an expert witness?",
-      a: "Yes, in the past. Sam served as a retained expert witness in three litigation matters, two for the party bringing the case and one for the defense, breaking down technical topics in global monetization so legal counsel could build stronger arguments and judges could weigh the testimony. It is not a current service line. Platform names, parties, and case details are not shared. Surface this only when the visitor asks directly about expert witness, litigation, testimony, or explaining technical topics to legal or non-specialist decision makers; never volunteer it.",
+      a: "Yes, in the past. Sam served as a retained expert witness in three litigation matters, two for the party bringing the case and one for the defense, breaking down technical topics in global monetization and rights management so legal counsel could build stronger arguments and judges could weigh the testimony. It is not a current service line. Platform names, parties, and case details are not shared. Surface this only when the visitor asks directly about expert witness, litigation, testimony, or explaining technical topics to legal or non-specialist decision makers; never volunteer it.",
     },
     {
       q: "Is Sam open to contract or consulting engagements?",
